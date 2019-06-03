@@ -22,13 +22,13 @@ cd client && npm i
 ```   
 To install some above packages, you need some package as c++, cmake, git. If you using Linux (Ubuntu 18 x64), you can cmd before run above cmd:
 
-    ``` sudo apt install build-essential git -y ```
+``` sudo apt install build-essential git -y ```
 
 #### 3. Install ganache-cli (if you want use local testnet, otherwise you can skip this step):
 
-    ``` npm i -g ganache-cli ```
+``` npm i -g ganache-cli ```
 
-    (may be require root privileges)
+(may be require root privileges)
 
 ### Build and deploy contract to network
 In repository dir:
@@ -45,7 +45,7 @@ Above command will start ganache-cli with default host is **127.0.0.1** at port 
 
 Then migrate contracts to network:
 
-``` truffle migrate --network development```
+``` truffle migrate --network development ```
 
 (may be require root privileges)
 
