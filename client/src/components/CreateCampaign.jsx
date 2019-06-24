@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Recaptcha from 'react-recaptcha';
 import Campaigns from '../contracts/Campaigns.json';
 import { Row, Col, Card, Alert, Form, Button, Spinner } from 'react-bootstrap';
 //import ReactMarkdown from 'react-markdown';
 import getWeb3 from '../utils/getWeb3';
 import Loading from './utils/Loading';
-
+import { callAPIPost } from './action'
 class CreateCampaign extends Component {
   state = {
     inputName: '',
@@ -26,7 +27,9 @@ class CreateCampaign extends Component {
     isFailed: false,
     web3: null,
     account: null,
-    contract: null
+    contract: null,
+    isValidCaptcha: false,
+    keyCaptcha: ''
   };
 
   componentDidMount = async () => {
@@ -108,17 +111,26 @@ class CreateCampaign extends Component {
       this.state.isValidTime) {
       const { inputName, inputGoal, inputTime, contract, account } = this.state;
       this.setState({ isProcessing: true, isFailed: false, isSucceed: false });
-      contract.methods.createCampaign(inputName, inputTime, inputGoal).send({
-        from: account
-      }).on('transactionHash', hash => {
-        if (hash !== null) {
-          this.handleTransactionReceipt(hash)
+      // db
+      callAPIPost('/content', JSON.stringify({
+        keyCaptcha: this.state.keyCaptcha,
+        content: this.state.inputDesc})
+      ).then(res => {
+        if (res.success) {
+        // start campaign
+          // contract.methods.createCampaign(inputName, inputTime, inputGoal).send({
+          //   from: account
+          // }).on('transactionHash', hash => {
+          //   if (hash !== null) {
+          //     this.handleTransactionReceipt(hash)
+          //   }
+          // }).on('error', err => {
+          //   if (err !== null) {
+          //     this.setState({ isProcessing: false });
+          //   }
+          // });
         }
-      }).on('error', err => {
-        if (err !== null) {
-          this.setState({ isProcessing: false });
-        }
-      });
+      })
     }
   };
 
@@ -137,6 +149,15 @@ class CreateCampaign extends Component {
     this.setState({ isProcessing: false });
   };
 
+  verifyCallback = (res) => {
+    this.setState({
+      isValidCaptcha: true,
+      keyCaptcha: res
+    })
+  }
+  callback = () => {
+    console.log('Connect captcha successfully')
+  }
   render() {
     if (!this.state.web3) {
       return <Loading text="Loading Web3, account, and contract..." />;
@@ -239,6 +260,14 @@ class CreateCampaign extends Component {
               This is time end campaign (days). Range: 15 - 180 days (In testing, min: 1 minutes)
           </Form.Text>
           </Form.Group>
+          <Form.Group controlId='re-captcha'>
+            <Recaptcha
+              sitekey="6LdUIaoUAAAAAND9ELqEtMbROc_IJ6StJOwWnrZg"
+              render="explicit"
+              onloadCallback={this.callback}
+              verifyCallback={this.verifyCallback}
+            />
+          </Form.Group>
           <Button
             variant="success"
             onClick={this.handleClick}
@@ -247,6 +276,7 @@ class CreateCampaign extends Component {
                 this.state.isValidDesc &&
                 this.state.isValidGoal &&
                 this.state.isValidTime &&
+                this.state.isValidCaptcha &&
                 !this.state.isProcessing)}>
             <FontAwesomeIcon icon="plus-circle" /> CREATE
         </Button>
