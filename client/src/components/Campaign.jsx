@@ -6,11 +6,15 @@ import { Row, Col, Card, Alert, ProgressBar, ListGroup, InputGroup, Form, Button
 import getWeb3 from "../utils/getWeb3";
 import TimeFormatter from './utils/TimeFormatter';
 import Loading from './utils/Loading';
+import axios from 'axios';
+import ReactMarkdown from 'react-markdown';
+import {Keccak} from 'sha3';
 
 class Campaign extends Component {
   state = {
     id: null,
     campaign: {},
+    extData: {},
     campaignStatusChr: ['During', 'Failed', 'Succeed'],
     isExist: false,
     isLoading: true,
@@ -85,7 +89,8 @@ class Campaign extends Component {
     contract.Campaigns.methods.getInfo(id).call({ from: account })
       .then(result => {
         if (result !== null) {
-          let { name, startDate, endDate, goal, collected, owner, finStatus } = result;
+          let { name, startDate, endDate, goal, collected, owner, finStatus, ref, hashIntegrity } = result;
+          this.loadDataOfCampaign(ref, hashIntegrity);
           collected = parseInt(collected);
           goal = parseInt(goal);
           finStatus = parseInt(finStatus);
@@ -121,6 +126,42 @@ class Campaign extends Component {
         this.setState({ tokenBacked: parseInt(result) });
       });
 
+  };
+
+  loadDataOfCampaign = async (ref, hash_integrity) => {
+    let extData = {};
+    axios.get(process.env.REACT_APP_SVR_GET + ref).then(response => {
+      if (response.status === 200) {
+        if (hasOwnProperty.call(response.data, 'name')
+          && hasOwnProperty.call(response.data, 'description')
+          && hasOwnProperty.call(response.data, 'short_description')
+          && hasOwnProperty.call(response.data, 'thumbnail_url')) {
+            const d = response.data;
+            const temp = d.name + d.short_description + d.description + d.thumbnail_url;
+            const hashEngine = new Keccak(256);
+            hashEngine.update(temp);
+            const result_hash = hashEngine.digest('hex');
+          if (result_hash === hash_integrity) {
+            extData = response.data;
+            this.setState({ extData });
+          }
+
+        }
+      }
+    });
+  };
+
+  printData = (property) => {
+    const { extData } = this.state;
+    if (hasOwnProperty.call(extData, property)) {
+      return extData[property];
+    } else {
+      if (property === 'thumbnail_url') {
+        return '/default-thumbnail.jpg';
+      } else {
+        return '[Field not found]';
+      }
+    }
   };
 
   getStatus = (deadline, goal, collected) => {
@@ -267,9 +308,19 @@ class Campaign extends Component {
     const renderCampaignInfo = this.state.isExist && (
       <Card>
         <Card.Header>
-          <b><FontAwesomeIcon icon="parachute-box" /> {campaign.name}</b>
+          <b><FontAwesomeIcon icon="parachute-box" /> {this.printData('name')}</b>
         </Card.Header>
+        <Card.Img variant="top" src={this.printData('thumbnail_url')} />
         <Card.Body className="p-1">
+          <Card.Subtitle className="mb-2 text-muted">
+            {this.printData('short_description')}
+          </Card.Subtitle>
+          <Card.Text>
+            <ReactMarkdown
+              source={this.printData('description')}
+              escapeHtml={true}
+            />
+          </Card.Text>
           <ListGroup>
             <ListGroup.Item>
               <b><FontAwesomeIcon icon="user-tie" /> Owner:</b> {campaign.owner}
@@ -352,7 +403,7 @@ class Campaign extends Component {
           <ListGroup.Item>
             <FontAwesomeIcon icon="user" />
             <b> Backers:</b> {this.state.numberOfInvestor}
-            </ListGroup.Item>
+          </ListGroup.Item>
           {campaign.fundEnabled ?
             <ListGroup.Item variant="warning">Campaign is during, you don't have any access</ListGroup.Item>
             : (campaign.status === 1 ? (

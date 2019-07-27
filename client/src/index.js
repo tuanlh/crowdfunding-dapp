@@ -5,6 +5,7 @@ import * as serviceWorker from './serviceWorker';
 import { Container } from 'react-bootstrap';
 import Router from './Router';
 import Header from './components/Header';
+import Footer from './components/Footer';
 import './css/bootstrap.min.css';
 import './fontawesome';
 
@@ -13,6 +14,7 @@ ReactDOM.render(
         <BrowserRouter>
             <Header />
             <Router />
+            <Footer />
         </BrowserRouter>
     </Container>,
     document.getElementById('root')

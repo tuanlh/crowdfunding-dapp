@@ -1,25 +1,36 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Recaptcha from 'react-recaptcha';
 import Campaigns from '../contracts/Campaigns.json';
 import { Row, Col, Card, Alert, Form, Button, Spinner } from 'react-bootstrap';
+import { Keccak } from 'sha3';
+import ReCAPTCHA from 'react-google-recaptcha'
+import axios from 'axios';
 //import ReactMarkdown from 'react-markdown';
 import getWeb3 from '../utils/getWeb3';
 import Loading from './utils/Loading';
-import { callAPIPost } from './action'
+import validate from 'url-validator';
+
 class CreateCampaign extends Component {
+  recaptcha = null;
   state = {
     inputName: '',
     inputGoal: '',
     inputDesc: '',
+    inputShortDesc: '',
+    inputThumbnail: '',
     inputTime: '',
+    recaptchaRespone: '',
     isValidName: false,
     isValidGoal: false,
     isValidDesc: false,
+    isValidShortDesc: false,
+    isValidThumbnail: false,
     isValidTime: false,
     nameEnter: false,
     goalEnter: false,
     descEnter: false,
+    shortDescEnter: false,
+    thumbnailEnter: false,
     timeEnter: false,
     loading: true,
     isProcessing: false,
@@ -27,9 +38,7 @@ class CreateCampaign extends Component {
     isFailed: false,
     web3: null,
     account: null,
-    contract: null,
-    isValidCaptcha: false,
-    keyCaptcha: ''
+    contract: null
   };
 
   componentDidMount = async () => {
@@ -63,8 +72,7 @@ class CreateCampaign extends Component {
       case 'name':
         if (!this.state.nameEnter) this.setState({ nameEnter: true });
         if (value.length >= 30 && value.length <= 300) {
-          this.setState({ isValidName: true });
-          this.setState({ inputName: value });
+          this.setState({ isValidName: true, inputName: value });
         } else {
           this.setState({ isValidName: false });
         }
@@ -73,8 +81,7 @@ class CreateCampaign extends Component {
         if (!this.state.goalEnter) this.setState({ goalEnter: true });
         value = parseInt(value);
         if (value >= 1000 && value <= 1000000000) {
-          this.setState({ isValidGoal: true });
-          this.setState({ inputGoal: value });
+          this.setState({ isValidGoal: true, inputGoal: value });
         } else {
           this.setState({ isValidGoal: false });
         }
@@ -82,18 +89,33 @@ class CreateCampaign extends Component {
       case 'desc':
         if (!this.state.descEnter) this.setState({ descEnter: true });
         if (value.length >= 250 && value.length <= 10000) {
-          this.setState({ isValidDesc: true });
-          this.setState({ inputDesc: value });
+          this.setState({ isValidDesc: true, inputDesc: value });
         } else {
           this.setState({ isValidDesc: false });
+        }
+        break;
+      case 'short_desc':
+        if (!this.state.shortDescEnter) this.setState({ shortDescEnter: true });
+        if (value.length >= 100 && value.length <= 300) {
+          this.setState({ isValidShortDesc: true, inputShortDesc: value });
+        } else {
+          this.setState({ isValidShortDesc: false });
+        }
+        break;
+      case 'thumbnail':
+        if (!this.state.thumbnailEnter) this.setState({ thumbnailEnter: true });
+        const url = validate(value);
+        if (url === false) {
+          this.setState({ isValidThumbnail: false });
+        } else {
+          this.setState({ isValidThumbnail: true, inputThumbnail: url });
         }
         break;
       case 'time':
         if (!this.state.timeEnter) this.setState({ timeEnter: true });
         value = parseInt(value);
         if (value >= 1 && value <= 180) {
-          this.setState({ isValidTime: true });
-          this.setState({ inputTime: value });
+          this.setState({ isValidTime: true, inputTime: value });
         } else {
           this.setState({ isValidTime: false });
         }
@@ -104,33 +126,70 @@ class CreateCampaign extends Component {
     }
   };
 
+  handleCaptchaResponseChange = (respone) => {
+    this.setState({
+      recaptchaRespone: respone
+    });
+  };
+
   handleClick = () => {
     if (this.state.isValidName &&
       this.state.isValidDesc &&
+      this.state.isValidShortDesc &&
+      this.state.isValidThumbnail &&
       this.state.isValidGoal &&
-      this.state.isValidTime) {
-      const { inputName, inputGoal, inputTime, contract, account } = this.state;
+      this.state.isValidTime &&
+      this.state.recaptchaRespone !== '') {
+      const { inputName, inputDesc, inputShortDesc, inputThumbnail, inputGoal, inputTime, contract, account } = this.state;
       this.setState({ isProcessing: true, isFailed: false, isSucceed: false });
-      // db
-      callAPIPost('/content', JSON.stringify({
-        keyCaptcha: this.state.keyCaptcha,
-        content: this.state.inputDesc})
-      ).then(res => {
-        if (res.success) {
-        // start campaign
-          // contract.methods.createCampaign(inputName, inputTime, inputGoal).send({
-          //   from: account
-          // }).on('transactionHash', hash => {
-          //   if (hash !== null) {
-          //     this.handleTransactionReceipt(hash)
-          //   }
-          // }).on('error', err => {
-          //   if (err !== null) {
-          //     this.setState({ isProcessing: false });
-          //   }
-          // });
+
+      // compute hash to store information of campaign to DB
+      const temp = inputName + Date.now() + Math.random();
+      const integrity_data = inputName + inputShortDesc + inputDesc + inputThumbnail;
+      const hashEngine = new Keccak(256);
+      hashEngine.update(temp);
+      const ref = hashEngine.digest('hex');
+      hashEngine.reset();
+      hashEngine.update(integrity_data);
+      const integrity_hash = hashEngine.digest('hex');
+
+      axios.post(process.env.REACT_APP_SVR_POST, { // upload data to DB before send to blockchain
+        id: ref,
+        name: inputName,
+        description: inputDesc,
+        short_description: inputShortDesc,
+        thumbnail_url: inputThumbnail,
+        captcha: this.state.recaptchaRespone
+      }).then(respone => {
+        if (respone.status === 200) {
+          if (respone.data.success === true) {
+            contract.methods.createCampaign(inputTime, inputGoal, ref, integrity_hash).send({
+              from: account
+            }).on('transactionHash', hash => {
+              if (hash !== null) {
+                this.handleTransactionReceipt(hash)
+              }
+            }).on('error', err => {
+              if (err !== null) {
+                this.setState({ isProcessing: false });
+                this.recaptcha.reset();
+              }
+            });
+          } else {
+            this.setState({ isProcessing: false });
+            this.recaptcha.reset();
+            alert(respone.data.error_msg);
+          } 
+        } else {
+          this.setState({ isProcessing: false });
+          this.recaptcha.reset();
+          alert('Error with post data to server, please try again');
         }
-      })
+      }).catch(function (error) {
+        this.setState({ isProcessing: false });
+        this.recaptcha.reset();
+        console.log(error);
+      });
     }
   };
 
@@ -149,15 +208,6 @@ class CreateCampaign extends Component {
     this.setState({ isProcessing: false });
   };
 
-  verifyCallback = (res) => {
-    this.setState({
-      isValidCaptcha: true,
-      keyCaptcha: res
-    })
-  }
-  callback = () => {
-    console.log('Connect captcha successfully')
-  }
   render() {
     if (!this.state.web3) {
       return <Loading text="Loading Web3, account, and contract..." />;
@@ -192,7 +242,7 @@ class CreateCampaign extends Component {
       <Row className="pt-2">
         <Col>
           <Alert variant="success">
-            <Spinner animation="grow" variant="success"  size="sm" /> Successfully!! Your campaign has been created. Please wait for us verify your campaign before public
+            <Spinner animation="grow" variant="success" size="sm" /> Successfully!! Your campaign has been created. Please wait for us verify your campaign before public
           </Alert>
         </Col>
       </Row>
@@ -202,7 +252,7 @@ class CreateCampaign extends Component {
       <Row className="pt-2">
         <Col>
           <Alert variant="danger">
-            <Spinner animation="grow" variant="danger"  size="sm"/> Your request has been reverted.
+            <Spinner animation="grow" variant="danger" size="sm" /> Your request has been reverted.
           </Alert>
         </Col>
       </Row>
@@ -224,16 +274,40 @@ class CreateCampaign extends Component {
               Min: 30, Max: 300 characters
           </Form.Text>
           </Form.Group>
+          <Form.Group controlId="short_desc">
+            <Form.Label>{requiredChar} Short desciption</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter short description"
+              isInvalid={!this.state.isValidShortDesc && this.state.shortDescEnter}
+              isValid={this.state.isValidShortDesc && this.state.shortDescEnter}
+              onChange={this.handleInput} />
+            <Form.Text className="text-muted">
+              Min: 100, Max: 300 characters. Short description as slogan of campaign, it will be display on homepage.
+          </Form.Text>
+          </Form.Group>
           <Form.Group controlId="desc">
             <Form.Label>{requiredChar} Desciption</Form.Label>
             <Form.Control
               as="textarea"
-              rows="3"
+              rows="7"
               isInvalid={!this.state.isValidDesc && this.state.descEnter}
               isValid={this.state.isValidDesc && this.state.descEnter}
               onChange={this.handleInput} />
             <Form.Text className="text-muted">
               Min: 250, Max: 10000 characters. You can type as Markdown format.
+          </Form.Text>
+          </Form.Group>
+          <Form.Group controlId="thumbnail">
+            <Form.Label>{requiredChar} Image thumbnail url</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter url of thumbnail image"
+              isInvalid={!this.state.isValidThumbnail && this.state.thumbnailEnter}
+              isValid={this.state.isValidThumbnail && this.state.thumbnailEnter}
+              onChange={this.handleInput} />
+            <Form.Text className="text-muted">
+              Thumbnail image is best with size 286x180
           </Form.Text>
           </Form.Group>
           <Form.Group controlId="goal">
@@ -260,12 +334,11 @@ class CreateCampaign extends Component {
               This is time end campaign (days). Range: 15 - 180 days (In testing, min: 1 minutes)
           </Form.Text>
           </Form.Group>
-          <Form.Group controlId='re-captcha'>
-            <Recaptcha
-              sitekey="6LdUIaoUAAAAAND9ELqEtMbROc_IJ6StJOwWnrZg"
-              render="explicit"
-              onloadCallback={this.callback}
-              verifyCallback={this.verifyCallback}
+          <Form.Group>
+            <ReCAPTCHA
+              ref={(el) => { this.recaptcha = el; }}
+              sitekey={process.env.REACT_APP_RECAPTCHA_SITEKEY}
+              onChange={this.handleCaptchaResponseChange}
             />
           </Form.Group>
           <Button
@@ -274,9 +347,11 @@ class CreateCampaign extends Component {
             disabled={
               !(this.state.isValidName &&
                 this.state.isValidDesc &&
+                this.state.isValidShortDesc &&
+                this.state.isValidThumbnail &&
                 this.state.isValidGoal &&
                 this.state.isValidTime &&
-                this.state.isValidCaptcha &&
+                this.state.recaptchaRespone !== '' &&
                 !this.state.isProcessing)}>
             <FontAwesomeIcon icon="plus-circle" /> CREATE
         </Button>

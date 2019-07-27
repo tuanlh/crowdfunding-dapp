@@ -23,7 +23,6 @@ contract Campaigns {
     enum FinStatus {pending, accepted, paid}
 
     struct CampaignInfo {
-        string name;
         address owner;
         uint startDate;
         uint endDate;
@@ -33,6 +32,8 @@ contract Campaigns {
         address[] investors;
         mapping(address => uint) investment;
         mapping(address => bool) isInvest;
+        string ref; // store reference to other info as name, description on db
+        string hashIntegrity; // hash of data store in server
     }
 
     CampaignInfo[] internal campaigns;
@@ -55,19 +56,21 @@ contract Campaigns {
     
     /// @notice Get properties of a campaign
     /// @param _index is index of campaigns array
-    /// @return object {name, startDate, endDate, goal, collected, owner, finStatus, status}
+    /// @return object {startDate, endDate, goal, collected, owner, finStatus, status, ref}
     function getInfo(uint _index) public view 
     returns(
-        string memory name, 
         uint startDate, 
         uint endDate, 
         uint goal,
         uint collected,
         address owner,
         FinStatus finStatus,
-        Status status
+        Status status,
+        string memory ref,
+        string memory hashIntegrity
         ) {
-        name = campaigns[_index].name;
+        ref = campaigns[_index].ref;
+        hashIntegrity = campaigns[_index].hashIntegrity;
         startDate = campaigns[_index].startDate;
         endDate = campaigns[_index].endDate;
         goal = campaigns[_index].goal;
@@ -79,13 +82,16 @@ contract Campaigns {
 
     /// @notice Create a campaign
     /// @dev Add an element to variable campaigns array
-    /// @param _name is campaign name
     /// @param _days is deadline for fundraising of a campaign. Min: 15 days
     /// @param _goal is goal of a campaign. Min-Max: 100.000-1.000.000.000
+    /// @param _ref is campaign reference to other information about campaign
+    /// @param _hash is hash of data will store in db server, to check integrity
     function createCampaign(
-        string memory _name,
         uint _days, 
-        uint _goal)
+        uint _goal,
+        string memory _ref,
+        string memory _hash
+        )
     public {
         // To testing, you can comment following lines
         // require(
@@ -106,7 +112,8 @@ contract Campaigns {
         //In current Testing, default set Finacial Status is Accepted
 
         CampaignInfo memory temp;
-        temp.name = _name;
+        temp.ref = _ref;
+        temp.hashIntegrity = _hash;
         temp.owner = msg.sender;
         temp.startDate = now;
         temp.endDate = now + _days * 60;

@@ -1,0 +1,11 @@
+[Unit]
+Description=Crowdfunding ReactJS Development Test Application
+After=network-online.target
+
+[Service]
+Restart=on-failure
+WorkingDirectory=/home/tuanlh/crowd-funding-system/client/
+ExecStart=/usr/bin/yarn react-scripts start
+
+[Install]
+WantedBy=multi-user.target
