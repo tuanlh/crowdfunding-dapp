@@ -1,0 +1,21 @@
+version: '2'
+services:
+  app-client:
+    build: ./dapp/
+    ports:
+      - 3000:3000
+  app-api-server:
+    build: ./server/
+    ports:
+      - 8080:8080
+    depends_on:
+      - redis
+  redis:
+    image: redis:alpine
+    command: redis-server --requirepass 12345678 --appendonly yes
+    ports:
+      - 6379:6379
+    volumes:
+      - data:/data
+volumes:
+  data:

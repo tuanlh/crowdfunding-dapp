@@ -1,13 +1,12 @@
 {
   "name": "dapp-crowdfunding",
   "version": "1.0.0",
-  "description": "Dapp Crowdfunding ICO",
+  "description": "Dapp Crowdfunding",
   "main": "truffle-config.js",
   "author": "tuanlh",
   "license": "MIT",
   "dependencies": {
     "dotenv": "^7.0.0",
-    "global": "^4.4.0",
     "truffle": "^5.0.28",
     "truffle-hdwallet-provider": "^1.0.6"
   }

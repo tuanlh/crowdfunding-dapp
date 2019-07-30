@@ -139,7 +139,8 @@ class CreateCampaign extends Component {
       this.state.isValidThumbnail &&
       this.state.isValidGoal &&
       this.state.isValidTime &&
-      this.state.recaptchaRespone !== '') {
+      (this.state.recaptchaRespone !== '' || 
+        process.env.REACT_APP_RECAPTCHA_ENABLE === '0')) {
       const { inputName, inputDesc, inputShortDesc, inputThumbnail, inputGoal, inputTime, contract, account } = this.state;
       this.setState({ isProcessing: true, isFailed: false, isSucceed: false });
 
@@ -335,11 +336,14 @@ class CreateCampaign extends Component {
           </Form.Text>
           </Form.Group>
           <Form.Group>
-            <ReCAPTCHA
+            {process.env.REACT_APP_RECAPTCHA_ENABLE === '1' && 
+              <ReCAPTCHA
               ref={(el) => { this.recaptcha = el; }}
               sitekey={process.env.REACT_APP_RECAPTCHA_SITEKEY}
               onChange={this.handleCaptchaResponseChange}
-            />
+              />
+            }
+            
           </Form.Group>
           <Button
             variant="success"
@@ -351,7 +355,7 @@ class CreateCampaign extends Component {
                 this.state.isValidThumbnail &&
                 this.state.isValidGoal &&
                 this.state.isValidTime &&
-                this.state.recaptchaRespone !== '' &&
+                (this.state.recaptchaRespone !== '' || process.env.REACT_APP_RECAPTCHA_ENABLE === '0') &&
                 !this.state.isProcessing)}>
             <FontAwesomeIcon icon="plus-circle" /> CREATE
         </Button>

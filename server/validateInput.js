@@ -1,4 +1,5 @@
 const urlValidator = require('url-validator');
+require('dotenv').config();
 
 module.exports = (input) => {
   let error_msg = [];
@@ -53,10 +54,11 @@ module.exports = (input) => {
     }
   }
 
-  if (!hasOwnProperty.call(input, 'captcha') ||
+  if ( process.env.RECAPTCHA_ENABLE == 1 && (
+    !hasOwnProperty.call(input, 'captcha') ||
     input.captcha === '' ||
     input.captcha.length < 3
-  ) {
+  )) {
     error_msg.push('Captcha is invalid');
   }
 
