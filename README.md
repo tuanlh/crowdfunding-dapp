@@ -42,7 +42,7 @@ After run above cmd, docker will build and run some images. It will start 3 cont
 Or you can use some instance images that we have built and push into Docker hub. You can run:
 
 ```bash
-docker-compose up -f docker-compose-instance.yml
+docker-compose -f docker-compose-instance.yml up
 ```
 
 ## Manual install
