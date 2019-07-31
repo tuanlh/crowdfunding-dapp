@@ -36,8 +36,8 @@ docker-compose up
 ```
 
 After run above cmd, docker will build and run some images. It will start 3 container with 3 services:
-- **dapp-client** with port 3000 (development port of ReactJS).
-- **dapp-api-server** with port 8080.
+- **client** with port 3000 (development port of ReactJS).
+- **api_server** with port 8080.
 - **redis** with port 6379.
 
 Or you can use some instance images that we have built and push into Docker hub. You can run:
