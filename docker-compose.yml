@@ -1,11 +1,20 @@
 version: '2'
 services:
-  app-client:
-    build: ./dapp/
+  smartcontracts:
+    build: ./smartcontracts/
+    volumes:
+      - contracts:/home/node/smartcontract/build/
+  client:
+    build: ./client/
     ports:
       - 3000:3000
-  app-api-server:
-    build: ./server/
+    volumes:
+      - contracts:/home/node/client/src/contracts/
+      - ./client/src/:/home/node/client/src/
+    depends_on:
+      - smartcontracts
+  api_db:
+    build: ./api_db/
     ports:
       - 8080:8080
     depends_on:
@@ -19,3 +28,4 @@ services:
       - data:/data
 volumes:
   data:
+  contracts:

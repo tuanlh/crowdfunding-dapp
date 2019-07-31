@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-//import { QRCode } from 'qrcode.react';
 import TokenSystem from "../contracts/TokenSystem.json";
 import { Row, Col, Card, CardDeck, Alert, ListGroup, Form, InputGroup, Button, Badge } from 'react-bootstrap';
 import getWeb3 from "../utils/getWeb3";

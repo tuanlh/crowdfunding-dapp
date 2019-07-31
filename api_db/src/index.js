@@ -3,7 +3,10 @@ const express = require('express');
 const redis = require('redis');
 const bodyParser = require('body-parser');
 const axios = require('axios');
+const urlValidator = require('url-validator');
+const validateInput = require('./validateInput');
 require('dotenv').config();
+
 const app = express();
 const port = process.env.PORT_LISTEN || 8080;
 // create and connect redis client to local instance.
@@ -12,8 +15,7 @@ const db = redis.createClient({
   port: process.env.REDIS_PORT,
   password: process.env.REDIS_PASSWORD
 });
-const urlValidator = require('url-validator');
-const validateInput = require('./validateInput');
+
 // Print redis errors to the console
 db.on('error', (err) => {
   console.log("Error " + err);
