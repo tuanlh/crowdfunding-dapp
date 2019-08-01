@@ -9,8 +9,8 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - contracts:/home/node/client/src/contracts/
       - ./client/src/:/home/node/client/src/
+      - contracts:/home/node/client/src/contracts/:ro
     depends_on:
       - smartcontracts
   api_db:
