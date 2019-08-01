@@ -15,4 +15,4 @@ COPY . ${DIR}/
 
 EXPOSE 8080
 
-CMD cd src && node index.js
+CMD node src/index.js

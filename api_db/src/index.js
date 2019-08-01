@@ -6,7 +6,6 @@ const axios = require('axios');
 const urlValidator = require('url-validator');
 const validateInput = require('./validateInput');
 require('dotenv').config();
-
 const app = express();
 const port = process.env.PORT_LISTEN || 8080;
 // create and connect redis client to local instance.
@@ -47,7 +46,7 @@ app.get('/api/get/:id', (req, res) => {
 
 app.post('/api/set', async (req, res) => {
   const input = req.body;
-  const error_input_msg = process.env.TESTING_ENV == 0 ? validateInput(input) : [];
+  const error_input_msg = process.env.TESTING_ENV == 0 ? [] : validateInput(input);
   if (error_input_msg.length == 0) {
     const name = (input.name).trim();
     const description = (input.description).trim();

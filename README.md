@@ -15,8 +15,8 @@ First, in file ``smartcontracts/.env``:
 - ``INFURA_API_KEY`` is api key on infura.io, you can register an account and get infura key. Why need infura? --> In this project, i choose infura to sync states on blockchain.
 
 And in file ``client/.env``:
-- ``REACT_APP_SVR_POST`` is uri for upload data of campaign. Format: ``http://[IP|DOMAIN]:PORT/api/set``
-- ``REACT_APP_SVR_GET`` is uri for get data of campaign. Format: ``http://[IP|DOMAIN]:PORT/api/get/REF_CAMPAIGN``
+- ``REACT_APP_SVR_POST`` is uri for upload data of campaign. Format: ``http://[IP|DOMAIN]:PORT/api/set``. Default set to ``http://localhost:8080/api/set`` if empty.
+- ``REACT_APP_SVR_GET`` is uri for get data of campaign. Format: ``http://[IP|DOMAIN]:PORT/api/get/REF_CAMPAIGN``. Default set to ``http://localhost:8080/api/get/`` if empty.
 - ``REACT_APP_DEFAULT_NETWORK`` is api for connect to node on blockchain to fetch data in Homepage.Default, we set to *https://ropsten.infura.io/v3/PROJECT_ID*
 - ``REACT_APP_DEFAULT_ACCOUNT`` is address of your account for fetch data from blockchain.
 - ``RECAPTCHA_ENABLE`` include value **1** (use captcha) or **0** (NOT use captcha). We set default to **0**
