@@ -39,7 +39,7 @@ class CreateCampaign extends Component {
     web3: null,
     account: null,
     contract: null,
-    api_db_set: null
+    api_db: null
   };
 
   componentDidMount = async () => {
@@ -57,10 +57,10 @@ class CreateCampaign extends Component {
         Campaigns.abi,
         deployedNetwork && deployedNetwork.address,
       );
-      const api_db_set_default = 'http://' + window.location.hostname + ':8080/api/set';
-      const api_db_set = !hasOwnProperty.call(process.env, 'REACT_APP_SVR_SET') || process.env.REACT_APP_SVR_SET === ''
-                          ? api_db_set_default : process.env.REACT_APP_SVR_SET;
-      this.setState({ web3, account: accounts[0], contract: instance, loading: false, api_db_set });
+      const api_db_default = 'http://' + window.location.hostname + ':8080/';
+      const api_db = !hasOwnProperty.call(process.env, 'REACT_APP_API_DB') || process.env.REACT_APP_API_DB === ''
+                          ? api_db_default : process.env.REACT_APP_API_DB;
+      this.setState({ web3, account: accounts[0], contract: instance, loading: false, api_db });
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -145,7 +145,7 @@ class CreateCampaign extends Component {
       this.state.isValidTime &&
       (this.state.recaptchaRespone !== '' || 
         process.env.REACT_APP_RECAPTCHA_ENABLE === '0')) {
-      const { inputName, inputDesc, inputShortDesc, inputThumbnail, inputGoal, inputTime, contract, account, api_db_set } = this.state;
+      const { inputName, inputDesc, inputShortDesc, inputThumbnail, inputGoal, inputTime, contract, account, api_db } = this.state;
       this.setState({ isProcessing: true, isFailed: false, isSucceed: false });
 
       // compute hash to store information of campaign to DB
@@ -158,7 +158,7 @@ class CreateCampaign extends Component {
       hashEngine.update(integrity_data);
       const integrity_hash = hashEngine.digest('hex');
 
-      axios.post(api_db_set, { // upload data to DB before send to blockchain
+      axios.post(api_db + 'campaign', { // upload data to DB before send to blockchain
         id: ref,
         name: inputName,
         description: inputDesc,

@@ -5,7 +5,7 @@ ENV DIR /home/node/smartcontract
 # Create app directory
 RUN mkdir ${DIR}
 
-# Install requirements
+# Install dev dependencies
 RUN apk add --no-cache git python make g++
 
 # Install dependencies

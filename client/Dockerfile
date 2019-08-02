@@ -5,7 +5,7 @@ ENV DIR /home/node/client
 # Create app directory
 RUN mkdir ${DIR}
 
-# Install requirements
+# Install dev dependencies
 RUN apk add --no-cache python make g++
 
 # Install dependencies

@@ -26,7 +26,7 @@ class Campaign extends Component {
     account: null,
     contract: {},
     isComponentRemount: false,
-    api_db_get: null
+    api_db: null
   };
 
   componentDidMount = async () => {
@@ -57,10 +57,10 @@ class Campaign extends Component {
           deployedAccount && deployedAccount.address,
         );
 
-        const api_db_get_default = 'http://' + window.location.hostname + ':8080/api/get/';
-        const api_db_get = !hasOwnProperty.call(process.env, 'REACT_APP_SVR_GET') || process.env.REACT_APP_SVR_GET === ''
-                          ? api_db_get_default : process.env.REACT_APP_SVR_GET;
-     
+        const api_db_default = 'http://' + window.location.hostname + ':8080/';
+        const api_db = !hasOwnProperty.call(process.env, 'REACT_APP_API_DB') || process.env.REACT_APP_API_DB === ''
+                          ? api_db_default : process.env.REACT_APP_API_DB;
+        
         this.setState({
           web3,
           account: accounts[0],
@@ -69,7 +69,7 @@ class Campaign extends Component {
             Account: instanceAccount
           },
           isComponentRemount: false,
-          api_db_get
+          api_db
         },
           this.getInfo
         );
@@ -136,7 +136,7 @@ class Campaign extends Component {
 
   loadDataOfCampaign = async (ref, hash_integrity) => {
     let extData = {};
-    axios.get(this.state.api_db_get + ref).then(response => {
+    axios.get(this.state.api_db + 'campaign/' + ref).then(response => {
       if (response.status === 200) {
         if (hasOwnProperty.call(response.data, 'name')
           && hasOwnProperty.call(response.data, 'description')

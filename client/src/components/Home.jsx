@@ -22,7 +22,7 @@ class Home extends Component {
     },
     data: [],
     //api_db_set: null,
-    api_db_get: null,
+    api_db: null,
     loaded: 0,
     isLoading: false,
     web3: null,
@@ -45,12 +45,13 @@ class Home extends Component {
         Campaigns.abi,
         deployedNetwork && deployedNetwork.address,
       );
-      const api_db_get_default = 'http://' + window.location.hostname + ':8080/api/get/';
-      const api_db_get = !hasOwnProperty.call(process.env, 'REACT_APP_SVR_GET') || process.env.REACT_APP_SVR_GET === ''
-                          ? api_db_get_default : process.env.REACT_APP_SVR_GET;
+      const api_db_default = 'http://' + window.location.hostname + ':8080/';
+      const api_db = !hasOwnProperty.call(process.env, 'REACT_APP_API_DB') || process.env.REACT_APP_API_DB === ''
+                          ? api_db_default : process.env.REACT_APP_API_DB;
+      
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      this.setState({ web3, account: web3.eth.defaultAccount, api_db_get, contract: instance }, this.loadContractInfo);
+      this.setState({ web3, account: web3.eth.defaultAccount, api_db, contract: instance }, this.loadContractInfo);
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -119,9 +120,9 @@ class Home extends Component {
   };
 
   loadDataOfCampaign = async (index, ref, hash_integrity) => {
-    let { data, api_db_get } = this.state;
+    let { data, api_db } = this.state;
     if (!data.hasOwnProperty(index)) {
-      axios.get(api_db_get + ref).then(response => {
+      axios.get(api_db + 'campaign/' + ref).then(response => {
         if (response.status === 200) {
           if (hasOwnProperty.call(response.data, 'name')
             && hasOwnProperty.call(response.data, 'description')

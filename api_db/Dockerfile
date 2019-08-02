@@ -1,6 +1,6 @@
 FROM node:8-alpine
 
-ENV DIR /home/node/server
+ENV DIR /home/node/api
 
 # Create app directory
 RUN mkdir ${DIR}
@@ -15,4 +15,4 @@ COPY . ${DIR}/
 
 EXPOSE 8080
 
-CMD node src/index.js
+CMD yarn start

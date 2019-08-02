@@ -17,13 +17,13 @@ services:
     build: ./api_db/
     ports:
       - 8080:8080
+    volumes:
+      - ./api_db/src/:/home/node/api/src/
     depends_on:
       - redis
   redis:
     image: redis:alpine
     command: redis-server --requirepass 12345678 --appendonly yes
-    ports:
-      - 6379:6379
     volumes:
       - data:/data
 volumes:
