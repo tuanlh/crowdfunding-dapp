@@ -58,8 +58,8 @@ class CreateCampaign extends Component {
         deployedNetwork && deployedNetwork.address,
       );
       const api_db_default = 'http://' + window.location.hostname + ':8080/';
-      const api_db = !hasOwnProperty.call(process.env, 'REACT_APP_API_DB') || process.env.REACT_APP_API_DB === ''
-                          ? api_db_default : process.env.REACT_APP_API_DB;
+      const api_db = !hasOwnProperty.call(process.env, 'REACT_APP_STORE_CENTRALIZED_API') || process.env.REACT_APP_STORE_CENTRALIZED_API === ''
+                      ? api_db_default : process.env.REACT_APP_STORE_CENTRALIZED_API;
       this.setState({ web3, account: accounts[0], contract: instance, loading: false, api_db });
     } catch (error) {
       // Catch any errors for any of the above operations.

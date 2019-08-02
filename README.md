@@ -4,7 +4,7 @@ Live demo at: http://akiz.ga:3000
 System include services (with folders): 
 - **client** (front-end): we use ReactJS.
 - **smartcontracts**: stored smart contracts and compile+deploy to Ethereum.
-- **api_db** (API to store some centralized data and DB server). We use Express/NodeJS and connect to Redis.
+- **store_centralized_data** (is API to store some centralized data as campaign name, descripton,...). We use Express/NodeJS and connect to Redis.
 - **redis** is database that we have used.
 
 ## Build with Docker (Recommended)
@@ -18,7 +18,7 @@ First, in file ``smartcontracts/.env``:
 - ``INFURA_API_KEY`` is api key on infura.io, you can register an account and get infura key. Why need infura? --> In this project, i choose infura to sync states on blockchain.
 
 And in file ``client/.env``:
-- ``REACT_APP_API`` is api url to post/get data from db. Format: ``http://[IP|DOMAIN]:PORT/``. Default set to ``http://localhost:8080/`` if empty.
+- ``REACT_APP_STORE_CENTRALIZED_API`` is api url to post/get data from db. Format: ``http://[IP|DOMAIN]:PORT/``. Default set to ``http://localhost:8080/`` if empty.
 - ``REACT_APP_DEFAULT_NETWORK`` is api for connect to node on blockchain to fetch data in Homepage.Default, we set to *https://ropsten.infura.io/v3/PROJECT_ID*
 - ``REACT_APP_DEFAULT_ACCOUNT`` is address of your account for fetch data from blockchain.
 - ``RECAPTCHA_ENABLE`` include value **1** (use captcha) or **0** (NOT use captcha). We set default to **0**

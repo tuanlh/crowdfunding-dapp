@@ -1,6 +1,6 @@
 'use strict';
 const validateInput = require('./validateInput');
-const db = require('./db');
+const db = require('./../db');
 
 module.exports = {
     detail: (req, res) => {

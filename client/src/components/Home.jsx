@@ -46,8 +46,8 @@ class Home extends Component {
         deployedNetwork && deployedNetwork.address,
       );
       const api_db_default = 'http://' + window.location.hostname + ':8080/';
-      const api_db = !hasOwnProperty.call(process.env, 'REACT_APP_API_DB') || process.env.REACT_APP_API_DB === ''
-                          ? api_db_default : process.env.REACT_APP_API_DB;
+      const api_db = !hasOwnProperty.call(process.env, 'REACT_APP_STORE_CENTRALIZED_API') || process.env.REACT_APP_STORE_CENTRALIZED_API === ''
+                          ? api_db_default : process.env.REACT_APP_STORE_CENTRALIZED_API;
       
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.

@@ -13,12 +13,12 @@ services:
       - contracts:/home/node/client/src/contracts/:ro
     depends_on:
       - smartcontracts
-  api_db:
-    build: ./api_db/
+  store_centralized_data:
+    build: ./store_centralized_data/
     ports:
       - 8080:8080
     volumes:
-      - ./api_db/src/:/home/node/api/src/
+      - ./store_centralized_data/src/:/home/node/api/src/
     depends_on:
       - redis
   redis:
