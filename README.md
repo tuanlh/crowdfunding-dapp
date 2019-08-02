@@ -8,7 +8,7 @@ System include services (with folders):
 - **redis** is database that we have used.
 
 ## Build with Docker (Recommended)
-We also provide ``Dockerfile`` in each folders (client, api_db, smartcontracts) to build image for install environment and run app.
+We also provide ``Dockerfile`` in each folders (client, store_centralized_data, smartcontracts) to build image for install environment and run app.
 ### Requirement:
 - Docker Engine
 - Docker Compose
@@ -21,10 +21,10 @@ And in file ``client/.env``:
 - ``REACT_APP_STORE_CENTRALIZED_API`` is api url to post/get data from db. Format: ``http://[IP|DOMAIN]:PORT/``. Default set to ``http://localhost:8080/`` if empty.
 - ``REACT_APP_DEFAULT_NETWORK`` is api for connect to node on blockchain to fetch data in Homepage.Default, we set to *https://ropsten.infura.io/v3/PROJECT_ID*
 - ``REACT_APP_DEFAULT_ACCOUNT`` is address of your account for fetch data from blockchain.
-- ``RECAPTCHA_ENABLE`` include value **1** (use captcha) or **0** (NOT use captcha). We set default to **0**
+- ``REACT_APP_RECAPTCHA_ENABLE`` include value **1** (use captcha) or **0** (NOT use captcha). We set default to **0**
 - ``REACT_APP_RECAPTCHA_SITEKEY`` is **site key** in captcha module. We use **Google ReCaptcha**, to use this components, you have to register an account and add your site, then get your key. If you set RECAPTCHA_ENABLE is **0**, you can skip this step. (Default we disable this module)
 
-Finally, in ``api_db/.env``:
+Finally, in ``store_centralized_data/.env``:
 - ``PORT_LISTEN`` is port that you will start server to listen requests. I set default with **8080**
 - ``RECAPTCHA_ENABLE`` include value **1** (use captcha) or **0** (NOT use captcha). We set default to **0**
 - ``RECAPTCHA_SECRET_KEY`` if you set RECAPTCHA_ENABLE is 1, you have to have an account on Google Recaptcha and get a secret key for use this component. If set to 0, you can skip this step. Detail about ReCaptcha: https://www.google.com/recaptcha/intro/v3.html
