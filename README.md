@@ -39,7 +39,7 @@ docker-compose up
 
 After run above cmd, docker will build and run some images. It will start 3 container with 3 services:
 - **client** with port 3000 (development port of ReactJS).
-- **api_db** with port 8080.
+- **store_centralized_data** with port 8080.
 - **redis** with port 6379.
 
 ## How to use?
