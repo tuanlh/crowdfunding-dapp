@@ -1,18 +1,16 @@
 FROM node:8-alpine
 
-ENV DIR /home/node/api
+EXPOSE 8080
+ENV DIR /app
 
-# Create app directory
-RUN mkdir ${DIR}
+# Create app directory and set to working directory
+WORKDIR ${DIR}
 
 # Install dependencies
-WORKDIR ${DIR}
 COPY yarn.lock package.json ${DIR}/
 RUN yarn
 
 # Bundle source code
 COPY . ${DIR}/
-
-EXPOSE 8080
 
 CMD yarn start

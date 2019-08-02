@@ -3,14 +3,14 @@ services:
   smartcontracts:
     build: ./smartcontracts/
     volumes:
-      - contracts:/home/node/smartcontract/build/
+      - contracts:/app/build/
   client:
     build: ./client/
     ports:
       - 3000:3000
     volumes:
-      - ./client/src/:/home/node/client/src/
-      - contracts:/home/node/client/src/contracts/:ro
+      - ./client/src/:/app/src/
+      - contracts:/app/src/contracts/:ro
     depends_on:
       - smartcontracts
   store_centralized_data:
@@ -18,7 +18,7 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ./store_centralized_data/src/:/home/node/api/src/
+      - ./store_centralized_data/src/:/app/src/
     depends_on:
       - redis
   redis:

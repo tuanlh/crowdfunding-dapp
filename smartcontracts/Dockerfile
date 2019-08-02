@@ -1,15 +1,14 @@
 FROM node:8-alpine
 
-ENV DIR /home/node/smartcontract
+ENV DIR /app
 
-# Create app directory
-RUN mkdir ${DIR}
+# Create app directory and set to working directory
+WORKDIR ${DIR}
 
 # Install dev dependencies
 RUN apk add --no-cache git python make g++
 
 # Install dependencies
-WORKDIR ${DIR}
 COPY yarn.lock package.json ${DIR}/
 RUN yarn
 

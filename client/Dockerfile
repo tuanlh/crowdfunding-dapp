@@ -1,21 +1,19 @@
 FROM node:8-alpine
 
-ENV DIR /home/node/client
+EXPOSE 3000
+ENV DIR /app
 
-# Create app directory
-RUN mkdir ${DIR}
+# Create app directory and set to working directory
+WORKDIR ${DIR}
 
 # Install dev dependencies
 RUN apk add --no-cache python make g++
 
 # Install dependencies
-WORKDIR ${DIR}
 COPY yarn.lock package.json ${DIR}/
 RUN yarn
 
 # Bundle source code
 COPY . ${DIR}/
-
-EXPOSE 3000
 
 CMD yarn start
