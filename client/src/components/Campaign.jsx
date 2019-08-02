@@ -30,7 +30,6 @@ class Campaign extends Component {
   };
 
   componentDidMount = async () => {
-    console.log('component did mount');
     const { match: { params } } = this.props;
     const id = parseInt(params.id);
     if (isNaN(id)) {
@@ -40,10 +39,8 @@ class Campaign extends Component {
       try {
         // Get network provider and web3 instance.
         const web3 = await getWeb3();
-        console.log('web3 loaded');
         // Use web3 to get the user's accounts.
         const accounts = await web3.eth.getAccounts();
-
         // Get the contract instance.
         const networkId = await web3.eth.net.getId();
         const deployedCampaign = Campaigns.networks[networkId];
@@ -321,12 +318,10 @@ class Campaign extends Component {
           <Card.Subtitle className="mb-2 text-muted">
             {this.printData('short_description')}
           </Card.Subtitle>
-          <Card.Text>
             <ReactMarkdown
               source={this.printData('description')}
               escapeHtml={true}
             />
-          </Card.Text>
           <ListGroup>
             <ListGroup.Item>
               <b><FontAwesomeIcon icon="user-tie" /> Owner:</b> {campaign.owner}
