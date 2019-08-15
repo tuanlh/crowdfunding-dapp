@@ -5,7 +5,7 @@ import Account from './components/Account';
 import Notfound from './components/NotfoundPage';
 import Campaign from './components/Campaign';
 import CreateCampaign from './components/CreateCampaign';
-import SignUp from './components/SignUp'
+import SignUp from './components/SignUp/index'
 const Router = () =>
     <Switch>
         <Route path='/account' exact component={Account} />

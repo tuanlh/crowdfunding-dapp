@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from 'react'
 // import $ from 'jquery'
 import _ from 'lodash'
+import axios from 'axios'
 import serialize from 'form-serialize'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { encrypt, decrypt } from './crypto'
-
+import ipfs from './ipfs'
 import '../assets/signup.scss'
 import ConfirmPassword from './ConfirmPassword'
 
@@ -19,6 +20,7 @@ export default class SignUp extends Component {
     this.state = {
       openConfirm: false,
       data: [],
+      buffer: ''
     }
     toast.configure()
     this.fileInput = React.createRef();
@@ -63,6 +65,15 @@ export default class SignUp extends Component {
 
   handleDataConfirm = (rePassword) => {
     const { data } = this.state
+    console.log('asd')
+    ipfs.add(this.state.buffer, (error, result) => {
+      debugger
+      if(error) {
+        console.error(error)
+        return
+      }
+      console.log(result)
+    })
     // console.log(
     //   document.getElementById('image-file').files[0]
     // )
@@ -98,55 +109,58 @@ export default class SignUp extends Component {
     }
   }
 
-  handleFileUpload = (e) => {
+  handleFileUpload = async (e) => {
     var files = e.target.files[0]
-    console.log(this.fileInput.current.files)
+    
     loadScript(scripts[0], () => {
       var reader = new FileReader();
       reader.onload = async function(e){
-        // var encryptFile = await window.CryptoJS.AES.encrypt(e.target.result, '123123123')
-        var decryptedFile = await window.CryptoJS.AES.decrypt(e.target.result, '123123123')
-          .toString(window.CryptoJS.enc.Latin1)
+        var encryptFile = await window.CryptoJS.AES.encrypt(e.target.result, '123123123')
+        // var decryptedFile = await window.CryptoJS.AES.decrypt(e.target.result, '123123123')
+          // .toString(window.CryptoJS.enc.Latin1)
         var a = document.createElement('a');
         // encrypt
         // a.setAttribute('href', 'data:application/octet-stream,' + encryptFile);
+        // a.setAttribute('download', 'test2.jpeg');
         // decrypt
-        a.setAttribute('href', decryptedFile);
+        // a.setAttribute('href', decryptedFile);
+        // a.setAttribute('download', 'test2.jpeg');
+
+        // document.body.appendChild(a);
+        // a.click();
+        // document.body.removeChild(a);
         
-        a.setAttribute('download', 'test2.jpeg');
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+        // upload ipfs
+        const headers = {
+          'Content-Type': 'multipart/form-data',
+        }
+        let formData = new FormData()
+        formData.append('file', encryptFile)
+        axios.post('https://ipfs.infura.io:5001/api/v0/add?pin=false', formData , {
+            headers: headers
+          })
+          .then(
+            res => console.log(res.data.hash),
+            err => console.log(err)
+          )
       }
       // encrypt
-      // reader.readAsDataURL(files);
+      reader.readAsDataURL(files);
       //decrypt
-      reader.readAsText(files);
+      // reader.readAsText(files);
     })
-
-    // var reader = new FileReader();
-    // reader.onload = function(e){
-
-      // Use the CryptoJS library and the AES cypher to encrypt the 
-      // contents of the file, held in e.target.result, with the password
-
-      // var encrypted = CryptoJS.AES.encrypt(e.target.result, '123');
-
-      // The download attribute will cause the contents of the href
-      // attribute to be downloaded when clicked. The download attribute
-      // also holds the name of the file that is offered for download.
-
-      // a.attr('href', 'data:application/octet-stream,' + encrypted);
-      // a.attr('download', file.name + '.encrypted');
-
-      // step(4);
-  // };
-    // try{
-
-    // }
-    // document.getElementById('image-file').files[0];
   }
-
+  captureFile = (e) => {
+    console.log('capture')
+    e.preventDefault()
+    const file = e.target.files[0]
+    const reader = new window.FileReader()
+    reader.readAsArrayBuffer(file)
+    reader.onloadend = () => {
+      this.setState({ buffer: Buffer.from(reader.result) })
+      console.log('buffer', this.state.buffer)
+    }
+  }
   render() {
     const {  openConfirm } = this.state
     return (
