@@ -7,11 +7,13 @@ System include services (with folders):
 - **store_centralized_data** (is API to store some centralized data as campaign name, descripton,...). We use Express/NodeJS and connect to Redis.
 - **redis** is database that we have used.
 
-## Build with Docker (Recommended)
-We also provide ``Dockerfile`` in each folders (client, store_centralized_data, smartcontracts) to build image for install environment and run app.
+## Build, Run and Ship with Docker
+We provide a file with named ``Dockerfile`` in each folders (client, store_centralized_data, smartcontracts) to build image.
 ### Requirement:
 - Docker Engine
 - Docker Compose
+
+To install Docker, please read docs at https://docs.docker.com/install/
 ### 1. Edit some env variable to run correctly
 First, in file ``smartcontracts/.env``:
 - ``MNENOMIC`` is mnenomic of your account to deploy contract and sign transaction.
@@ -41,6 +43,9 @@ After run above cmd, docker will build and run some images. It will start 3 cont
 - **client** with port 3000 (development port of ReactJS).
 - **store_centralized_data** with port 8080.
 - **redis** with port 6379.
+
+### (Other) Testing smart contract
+Comming soon...
 
 ## How to use?
 To use this dApp, use must have an extension called `Metamask`, this is web browser extension, you can install it on Firefox, Chrome, Opera, Vivaldi,...
