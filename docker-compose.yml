@@ -1,11 +1,15 @@
 version: '2'
 services:
   smartcontracts:
-    build: ./smartcontracts/
+    build: 
+      context: ./smartcontracts/
+      target: builder
     volumes:
       - contracts:/app/build/
   client:
-    build: ./client/
+    build:
+      context: ./client/
+      target: builder
     ports:
       - 3000:3000
     volumes:

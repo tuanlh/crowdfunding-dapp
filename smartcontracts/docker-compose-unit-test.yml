@@ -1,0 +1,15 @@
+version: '2'
+services:
+  unit_test:
+    build: .
+    volumes:
+      - ./contracts/:/app/contracts/
+      - ./test/:/app/test/
+    depends_on:
+      - ganache
+    command: yarn truffle test --network ganache
+  ganache:
+    image: trufflesuite/ganache-cli
+volumes:
+  data:
+  contracts:

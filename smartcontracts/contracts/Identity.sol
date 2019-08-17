@@ -156,6 +156,10 @@ contract Identity {
             data[msg.sender].status == VerifyStatus.requested,
             "Your identity NOT be request"
         );
+        require(
+            bytes(_data).length > 0,
+            "_data should not empty"
+        );
         address ownerRequest = requests[msg.sender].verifier;
         responses[ownerRequest][msg.sender] = _data;
         data[msg.sender].status = VerifyStatus.responsed;

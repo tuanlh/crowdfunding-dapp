@@ -157,4 +157,50 @@ contract('Identity', accounts => {
         }
     });
 
+    it('Checking request identity: Should throw error on empty pub key field', async () => {
+        try {
+            await instance.requestIdentity.sendTransaction(
+                accounts[1],
+                '',
+                { from: accounts[2] }
+            );
+            assert.fail(true, false, "The function should throw error");
+        }
+        catch (err) {
+            assert.include(
+                String(err),
+                '_data should not empty',
+                'throws different error'
+            );
+        }
+    });
+
+    it('Checking request identity from verifier', async () => {
+        await instance.requestIdentity.sendTransaction(
+            accounts[1],
+            'pub_key_example',
+            { from: accounts[2] }
+        );
+
+        const result = await instance.getRequest.call(accounts[1], {from: accounts[1]});
+        assert.equal(result.verifier, accounts[2], 'Address of verifier NOT correct');
+        assert.equal(result.pub_key, 'pub_key_example', 'Pubkey NOT correct')
+    });
+
+    it('Checking response identity: Should throw error on incorrect user address', async () => {
+        try {
+            await instance.responseIdentity.sendTransaction(
+                '',
+                { from: accounts[2] }
+            );
+            assert.fail(true, false, "The function should throw error");
+        }
+        catch (err) {
+            assert.include(
+                String(err),
+                '_data should not empty',
+                'throws different error'
+            );
+        }
+    });
 })
