@@ -5,8 +5,7 @@ import axios from 'axios'
 import serialize from 'form-serialize'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { encrypt, decrypt } from './crypto'
-import ipfs from './ipfs'
+import { encryptText, decryptText, encryptImage, decryptImage } from './crypto'
 import '../assets/signup.scss'
 import ConfirmPassword from './ConfirmPassword'
 
@@ -65,19 +64,6 @@ export default class SignUp extends Component {
 
   handleDataConfirm = (rePassword) => {
     const { data } = this.state
-    console.log('asd')
-    ipfs.add(this.state.buffer, (error, result) => {
-      debugger
-      if(error) {
-        console.error(error)
-        return
-      }
-      console.log(result)
-    })
-    // console.log(
-    //   document.getElementById('image-file').files[0]
-    // )
-    // console.log(encrypted, decrypted)
     if(data.password !== rePassword) {
       toast.error('Password not match!', {
         position: 'bottom-center',
@@ -99,12 +85,13 @@ export default class SignUp extends Component {
         }
       }
       // encrypt private data
-      let encryptData = encrypt(JSON.stringify(privateData), rePassword)
+      let encryptData = encryptText(JSON.stringify(privateData), rePassword)
       delete data.password
       // send data to backend
       privateData = {...data, ...{privateData: encryptData}}
+      // console.log(encryptData)
       // console.log(encr)
-      // let decr = decrypt(encr, '123')
+      // let decr = decryptText(encryptData, '123')
       // console.log(decr)
     }
   }
@@ -112,43 +99,44 @@ export default class SignUp extends Component {
   handleFileUpload = async (e) => {
     var files = e.target.files[0]
     
-    loadScript(scripts[0], () => {
-      var reader = new FileReader();
-      reader.onload = async function(e){
-        var encryptFile = await window.CryptoJS.AES.encrypt(e.target.result, '123123123')
-        // var decryptedFile = await window.CryptoJS.AES.decrypt(e.target.result, '123123123')
-          // .toString(window.CryptoJS.enc.Latin1)
-        var a = document.createElement('a');
-        // encrypt
-        // a.setAttribute('href', 'data:application/octet-stream,' + encryptFile);
-        // a.setAttribute('download', 'test2.jpeg');
-        // decrypt
-        // a.setAttribute('href', decryptedFile);
-        // a.setAttribute('download', 'test2.jpeg');
-
-        // document.body.appendChild(a);
-        // a.click();
-        // document.body.removeChild(a);
-        
-        // upload ipfs
-        const headers = {
-          'Content-Type': 'multipart/form-data',
-        }
-        let formData = new FormData()
-        formData.append('file', encryptFile)
-        axios.post('https://ipfs.infura.io:5001/api/v0/add?pin=false', formData , {
-            headers: headers
-          })
-          .then(
-            res => console.log(res.data.hash),
-            err => console.log(err)
-          )
-      }
+    var reader = new FileReader();
+    reader.onload = async function(e){
+      // var encryptFile = await encryptImage(e.target.result, '123123123')
+      // console.log(encryptFile)
+      var decryptedFile = await decryptImage(e.target.result, '123123123')
+        // .toString(window.CryptoJS.enc.Latin1)
+      var a = document.createElement('a');
       // encrypt
-      reader.readAsDataURL(files);
-      //decrypt
-      // reader.readAsText(files);
-    })
+      // a.setAttribute('href', 'data:application/octet-stream,' + encryptFile);
+      // a.setAttribute('download', 'test2.jpeg');
+      // decrypt
+      // a.setAttribute('href', decryptedFile);
+      // a.setAttribute('download', 'test2.jpeg');
+
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      
+      // upload ipfs
+      // const headers = {
+      //   'Content-Type': 'multipart/form-data',
+      // }
+      // let formData = new FormData()
+      // formData.append('file', encryptFile)
+      // axios.post('https://ipfs.infura.io:5001/api/v0/add?pin=false', formData , {
+      //     headers: headers
+      //   })
+      //   .then(
+      //     res => console.log(res.data.hash),
+      //     err => console.log(err)
+      //   )
+    }
+    // encrypt
+    reader.readAsDataURL(files);
+    //decrypt
+    // reader.readAsText(files);
+
+    // })
   }
   captureFile = (e) => {
     console.log('capture')

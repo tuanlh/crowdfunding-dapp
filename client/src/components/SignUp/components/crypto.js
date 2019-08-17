@@ -1,7 +1,7 @@
 var crypto = require('crypto');
 var algorithm = 'aes256';
 
-export function encrypt(text, password){
+export function encryptText(text, password){
   var key = crypto.createHash('sha256').update(password).digest('hex')
   var cipher = crypto.createCipher(algorithm, key)
   var crypted = cipher.update(text,'utf8','hex')
@@ -9,7 +9,7 @@ export function encrypt(text, password){
   return crypted;
 }
  
-export function decrypt(text, password){
+export function decryptText(text, password){
   var key = crypto.createHash('sha256').update(password).digest('hex')
   var decipher = crypto.createDecipher(algorithm, key)
   var dec = decipher.update(text,'hex','utf8')
@@ -17,7 +17,21 @@ export function decrypt(text, password){
   return dec;
 }
 
+export function encryptImage(image, password) {
+  var key = crypto.createHash('sha256').update(password).digest('hex')
+  var cipher = crypto.createCipher(algorithm, password)
+  var crypted = cipher.update(image, 'utf8', 'utf8')
+  crypted += cipher.final('utf8');
+  return crypted
+}
 
+export function decryptImage(image, password) {
+  var key = crypto.createHash('sha256').update(password).digest('hex')
+  var decipher = crypto.createDecipher(algorithm, key)
+  var dec = decipher.update(image, 'utf8', 'utf8')
+  dec += decipher.final('utf8');
+  return dec;
+}
 // Version 10 above
 // const crypto = require('crypto')
 // const algorithm = 'AES-256-CBC'
