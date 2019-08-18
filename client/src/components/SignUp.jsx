@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 // import $ from 'jquery'
-import serialize from 'form-serialize'
+//import serialize from 'form-serialize'
 export default class SignUp extends Component {
     handleSubmit = (e) => {
-        e.preventDefault()
-        let formRegis = document.querySelector('#regisUser')
-        let formData = serialize(formRegis, { hash: true })
-        console.log(formData)
+        // e.preventDefault()
+        // let formRegis = document.querySelector('#regisUser')
+        // let formData = serialize(formRegis, { hash: true })
+        // console.log(formData)
     }
 
     render() {
