@@ -1,35 +1,35 @@
 var crypto = require('crypto');
 var algorithm = 'aes256';
 
-export function encryptText(text, password){
+export function encryptText(text, password) {
   var key = crypto.createHash('sha256').update(password).digest('hex')
   var cipher = crypto.createCipher(algorithm, key)
-  var crypted = cipher.update(text,'utf8','hex')
+  var crypted = cipher.update(text, 'utf8', 'hex')
   crypted += cipher.final('hex');
   return crypted;
 }
- 
-export function decryptText(text, password){
+
+export function decryptText(text, password) {
   var key = crypto.createHash('sha256').update(password).digest('hex')
   var decipher = crypto.createDecipher(algorithm, key)
-  var dec = decipher.update(text,'hex','utf8')
+  var dec = decipher.update(text, 'hex', 'utf8')
   dec += decipher.final('utf8');
   return dec;
 }
 
 export function encryptImage(image, password) {
   var key = crypto.createHash('sha256').update(password).digest('hex')
-  var cipher = crypto.createCipher(algorithm, password)
-  var crypted = cipher.update(image, 'utf8', 'utf8')
-  crypted += cipher.final('utf8');
-  return crypted
+  var cipher = crypto.createCipher(algorithm, key)
+  var crypted = cipher.update(image, 'utf8', 'hex')
+  crypted += cipher.final('hex');
+  return crypted;
 }
 
 export function decryptImage(image, password) {
   var key = crypto.createHash('sha256').update(password).digest('hex')
   var decipher = crypto.createDecipher(algorithm, key)
-  var dec = decipher.update(image, 'utf8', 'utf8')
-  dec += decipher.final('utf8');
+  var dec = decipher.update(image, 'hex')
+  dec += decipher.final();
   return dec;
 }
 // Version 10 above

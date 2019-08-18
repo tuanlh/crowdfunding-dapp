@@ -9,17 +9,14 @@ import { encryptText, decryptText, encryptImage, decryptImage } from './crypto'
 import '../assets/signup.scss'
 import ConfirmPassword from './ConfirmPassword'
 
-const loadScript = require('load-script');
-const scripts = [
-  "/aes.js"
-]
 export default class SignUp extends Component {
   constructor(props) {
     super(props)
     this.state = {
       openConfirm: false,
       data: [],
-      buffer: ''
+      buffer: '',
+      imgPreview: ''
     }
     toast.configure()
     this.fileInput = React.createRef();
@@ -97,60 +94,26 @@ export default class SignUp extends Component {
   }
 
   handleFileUpload = async (e) => {
-    var files = e.target.files[0]
-    
-    var reader = new FileReader();
-    reader.onload = async function(e){
-      // var encryptFile = await encryptImage(e.target.result, '123123123')
+    let files = e.target.files[0]
+    let reader = new FileReader();
+    reader.onload = (e) => {
+      this.setState({
+        imgPreview: e.target.result
+      })
+      // var encryptFile = encryptText(e.target.result, '123123123')
       // console.log(encryptFile)
-      var decryptedFile = await decryptImage(e.target.result, '123123123')
-        // .toString(window.CryptoJS.enc.Latin1)
-      var a = document.createElement('a');
-      // encrypt
-      // a.setAttribute('href', 'data:application/octet-stream,' + encryptFile);
-      // a.setAttribute('download', 'test2.jpeg');
-      // decrypt
-      // a.setAttribute('href', decryptedFile);
-      // a.setAttribute('download', 'test2.jpeg');
+      // var decryptedFile = decryptText(e.target.result, '123123123')
 
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      
-      // upload ipfs
-      // const headers = {
-      //   'Content-Type': 'multipart/form-data',
-      // }
-      // let formData = new FormData()
-      // formData.append('file', encryptFile)
-      // axios.post('https://ipfs.infura.io:5001/api/v0/add?pin=false', formData , {
-      //     headers: headers
-      //   })
-      //   .then(
-      //     res => console.log(res.data.hash),
-      //     err => console.log(err)
-      //   )
+      // return decryptedFile
     }
     // encrypt
     reader.readAsDataURL(files);
     //decrypt
     // reader.readAsText(files);
-
     // })
   }
-  captureFile = (e) => {
-    console.log('capture')
-    e.preventDefault()
-    const file = e.target.files[0]
-    const reader = new window.FileReader()
-    reader.readAsArrayBuffer(file)
-    reader.onloadend = () => {
-      this.setState({ buffer: Buffer.from(reader.result) })
-      console.log('buffer', this.state.buffer)
-    }
-  }
   render() {
-    const {  openConfirm } = this.state
+    const {  openConfirm, imgPreview } = this.state
     return (
       <Fragment>
         {
@@ -195,6 +158,7 @@ export default class SignUp extends Component {
                           className='form-control' onChange={this.handleChange}
                         />
                       </div>
+                      <img src={imgPreview} />
                       <div className='position-relative form-group'>
                         <label> Email </label>
                         <span className='required'> * </span>
