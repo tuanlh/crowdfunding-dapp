@@ -1,22 +1,22 @@
 import React, { Component, Fragment } from 'react'
 // import $ from 'jquery'
 import _ from 'lodash'
-import axios from 'axios'
-import serialize from 'form-serialize'
 import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { encryptText, decryptText, encryptImage, decryptImage } from './crypto'
+import { callIPFS } from '../modules/IPFS'
 import '../assets/signup.scss'
 import ConfirmPassword from './ConfirmPassword'
-
+import Loading from '../../utils/Loading2/index'
 export default class SignUp extends Component {
   constructor(props) {
     super(props)
     this.state = {
       openConfirm: false,
-      data: [],
+      data: {},
       buffer: '',
-      imgPreview: ''
+      imageArray: [],
+      isLoading: false
     }
     toast.configure()
     this.fileInput = React.createRef();
@@ -38,12 +38,6 @@ export default class SignUp extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault()
-    let formRegis = document.querySelector('#regisUser')
-    let formData = serialize(formRegis, { hash: true })
-    this.setState({
-      data: formData
-    })
-    // show pop up to confirm password
     this.handleShowConfirm()
   }
 
@@ -54,13 +48,21 @@ export default class SignUp extends Component {
   }
 
   handleChange = (e) => {
+    let name = e.target.name
+    let value = e.target.value
+    const { data } = this.state
+    data[name] = value
     this.setState({
+      data,
       [e.target.name]: e.target.value
     })
   }
 
   handleDataConfirm = (rePassword) => {
-    const { data } = this.state
+    const { data, imageArray } = this.state
+    if(!imageArray.length) {
+      return
+    }
     if(data.password !== rePassword) {
       toast.error('Password not match!', {
         position: 'bottom-center',
@@ -84,8 +86,33 @@ export default class SignUp extends Component {
       // encrypt private data
       let encryptData = encryptText(JSON.stringify(privateData), rePassword)
       delete data.password
+      let dataEncryptedImage = []
+      imageArray.forEach(image => {
+        dataEncryptedImage.push(
+          encryptImage(image, rePassword)
+        )
+      })
+      dataEncryptedImage.splice(0, 0, 'crownfuding-dapp')
+      this.setState({
+        isLoading: true
+      })
+      callIPFS(dataEncryptedImage).then(res => {
+        if(res.status === 200) {
+          privateData = {
+            ...data,
+            ...{ privateData: encryptData },
+            ...{ hashImage: res.data.Hash }
+          }
+          console.log(privateData)
+        } else {
+
+        }
+        this.setState({
+          isLoading: false
+        })
+      })
       // send data to backend
-      privateData = {...data, ...{privateData: encryptData}}
+
       // console.log(encryptData)
       // console.log(encr)
       // let decr = decryptText(encryptData, '123')
@@ -93,29 +120,53 @@ export default class SignUp extends Component {
     }
   }
 
-  handleFileUpload = async (e) => {
-    let files = e.target.files[0]
-    let reader = new FileReader();
-    reader.onload = (e) => {
-      this.setState({
-        imgPreview: e.target.result
-      })
-      // var encryptFile = encryptText(e.target.result, '123123123')
-      // console.log(encryptFile)
-      // var decryptedFile = decryptText(e.target.result, '123123123')
-
-      // return decryptedFile
+  handleFileUpload = (e) => {
+    if(e.target.files) {
+      const files = Array.from(e.target.files)
+      Promise.all(files.map(file => {
+        return (new Promise((resolve,reject) => {
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+              resolve(ev.target.result)
+            }
+            reader.onerror = (ev) => {
+              reject(ev)
+            }
+            reader.readAsDataURL(file)
+        }));
+    }))
+    .then(images => {
+        /* Once all promises are resolved, update state with image URI array */
+        this.setState({ imageArray : images })
+    }, error => {        
+        console.error(error);
+    });
     }
-    // encrypt
-    reader.readAsDataURL(files);
-    //decrypt
-    // reader.readAsText(files);
-    // })
+    // let files = e.target.files[0]
+    // let reader = new FileReader();
+    // reader.onload = (e) => {
+    //   this.setState({
+    //     imgPreview: e.target.result
+    //   })
+    //   // var encryptFile = encryptText(e.target.result, '123123123')
+    //   // console.log(encryptFile)
+    //   // var decryptedFile = decryptText(e.target.result, '123123123')
+
+    //   // return decryptedFile
+    // }
+    // // encrypt
+    // reader.readAsDataURL(files);
+    // //decrypt
+    // // reader.readAsText(files);
+    // // })
   }
   render() {
-    const {  openConfirm, imgPreview } = this.state
+    const {  openConfirm, isLoading } = this.state
     return (
       <Fragment>
+        {
+          isLoading && <Loading isLoading/>
+        }
         {
           openConfirm && 
           <ConfirmPassword
@@ -158,7 +209,12 @@ export default class SignUp extends Component {
                           className='form-control' onChange={this.handleChange}
                         />
                       </div>
-                      <img src={imgPreview} />
+                     <div className='position-relative form-group'>
+                      { 
+                        this.state.imageArray.map(imageURI => 
+                        (<img className="photo-uploaded" src={imageURI} key={Math.random()} />)) 
+                      }
+                     </div>
                       <div className='position-relative form-group'>
                         <label> Email </label>
                         <span className='required'> * </span>
@@ -181,6 +237,7 @@ export default class SignUp extends Component {
                         <label > Upload File </label>
                         <span className='required'> * </span>
                         <input id='image-file' type='file' ref={this.fileInput}
+                          accept="image/*"
                           multiple onChange={this.handleFileUpload}/>
                       </div>
                       <div className='position-relative form-group'>
