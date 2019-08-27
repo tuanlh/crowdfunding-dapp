@@ -1,0 +1,19 @@
+.__loading {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: white;
+  z-index: 99999;
+  opacity: 0.5;
+  .css-1h92x8j {
+    margin: 0 auto;
+    top: 50%;
+  }
+  .sweet-loading {
+    margin-top: 50%;
+  }
+}
