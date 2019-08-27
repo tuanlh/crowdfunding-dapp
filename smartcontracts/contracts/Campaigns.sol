@@ -1,11 +1,13 @@
 pragma solidity ^0.5;
 import {SafeMath} from "./SafeMath.sol";
 import {TokenSystem} from "./TokenSystem.sol";
+import {Identity} from "./Identity.sol";
 
 /// @title This contract store info about campaigns
 /// @author tuanlh
 contract Campaigns {
     TokenSystem token;
+    Identity id;
     using SafeMath for uint;
 
     /* Explaintation of campaign status
@@ -49,9 +51,11 @@ contract Campaigns {
     //
     /// @notice Constructor to create a campaign contract
     /// @dev This contract MUST be run after TokenSystem
-    /// @param _tokenAddr is address of token contract
-    constructor(TokenSystem _tokenAddr) public {
-        token = _tokenAddr;
+    /// @param _token is address of TokenSystem contract
+    /// @param _id is address of Identity contract
+    constructor(TokenSystem _token, Identity _id) public {
+        token = _token;
+        id = _id;
     }
     
     /// @notice Get properties of a campaign

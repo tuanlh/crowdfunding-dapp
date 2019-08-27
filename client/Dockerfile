@@ -1,19 +1,28 @@
-FROM node:8-alpine
-
-EXPOSE 3000
-ENV DIR /app
+# BUILDER IMAGE
+FROM node:8-alpine AS builder
 
 # Create app directory and set to working directory
-WORKDIR ${DIR}
+WORKDIR /app
 
 # Install dev dependencies
 RUN apk add --no-cache python make g++
 
 # Install dependencies
-COPY yarn.lock package.json ${DIR}/
+COPY yarn.lock package.json /app/
 RUN yarn
 
+# RUN TIME IMAGES
+FROM node:8-alpine
+
+EXPOSE 3000
+
+# Create app directory and set to working directory
+WORKDIR /app
+
+# Copy from builder image
+COPY --from=builder /app .
+
 # Bundle source code
-COPY . ${DIR}/
+COPY . /app/
 
 CMD yarn start
