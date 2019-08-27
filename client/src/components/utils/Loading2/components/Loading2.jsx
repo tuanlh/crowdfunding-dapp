@@ -1,7 +1,7 @@
 import React from 'react';
 import { css } from '@emotion/core';
 // First way to import
-import { FadeLoader } from 'react-spinners';
+import { Spinner } from 'reactstrap';
 // Another way to import. This is recommended to reduce bundle size
 // import FadeLoader from 'react-spinners/ClipLoader';
 import '../assets/Loading2.scss'
@@ -16,13 +16,7 @@ export default class Loading extends React.Component {
     return (
       <div className='__loading'>
         <div className='sweet-loading'>
-          <FadeLoader
-            css={override}
-            sizeUnit={"px"}
-            size={150}
-            color={'#123abc'}
-            loading={this.props.isLoading}
-          />
+          <Spinner color="primary" />
         </div>
       </div>
     )
