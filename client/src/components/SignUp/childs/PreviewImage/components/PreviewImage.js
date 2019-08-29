@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-
+import _ from 'lodash'
 class PreviewImage extends Component {
   render() {
     const { isOpen, imageArray, handleModal } = this.props
@@ -9,11 +9,15 @@ class PreviewImage extends Component {
           <ModalHeader toggle={handleModal}>Preview Image</ModalHeader>
           <ModalBody style={{ textAlign: 'center' }}>
             {
+              _.isEmpty(imageArray) && <div>Nothing to preview</div>
+            }
+            {
               imageArray.map((imageURI, index) =>
                 (
                   <img
                     className="photo-uploaded" 
                     src={imageURI} key={index}
+                    alt=""
                     style={{
                       width: '90%',
                       height: '75%'

@@ -12,7 +12,7 @@ class PrivateIdentity extends Component {
         display: 'none',
       },
     }));
-    const { handleChange, fileInput, handleFileUpload } = this.props
+    const { handleChange, fileInput, handleFileUpload, handleModal } = this.props
     return (
       <Fragment>
         <div className='position-relative form-group'>
@@ -30,9 +30,9 @@ class PrivateIdentity extends Component {
           />
         </div>
         <div className='position-relative form-group'>
-          <TextField id='pass' name='re-password' id='re-password'
+          <TextField name='rePassword' id='rePassword'
             required type='password' className='form-control'
-            label='re-password'
+            label='rePassword'
             onChange={handleChange}
           />
         </div>
@@ -47,6 +47,15 @@ class PrivateIdentity extends Component {
           <label htmlFor="image-file">
             <Button variant="contained" component="span" className={classes.button}>
               Upload File
+            </Button>
+          </label>
+          <label style={{ marginLeft: '25px' }}>
+            <Button
+              variant="contained"
+              component="span"
+              className={classes.button}
+              onClick={handleModal}>
+              Priview File
             </Button>
           </label>
         </div>

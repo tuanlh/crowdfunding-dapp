@@ -64,24 +64,32 @@ export default class SignUp extends Component {
     })
   }
 
-  handleDataConfirm = (rePassword) => {
+  handleDataConfirm = () => {
     const { data, imageArray } = this.state
+    this.handleShowConfirm()
     if (!imageArray.length) {
-      return
-    }
-    if (data.password !== rePassword) {
-      return (
+      this.setState({
+        isError: {
+          content: 'Not upload image yet',
+          position: 'bottom-center'
+        }
+      }, () => {
         this.setState({
-          isError: {
-            content: 'Password not match!',
-            position: 'bottom-center'
-          }
-        }, () => {
-          this.setState({
-            isError: {}
-          })
+          isError: {}
         })
-      )
+      })
+    }
+    if (data.password !== data.rePassword) {
+      this.setState({
+        isError: {
+          content: 'Password not match!',
+          position: 'bottom-center'
+        }
+      }, () => {
+        this.setState({
+          isError: {}
+        })
+      })
     } else {
       // private data need to encrypt
       // includes: ID card number, Phone number, ID Image
@@ -94,12 +102,12 @@ export default class SignUp extends Component {
         }
       }
       // encrypt private data
-      let encryptData = encryptText(JSON.stringify(privateData), rePassword)
+      let encryptData = encryptText(JSON.stringify(privateData), data.rePassword)
       delete data.password
       let dataEncryptedImage = []
       imageArray.forEach(image => {
         dataEncryptedImage.push(
-          encryptImage(image, rePassword)
+          encryptImage(image, data.rePassword)
         )
       })
       dataEncryptedImage.splice(0, 0, 'crownfuding-dapp')
@@ -211,6 +219,7 @@ export default class SignUp extends Component {
                       handleChange={this.handleChange}
                       handleFileUpload={this.handleFileUpload}
                       fileInput={this.fileInput}
+                      handleModal={this.handleModal}
                     />
                     {
                       openModal && <PreviewImage
@@ -219,12 +228,6 @@ export default class SignUp extends Component {
                         imageArray={imageArray}
                       />
                     }
-                    <div className='position-relative form-group'>
-                      {
-                        this.state.imageArray.map(imageURI =>
-                          (<img className="photo-uploaded" src={imageURI} key={Math.random()} />))
-                      }
-                    </div>
                   </div>
                 </div>
                 <div style={{ textAlign: 'center' }}>

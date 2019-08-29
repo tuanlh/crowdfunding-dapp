@@ -37,7 +37,7 @@ class PublicIdentity extends Component {
           />
         </div>
         <div className='position-relative form-group'>
-          <TextField id='pass' name='password' id='password'
+          <TextField name='password' id='password'
             required type='password' className='form-control'
             label='Password'
             onChange={handleChange}
