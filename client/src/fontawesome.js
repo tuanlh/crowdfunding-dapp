@@ -30,7 +30,6 @@ import {
     faLifeRing,
     faMoneyBill,
     faCog,
-    faUserPlus
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -61,6 +60,4 @@ library.add(
     faLifeRing,
     faMoneyBill,
     faCog,
-    faUserPlus
-
     );

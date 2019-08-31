@@ -13,7 +13,7 @@ import Alert from '../../utils/Alert'
 import PrivateIdentity from '../childs/PrivateIdentity'
 import PublicIdentity from '../childs/PublicIdentity'
 import PreviewImage from '../childs/PreviewImage'
-export default class SignUp extends Component {
+export default class IdentityUser extends Component {
   constructor(props) {
     super(props)
     this.state = {

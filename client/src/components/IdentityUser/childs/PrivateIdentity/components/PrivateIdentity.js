@@ -36,7 +36,7 @@ class PrivateIdentity extends Component {
             onChange={handleChange}
           />
         </div>
-        <div className='position-relative form-group' style={{ marginTop: '30px' }}>
+        <div className='position-relative form-group' style={{ marginTop: '40px' }}>
           <input id='image-file' type='file' ref={fileInput}
             accept="image/*"
             style={{
