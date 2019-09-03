@@ -10,6 +10,7 @@ import CustomButton from '../childs/CustomButton'
 import RequestModal from '../childs/RequestModal';
 
 import { backgrimageView, backgrimageReq } from '../moudles/const'
+import ViewInfoModal from '../childs/ViewInfoModal';
 const TableChild = ({ data, handleShowInfor, handleRequest }) => {
   let result = []
   result = data.map((node,index) => {
@@ -79,23 +80,23 @@ export default class CheckingIdentity extends Component {
         }
       ],
       isOpenRequest: false,
+      isOpenView: false,
     }
   }
   handleShowInfor = (node_address) => {
     console.log('handle show infor', node_address)
+    this.handleModal('isOpenView')
   }
 
   handleRequest = (node_address) => {
     console.log('handle request', node_address)
-    this.setState({
-      isOpenRequest: true
-    })
+    this.handleModal('isOpenRequest')
   }
 
-  handleModalRequest = () => {
+  handleModal = (name) => {
     console.log('modal')
     this.setState({
-      isOpenRequest: false
+      [name]: !this.state[name]
     })
   }
 
@@ -106,7 +107,7 @@ export default class CheckingIdentity extends Component {
   }
 
   render() {
-    let { data, isOpenRequest } = this.state
+    let { data, isOpenRequest, isOpenView } = this.state
     const classes = makeStyles(theme => ({
       root: {
         width: '100%',
@@ -139,8 +140,14 @@ export default class CheckingIdentity extends Component {
               {
                 isOpenRequest && <RequestModal
                   isOpen={isOpenRequest}
-                  handleModal={this.handleModalRequest}
+                  handleModal={() => this.handleModal('isOpenRequest')}
                   handleChange={this.handleChange}
+                />
+              }
+              {
+                isOpenView && <ViewInfoModal
+                  isOpen={isOpenView}
+                  handleModal={() => this.handleModal('isOpenView')}
                 />
               }
             </TableBody>

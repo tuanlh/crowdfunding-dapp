@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import TextField from '@material-ui/core/TextField'
-import _ from 'lodash'
 class RequestModal extends Component {
   render() {
     const { isOpen, handleModal, handleChange } = this.props
