@@ -7,30 +7,39 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import CustomButton from '../childs/CustomButton'
+import RequestModal from '../childs/RequestModal';
+
 import { backgrimageView, backgrimageReq } from '../moudles/const'
-const TableChild = ({data}) => {
+const TableChild = ({ data, handleShowInfor, handleRequest }) => {
   let result = []
   result = data.map((node,index) => {
     return (
     <TableRow key={index}>
-        <TableCell component="th" scope="row">
+        <TableCell component='th' scope='row'>
           {node.address}
         </TableCell>
-        <TableCell align="right">{node.name}</TableCell>
-        <TableCell align="right">{node.status}</TableCell>
-        <TableCell align="right">
+        <TableCell align='right'>{node.name}</TableCell>
+        <TableCell align='right'>{node.status}</TableCell>
+        <TableCell align='right'>
           {
             node.status !== 'pending' &&
-            <CustomButton variant="contained" backgrimage={backgrimageView}>
+            <CustomButton
+              variant='contained'
+              backgrimage={backgrimageView}
+              onClick={() => handleShowInfor(node.address)}
+            >
               View
             </CustomButton>
           }
           {
             node.status === 'pending' && 
-            <CustomButton variant="contained" backgrimage={backgrimageReq}
-            style={{
-              width: '25%'
-            }}
+            <CustomButton
+              variant='contained'
+              backgrimage={backgrimageReq}
+              style={{
+                width: '24.5%'
+              }}
+              onClick={() => handleRequest(node.address)}
             >
               Request
             </CustomButton>
@@ -68,12 +77,36 @@ export default class CheckingIdentity extends Component {
           name: 'NVD',
           status: 'confirming'
         }
-      ]
+      ],
+      isOpenRequest: false,
     }
   }
-  
+  handleShowInfor = (node_address) => {
+    console.log('handle show infor', node_address)
+  }
+
+  handleRequest = (node_address) => {
+    console.log('handle request', node_address)
+    this.setState({
+      isOpenRequest: true
+    })
+  }
+
+  handleModalRequest = () => {
+    console.log('modal')
+    this.setState({
+      isOpenRequest: false
+    })
+  }
+
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
   render() {
-    let { data } = this.state
+    let { data, isOpenRequest } = this.state
     const classes = makeStyles(theme => ({
       root: {
         width: '100%',
@@ -92,13 +125,24 @@ export default class CheckingIdentity extends Component {
             <TableHead>
               <TableRow>
                 <TableCell>Address</TableCell>
-                <TableCell align="right">Name</TableCell>
-                <TableCell align="right">Status</TableCell>
-                <TableCell align="right">Action</TableCell>
+                <TableCell align='right'>Name</TableCell>
+                <TableCell align='right'>Status</TableCell>
+                <TableCell align='right'>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableChild data={data} />
+              <TableChild
+                data={data}
+                handleShowInfor={this.handleShowInfor}
+                handleRequest={this.handleRequest}
+              />
+              {
+                isOpenRequest && <RequestModal
+                  isOpen={isOpenRequest}
+                  handleModal={this.handleModalRequest}
+                  handleChange={this.handleChange}
+                />
+              }
             </TableBody>
           </Table>
         </Paper>
