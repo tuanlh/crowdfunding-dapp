@@ -201,7 +201,7 @@ export default class IdentityUser extends Component {
         {
           !_.isEmpty(isError) && <Alert data={isError} />
         }
-        <div className='container-fluid __signUp'>
+        <div className='__signUp'>
           <div className='animated fadeIn'>
             <div className='card'>
               <div className='card-header'></div>

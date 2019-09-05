@@ -6,6 +6,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import CustomButton from '../childs/CustomButton'
 import RequestModal from '../childs/RequestModal';
 
@@ -13,9 +14,9 @@ import { backgrimageView, backgrimageReq } from '../moudles/const'
 import ViewInfoModal from '../childs/ViewInfoModal';
 const TableChild = ({ data, handleShowInfor, handleRequest }) => {
   let result = []
-  result = data.map((node,index) => {
+  result = data.map((node, index) => {
     return (
-    <TableRow key={index}>
+      <TableRow key={index}>
         <TableCell component='th' scope='row'>
           {node.address}
         </TableCell>
@@ -33,7 +34,7 @@ const TableChild = ({ data, handleShowInfor, handleRequest }) => {
             </CustomButton>
           }
           {
-            node.status === 'pending' && 
+            node.status === 'pending' &&
             <CustomButton
               variant='contained'
               backgrimage={backgrimageReq}
@@ -57,7 +58,7 @@ export default class CheckingIdentity extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data : [
+      data: [
         {
           address: '0x1234',
           name: 'NVA',
@@ -111,7 +112,7 @@ export default class CheckingIdentity extends Component {
     const classes = makeStyles(theme => ({
       root: {
         width: '100%',
-        marginTop: theme.spacing(3),
+        marginTop: theme.spacing(5),
         overflowX: 'auto',
       },
       table: {
@@ -120,40 +121,43 @@ export default class CheckingIdentity extends Component {
     }));
 
     return (
-      <Fragment>
-        <Paper className={classes.root}>
-          <Table className={classes.table}>
-            <TableHead>
-              <TableRow>
-                <TableCell>Address</TableCell>
-                <TableCell align='right'>Name</TableCell>
-                <TableCell align='right'>Status</TableCell>
-                <TableCell align='right'>Action</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableChild
-                data={data}
-                handleShowInfor={this.handleShowInfor}
-                handleRequest={this.handleRequest}
-              />
-              {
-                isOpenRequest && <RequestModal
-                  isOpen={isOpenRequest}
-                  handleModal={() => this.handleModal('isOpenRequest')}
-                  handleChange={this.handleChange}
+      <div className='card'>
+        <div className='card-header' />
+        <div className='card-body' style={{ padding: '0px' }}>
+          <Paper className={classes.root}>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Address</TableCell>
+                  <TableCell align='right'>Name</TableCell>
+                  <TableCell align='right'>Status</TableCell>
+                  <TableCell align='right'>Action</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableChild
+                  data={data}
+                  handleShowInfor={this.handleShowInfor}
+                  handleRequest={this.handleRequest}
                 />
-              }
-              {
-                isOpenView && <ViewInfoModal
-                  isOpen={isOpenView}
-                  handleModal={() => this.handleModal('isOpenView')}
-                />
-              }
-            </TableBody>
-          </Table>
-        </Paper>
-      </Fragment>
+                {
+                  isOpenRequest && <RequestModal
+                    isOpen={isOpenRequest}
+                    handleModal={() => this.handleModal('isOpenRequest')}
+                    handleChange={this.handleChange}
+                  />
+                }
+                {
+                  isOpenView && <ViewInfoModal
+                    isOpen={isOpenView}
+                    handleModal={() => this.handleModal('isOpenView')}
+                  />
+                }
+              </TableBody>
+            </Table>
+          </Paper>
+        </div>
+      </div>
     )
   }
 }

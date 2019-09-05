@@ -7,12 +7,14 @@ import Campaign from './components/Campaign';
 import CreateCampaign from './components/CreateCampaign';
 import IdentityUser from './components/IdentityUser';
 import CheckingIdentity from './components/CheckingIdentity';
+import Notification from './components/Notification';
 const Router = () =>
     <Switch>
         <Route path='/account' exact component={Account} />
         <Route path='/create' exact component={CreateCampaign} />
         <Route path='/identity' exact component={IdentityUser} />
         <Route path='/checknew' exact component={CheckingIdentity} />
+        <Route path='/notification' exact component={Notification} />
         <Route path='/campaign/:id' exact component={Campaign} />
         <Route path='/' exact component={Home} />
         <Route component={Notfound} />
