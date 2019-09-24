@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -6,11 +6,11 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
+// import Typography from '@material-ui/core/Typography';
 import CustomButton from '../childs/CustomButton'
 import RequestModal from '../childs/RequestModal';
 
-import { backgrimageView, backgrimageReq } from '../moudles/const'
+import { backgrimageView, backgrimageReq } from '../modules/const'
 import ViewInfoModal from '../childs/ViewInfoModal';
 const TableChild = ({ data, handleShowInfor, handleRequest }) => {
   let result = []

@@ -1,9 +1,7 @@
 import React, { Component, Fragment } from 'react'
-// import $ from 'jquery'
 import _ from 'lodash'
-// import axios from 'axios'
-import { encryptText, decryptText, encryptImage, decryptImage } from './crypto'
-import { callIPFS } from '../modules/IPFS'
+import { encryptText, encrypt } from '../../modules/crypto'
+import { callPostIPFS } from '../../modules/IPFS'
 
 import '../assets/signup.scss'
 
@@ -64,32 +62,27 @@ export default class IdentityUser extends Component {
     })
   }
 
+  showError = (content, position) => {
+    this.setState({
+      isError: {
+        content: content,
+        position: position
+      }
+    }, () => {
+      this.setState({
+        isError: {}
+      })
+    })
+  }
+
   handleDataConfirm = () => {
     const { data, imageArray } = this.state
     this.handleShowConfirm()
-    if (!imageArray.length) {
-      this.setState({
-        isError: {
-          content: 'Not upload image yet',
-          position: 'bottom-center'
-        }
-      }, () => {
-        this.setState({
-          isError: {}
-        })
-      })
+    if (_.isEmpty(imageArray) || _.isNil(imageArray)) {
+      this.showError('Not upload image yet', 'bottom-center')
     }
     if (data.password !== data.rePassword) {
-      this.setState({
-        isError: {
-          content: 'Password not match!',
-          position: 'bottom-center'
-        }
-      }, () => {
-        this.setState({
-          isError: {}
-        })
-      })
+      this.showError('Password not match!', 'bottom-center')
     } else {
       // private data need to encrypt
       // includes: ID card number, Phone number, ID Image
@@ -107,14 +100,14 @@ export default class IdentityUser extends Component {
       let dataEncryptedImage = []
       imageArray.forEach(image => {
         dataEncryptedImage.push(
-          encryptImage(image, data.rePassword)
+          encrypt(image, data.rePassword)
         )
       })
-      dataEncryptedImage.splice(0, 0, 'crownfuding-dapp')
       this.setState({
         isLoading: true
       })
-      callIPFS(dataEncryptedImage).then(res => {
+      callPostIPFS(dataEncryptedImage).then(res => {
+        delete data.rePassword
         if (res.status === 200) {
           privateData = {
             ...data,
@@ -137,6 +130,13 @@ export default class IdentityUser extends Component {
       // console.log(decr)
     }
   }
+  convertToBuffer = async (result) => {
+    //file is converted to a buffer to prepare for uploading to IPFS
+    const buffer = await Buffer.from(result);
+    //set this buffer - using es6 syntax
+    // this.setState({ buffer });
+    return buffer
+  };
 
   handleFileUpload = (e) => {
     if (e.target.files) {
@@ -145,7 +145,7 @@ export default class IdentityUser extends Component {
         return (new Promise((resolve, reject) => {
           const reader = new FileReader();
           reader.onload = (ev) => {
-            resolve(ev.target.result)
+            resolve(this.convertToBuffer(ev.target.result))
           }
           reader.onerror = (ev) => {
             reject(ev)
@@ -154,6 +154,7 @@ export default class IdentityUser extends Component {
         }));
       }))
         .then(images => {
+          console.log(images)
           /* Once all promises are resolved, update state with image URI array */
           this.setState({ imageArray: images })
         }, error => {
