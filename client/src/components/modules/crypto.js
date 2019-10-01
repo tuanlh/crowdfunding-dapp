@@ -37,7 +37,7 @@ export function decryptText(text, password) {
 //   return window.CryptoJS.AES.decrypt(image, password).toString()
 // }
 
-export const encrypt = (buffer, key) => {
+export const encryptImage = (buffer, key) => {
   key = crypto.createHash('sha256').update(String(key)).digest('base64').substr(0, 32);
   // Create an initialization vector
   const iv = crypto.randomBytes(16);
@@ -47,7 +47,7 @@ export const encrypt = (buffer, key) => {
   const result = Buffer.concat([iv, cipher.update(buffer), cipher.final()]);
   return result;
 };
-export const decrypt = (encrypted, key) => {
+export const decryptImage = (encrypted, key) => {
   key = crypto.createHash('sha256').update(String(key)).digest('base64').substr(0, 32);
   // Get the iv: the first 16 bytes
   const iv = encrypted.slice(0, 16);
@@ -58,6 +58,22 @@ export const decrypt = (encrypted, key) => {
   // Actually decrypt it
   const result = Buffer.concat([decipher.update(encrypted), decipher.final()]);
   return result;
+};
+
+export const encryptRSA = (buffer, publicKey) => {
+  const result = crypto.publicEncrypt(publicKey, buffer);
+  return result; //return buffer
+};
+
+export const decryptRSA = (buffer, privateKey) => {
+  const result = crypto.privateDecrypt(
+      {
+        key: privateKey.toString(),
+        passphrase: '',
+      },
+      buffer,
+    )
+ return result; //return buffer
 };
 // Version 10 above
 // const crypto = require('crypto')
