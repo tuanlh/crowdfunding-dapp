@@ -32,12 +32,7 @@ class Header extends Component {
         path: '/about',
         icon: 'info-circle',
         text: 'About'
-      },
-      {
-        path: '/signup',
-        icon: 'user-plus',
-        text: 'Sign Up'
-      },
+      }
     ]
     return (
       <Navbar bg="dark" variant="dark" expand="lg">

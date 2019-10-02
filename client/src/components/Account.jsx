@@ -7,6 +7,7 @@ import QRCode from 'qrcode.react';
 import TimeFormatter from './utils/TimeFormatter';
 import Loading from './utils/Loading';
 import Paginator from './utils/Paginator';
+import Notification from "./Notification/index.js";
 
 class Account extends Component {
   state = {
@@ -238,7 +239,15 @@ class Account extends Component {
       return <Loading text="Loading Web3, account, and contract..." />;
     }
     const renderAccountInfo = <Card>
-      <Card.Header><b><FontAwesomeIcon icon="user" /> Your account</b></Card.Header>
+      <Card.Header>
+        <b>
+          <FontAwesomeIcon icon="user" /> 
+          Your account
+        </b>
+        <b>
+          <Notification />
+        </b>
+      </Card.Header>
       <Card.Body className="p-1 m-1">
         <ListGroup>
           <ListGroup.Item>
