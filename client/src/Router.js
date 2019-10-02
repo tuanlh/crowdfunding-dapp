@@ -3,8 +3,8 @@ import { Route, Switch } from 'react-router-dom';
 import { Home, NotfoundPage, Helper } from './components/MainPage';
 import { Creation, Detail } from './components/Campaign';
 import {Wallet} from './components/Wallet';
-import IdentityUser from './components/Identity/IdentityUser';
-import CheckingIdentity from './components/Identity/CheckingIdentity';
+import IdentityUser from './components/Identity/Register';
+import CheckingIdentity from './components/Identity/Checking';
 import Notification from './components/Identity/Notification';
 const Router = () =>
     <Switch>

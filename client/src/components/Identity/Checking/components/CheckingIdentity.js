@@ -71,7 +71,7 @@ export default class CheckingIdentity extends Component {
           located: "HCM",
           email: "123123",
           privateData: "95c5c7a39cab25f631eaff1e0c35ab15d9be28c55187cf0d2cc8bcb1bfe5532287536791417f7869a0469162",
-          hashImage: "QmQGydH2DAyGt98xbEodpThysdazpvfjjiy2d6UDbUGFGE",
+          hashImage: "QmRL3xaeSkfFZmB3ewT87y6FxWruiYV7arK4T9LyXY4WUS",
           serectKey: "Fmotgzhme7eAKSV1Q+R6SvLhLPBgsixnYO/tbYirxc578KjC3vX8CyAp3LarFM87wHXq1xRufBTDV2v6m5YbcaG2OPS0ndFWAXmvemNEMg6smkYnrrN31TVlwd3uRsuk5ViFWVeert57lroHoy+COFzHmf/o+Lfz3NO49LZOZX8=",
           status: 'pending'
         },

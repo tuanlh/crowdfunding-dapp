@@ -79,7 +79,8 @@ export default class IdentityUser extends Component {
       {
         isError: {
           content: content,
-          position: position
+          position: position,
+          type: 'error'
         }
       },
       () => {
@@ -95,9 +96,11 @@ export default class IdentityUser extends Component {
     this.handleShowConfirm();
     if (_.isEmpty(imageArray) || _.isNil(imageArray)) {
       this.showError("Not upload image yet", "bottom-center");
+      return
     }
     if (data.password !== data.rePassword) {
       this.showError("Password not match!", "bottom-center");
+      return
     } else {
       // private data need to encrypt
       // includes: ID card number, Phone number, ID Image

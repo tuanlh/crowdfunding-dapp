@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 import TextField from '@material-ui/core/TextField'
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 
 class RequestModal extends Component {
   constructor(props) {
@@ -38,7 +38,7 @@ class RequestModal extends Component {
 
   render() {
     const { privateData } = this.state
-    const { isOpen, handleModal, fileInput } = this.props
+    const { isOpen, handleModal } = this.props
     return (
       <Modal isOpen={isOpen} toggle={handleModal} size={'lg'} >
         <ModalHeader toggle={handleModal}>Put Your Key</ModalHeader>

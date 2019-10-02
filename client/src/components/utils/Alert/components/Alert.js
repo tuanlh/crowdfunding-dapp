@@ -23,9 +23,10 @@ import 'react-toastify/dist/ReactToastify.css'
 //   }
 // }
 toast.configure()
-export default function Alert ({data}) {
+
+export default function Alert ({ data, type = 'error' }) {
   return (
-    toast.error(data.content, {
+    toast[type](data.content, {
     position: data.position,
     autoClose: 3000,
     hideProgressBar: false,
@@ -35,9 +36,11 @@ export default function Alert ({data}) {
     })
   )
 }
+
 Alert.propTypes = {
   data: PropTypes.shape({
     content: PropTypes.string.isRequired,
-    position: PropTypes.string.isRequired
+    position: PropTypes.string.isRequired,
+    type: PropTypes.oneOf(['success' , 'error', 'warning', 'info'])
   })
 };
