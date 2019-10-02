@@ -1,5 +1,15 @@
 import React, { Component, Fragment } from "react";
 import _ from "lodash";
+import Grid from "@material-ui/core/Grid";
+import Card from "@material-ui/core/Card";
+import Typography from "@material-ui/core/Typography";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import Box from '@material-ui/core/Box';
+import Button from "@material-ui/core/Button";
+import SaveIcon from '@material-ui/icons/Save';
+import getWeb3 from "../../../../utils/getWeb3";
+import Identity from "../../../../contracts/Identity.json";
 import {
   encryptText,
   encryptImage,
@@ -31,12 +41,52 @@ export default class IdentityUser extends Component {
       data: {},
       buffer: "",
       imageArray: [],
-      isLoading: false,
+      isLoading: true,
       isError: {},
-      openModal: false
+      openModal: false,
+      web3: null,
+      account: null,
+      contract: null
     };
     this.fileInput = React.createRef();
   }
+
+  componentDidMount = async () => {
+    try {
+      // Get network provider and web3 instance.
+      const web3 = await getWeb3();
+      // Use web3 to get the user's accounts.
+      const accounts = await web3.eth.getAccounts();
+      // Get the contract instance.
+      const networkId = await web3.eth.net.getId();
+      const deployedNetwork = Identity.networks[networkId];
+      const instance = new web3.eth.Contract(
+        Identity.abi,
+        deployedNetwork && deployedNetwork.address
+      );
+
+      // Set web3, accounts, and contract to the state, and then proceed with an
+      // example of interacting with the contract's methods.
+      await this.setState(
+        { web3, account: accounts[0], contract: instance },
+        this.loadAccountInfo
+      );
+      window.ethereum.on("accountsChanged", () => {
+        window.location.reload();
+      });
+    } catch (error) {
+      // Catch any errors for any of the above operations.
+      alert(
+        `Failed to load web3, account, or contract. Check console for details.`
+      );
+      console.error(error);
+    }
+  };
+
+  loadAccountInfo = async () => {
+    const { web3, account, contract } = this.state;
+    this.setState({ isLoading: false });
+  };
 
   validateBeforeConfirm = () => {
     let p = { ...this.state };
@@ -80,7 +130,7 @@ export default class IdentityUser extends Component {
         isError: {
           content: content,
           position: position,
-          type: 'error'
+          type: "error"
         }
       },
       () => {
@@ -96,11 +146,11 @@ export default class IdentityUser extends Component {
     this.handleShowConfirm();
     if (_.isEmpty(imageArray) || _.isNil(imageArray)) {
       this.showError("Not upload image yet", "bottom-center");
-      return
+      return;
     }
     if (data.password !== data.rePassword) {
       this.showError("Password not match!", "bottom-center");
-      return
+      return;
     } else {
       // private data need to encrypt
       // includes: ID card number, Phone number, ID Image
@@ -138,19 +188,18 @@ export default class IdentityUser extends Component {
             ...{ serectKey: serectKey.toString("base64") }
           };
           console.log(privateData);
+          this.sendDataToBlockChain(privateData);
         } else {
         }
         this.setState({
           isLoading: false
         });
       });
-      // send data to backend
-      // privateData = { ...data, ...{ privateData: encryptData } }
-      // console.log(encryptData)
-      // console.log(encr)
-      // let decr = decryptText(encryptData, '123')
-      // console.log(decr)
     }
+  };
+
+  sendDataToBlockChain = privateData => {
+    console.log(privateData);
   };
 
   convertToBuffer = async result => {
@@ -216,45 +265,60 @@ export default class IdentityUser extends Component {
         )}
         {!_.isEmpty(isError) && <Alert data={isError} />}
         <div className="__signUp">
-          <div className="animated fadeIn">
-            <div className="card">
-              <div className="card-header"></div>
-              <div className="card-body">
-                <cite>Form dang ky thong tin </cite>
-                <hr />
-                <div className="row">
-                  <div className="col-lg-6">
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <img
+                src="https://github.githubassets.com/images/modules/site/home-illo-team.svg"
+                alt=""
+                className="d-block width-fit mx-auto"
+                style={{
+                  marginTop: "15px"
+                }}
+              ></img>
+            </Grid>
+            <Grid item xs={6}>
+              <Card>
+                <CardContent>
+                  <Typography>Form dang ky thong tin </Typography>
+                  <hr />
+                  <Box>
                     <PublicIdentity handleChange={this.handleChange} />
-                  </div>
-                  <div className="col-lg-6">
+                  </Box>
+                  <Box>
                     <PrivateIdentity
                       handleChange={this.handleChange}
                       handleFileUpload={this.handleFileUpload}
                       fileInput={this.fileInput}
                       handleModal={this.handleModal}
                     />
-                    {openModal && (
-                      <PreviewImage
-                        isOpen={openModal}
-                        handleModal={this.handleModal}
-                        imageArray={imageArray}
-                      />
-                    )}
-                  </div>
-                </div>
-                <div style={{ textAlign: "center" }}>
-                  <div className="position-relative form-group">
-                    <button
-                      onClick={this.handleSubmit}
-                      className="mr-1 btn btn-primary"
-                    >
-                      Submit
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+                  </Box>
+                  {
+                    openModal && (
+                    <PreviewImage
+                      isOpen={openModal}
+                      handleModal={this.handleModal}
+                      imageArray={imageArray}
+                    />
+                  )}
+                </CardContent>
+                <CardActions 
+                    style={{ justifyContent: "center" }}
+                >
+                  <Button
+                    variant="contained"
+                    size="small"
+                    color='primary'
+                    onClick={this.handleSubmit}
+                  >
+                    <SaveIcon style={{
+                      fontSize: '20px'
+                    }}/>
+                      &nbsp;Submit
+                  </Button>
+                </CardActions>
+              </Card>
+            </Grid>
+          </Grid>
         </div>
       </Fragment>
     );

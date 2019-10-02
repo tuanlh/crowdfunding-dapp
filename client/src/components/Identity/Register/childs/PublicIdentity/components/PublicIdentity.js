@@ -37,9 +37,11 @@ class PublicIdentity extends Component {
           />
         </div>
         <div className='position-relative form-group'>
-          <TextField name='password' id='password'
-            required type='password' className='form-control'
-            label='Password'
+          <TextField name='dob' id='dob'
+            required type="datetime-local" className='form-control' InputLabelProps={{
+              shrink: true,
+            }}
+            label='Date of Birth'
             onChange={handleChange}
           />
         </div>
