@@ -46,7 +46,9 @@ contract Identity {
     /// @param _name is full name of user
     /// @param _located is located address of user
     /// @param _dob is date of birth of user
-    /// @param _data is private data as form of JSON string
+    /// @param _data is private data as hash of data that was store on IPFS
+    /// @param _shareKey is secret key of user was encrypted
+    /// @param _verifier is address of verifier
     function registerIdentity(
         string memory _name,
         string memory _located,
@@ -117,6 +119,7 @@ contract Identity {
     }
 
     /// @notice This function for user get public key of verifier
+    /// @param _verifier is address of verifier
     /// @return Public key of verifier
     function getPubKey(address _verifier) public view returns(string memory) {
         return pubKeyVerifiers[_verifier];
@@ -152,6 +155,7 @@ contract Identity {
     }
 
     /// @notice Get status of identity
+    /// @param _user is address of user
     /// @return Status (1 => pending, 2 => verified, 3 => reject)
     function getStatus(address _user) public view returns(VerifyStatus) {
         return data[_user].status;
@@ -159,6 +163,7 @@ contract Identity {
 
     /// @notice This function for owner to add a verifier
     /// @param _verifier is address of verifier
+    /// @param _pubKey is public key of verifier
     function addVerifier(address _verifier, string memory _pubKey) public onlyOwner() {
         require(
             verifiers[_verifier] == false,
