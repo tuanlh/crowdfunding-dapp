@@ -13,11 +13,12 @@ contract Identity {
     }
 
     mapping (address => PersonalData) data;
-    mapping (address => bool) verifiers;
+    mapping (address => bool) isVerifier;
     mapping (address => string) pubKeyVerifiers;
     mapping (address => address[]) verifier2users;
     mapping (address => uint) counter; // count number of user that verifier processing
     address owner;
+    address[] verifiers;
 
     /* -- Constructor -- */
     //
@@ -37,7 +38,7 @@ contract Identity {
 
     modifier onlyVerifier() {
         require(
-            verifiers[msg.sender] == true,
+            isVerifier[msg.sender] == true,
             "Only verifier");
         _;
     }
@@ -78,7 +79,7 @@ contract Identity {
         );
 
         require(
-            verifiers[_verifier] == true,
+            isVerifier[_verifier] == true,
             "Address verifier is incorrect");
         
         require(
@@ -166,18 +167,24 @@ contract Identity {
     /// @param _pubKey is public key of verifier
     function addVerifier(address _verifier, string memory _pubKey) public onlyOwner() {
         require(
-            verifiers[_verifier] == false,
+            isVerifier[_verifier] == false,
             "This address have already added"
         );
-        verifiers[_verifier] = true;
+        isVerifier[_verifier] = true;
+        verifiers.push(_verifier);
         pubKeyVerifiers[_verifier] = _pubKey;
     }
 
-    /// @notice Check an address is verifier yet
-    /// @param _verifier is address of verifier
-    /// @return `true` if address is verifier
-    function isVerifier(address _verifier) public view returns(bool) {
-        return verifiers[_verifier];
+    /// @notice Get list verifier can verify a new identity
+    /// @return array of verifier's addresses
+    function getVerifierAvailable() public view returns (address[] memory) {
+        address[] memory result;
+        for (uint i = 0; i < verifiers.length; i++) {
+            if (counter[verifiers[i]] <= 10) {
+                result[result.length] = verifiers[i];
+            }
+        }
+        return result;
     }
 
     /// @notice Check identity of an address is verified
