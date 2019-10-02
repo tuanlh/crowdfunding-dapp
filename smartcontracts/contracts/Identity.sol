@@ -1,26 +1,22 @@
 pragma solidity ^0.5;
 
 contract Identity {
-    enum VerifyStatus {pending, requested, responsed, verified, reject}
+    enum VerifyStatus {none, pending, verified, reject}
 
     struct PersonalData {
         string name;
         string located;
         string privData;
+        string shareKey;
         uint dob;
         VerifyStatus status;
     }
 
-    struct IdentityRequest {
-        address verifier;
-        string data;
-    }
-    
     mapping (address => PersonalData) data;
-    mapping (address => IdentityRequest) requests; // user => request
-    mapping (address => mapping (address => string)) responses; // verifier => user => encrypted_data
-    address[] users;
     mapping (address => bool) verifiers;
+    mapping (address => string) pubKeyVerifiers;
+    mapping (address => address[]) verifier2users;
+    mapping (address => uint) counter; // count number of user that verifier processing
     address owner;
 
     /* -- Constructor -- */
@@ -55,7 +51,9 @@ contract Identity {
         string memory _name,
         string memory _located,
         uint _dob,
-        string memory _data)
+        string memory _data,
+        string memory _shareKey,
+        address _verifier)
     public {
         require(
             bytes(_name).length > 3,
@@ -77,14 +75,25 @@ contract Identity {
             "You have already registered info"
         );
 
+        require(
+            verifiers[_verifier] == true,
+            "Address verifier is incorrect");
+        
+        require(
+            counter[_verifier] <= 10,
+            "The verifier that you selected is no longer available"
+        );
+
         PersonalData memory temp;
         temp.name = _name;
         temp.located = _located;
         temp.dob = _dob;
         temp.privData = _data;
+        temp.shareKey = _shareKey;
         temp.status = VerifyStatus.pending;
         data[msg.sender] = temp;
-        users.push(msg.sender);
+        verifier2users[_verifier].push(msg.sender);
+        counter[_verifier] += 1;
     }
 
     /// @notice Get information of an user
@@ -95,112 +104,68 @@ contract Identity {
         string memory name,
         string memory located,
         uint dob,
+        string memory privData,
+        string memory shareKey,
         VerifyStatus status
     ) {
         name = data[_user].name;
         located = data[_user].located;
         dob = data[_user].dob;
         status = data[_user].status;
+        privData = data[_user].privData;
+        shareKey = data[_user].shareKey;
     }
 
-    /// @notice This function for verifier can list unverify identity to verify
-    /// @dev After get user list, you have to filter for your purpose
-    /// @return list of address of user
-    function getUserList() public onlyVerifier() view returns(address[] memory) {
-        return users;
-    }
-
-    /// @notice This function for verifier to request access to private data of an user
-    /// @param _user is address of user
-    /// @param _data is public key of verifier
-    function requestIdentity(address _user, string memory _data)
-    public onlyVerifier() {
-        require(
-            data[_user].dob != 0,
-            "User that you request don't have data"
-        );
-        require(
-            data[_user].status < VerifyStatus.requested,
-            "User that you request is invalid"
-        );
-        require(
-            bytes(_data).length > 0,
-            "_data should not empty"
-        );
-
-        requests[_user] = IdentityRequest(
-            msg.sender,
-            _data
-        );
-        data[_user].status = VerifyStatus.requested;
-
-    }
-
-    /// @notice This function for user to get pending request from verifier to access data
-    /// @param _user is address of user
-    /// @return address and public key of verifier
-    function getRequest(address _user) public view
-     returns (address verifier, string memory pubk) {
-        require(
-            data[_user].status == VerifyStatus.requested,
-            "Your identity NOT be request"
-        );
-        verifier = requests[_user].verifier;
-        pubk = requests[_user].data;
-    }
-
-    /// @notice User will reponse to verifier with encrypted data
-    /// @param _data is encrypted data
-    function reponseIdentity(string memory _data) public {
-        require(
-            data[msg.sender].status == VerifyStatus.requested,
-            "Your identity NOT be request"
-        );
-        require(
-            bytes(_data).length > 0,
-            "_data should not empty"
-        );
-        address ownerRequest = requests[msg.sender].verifier;
-        responses[ownerRequest][msg.sender] = _data;
-        data[msg.sender].status = VerifyStatus.responsed;
-    }
-
-    /// @notice This function for verifier to get response from user to access data
-    /// @param _user is address of user
-    /// @return encrypted data
-    function getResponse(address _user) public view
-     returns (string memory) {
-        require(
-            data[_user].status == VerifyStatus.responsed,
-            "Your identity NOT have response data"
-        );
-        return responses[msg.sender][_user];
+    /// @notice This function for user get public key of verifier
+    /// @return Public key of verifier
+    function getPubKey(address _verifier) public view returns(string memory) {
+        return pubKeyVerifiers[_verifier];
     }
 
     /// @notice This function for verifier to verify an identity
     /// @param _user is address of user
     function verify(address _user) public onlyVerifier() {
         require(
-            data[msg.sender].status == VerifyStatus.responsed,
-            "User that you verifiy must be have response data"
+            data[msg.sender].status == VerifyStatus.pending,
+            "User that you verifiy must be have data"
         );
+
+        require(
+            checkVerifier2User(msg.sender, _user) == true,
+            "User must be request you"
+        );
+
         data[_user].status = VerifyStatus.verified;
     }
 
+    /// @notice check if verifier was requested by user to verify
+    /// @dev check user's address is exists in `verifier2users` array
+    /// @param _verifier is address of verifier
+    /// @param _user is address of user
+    /// @return `true` if address of user is exists in list
+    function checkVerifier2User(address _verifier, address _user) public view
+    returns (bool) {
+        for (uint i = 0; i < verifier2users[_verifier].length; i++) {
+            if (verifier2users[_verifier][i] == _user) return true;
+        }
+        return false;
+    }
+
     /// @notice Get status of identity
-    /// @return Status (0 => pending, 1=> requested, 2 => responsed, 3 => verified, 4 => reject)
+    /// @return Status (1 => pending, 2 => verified, 3 => reject)
     function getStatus(address _user) public view returns(VerifyStatus) {
         return data[_user].status;
     }
 
     /// @notice This function for owner to add a verifier
     /// @param _verifier is address of verifier
-    function addVerifier(address _verifier) public onlyOwner() {
+    function addVerifier(address _verifier, string memory _pubKey) public onlyOwner() {
         require(
             verifiers[_verifier] == false,
             "This address have already added"
         );
         verifiers[_verifier] = true;
+        pubKeyVerifiers[_verifier] = _pubKey;
     }
 
     /// @notice Check an address is verifier yet
