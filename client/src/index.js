@@ -4,8 +4,7 @@ import { BrowserRouter } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
 import { Container } from 'react-bootstrap';
 import Router from './Router';
-import Header from './components/Header';
-import Footer from './components/Footer';
+import { Header, Footer } from './components/MainPage';
 import './css/bootstrap.min.css';
 import './fontawesome';
 

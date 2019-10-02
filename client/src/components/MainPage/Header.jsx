@@ -14,9 +14,9 @@ class Header extends Component {
         text: 'Home'
       },
       {
-        path: '/account',
+        path: '/wallet',
         icon: 'wallet',
-        text: 'Account'
+        text: 'Wallet'
       },
       {
         path: '/feature',

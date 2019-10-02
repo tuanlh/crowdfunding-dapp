@@ -1,15 +1,14 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import TokenSystem from "../contracts/TokenSystem.json";
+import TokenSystem from "../../contracts/TokenSystem.json";
 import { Row, Col, Card, CardDeck, Alert, ListGroup, Form, InputGroup, Button, Badge } from 'react-bootstrap';
-import getWeb3 from "../utils/getWeb3";
+import getWeb3 from "../../utils/getWeb3";
 import QRCode from 'qrcode.react';
-import TimeFormatter from './utils/TimeFormatter';
-import Loading from './utils/Loading';
-import Paginator from './utils/Paginator';
-import Notification from "./Notification/index.js";
+import TimeFormatter from '../utils/TimeFormatter';
+import Loading from '../utils/Loading';
+import Paginator from '../utils/Paginator';
 
-class Account extends Component {
+class Wallet extends Component {
   state = {
     eth: 0, // balance of user form as ETH
     wei: 0, // balance of user form as Wei
@@ -244,9 +243,9 @@ class Account extends Component {
           <FontAwesomeIcon icon="user" /> 
           Your account
         </b>
-        <b>
+       {/*  <b>
           <Notification />
-        </b>
+        </b> */}
       </Card.Header>
       <Card.Body className="p-1 m-1">
         <ListGroup>
@@ -364,4 +363,4 @@ class Account extends Component {
 
 }
 
-export default Account;
+export default Wallet;

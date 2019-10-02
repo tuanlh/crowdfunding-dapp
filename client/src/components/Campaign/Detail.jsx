@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import Campaigns from "../contracts/Campaigns.json";
-import TokenSystem from "../contracts/TokenSystem.json";
+import Campaigns from "../../contracts/Campaigns.json";
+import TokenSystem from "../../contracts/TokenSystem.json";
 import { Row, Col, Card, Alert, ProgressBar, ListGroup, InputGroup, Form, Button } from 'react-bootstrap';
-import getWeb3 from "../utils/getWeb3";
-import TimeFormatter from './utils/TimeFormatter';
-import Loading from './utils/Loading';
+import getWeb3 from "../../utils/getWeb3";
+import TimeFormatter from '../utils/TimeFormatter';
+import Loading from '../utils/Loading';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 import {Keccak} from 'sha3';
 
-class Campaign extends Component {
+class Detail extends Component {
   state = {
     id: null,
     campaign: {},
@@ -457,4 +457,4 @@ class Campaign extends Component {
   }
 }
 
-export default Campaign;
+export default Detail;

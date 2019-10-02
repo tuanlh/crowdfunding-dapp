@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Campaigns from '../contracts/Campaigns.json';
+import Campaigns from '../../contracts/Campaigns.json';
 import { Row, Col, Card, Alert, Form, Button, Spinner } from 'react-bootstrap';
 import { Keccak } from 'sha3';
 import ReCAPTCHA from 'react-google-recaptcha'
 import axios from 'axios';
 //import ReactMarkdown from 'react-markdown';
-import getWeb3 from '../utils/getWeb3';
-import Loading from './utils/Loading';
+import getWeb3 from '../../utils/getWeb3';
+import Loading from '../utils/Loading';
 import validate from 'url-validator';
 
-class CreateCampaign extends Component {
+class Creation extends Component {
   recaptcha = null;
   state = {
     inputName: '',
@@ -384,4 +384,4 @@ class CreateCampaign extends Component {
   }
 }
 
-export default CreateCampaign;
+export default Creation;

@@ -1,15 +1,15 @@
 import React, { Component } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
-import Campaigns from '../contracts/Campaigns.json';
+import Campaigns from '../../contracts/Campaigns.json';
 import { Row, Col, Card, Alert, Button, ProgressBar, Image } from 'react-bootstrap';
 import axios from 'axios';
 //import getWeb3 from '../utils/getWeb3';
 import { Keccak } from 'sha3';
 import Web3 from "web3";
-import TimeFormatter from './utils/TimeFormatter';
-import Loading from './utils/Loading';
-import Paginator from './utils/Paginator';
+import TimeFormatter from '../utils/TimeFormatter';
+import Loading from '../utils/Loading';
+import Paginator from '../utils/Paginator';
 
 class Home extends Component {
   state = {

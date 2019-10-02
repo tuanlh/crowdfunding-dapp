@@ -1,22 +1,21 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
-import Home from './components/Home';
-import Account from './components/Account';
-import Notfound from './components/NotfoundPage';
-import Campaign from './components/Campaign';
-import CreateCampaign from './components/CreateCampaign';
-import IdentityUser from './components/IdentityUser';
-import CheckingIdentity from './components/CheckingIdentity';
-import Notification from './components/Notification';
+import { Home, NotfoundPage, Helper } from './components/MainPage';
+import { Creation, Detail } from './components/Campaign';
+import {Wallet} from './components/Wallet';
+// import IdentityUser from './components/IdentityUser';
+// import CheckingIdentity from './components/CheckingIdentity';
+// import Notification from './components/Notification';
 const Router = () =>
     <Switch>
-        <Route path='/account' exact component={Account} />
-        <Route path='/create' exact component={CreateCampaign} />
-        <Route path='/identity' exact component={IdentityUser} />
+        <Route path='/wallet' exact component={Wallet} />
+        <Route path='/create' exact component={Creation} />
+        <Route path='/help' exact component={Helper} />
+        {/* <Route path='/identity' exact component={IdentityUser} />
         <Route path='/checknew' exact component={CheckingIdentity} />
-        <Route path='/notification' exact component={Notification} />
-        <Route path='/campaign/:id' exact component={Campaign} />
+        <Route path='/notification' exact component={Notification} /> */}
+        <Route path='/campaign/:id' exact component={Detail} />
         <Route path='/' exact component={Home} />
-        <Route component={Notfound} />
+        <Route component={NotfoundPage} />
     </Switch>
 export default Router;
