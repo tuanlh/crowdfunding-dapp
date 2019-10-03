@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react';
 import { TextField } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
+import AttachFileIcon from '@material-ui/icons/AttachFile';
+import RemoveRedEyeOutlinedIcon from '@material-ui/icons/RemoveRedEyeOutlined'
 class PrivateIdentity extends Component {
   render() {
     const classes = makeStyles(theme => ({
@@ -30,13 +32,25 @@ class PrivateIdentity extends Component {
           />
         </div>
         <div className='position-relative form-group'>
+          <TextField name='password' id='password'
+            required type='password' className='form-control'
+            label='Password'
+            onChange={handleChange}
+          />
+        </div>
+        <div className='position-relative form-group'>
           <TextField name='rePassword' id='rePassword'
             required type='password' className='form-control'
             label='rePassword'
             onChange={handleChange}
           />
         </div>
-        <div className='position-relative form-group' style={{ marginTop: '40px' }}>
+        <div className='position-relative form-group'
+          style={{ 
+            margin: '30px 0px 0px',
+            textAlign: 'center'
+          }}
+        >
           <input id='image-file' type='file' ref={fileInput}
             accept="image/*"
             style={{
@@ -46,7 +60,7 @@ class PrivateIdentity extends Component {
           />
           <label htmlFor="image-file">
             <Button variant="contained" component="span" className={classes.button}>
-              Upload File
+              <AttachFileIcon /> Upload File
             </Button>
           </label>
           <label style={{ marginLeft: '25px' }}>
@@ -55,7 +69,7 @@ class PrivateIdentity extends Component {
               component="span"
               className={classes.button}
               onClick={handleModal}>
-              Priview File
+              <RemoveRedEyeOutlinedIcon />&nbsp;Priview File
             </Button>
           </label>
         </div>
