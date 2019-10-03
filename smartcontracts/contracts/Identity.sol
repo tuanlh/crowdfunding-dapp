@@ -147,7 +147,7 @@ contract Identity {
     /// @param _verifier is address of verifier
     /// @param _user is address of user
     /// @return `true` if address of user is exists in list
-    function checkVerifier2User(address _verifier, address _user) public view
+    function checkVerifier2User(address _verifier, address _user) internal view
     returns (bool) {
         for (uint i = 0; i < verifier2users[_verifier].length; i++) {
             if (verifier2users[_verifier][i] == _user) return true;
@@ -192,6 +192,12 @@ contract Identity {
     /// @return `true` if identity of address is verified
     function isVerified(address _user) public view returns(bool) {
         return data[_user].status == VerifyStatus.verified;
+    }
+
+    /// @notice Get list user that requested
+    /// @return List of users
+    function getUsers() public onlyVerifier() view returns(address[] memory) {
+        return verifier2users[msg.sender];
     }
 
 }
