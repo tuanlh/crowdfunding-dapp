@@ -140,6 +140,7 @@ contract Identity {
         );
 
         data[_user].status = VerifyStatus.verified;
+        counter[msg.sender] -= 1;
     }
 
     /// @notice check if verifier was requested by user to verify
