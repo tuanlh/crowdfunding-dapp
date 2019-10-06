@@ -18,6 +18,15 @@ class PrivateIdentity extends Component {
     return (
       <Fragment>
         <div className='position-relative form-group'>
+          <TextField type='email'
+            className='form-control'
+            onChange={handleChange} name='email'
+            required placeholder='Enter a valid email address'
+            id='email'
+            label='Email'
+          />
+        </div>
+        <div className='position-relative form-group'>
           <TextField name='idNumber' id='idNumber' placeholder='ID Number'
             minLength='9' required className='form-control'
             onChange={handleChange}

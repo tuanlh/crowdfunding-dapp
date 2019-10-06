@@ -16,7 +16,7 @@ import {
   encryptRSA,
   decryptRSA
 } from "../../../utils/modules/crypto";
-import { callPostIPFS } from "../../../utils/modules/IPFS";
+import { callPostIPFS, callGetIPFS } from "../../../utils/modules/IPFS";
 
 import "../assets/signup.scss";
 
@@ -33,6 +33,8 @@ MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgHkC+ACofieuCxMdlnIKioUkJDsq
 veDhMR26erEu0Z+N1Noo6Ey/ZzWll8b6HbbudVR0cwVaKYv09/2dwCssPBl1rA4q
 RjUz13I6fISeYcA1AgMBAAE=
 -----END PUBLIC KEY-----`;
+const addressVerifier = '0x93598a39777ED4B4Af3Ac7429d123Ca3bE9658C5'
+
 export default class IdentityUser extends Component {
   constructor(props) {
     super(props);
@@ -113,6 +115,11 @@ export default class IdentityUser extends Component {
     });
   };
 
+  toTimestamp = (strDate) => {
+    var datum = Date.parse(strDate);
+    return datum/1000;
+  }
+
   handleChange = e => {
     let name = e.target.name;
     let value = e.target.value;
@@ -124,13 +131,13 @@ export default class IdentityUser extends Component {
     });
   };
 
-  showError = (content, position) => {
+  showError = (content, position, type = 'error') => {
     this.setState(
       {
         isError: {
           content: content,
           position: position,
-          type: "error"
+          type: type
         }
       },
       () => {
@@ -153,8 +160,8 @@ export default class IdentityUser extends Component {
       return;
     } else {
       // private data need to encrypt
-      // includes: ID card number, Phone number, ID Image
-      const keyPrivateData = ["idNumber", "phoneNumber"];
+      // includes: ID card number, Phone number, ID Image, Email
+      const keyPrivateData = ["idNumber", "phoneNumber", 'email'];
       let privateData = {};
       for (var key in data) {
         if (_.includes(keyPrivateData, key)) {
@@ -175,31 +182,97 @@ export default class IdentityUser extends Component {
       imageArray.forEach(image => {
         dataEncryptedImage.push(encryptImage(image, data.rePassword));
       });
-      this.setState({
-        isLoading: true
-      });
-      callPostIPFS(dataEncryptedImage).then(res => {
+      // this.addVerifier()
+      callPostIPFS({
+        privateData: encryptData,
+        dataEncryptedImage
+      }).then(res => {
         delete data.rePassword;
         if (res.status === 200) {
           privateData = {
             ...data,
-            ...{ privateData: encryptData },
-            ...{ hashImage: res.data.Hash },
+            ...{ hash: res.data.Hash },
             ...{ serectKey: serectKey.toString("base64") }
           };
-          console.log(privateData);
           this.sendDataToBlockChain(privateData);
         } else {
+          console.log('Error' + res)
         }
-        this.setState({
-          isLoading: false
-        });
       });
     }
   };
+  getPublicKeyVerifier = () => {
+    const { contract, account } = this.state;
+    contract.methods.getPubKey(addressVerifier).call({
+      from: account
+    }).then(res => {
+      console.log(res)
+    })
+  }
+  addVerifier = () => {
+    const { contract, account } = this.state;
+    contract.methods.addVerifier(addressVerifier, publicKey
+    ).send({
+      from: account
+    }).on('transactionHash', hash => {
+      if (hash !== null) {
+        this.handleTransactionReceipt(hash)
+      }
+    }).on('error', err => {
+      if (err !== null) {
+        // this.setState({ isProcessing: false });
+        // this.recaptcha.reset();
+      }
+    })
+  }
 
-  sendDataToBlockChain = privateData => {
-    console.log(privateData);
+  handleTransactionReceipt = async (hash) => {
+    const { web3 } = this.state;
+    let receipt = null;
+    while (receipt === null) {
+      receipt = await web3.eth.getTransactionReceipt(hash);
+    }
+
+    if (receipt.status === true) {
+      console.log('---Success---')
+      this.showError("Success", "bottom-center", 'success');
+    } else {
+      console.log('--Failed---')
+      this.showError("Failed", "bottom-center");       
+    }
+  }
+
+  sendDataToBlockChain = (data) => {
+    this.setState({
+      isLoading: true
+    });
+    const { contract, account } = this.state;
+    contract.methods.registerIdentity(
+      data.fullName,
+      data.located,
+      this.toTimestamp(data.dob),
+      data.hash,
+      data.serectKey,
+      addressVerifier
+    ).send({
+      from: account
+    }).on('transactionHash', hash => {
+      if (hash !== null) {
+        const urlEtherum = 'https://ropsten.etherscan.io/tx/'
+        this.setState({
+          isLoading: false
+        });
+        // show pop up information
+        window.open(urlEtherum + hash)
+        this.handleTransactionReceipt(hash)
+      }
+    }).on('error', err => {
+      if (err !== null) {
+        console.log('Error' + err)
+        // this.setState({ isProcessing: false });
+        // this.recaptcha.reset();
+      }
+    })
   };
 
   convertToBuffer = async result => {
