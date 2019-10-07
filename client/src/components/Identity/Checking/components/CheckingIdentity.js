@@ -7,14 +7,14 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import _ from 'lodash'
+import getWeb3 from "../../../../utils/getWeb3";
+import Identity from "../../../../contracts/Identity.json";
 // import Typography from '@material-ui/core/Typography';
 import CustomButton from '../childs/CustomButton'
 import RequestModal from '../childs/RequestModal';
 import ViewInfoModal from '../childs/ViewInfoModal';
 
 import { backgrimageView, backgrimageReq } from '../moudles/const'
-import { decryptText, decryptImage, decryptRSA } from '../../../utils/modules/crypto'
-import { callGetIPFS } from '../../../utils/modules/IPFS'
 
 import Loading from "../../../utils/Loading2/index";
 
@@ -24,34 +24,19 @@ const TableChild = ({ data, handleShowInfor, handleRequest }) => {
     return (
       <TableRow key={index}>
         <TableCell component='th' scope='row'>
-          {node.address}
+          {node}
         </TableCell>
-        <TableCell align='right'>{node.fullName}</TableCell>
-        <TableCell align='right'>{node.status}</TableCell>
         <TableCell align='right'>
-          {
-            node.status !== 'pending' &&
-            <CustomButton
-              variant='contained'
-              backgrimage={backgrimageView}
-              onClick={() => handleShowInfor(node.address)}
-            >
-              View
-            </CustomButton>
-          }
-          {
-            node.status === 'pending' &&
-            <CustomButton
-              variant='contained'
-              backgrimage={backgrimageReq}
-              style={{
-                width: '24.5%'
-              }}
-              onClick={() => handleRequest(node)}
-            >
-              Request
-            </CustomButton>
-          }
+          <CustomButton
+            variant='contained'
+            backgrimage={backgrimageReq}
+            style={{
+              width: '24.5%'
+            }}
+            onClick={() => handleRequest(node)}
+          >
+            View
+          </CustomButton>
         </TableCell>
       </TableRow>
     )
@@ -64,50 +49,94 @@ export default class CheckingIdentity extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [
-        {
-          address: '0x1234',
-          fullName: "Thanh Tung",
-          located: "HCM",
-          email: "123123",
-          privateData: "95c5c7a39cab25f631eaff1e0c35ab15d9be28c55187cf0d2cc8bcb1bfe5532287536791417f7869a0469162",
-          hashImage: "QmRL3xaeSkfFZmB3ewT87y6FxWruiYV7arK4T9LyXY4WUS",
-          serectKey: "Fmotgzhme7eAKSV1Q+R6SvLhLPBgsixnYO/tbYirxc578KjC3vX8CyAp3LarFM87wHXq1xRufBTDV2v6m5YbcaG2OPS0ndFWAXmvemNEMg6smkYnrrN31TVlwd3uRsuk5ViFWVeert57lroHoy+COFzHmf/o+Lfz3NO49LZOZX8=",
-          status: 'pending'
-        },
-        {
-          address: '0x1456',
-          fullName: 'NVB',
-          status: 'success'
-        },
-        {
-          address: '0x1789',
-          fullName: 'NVC',
-          status: 'failed'
-        },
-        {
-          address: '0x1334',
-          fullName: 'NVD',
-          status: 'confirming'
-        }
-      ],
+      data: [],
       isOpenRequest: false,
       isOpenView: false,
-      isLoading: false,
-      dataPicked: {}
+      isLoading: true,
+      dataUser: {},
+      web3: null,
+      account: null,
+      contract: null
     }
     this.fileInput = React.createRef();
+
   }
+
+  componentDidMount = async () => {
+    try {
+      // Get network provider and web3 instance.
+      const web3 = await getWeb3();
+      // Use web3 to get the user's accounts.
+      const accounts = await web3.eth.getAccounts();
+      // Get the contract instance.
+      const networkId = await web3.eth.net.getId();
+      const deployedNetwork = Identity.networks[networkId];
+      const instance = new web3.eth.Contract(
+        Identity.abi,
+        deployedNetwork && deployedNetwork.address
+      );
+
+      // Set web3, accounts, and contract to the state, and then proceed with an
+      // example of interacting with the contract's methods.
+      this.setState({
+        web3,
+        account: accounts[0],
+        contract: instance
+      }, () => {
+        this.loadAccountInfo()
+      });
+      window.ethereum.on("accountsChanged", () => {
+        window.location.reload();
+      });
+    } catch (error) {
+      // Catch any errors for any of the above operations.
+      alert(
+        `Failed to load web3, account, or contract. Check console for details.`
+      );
+      console.error(error);
+    }
+  };
+
+  loadAccountInfo = () => {
+    this.getUser()
+  };
+
   handleShowInfor = (node_address) => {
     console.log('handle show infor', node_address)
     this.handleModal('isOpenView')
   }
 
-  handleRequest = (node) => {
-    this.setState({
-      dataPicked: node
+  handleRequest = (user_address) => {
+    this.showInfoUser(user_address).then(res => {
+      this.setState({
+        dataUser: res
+      }, () => {
+        this.handleModal('isOpenRequest')
+      })
     })
-    this.handleModal('isOpenRequest')
+  }
+
+  getUser = () => {
+    const { web3, account, contract } = this.state
+    contract.methods.getUsers().call({
+      from: account
+    }).then(res => {
+      this.setState({
+        data: res,
+        isLoading: false
+      })
+    })
+  }
+
+  showInfoUser = (user_address) => {
+    const { contract, account } = this.state
+    return new Promise(resolve => {
+      contract.methods.getIdentity(user_address).call({
+        from: account
+      }).then(res => {
+        resolve(res)
+      })
+    })
   }
 
   handleModal = (name) => {
@@ -123,57 +152,8 @@ export default class CheckingIdentity extends Component {
     })
   }
 
-  privateKeyData = async (privateKey) => {
-    const { dataPicked } = this.state
-
-    this.setState({
-      isLoading: true
-    })
-
-    let data = _.cloneDeep(dataPicked)
-    // get secrect key
-    let secrectKey = decryptRSA(Buffer.from(data.serectKey, 'base64'), privateKey).toString()
-
-    // encrypt data
-    const keyPrivateData = ['hashImage', 'privateData']
-    let privateData = ''
-    let imageArray = []
-    let publicData = {}
-    try {
-      for (var key in data) {
-        if (!_.includes(keyPrivateData, key)) {
-          publicData[key] = data[key]
-        }
-      }
-      privateData = decryptText(data.privateData, secrectKey)
-      // decrypt image
-      await callGetIPFS(data.hashImage).then(res => {
-        imageArray = this.decryptImageData(res.data, secrectKey)
-        console.log(privateData)
-        this.setState({
-          imageArray,
-          isLoading: false,
-          // openPreview: true,
-        })
-      })
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  decryptImageData = (imageEncrypted, secrectKey) => {
-
-    let dataEncryptedImage = []
-    _.map(imageEncrypted, encryptedImage => {
-      dataEncryptedImage.push(
-        decryptImage(encryptedImage.data, secrectKey)
-      )
-    })
-    return dataEncryptedImage
-  }
-
   render() {
-    let { data, isOpenRequest, isOpenView, isLoading } = this.state
+    let { data, isOpenRequest, isOpenView, isLoading, dataUser } = this.state
     const classes = makeStyles(theme => ({
       root: {
         width: '100%',
@@ -191,15 +171,13 @@ export default class CheckingIdentity extends Component {
         }
         {
           !isLoading && <div className='card'>
-            <div className='card-header' >234</div>
+            <div className='card-header'>234</div>
             <div className='card-body' style={{ padding: '0px' }}>
               <Paper className={classes.root}>
                 <Table className={classes.table}>
                   <TableHead>
                     <TableRow>
                       <TableCell>Address</TableCell>
-                      <TableCell align='right'>Name</TableCell>
-                      <TableCell align='right'>Status</TableCell>
                       <TableCell align='right'>Action</TableCell>
                     </TableRow>
                   </TableHead>
@@ -212,6 +190,7 @@ export default class CheckingIdentity extends Component {
                     {
                       isOpenRequest && <RequestModal
                         isOpen={isOpenRequest}
+                        dataUser={dataUser}
                         fileInput={this.fileInput}
                         handleModal={() => this.handleModal('isOpenRequest')}
                         privateKeyData={this.privateKeyData}

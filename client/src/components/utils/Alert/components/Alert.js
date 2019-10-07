@@ -24,9 +24,9 @@ import 'react-toastify/dist/ReactToastify.css'
 // }
 toast.configure()
 
-export default function Alert ({ data, type = 'error' }) {
+export default function Alert ({ data }) {
   return (
-    toast[type](data.content, {
+    toast[data.type](data.content, {
     position: data.position,
     autoClose: 3000,
     hideProgressBar: false,

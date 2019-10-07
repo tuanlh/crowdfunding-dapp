@@ -1,0 +1,14 @@
+.request-modal {
+  .required {
+    color: red;
+  }
+  .success {
+    color: blue;
+  }
+  .failed {
+    color: red;
+  }
+  .pending {
+    color: green;
+  }
+}
