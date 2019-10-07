@@ -1,7 +1,7 @@
 pragma solidity ^0.5;
 
 contract Identity {
-    enum VerifyStatus {none, pending, verified, reject}
+    enum VerifyStatus {none, pending, verified, rejected}
 
     struct PersonalData {
         string name;
@@ -128,7 +128,8 @@ contract Identity {
 
     /// @notice This function for verifier to verify an identity
     /// @param _user is address of user
-    function verify(address _user) public onlyVerifier() {
+    /// @param _status is status include `true` is verified and `false` is rejected
+    function verify(address _user, bool _status) public onlyVerifier() {
         require(
             data[msg.sender].status == VerifyStatus.pending,
             "User that you verifiy must be have data"
@@ -139,7 +140,7 @@ contract Identity {
             "User must be request you"
         );
 
-        data[_user].status = VerifyStatus.verified;
+        data[_user].status = _status ? VerifyStatus.verified : VerifyStatus.rejected;
         counter[msg.sender] -= 1;
     }
 
@@ -186,6 +187,12 @@ contract Identity {
             }
         }
         return result;
+    }
+
+    /// @notice Get list all verifiers
+    /// @return array of verifier's addresses
+    function getAllVerifiers() public view returns (address[] memory) {
+        return verifiers;
     }
 
     /// @notice Check identity of an address is verified
