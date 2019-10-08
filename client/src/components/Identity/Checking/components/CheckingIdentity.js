@@ -12,7 +12,6 @@ import Identity from "../../../../contracts/Identity.json";
 // import Typography from '@material-ui/core/Typography';
 import CustomButton from '../childs/CustomButton'
 import RequestModal from '../childs/RequestModal';
-import ViewInfoModal from '../childs/ViewInfoModal';
 
 import { backgrimageView, backgrimageReq } from '../moudles/const'
 
@@ -51,7 +50,6 @@ export default class CheckingIdentity extends Component {
     this.state = {
       data: [],
       isOpenRequest: false,
-      isOpenView: false,
       isLoading: true,
       dataUser: {},
       web3: null,
@@ -59,11 +57,12 @@ export default class CheckingIdentity extends Component {
       contract: null
     }
     this.fileInput = React.createRef();
-
   }
 
   componentDidMount = async () => {
     try {
+      const { account } = this.state
+      if(!_.isEmpty(account)) return
       // Get network provider and web3 instance.
       const web3 = await getWeb3();
       // Use web3 to get the user's accounts.
@@ -101,15 +100,10 @@ export default class CheckingIdentity extends Component {
     this.getUser()
   };
 
-  handleShowInfor = (node_address) => {
-    console.log('handle show infor', node_address)
-    this.handleModal('isOpenView')
-  }
-
   handleRequest = (user_address) => {
     this.showInfoUser(user_address).then(res => {
       this.setState({
-        dataUser: res
+        dataUser: {...res, user_address}
       }, () => {
         this.handleModal('isOpenRequest')
       })
@@ -140,7 +134,6 @@ export default class CheckingIdentity extends Component {
   }
 
   handleModal = (name) => {
-    console.log('modal')
     this.setState({
       [name]: !this.state[name]
     })
@@ -152,8 +145,48 @@ export default class CheckingIdentity extends Component {
     })
   }
 
+  handleVerifiedUser = (action) => {
+    const { contract, account, dataUser } = this.state
+    this.setState({
+      isLoading: true
+    })
+    contract.methods.verify(dataUser.user_address, action).send({
+      from: account
+    }).on('transactionHash', hash => {
+      if (hash !== null) {
+        const urlEtherum = 'https://ropsten.etherscan.io/tx/'
+        // show pop up information
+        window.open(urlEtherum + hash)
+        this.handleTransactionReceipt(hash)
+        this.setState({
+          isLoading: false
+        })
+      }
+    }).on('error', err => {
+      if (err !== null) {
+        console.log('Error' + err)
+        // this.setState({ isProcessing: false });
+        // this.recaptcha.reset();
+      }
+    })
+  }
+
+  handleTransactionReceipt = async (hash) => {
+    const { web3 } = this.state;
+    let receipt = null;
+    while (receipt === null) {
+      receipt = await web3.eth.getTransactionReceipt(hash);
+    }
+
+    if (receipt.status === true) {
+      console.log('---Success---')
+    } else {
+      console.log('--Failed---')
+    }
+  }
+
   render() {
-    let { data, isOpenRequest, isOpenView, isLoading, dataUser } = this.state
+    let { data, isOpenRequest, isLoading, dataUser } = this.state
     const classes = makeStyles(theme => ({
       root: {
         width: '100%',
@@ -194,12 +227,7 @@ export default class CheckingIdentity extends Component {
                         fileInput={this.fileInput}
                         handleModal={() => this.handleModal('isOpenRequest')}
                         privateKeyData={this.privateKeyData}
-                      />
-                    }
-                    {
-                      isOpenView && <ViewInfoModal
-                        isOpen={isOpenView}
-                        handleModal={() => this.handleModal('isOpenView')}
+                        handleVerifiedUser={this.handleVerifiedUser}
                       />
                     }
                   </TableBody>

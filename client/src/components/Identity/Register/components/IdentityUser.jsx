@@ -159,6 +159,9 @@ export default class IdentityUser extends Component {
       this.showError("Password not match!", "bottom-center");
       return;
     } else {
+      this.setState({
+        isLoading: true
+      });
       // private data need to encrypt
       // includes: ID card number, Phone number, ID Image, Email
       const keyPrivateData = ["idNumber", "phoneNumber", 'email'];
@@ -243,9 +246,6 @@ export default class IdentityUser extends Component {
   }
 
   sendDataToBlockChain = (data) => {
-    this.setState({
-      isLoading: true
-    });
     const { contract, account } = this.state;
     contract.methods.registerIdentity(
       data.fullName,
