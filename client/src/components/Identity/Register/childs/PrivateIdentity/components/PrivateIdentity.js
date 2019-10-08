@@ -1,6 +1,10 @@
 import React, { Component, Fragment } from 'react';
 import { TextField } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
 import { makeStyles } from '@material-ui/core/styles';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import RemoveRedEyeOutlinedIcon from '@material-ui/icons/RemoveRedEyeOutlined'
@@ -54,8 +58,29 @@ class PrivateIdentity extends Component {
             onChange={handleChange}
           />
         </div>
+        <div className='position-relative form-group'>
+          <FormControl style={{ width: '100%' }} required>
+            <InputLabel htmlFor="age-required">Age</InputLabel>
+            <Select
+              value={''}
+              onChange={handleChange}
+              name="age"
+              inputProps={{
+                id: 'age-required',
+              }}
+            // className={classes.selectEmpty}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={10}>Ten</MenuItem>
+              <MenuItem value={20}>Twenty</MenuItem>
+              <MenuItem value={30}>Thirty</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
         <div className='position-relative form-group'
-          style={{ 
+          style={{
             margin: '30px 0px 0px',
             textAlign: 'center'
           }}

@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from "react";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import TextField from "@material-ui/core/TextField";
 import { faIdCard } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,7 +9,6 @@ import {
   VpnKey,
   ContactPhone
 } from "@material-ui/icons/";
-import InputAdornment from "@material-ui/core/InputAdornment";
 import Button from "@material-ui/core/Button";
 import _ from "lodash";
 import Loading from "../../../../../utils/Loading2";
@@ -76,7 +74,7 @@ class RequestModal extends Component {
     ).toString();
 
     // encrypt data
-    const keyPrivateData = ["hashImage", "privateKey", "email"];
+    // const keyPrivateData = ["hashImage", "privateKey", "email"];
     let privateDataUser = "";
     let imageArray = [];
     try {

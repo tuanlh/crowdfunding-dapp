@@ -14,9 +14,8 @@ import {
   encryptText,
   encryptImage,
   encryptRSA,
-  decryptRSA
 } from "../../../utils/modules/crypto";
-import { callPostIPFS, callGetIPFS } from "../../../utils/modules/IPFS";
+import { callPostIPFS } from "../../../utils/modules/IPFS";
 
 import "../assets/signup.scss";
 
@@ -86,7 +85,12 @@ export default class IdentityUser extends Component {
   };
 
   loadAccountInfo = async () => {
-    const { web3, account, contract } = this.state;
+    const { account, contract } = this.state;
+    contract.methods.getVerifierAvailable().call({
+      from: account
+    }).then(res => {
+      console.log(res)
+    })
     this.setState({ isLoading: false });
   };
 

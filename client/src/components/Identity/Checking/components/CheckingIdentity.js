@@ -13,11 +13,11 @@ import Identity from "../../../../contracts/Identity.json";
 import CustomButton from '../childs/CustomButton'
 import RequestModal from '../childs/RequestModal';
 
-import { backgrimageView, backgrimageReq } from '../moudles/const'
+import { backgrimageReq } from '../moudles/const'
 
 import Loading from "../../../utils/Loading2/index";
 
-const TableChild = ({ data, handleShowInfor, handleRequest }) => {
+const TableChild = ({ data, handleRequest }) => {
   let result = []
   result = data.map((node, index) => {
     return (
@@ -111,7 +111,7 @@ export default class CheckingIdentity extends Component {
   }
 
   getUser = () => {
-    const { web3, account, contract } = this.state
+    const { account, contract } = this.state
     contract.methods.getUsers().call({
       from: account
     }).then(res => {
@@ -217,7 +217,6 @@ export default class CheckingIdentity extends Component {
                   <TableBody>
                     <TableChild
                       data={data}
-                      handleShowInfor={this.handleShowInfor}
                       handleRequest={this.handleRequest}
                     />
                     {
