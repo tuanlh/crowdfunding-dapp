@@ -131,7 +131,7 @@ contract Identity {
     /// @param _status is status include `true` is verified and `false` is rejected
     function verify(address _user, bool _status) public onlyVerifier() {
         require(
-            data[msg.sender].status == VerifyStatus.pending,
+            data[_user].status == VerifyStatus.pending,
             "User that you verifiy must be have data"
         );
 
