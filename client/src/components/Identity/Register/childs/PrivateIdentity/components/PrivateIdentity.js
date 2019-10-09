@@ -8,6 +8,7 @@ import FormControl from '@material-ui/core/FormControl';
 import { makeStyles } from '@material-ui/core/styles';
 import AttachFileIcon from '@material-ui/icons/AttachFile';
 import RemoveRedEyeOutlinedIcon from '@material-ui/icons/RemoveRedEyeOutlined'
+import _ from 'lodash'
 class PrivateIdentity extends Component {
   render() {
     const classes = makeStyles(theme => ({
@@ -18,7 +19,7 @@ class PrivateIdentity extends Component {
         display: 'none',
       },
     }));
-    const { handleChange, fileInput, handleFileUpload, handleModal } = this.props
+    const { handleChange, fileInput, handleFileUpload, handleModal, listVerifier, data } = this.props
     return (
       <Fragment>
         <div className='position-relative form-group'>
@@ -60,22 +61,27 @@ class PrivateIdentity extends Component {
         </div>
         <div className='position-relative form-group'>
           <FormControl style={{ width: '100%' }} required>
-            <InputLabel htmlFor="age-required">Age</InputLabel>
+            <InputLabel htmlFor="verifier-required">Address Verifier</InputLabel>
             <Select
-              value={''}
+              value={data.pickVerifier || ''}
               onChange={handleChange}
-              name="age"
+              name="pickVerifier"
               inputProps={{
-                id: 'age-required',
+                id: 'verifier-required',
               }}
-            // className={classes.selectEmpty}
             >
               <MenuItem value="">
                 <em>None</em>
               </MenuItem>
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
+              {
+                _.map(listVerifier, verifier => {
+                  return (
+                    <MenuItem key={verifier.address} value={verifier}>
+                      {verifier.address}
+                    </MenuItem>
+                  )
+                })
+              }
             </Select>
           </FormControl>
         </div>

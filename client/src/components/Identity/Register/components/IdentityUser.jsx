@@ -25,14 +25,7 @@ import Alert from "../../../utils/Alert";
 import PrivateIdentity from "../childs/PrivateIdentity";
 import PublicIdentity from "../childs/PublicIdentity";
 import PreviewImage from "../childs/PreviewImage";
-const publicKey = `
------BEGIN PUBLIC KEY-----
-MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgHkC+ACofieuCxMdlnIKioUkJDsq
-3lboRGsaLml5tpANYP77hMdhY0/tBKPWc+IaXdLki7b2jttosHO7pRSjz/4CuIlO
-veDhMR26erEu0Z+N1Noo6Ey/ZzWll8b6HbbudVR0cwVaKYv09/2dwCssPBl1rA4q
-RjUz13I6fISeYcA1AgMBAAE=
------END PUBLIC KEY-----`;
-const addressVerifier = '0x93598a39777ED4B4Af3Ac7429d123Ca3bE9658C5'
+import getAllVerifier from '../../../utils/modules/getAllVerifier'
 
 export default class IdentityUser extends Component {
   constructor(props) {
@@ -47,7 +40,7 @@ export default class IdentityUser extends Component {
       openModal: false,
       web3: null,
       account: null,
-      contract: null
+      contract: null,
     };
     this.fileInput = React.createRef();
   }
@@ -86,12 +79,18 @@ export default class IdentityUser extends Component {
 
   loadAccountInfo = async () => {
     const { account, contract } = this.state;
-    contract.methods.getVerifierAvailable().call({
-      from: account
-    }).then(res => {
-      console.log(res)
+    getAllVerifier(contract, account).then(res => {
+      let listVerifier = []
+      _.map(res, node => {
+        if(node.task <= 10) {
+          listVerifier.push(node)
+        }
+      })
+      this.setState({
+        isLoading: false,
+        listVerifier
+      })
     })
-    this.setState({ isLoading: false });
   };
 
   validateBeforeConfirm = () => {
@@ -177,7 +176,7 @@ export default class IdentityUser extends Component {
         }
       }
       // encrypt password of user
-      let serectKey = encryptRSA(Buffer.from(data.rePassword), publicKey);
+      let serectKey = encryptRSA(Buffer.from(data.rePassword), data.pickVerifier.publicKey);
       // encrypt private data
       let encryptData = encryptText(
         JSON.stringify(privateData),
@@ -209,16 +208,17 @@ export default class IdentityUser extends Component {
     }
   };
   getPublicKeyVerifier = () => {
-    const { contract, account } = this.state;
-    contract.methods.getPubKey(addressVerifier).call({
+    const { contract, account, data } = this.state;
+    contract.methods.getPubKey(data.pickVerifier.address).call({
       from: account
     }).then(res => {
       console.log(res)
     })
   }
   addVerifier = () => {
-    const { contract, account } = this.state;
-    contract.methods.addVerifier(addressVerifier, publicKey
+    const { contract, account, data } = this.state;
+    let pickVerifier = data.pickVerifier
+    contract.methods.addVerifier(pickVerifier.address, pickVerifier.publicKey
     ).send({
       from: account
     }).on('transactionHash', hash => {
@@ -257,7 +257,7 @@ export default class IdentityUser extends Component {
       this.toTimestamp(data.dob),
       data.hash,
       data.serectKey,
-      addressVerifier
+      data.pickVerifier.address
     ).send({
       from: account
     }).on('transactionHash', hash => {
@@ -328,7 +328,9 @@ export default class IdentityUser extends Component {
       isLoading,
       imageArray,
       isError,
-      openModal
+      openModal,
+      listVerifier,
+      data
     } = this.state;
     return (
       <Fragment>
@@ -367,6 +369,8 @@ export default class IdentityUser extends Component {
                       handleFileUpload={this.handleFileUpload}
                       fileInput={this.fileInput}
                       handleModal={this.handleModal}
+                      listVerifier={listVerifier}
+                      data={data}
                     />
                   </Box>
                   {

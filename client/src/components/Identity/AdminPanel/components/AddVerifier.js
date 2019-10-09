@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import { Card } from '@material-ui/core/';
+import { Card, CardContent } from '@material-ui/core/';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import Chip from '@material-ui/core/Chip';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import _ from 'lodash'
 export default class AddVerifier extends Component {
   constructor(props) {
@@ -18,7 +20,7 @@ export default class AddVerifier extends Component {
     let reader = new FileReader();
     reader.onload = e => {
       this.setState(prevState => ({
-        dataVerifier : {
+        dataVerifier: {
           ...prevState.dataVerifier,
           publicKey: e.target.result
         }
@@ -30,9 +32,19 @@ export default class AddVerifier extends Component {
   handleAddVerifier = () => {
     const { dataVerifier } = this.state
     const { handleAddVerifier } = this.props
-    if(_.isEmpty(dataVerifier.address) || _.isEmpty(dataVerifier.publicKey))
+    if (_.isEmpty(dataVerifier.address) || _.isEmpty(dataVerifier.publicKey))
       return
     handleAddVerifier(dataVerifier)
+  }
+
+  handlePublicKey = (e) => {
+    let value = e.target.value
+    this.setState(prevState => ({
+      dataVerifier: {
+        ...prevState.dataVerifier,
+        publicKey: value
+      }
+    }))
   }
 
   handleAddAddress = (e) => {
@@ -49,37 +61,46 @@ export default class AddVerifier extends Component {
     const { dataVerifier } = this.state
     return (
       <Fragment>
-        <Card style={{ display: 'flex' }}>
-          <TextField
-            label='Address'
-            id='address'
-            value={dataVerifier.address}
-            onChange={this.handleAddAddress}
-            className='form-control'
-            margin='normal'
-          />
-          <TextField
-            label='Public Key'
-            id='publicKey'
-            value={dataVerifier.publicKey}
-            className='form-control'
-            margin='normal'
-          />
-          <div style={{ display: 'flex', marginTop: '32px' }}>
-            <input
-              id='image-file'
-              type='file'
-              onChange={this.handleFileUpload}
+        <Card className='card-box-title'>
+          <Chip variant="outlined" size="small" icon={<AddIcon />} label='Add Verifier'/>
+          <div style={{ display: 'flex' }}>
+            <TextField
+              label='Address'
+              id='address'
+              value={dataVerifier.address}
+              onChange={this.handleAddAddress}
+              className='form-control text-field-box'
+              margin='normal'
             />
-          </div>
-          <Button
+            <TextField
+              label='Public Key'
+              id='publicKey'
+              value={dataVerifier.publicKey}
+              onChange={this.handlePublicKey}
+              className='form-control text-field-box'
+              margin='normal'
+            />
+            <div style={{ display: 'flex', marginTop: '32px' }} className='text-field-box'>
+              <input
+                id='image-file'
+                type='file'
+                onChange={this.handleFileUpload}
+              />
+            </div>
+            {/* <Button
             variant='outlined'
             color='primary'
             size='medium'
             onClick={this.handleAddVerifier}
           >
             Add
-          </Button>
+          </Button> */}
+            <div className='text-field-box'>
+              <Fab color="primary" aria-label="add" onClick={this.handleAddVerifier} size='small' style={{ marginTop: '5px' }}>
+                <AddIcon />
+              </Fab>
+            </div>
+          </div>
         </Card>
       </Fragment >
     );

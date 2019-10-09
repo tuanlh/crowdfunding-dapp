@@ -7,10 +7,12 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import _ from 'lodash'
 
+import getAllVerifier from '../../../utils/modules/getAllVerifier'
 import Loading from '../../../utils/Loading2';
 import getWeb3 from "../../../../utils/getWeb3";
 import Identity from "../../../../contracts/Identity.json";
 import AddVerifier from './AddVerifier';
+import './AdminPanel.scss'
 export default class AdminPanel extends Component {
   constructor(props) {
     super(props);
@@ -57,42 +59,23 @@ export default class AdminPanel extends Component {
   };
   loadAccountInfo = () => {
     const { contract, account } = this.state;
-    contract.methods.getAllVerifiers().call({
+    contract.methods.isOwner().call({
       from: account
     }).then(res => {
-      // new Promise(resolve => {
-      //   resolve()
-      // })
-      this.getPublicKey(res)
-    })
-    this.setState({
-      isLoading: false
-    })
-  }
-  getPublicKey = (data) => {
-    let p1 = _.map(data, node => {
-      return this.temp(node)
-    })
-    Promise.all(p1).then(res => {
-      this.setState({
-        listAddressVerifier: res,
-        isLoading: false
-      })
-    })
-  }
-  temp = (node) => {
-    const { contract, account } = this.state;
-    return new Promise(resolve => {
-      contract.methods.getPubKey(node).call({
-        from: account
-      }).then(res => {
-        resolve({
-          address: node,
-          publicKey: res
+      if(res) {
+        getAllVerifier(contract, account).then(res => {
+          this.setState({
+            listAddressVerifier: res,
+            isLoading: false
+          })
         })
-      })
+      }
+      else {
+        // deny access
+      }
     })
   }
+
   renderData = () => {
     const { listAddressVerifier } = this.state
     if(_.isEmpty(listAddressVerifier)) return
@@ -102,6 +85,7 @@ export default class AdminPanel extends Component {
           {verifier.address}
         </TableCell>
         <TableCell align="right">{verifier.publicKey}</TableCell>
+        <TableCell align="right">{verifier.task}</TableCell>
       </TableRow>
     ))
     return result
@@ -148,7 +132,7 @@ export default class AdminPanel extends Component {
         }
         {
           !isLoading &&
-          <Grid container spacing={2}>
+          <Grid container spacing={3} className='admin-panel'>
             <Grid item xs={12}>
               <AddVerifier handleAddVerifier={this.handleAddVerifier} />
             </Grid>
@@ -159,6 +143,7 @@ export default class AdminPanel extends Component {
                     <TableRow>
                       <TableCell>Address</TableCell>
                       <TableCell align="right">Public Key</TableCell>
+                      <TableCell align="right">Task Count</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
