@@ -17,7 +17,7 @@ contract Identity {
     }
 
     mapping (address => PersonalData) userInfo;
-    mapping (address => bool) isVerifier;
+    mapping (address => bool) isVerifyRight;
     mapping (address => VerifierData) verifierInfo;
     mapping (address => address[]) verifier2users;
     address owner;
@@ -41,7 +41,7 @@ contract Identity {
 
     modifier onlyVerifier() {
         require(
-            isVerifier[msg.sender] == true,
+            isVerifyRight[msg.sender] == true,
             "Only verifier");
         _;
     }
@@ -82,7 +82,7 @@ contract Identity {
         );
 
         require(
-            isVerifier[_verifier] == true,
+            isVerifyRight[_verifier] == true,
             "Address verifier is incorrect");
         
         require(
@@ -166,12 +166,12 @@ contract Identity {
     /// @param _pubKey is public key of verifier
     function addVerifier(address _verifier, string memory _pubKey) public onlyOwner() {
         require(
-            isVerifier[_verifier] == false,
+            isVerifyRight[_verifier] == false,
             "This address have already added"
         );
         verifierInfo[_verifier] = VerifierData(_pubKey, 0);
         verifiers.push(_verifier);
-        isVerifier[_verifier] = true;
+        isVerifyRight[_verifier] = true;
     }
 
     /// @notice Get list all verifiers
@@ -202,4 +202,24 @@ contract Identity {
         return verifier2users[msg.sender];
     }
 
+    /// @notice Function is used for other contract
+    /// @param _verifier is address of user that you want to check
+    /// @return `true` if address is verifier
+    function isVerifier(address _verifier) public view returns(bool) {
+        return isVerifyRight[_verifier];
+    }
+
+    /// @notice Change public key of verifier
+    /// @param _verifier is address of verifier
+    /// @param _newPubKey is new public key
+    function changePubKey (address _verifier, string memory _newPubKey)
+    public onlyOwner {
+        verifierInfo[_verifier].pubKey = _newPubKey;
+    }
+
+    /// @notice Function is used to check if owner
+    /// @return `true` if sender is owner of contract
+    function isOwner() public onlyOwner view returns(bool) {
+        return true;
+    }
 }
