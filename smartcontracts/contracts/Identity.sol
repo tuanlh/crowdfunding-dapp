@@ -219,7 +219,7 @@ contract Identity {
 
     /// @notice Function is used to check if owner
     /// @return `true` if sender is owner of contract
-    function isOwner() public onlyOwner view returns(bool) {
+    function isOwner() public onlyOwner() view returns(bool) {
         return true;
     }
 }
