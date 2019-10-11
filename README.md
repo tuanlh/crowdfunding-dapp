@@ -1,5 +1,5 @@
 # Blockchain-based crowdfunding platform
-Live demo at: http://akiz.ga:3000
+Live demo at: http://mefu.tech:3000
 ## System architecture
 System include services (with folders): 
 - **client** (front-end): we use ReactJS.
