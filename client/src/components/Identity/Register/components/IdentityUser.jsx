@@ -358,7 +358,7 @@ export default class IdentityUser extends Component {
             <Grid item xs={6}>
               <Card>
                 <CardContent>
-                  <Typography>Form dang ky thong tin </Typography>
+                  <Typography>Information Registration Form</Typography>
                   <hr />
                   <Box>
                     <PublicIdentity handleChange={this.handleChange} />

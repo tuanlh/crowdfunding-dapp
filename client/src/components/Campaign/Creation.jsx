@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Campaigns from '../../contracts/Campaigns.json';
+import Identity from '../../contracts/Identity.json';
 import { Row, Col, Card, Alert, Form, Button, Spinner } from 'react-bootstrap';
 import { Keccak } from 'sha3';
 import ReCAPTCHA from 'react-google-recaptcha'
@@ -39,7 +40,8 @@ class Creation extends Component {
     web3: null,
     account: null,
     contract: null,
-    api_db: null
+    api_db: null,
+    contractIdentity: null
   };
 
   componentDidMount = async () => {
@@ -57,10 +59,23 @@ class Creation extends Component {
         Campaigns.abi,
         deployedNetwork && deployedNetwork.address,
       );
+      const deployedNetworkIdentity = Identity.networks[networkId];
+      const instanceIdentity = new web3.eth.Contract(
+        Identity.abi,
+        deployedNetworkIdentity && deployedNetworkIdentity.address,
+      );
       const api_db_default = 'http://' + window.location.hostname + ':8080/';
       const api_db = !hasOwnProperty.call(process.env, 'REACT_APP_STORE_CENTRALIZED_API') || process.env.REACT_APP_STORE_CENTRALIZED_API === ''
                       ? api_db_default : process.env.REACT_APP_STORE_CENTRALIZED_API;
-      this.setState({ web3, account: accounts[0], contract: instance, loading: false, api_db });
+      this.setState({ web3, account: accounts[0], contract: instance, loading: false, api_db, contractIdentity: instanceIdentity }, () => {
+        const { contractIdentity, account } = this.state;
+        console.log(account)
+        contractIdentity.methods.isVerifier(account).call({
+          from: account
+        }).then(res => {
+          console.log(res)
+        })
+      });
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -137,6 +152,9 @@ class Creation extends Component {
   };
 
   handleClick = () => {
+
+    return
+    // if(contract.methods.)
     if (this.state.isValidName &&
       this.state.isValidDesc &&
       this.state.isValidShortDesc &&
