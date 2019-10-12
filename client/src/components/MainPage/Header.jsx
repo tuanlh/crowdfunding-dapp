@@ -1,62 +1,91 @@
-import React, {Component} from 'react'
-import { Navbar, Form, Button, Nav } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { NavLink } from 'react-router-dom';
+import React, { Component, Fragment } from "react";
+import { Navbar, Form, Button, Nav } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { NavLink } from "react-router-dom";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import Typography from "@material-ui/core/Typography";
+import IconButton from "@material-ui/core/IconButton";
+import { makeStyles } from "@material-ui/core/styles";
+import clsx from "clsx";
 
-
-class Header extends Component {
-  
-  render() {
-    const links = [
-      {
-        path: '/',
-        icon: 'home',
-        text: 'Home'
-      },
-      {
-        path: '/wallet',
-        icon: 'wallet',
-        text: 'Wallet'
-      },
-      {
-        path: '/feature',
-        icon: 'list-alt',
-        text: 'Features'
-      },
-      {
-        path: '/help',
-        icon: 'question-circle',
-        text: 'Help'
-      },
-      {
-        path: '/about',
-        icon: 'info-circle',
-        text: 'About'
-      }
-    ]
-    return (
-      <Navbar bg="dark" variant="dark" expand="lg">
-        <Navbar.Brand>Crowdfunding DApp</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            {links.map((link, i) => (
-              <Nav.Item 
-                key={i}>
-                <NavLink to={link.path} className="nav-link" activeClassName="active" exact={true}>
-                  <FontAwesomeIcon icon={link.icon} /> {link.text}
-                </NavLink>
-              </Nav.Item>
-            ))}
-          </Nav>
-          <Form inline>
-            <Form.Control type="text" placeholder="Search" className="mr-sm-2" />
-            <Button variant="outline-success">Search</Button>
-          </Form>
-        </Navbar.Collapse>
-      </Navbar>
-    );
+import Badge from "@material-ui/core/Badge";
+import Link from "@material-ui/core/Link";
+import MenuIcon from "@material-ui/icons/Menu";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import MaterialDrawer from './HeaderChilds/MaterialDrawer'
+const drawerWidth = 240;
+const useStyles = makeStyles(theme => ({
+  toolbar: {
+    paddingRight: 24 // keep right padding when drawer closed
+  },
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    })
+  },
+  appBarShift: {
+    marginLeft: drawerWidth,
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(["width", "margin"], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.enteringScreen
+    })
+  },
+  menuButton: {
+    marginRight: 28,
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: -20
+    }
+  },
+  menuButtonHidden: {
+    display: "none"
+  },
+  title: {
+    flexGrow: 1
   }
+}));
+function Header() {
+  const classes = useStyles();
+  const [open, setOpen] = React.useState(false);
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+  return (
+    <Fragment>
+      <AppBar
+        position="absolute"
+        className={clsx(classes.appBar, open && classes.appBarShift)}
+      >
+        <Toolbar className={classes.toolbar}>
+          <IconButton
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+            >
+              <MenuIcon />
+            </IconButton>
+          <Typography
+            component="h1"
+            variant="h6"
+            color="inherit"
+            noWrap
+            className={classes.title}
+          >
+            Crowdfunding DApp
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <MaterialDrawer handleDrawerClose={handleDrawerClose} open={open}/>
+    </Fragment>
+  );
 }
 
 export default Header;

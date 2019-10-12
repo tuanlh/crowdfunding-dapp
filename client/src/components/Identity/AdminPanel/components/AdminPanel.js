@@ -15,18 +15,19 @@ import AddVerifier from './AddVerifier';
 import './AdminPanel.scss'
 export default class AdminPanel extends Component {
   constructor(props) {
+    console.log('asd')
     super(props);
     this.state = {
       data: {},
-      web3: null,
-      account: null,
-      contract: null,
+      web3: '',
+      account: '',
+      contract: '',
       isLoading: true,
       listAddressVerifier: []
     }
   }
 
-  componentDidMount = async () => {
+  async componentDidMount() {
     try {
       // Get network provider and web3 instance.
       const web3 = await getWeb3();
@@ -42,7 +43,7 @@ export default class AdminPanel extends Component {
 
       // Set web3, accounts, and contract to the state, and then proceed with an
       // example of interacting with the contract's methods.
-      await this.setState(
+      this.setState(
         { web3, account: accounts[0], contract: instance},
         this.loadAccountInfo
       );

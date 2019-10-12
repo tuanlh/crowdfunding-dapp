@@ -1,20 +1,15 @@
-import React, {Component} from 'react'
-import { Row, Col } from 'react-bootstrap';
+import React from "react";
+import Typography from "@material-ui/core/Typography";
+import Link from "@material-ui/core/Link";
 
-class Footer extends Component {
-  
-  render() {
-    
-    return (
-      <Row className="pt-1">
-        <Col>
-        <div className="bg-dark text-center text-white p-2 mb-2">
-          Blockchain-based Crowdfunding Platform
-        </div>
-        </Col>
-      </Row>
-    );
-  }
+function MaterialFooter({ color = "textSecondary" }) {
+  return (
+    <footer>
+      <Typography variant="body2" color={color} align="center">
+        Blockchain-based Crowdfunding Platform
+      </Typography>
+    </footer>
+  );
 }
 
-export default Footer;
+export default MaterialFooter;
