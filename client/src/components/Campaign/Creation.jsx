@@ -9,7 +9,7 @@ import axios from "axios";
 import { Card, Grid } from "@material-ui/core/";
 //import ReactMarkdown from 'react-markdown';
 import getWeb3 from "../../utils/getWeb3";
-import Loading from "../utils/Loading";
+import Loading from "../utils/Loading2";
 import validate from "url-validator";
 import Helper from "./Create/Helper.js";
 import FormCreate from "./Create/FormCreate.js";

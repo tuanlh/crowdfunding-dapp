@@ -9,13 +9,14 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function Loading() {
+export default function Loading(props) {
   const classes = useStyles();
-
   return (
     <div className="__loading">
       <div className="sweet-loading">
         <CircularProgress className={classes.progress} />
+        <br />
+        {props.text || ''}
       </div>
     </div>
   );

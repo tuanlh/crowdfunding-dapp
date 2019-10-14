@@ -36,7 +36,7 @@ export default class DetailsDescription extends Component {
     const { text, isOpenMarkDown } = this.state;
     return (
       <Fragment>
-        <label className="MuiFormLabel-root">Description</label>
+        <label className="MuiFormLabel-root" style={{ fontSize: '13px' }}>Description</label>
         <div style={{ display: "flex", alignItems: "center" }}>
           <TextareaAutosize
             rows={10}
@@ -54,10 +54,11 @@ export default class DetailsDescription extends Component {
             Preview
           </Button>
         </div>
+        <p className='MuiFormHelperText-root Mui-required'>Min: 250, Max: 10000 characters. You can type as Markdown format.</p>
         <Dialog
           open={isOpenMarkDown}
           onClose={this.handleShowMarkDown}
-          maxWidth={''}
+          maxWidth={false}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
