@@ -9,7 +9,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
 import pink from '@material-ui/core/colors/pink';
-
+import './css/style.scss'
 // import './css/bootstrap.min.css';
 import './fontawesome';
 import ContainerMain from './ContainerMain';

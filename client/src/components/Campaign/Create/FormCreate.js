@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
-import _ from 'lodash'
+import _ from "lodash";
 import {
   Card,
   Grid,
@@ -44,7 +44,19 @@ class FormCreate extends Component {
   }
 
   dataDetailsDecription = e => {
-    console.log(e);
+    let value = e
+    let inputIsError = true
+    if (value.length >= 250 && value.length <= 10000) inputIsError = false;
+    this.setState(prevState => ({
+      data: {
+        ...prevState.data,
+        ['desc']: value
+      },
+      error: {
+        ...prevState.error,
+        ['desc']: inputIsError
+      }
+    }));
   };
 
   handleCaptchaResponseChange = respone => {
@@ -53,33 +65,28 @@ class FormCreate extends Component {
     });
   };
   handleInput = e => {
-    let { error, data } = this.state;
-
     let inputIsError = true;
     let idInput = e.target.id;
     let value = e.target.value.trim();
 
     switch (idInput) {
       case "name":
-        if (value.length >= 30 && value.length <= 300) inputIsError = false
+        if (value.length >= 30 && value.length <= 300) inputIsError = false;
         break;
       case "goal":
         value = parseInt(value);
-        if (value >= 100000 && value <= 1000000000) inputIsError = false
-        break;
-      case "desc":
-        if (value.length >= 250 && value.length <= 10000) inputIsError = false
+        if (value >= 100000 && value <= 1000000000) inputIsError = false;
         break;
       case "short_desc":
-        if (value.length >= 100 && value.length <= 300) inputIsError = false
+        if (value.length >= 100 && value.length <= 300) inputIsError = false;
         break;
       case "thumbnail":
         const url = validate(value);
-        if (url === true) inputIsError = false
+        if (url === value) inputIsError = false;
         break;
       case "time":
         value = parseInt(value);
-        if (value >= 15 && value <= 180) inputIsError = false
+        if (value >= 15 && value <= 180) inputIsError = false;
         break;
       default:
         break;
@@ -101,7 +108,7 @@ class FormCreate extends Component {
   };
 
   render() {
-    const { error } = this.state
+    const { error } = this.state;
     const { classes } = this.props;
     return (
       <Fragment>
@@ -122,7 +129,7 @@ class FormCreate extends Component {
                 margin="normal"
                 type="text"
                 onChange={this.handleInput}
-                error={error['name']}
+                error={error["name"]}
                 className={classes.textField}
                 helperText="Min: 30, Max: 300 characters"
                 required
@@ -135,7 +142,7 @@ class FormCreate extends Component {
                 id="short_desc"
                 placeholder="Enter short description"
                 margin="normal"
-                error={error['short_desc']}
+                error={error["short_desc"]}
                 className={classes.textField}
                 onChange={this.handleInput}
                 inputProps={{ min: "100", max: "300" }}
@@ -149,6 +156,7 @@ class FormCreate extends Component {
                 <DetailsDescription
                   sendToParents={this.dataDetailsDecription}
                   id="desc"
+                  error={error['desc']}
                 />
               </div>
               <TextField
@@ -156,7 +164,7 @@ class FormCreate extends Component {
                 id="thumbnail"
                 placeholder="Enter url of thumbnail image"
                 margin="normal"
-                error={error['thumbnail']}
+                error={error["thumbnail"]}
                 type="url"
                 onChange={this.handleInput}
                 className={classes.textField}
@@ -171,7 +179,7 @@ class FormCreate extends Component {
                 id="goal"
                 placeholder="Enter goal of campaign"
                 type="number"
-                error={error['goal']}
+                error={error["goal"]}
                 inputProps={{ min: "100000", max: "1000000000" }}
                 onChange={this.handleInput}
                 margin="normal"
@@ -187,7 +195,7 @@ class FormCreate extends Component {
                 id="time"
                 placeholder="Enter number of days"
                 margin="normal"
-                error={error['time']}
+                error={error["time"]}
                 type="number"
                 onChange={this.handleInput}
                 inputProps={{ min: "15", max: "180" }}
@@ -216,9 +224,11 @@ class FormCreate extends Component {
                   type="submit"
                   className={classes.button}
                   disabled={
-                    _.filter(error, o => {
-                      return o[Object.keys(o)] == false
-                    }).length !== 0
+                    Object.keys(error).length === 5
+                      ? _.filter(error, o => {
+                          return o === true;
+                        }).length !== 0
+                      : true || _.isEmpty(error)
                   }
                   onClick={e => this.handleSubmitForm(e)}
                 >

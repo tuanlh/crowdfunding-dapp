@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import ReactMarkdown from "react-markdown";
-import _ from 'lodash'
+import _ from "lodash";
 import {
   Button,
   Typography,
@@ -10,6 +10,7 @@ import {
   DialogTitle
 } from "@material-ui/core";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
+import clsx from "clsx";
 
 export default class DetailsDescription extends Component {
   constructor(props) {
@@ -21,9 +22,11 @@ export default class DetailsDescription extends Component {
   }
 
   handleChangeText = e => {
+    const { sendToParents } = this.props;
     this.setState({
       text: e.target.value
     });
+    sendToParents(e.target.value);
   };
 
   handleShowMarkDown = () => {
@@ -34,9 +37,15 @@ export default class DetailsDescription extends Component {
 
   render() {
     const { text, isOpenMarkDown } = this.state;
+    const { error } = this.props;
     return (
       <Fragment>
-        <label className="MuiFormLabel-root" style={{ fontSize: '13px' }}>Description</label>
+        <label
+          className={clsx("MuiFormLabel-root", error && "error")}
+          style={{ fontSize: "13px" }}
+        >
+          Description
+        </label>
         <div style={{ display: "flex", alignItems: "center" }}>
           <TextareaAutosize
             rows={10}
@@ -44,6 +53,7 @@ export default class DetailsDescription extends Component {
             placeholder="Tell me a story"
             value={text}
             onChange={this.handleChangeText}
+            error
             style={{ width: "100%", resize: "vertical" }}
           />
           <Button
@@ -54,7 +64,14 @@ export default class DetailsDescription extends Component {
             Preview
           </Button>
         </div>
-        <p className='MuiFormHelperText-root Mui-required'>Min: 250, Max: 10000 characters. You can type as Markdown format.</p>
+        <p
+          className={clsx(
+            "MuiFormHelperText-root Mui-required",
+            error && "error"
+          )}
+        >
+          Min: 250, Max: 10000 characters. You can type as Markdown format.
+        </p>
         <Dialog
           open={isOpenMarkDown}
           onClose={this.handleShowMarkDown}
@@ -62,16 +79,10 @@ export default class DetailsDescription extends Component {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">
-            Preview
-          </DialogTitle>
+          <DialogTitle id="alert-dialog-title">Preview</DialogTitle>
           <DialogContent>
-            {
-              _.isEmpty(text) && <span>Nothing to preview</span>
-            }
-            {
-              !_.isEmpty(text) && <ReactMarkdown source={text} />
-            }
+            {_.isEmpty(text) && <span>Nothing to preview</span>}
+            {!_.isEmpty(text) && <ReactMarkdown source={text} />}
           </DialogContent>
           <DialogActions>
             <Button onClick={this.handleShowMarkDown} color="primary">
