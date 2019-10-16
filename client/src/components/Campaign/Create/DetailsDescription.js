@@ -53,8 +53,7 @@ export default class DetailsDescription extends Component {
             placeholder="Tell me a story"
             value={text}
             onChange={this.handleChangeText}
-            error
-            style={{ width: "100%", resize: "vertical" }}
+            style={{ width: "100%", resize: "vertical", fontSize: '1em' }}
           />
           <Button
             variant="outlined"

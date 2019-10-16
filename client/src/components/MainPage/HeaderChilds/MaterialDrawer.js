@@ -19,6 +19,7 @@ const useStyles = makeStyles(theme => ({
     ...theme.mixins.toolbar,
   },
   drawerPaper: {
+    zIndex: 1,
     position: 'relative',
     whiteSpace: 'nowrap',
     width: drawerWidth,

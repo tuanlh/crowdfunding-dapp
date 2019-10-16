@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from "react";
-import ReCAPTCHA from "react-google-recaptcha";
-import _ from "lodash";
+import React, { Component, Fragment } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
+import _ from 'lodash';
 import {
   Card,
   Grid,
@@ -10,28 +10,30 @@ import {
   withStyles,
   Typography,
   Button
-} from "@material-ui/core/";
-import validate from "url-validator";
-import { Send } from "@material-ui/icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import DetailsDescription from "./DetailsDescription";
+} from '@material-ui/core/';
+import validate from 'url-validator';
+import { Send } from '@material-ui/icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import DetailsDescription from './DetailsDescription';
+import showNoti from '../../utils/Notification'
 const useStyles = theme => ({
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
     marginTop: theme.spacing(3),
-    width: "100%"
+    width: '100%'
   },
   titleText: {
-    fontWeight: "bold",
-    fontSize: "18px"
+    fontWeight: 'bold',
+    fontSize: '18px'
   },
   centerButton: {
-    textAlign: "center",
+    textAlign: 'center',
     marginTop: theme.spacing(3)
   }
 });
+const INPUT_FIELD = 6
 class FormCreate extends Component {
   constructor(props) {
     super(props);
@@ -68,23 +70,23 @@ class FormCreate extends Component {
     let inputIsError = true;
     let idInput = e.target.id;
     let value = e.target.value.trim();
-
+    // showNoti({ type: 'success', details: '123' })
     switch (idInput) {
-      case "name":
+      case 'name':
         if (value.length >= 30 && value.length <= 300) inputIsError = false;
         break;
-      case "goal":
+      case 'goal':
         value = parseInt(value);
         if (value >= 100000 && value <= 1000000000) inputIsError = false;
         break;
-      case "short_desc":
+      case 'short_desc':
         if (value.length >= 100 && value.length <= 300) inputIsError = false;
         break;
-      case "thumbnail":
+      case 'thumbnail':
         const url = validate(value);
         if (url === value) inputIsError = false;
         break;
-      case "time":
+      case 'time':
         value = parseInt(value);
         if (value >= 15 && value <= 180) inputIsError = false;
         break;
@@ -103,8 +105,26 @@ class FormCreate extends Component {
     }));
   };
 
-  handleSubmitForm = () => {
-    console.log("submit");
+  handleSubmitForm = (e) => {
+    e.preventDefault()
+    const { sendDataToParents } = this.props
+    const { data, recaptchaRespone } = this.state
+    console.log('submit');
+    sendDataToParents({
+        ...data,
+        recaptchaRespone
+    })
+    this.recaptcha.reset()
+  };
+
+  checkValidated = () => {
+    const { error, recaptchaRespone } = this.state;
+    if (_.isEmpty(error) || _.isNil(recaptchaRespone) || Object.keys(error).length !== INPUT_FIELD) {
+      return true;
+    }
+    return _.filter(error, o => {
+      return o === true;
+    }).length !== 0
   };
 
   render() {
@@ -115,103 +135,104 @@ class FormCreate extends Component {
         <Card>
           <CardHeader
             avatar={<FontAwesomeIcon icon={faEdit} />}
-            title="Create campaign"
+            title='Create campaign'
             classes={{
               title: classes.titleText
             }}
           />
           <CardContent>
-            <form autoComplete="off" onSubmit={this.handleSubmitForm}>
+            <form autoComplete='off' onSubmit={this.handleSubmitForm}>
               <TextField
-                label="Name"
-                id="name"
-                placeholder="Enter name of campaign"
-                margin="normal"
-                type="text"
+                label='Name'
+                id='name'
+                placeholder='Enter name of campaign'
+                margin='normal'
+                type='text'
                 onChange={this.handleInput}
-                error={error["name"]}
+                error={error['name']}
                 className={classes.textField}
-                helperText="Min: 30, Max: 300 characters"
+                helperText='Min: 30, Max: 300 characters'
                 required
                 InputLabelProps={{
                   shrink: true
                 }}
               />
               <TextField
-                label="Short desciption"
-                id="short_desc"
-                placeholder="Enter short description"
-                margin="normal"
-                error={error["short_desc"]}
+                label='Short desciption'
+                id='short_desc'
+                placeholder='Enter short description'
+                margin='normal'
+                error={error['short_desc']}
                 className={classes.textField}
                 onChange={this.handleInput}
-                inputProps={{ min: "100", max: "300" }}
-                helperText="Min: 100, Max: 300 characters. Short description as slogan of campaign, it will be display on homepage."
+                inputProps={{ min: '100', max: '300' }}
+                helperText='Min: 100, Max: 300 characters. Short description as slogan of campaign, it will be display on homepage.'
                 required
                 InputLabelProps={{
                   shrink: true
                 }}
               />
-              <div className={classes.textField} style={{ width: "100%" }}>
+              <div className={classes.textField} style={{ width: '100%' }}>
                 <DetailsDescription
                   sendToParents={this.dataDetailsDecription}
-                  id="desc"
+                  id='desc'
                   error={error['desc']}
                 />
               </div>
               <TextField
-                label="Image thumbnail url"
-                id="thumbnail"
-                placeholder="Enter url of thumbnail image"
-                margin="normal"
-                error={error["thumbnail"]}
-                type="url"
+                label='Image thumbnail url'
+                id='thumbnail'
+                placeholder='Enter url of thumbnail image'
+                margin='normal'
+                error={error['thumbnail']}
+                type='url'
                 onChange={this.handleInput}
                 className={classes.textField}
-                helperText="Thumbnail image is best with size 286x180"
+                helperText='Thumbnail image is best with size 286x180'
                 required
                 InputLabelProps={{
                   shrink: true
                 }}
               />
               <TextField
-                label="Goal"
-                id="goal"
-                placeholder="Enter goal of campaign"
-                type="number"
-                error={error["goal"]}
-                inputProps={{ min: "100000", max: "1000000000" }}
+                label='Goal'
+                id='goal'
+                placeholder='Enter goal of campaign'
+                type='number'
+                error={error['goal']}
+                inputProps={{ min: '100000', max: '1000000000' }}
                 onChange={this.handleInput}
-                margin="normal"
+                margin='normal'
                 className={classes.textField}
-                helperText="Goal range: 100.000-1.000.000.000 (Testing: min 1000 tokens)"
+                helperText='Goal range: 100.000-1.000.000.000 (Testing: min 1000 tokens)'
                 required
                 InputLabelProps={{
                   shrink: true
                 }}
               />
               <TextField
-                label="Deadline"
-                id="time"
-                placeholder="Enter number of days"
-                margin="normal"
-                error={error["time"]}
-                type="number"
+                label='Deadline'
+                id='time'
+                placeholder='Enter number of days'
+                margin='normal'
+                error={error['time']}
+                type='number'
                 onChange={this.handleInput}
-                inputProps={{ min: "15", max: "180" }}
+                inputProps={{ min: '15', max: '180' }}
                 className={classes.textField}
-                helperText="This is time end campaign (days). Range: 15 - 180 days (In testing, min: 1 minutes)"
+                helperText='This is time end campaign (days). Range: 15 - 180 days (In testing, min: 1 minutes)'
                 required
                 InputLabelProps={{
                   shrink: true
                 }}
               />
-              <div>
-                {process.env.REACT_APP_RECAPTCHA_ENABLE === "1" && (
+              <div className={classes.textField}>
+                {process.env.REACT_APP_RECAPTCHA_ENABLE === '1' && (
                   <ReCAPTCHA
                     ref={el => {
                       this.recaptcha = el;
                     }}
+                    size={'normal'}
                     sitekey={process.env.REACT_APP_RECAPTCHA_SITEKEY}
                     onChange={this.handleCaptchaResponseChange}
                   />
@@ -219,44 +240,18 @@ class FormCreate extends Component {
               </div>
               <div className={classes.centerButton}>
                 <Button
-                  variant="contained"
-                  color="primary"
-                  type="submit"
+                  variant='contained'
+                  color='primary'
+                  type='submit'
                   className={classes.button}
-                  disabled={
-                    Object.keys(error).length === 5
-                      ? _.filter(error, o => {
-                          return o === true;
-                        }).length !== 0
-                      : true || _.isEmpty(error)
-                  }
+                  disabled={this.checkValidated()}
                   onClick={e => this.handleSubmitForm(e)}
                 >
-                  <Send fontSize={"small"} /> &nbsp;Create campaign
+                  <Send fontSize={'small'} /> &nbsp;Create campaign
                 </Button>
               </div>
             </form>
           </CardContent>
-          {/*
-          <Card.Body>
-            <Form>
-
-              <Button
-                variant="success"
-                onClick={this.handleClick}
-                disabled={
-                  !(this.state.isValidName &&
-                    this.state.isValidDesc &&
-                    this.state.isValidShortDesc &&
-                    this.state.isValidThumbnail &&
-                    this.state.isValidGoal &&
-                    this.state.isValidTime &&
-                    (this.state.recaptchaRespone !== '' || process.env.REACT_APP_RECAPTCHA_ENABLE === '0') &&
-                    !this.state.isProcessing)}>
-                <FontAwesomeIcon icon="plus-circle" /> CREATE
-         </Button>
-            </Form>
-          </Card.Body> */}
         </Card>
       </Fragment>
     );
