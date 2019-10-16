@@ -4,6 +4,7 @@ import Identity from "../../contracts/Identity.json";
 // import { Row, Col, Alert, Form, Button, Spinner } from 'react-bootstrap';
 import { Keccak } from "sha3";
 import axios from "axios";
+import _ from "lodash";
 import { Grid } from "@material-ui/core/";
 //import ReactMarkdown from 'react-markdown';
 import getWeb3 from "../../utils/getWeb3";
@@ -11,7 +12,7 @@ import Loading from "../utils/Loading2";
 import Helper from "./Create/Helper.js";
 import FormCreate from "./Create/FormCreate.js";
 import showNoti from "../utils/Notification/";
-
+import Alert from '../utils/Alert'
 class Creation extends Component {
   state = {
     isProcessing: false,
@@ -21,7 +22,8 @@ class Creation extends Component {
     account: null,
     contract: null,
     api_db: null,
-    contractIdentity: null
+    contractIdentity: null,
+    isError: {}
   };
 
   componentDidMount = async () => {
@@ -105,15 +107,21 @@ class Creation extends Component {
     const integrity_hash = hashEngine.digest("hex");
 
     axios
-      .post(api_db + "campaign", {
-        // upload data to DB before send to blockchain
-        id: ref,
-        name: inputName,
-        description: inputDesc,
-        short_description: inputShortDesc,
-        thumbnail_url: inputThumbnail,
-        captcha: recaptchaRespone
-      })
+      .post(
+        api_db + "campaign",
+        {
+          // upload data to DB before send to blockchain
+          id: ref,
+          name: inputName,
+          description: inputDesc,
+          short_description: inputShortDesc,
+          thumbnail_url: inputThumbnail,
+          captcha: recaptchaRespone
+        },
+        {
+          timeout: 5000
+        }
+      )
       .then(respone => {
         if (respone.status === 200) {
           if (respone.data.success === true) {
@@ -124,27 +132,59 @@ class Creation extends Component {
               })
               .on("transactionHash", hash => {
                 if (hash !== null) {
+                  this.showNotification(
+                    "",
+                    "",
+                    "Your campaign has been created. Please wait for us verify your campaign before public"
+                  );
                   this.handleTransactionReceipt(hash);
                 }
               })
               .on("error", err => {
                 if (err !== null) {
-                  this.setState({ isProcessing: false });
+                  this.showNotification("error", "Error from transaction", err);
                 }
               });
           } else {
-            this.setState({ isProcessing: false });
-            alert(respone.data.error_msg);
+            this.showNotification(
+              "error",
+              "Error from backend",
+              respone.data.error_msg
+            );
           }
         } else {
-          this.setState({ isProcessing: false });
-          alert("Error with post data to server, please try again");
+          this.showNotification(
+            "error",
+            "Error with post data to server",
+            "Please try again"
+          );
         }
       })
-      .catch(function(error) {
-        this.setState({ isProcessing: false });
+      .catch(error => {
         console.log(error);
+      })
+      .finally(() => {
+        this.setState({
+          isProcessing: false,
+          isError: {
+            content: 'Error from backend. See console to more details',
+            position: 'bottom-center',
+            type: 'error'
+          }
+        }, () => {
+          this.setState({
+            isError: {}
+          })
+        });
       });
+  };
+
+  showNotification = (type, msg, details) => {
+    return showNoti({
+      type,
+      message: msg,
+      details
+    });
   };
 
   handleTransactionReceipt = async hash => {
@@ -156,44 +196,23 @@ class Creation extends Component {
 
     if (receipt.status === true) {
       this.setState({ isSucceed: true });
-      console.log("true");
+      this.showNotification();
     } else {
       this.setState({ isFailed: true });
-      console.log("failed");
+      this.showNotification("error", "Your request has been reverted.");
     }
     this.setState({ isProcessing: false });
   };
 
   render() {
+    const { isError } = this.state;
     if (!this.state.web3) {
       return <Loading text="Loading Web3, account, and contract..." />;
     }
-    // const requiredChar = <span style={{ color: 'red', fontWeight: 'bold' }}>*</span>;
-    // const succeedState = this.state.isSucceed && (
-    //   <Row className="pt-2">
-    //     <Col>
-    //       <Alert variant="success">
-    //         <Spinner animation="grow" variant="success" size="sm" /> Successfully!! Your campaign has been created. Please wait for us verify your campaign before public
-    //       </Alert>
-    //     </Col>
-    //   </Row>
-    // );
-
-    // const failedState = this.state.isFailed && (
-    //   <Row className="pt-2">
-    //     <Col>
-    //       <Alert variant="danger">
-    //         <Spinner animation="grow" variant="danger" size="sm" /> Your request has been reverted.
-    //       </Alert>
-    //     </Col>
-    //   </Row>
-    // );
-
     return (
       <div>
         {this.state.isProcessing && <Loading text="Pending..." />}
-        {/* {succeedState} */}
-        {/* {failedState} */}
+        {!_.isEmpty(isError) && <Alert data={isError} />}
         <Grid container spacing={3}>
           <Grid item xs={9}>
             <FormCreate sendDataToParents={this.handleClick} />

@@ -8,7 +8,7 @@ export default function Alert ({ data }) {
   return (
     toast[data.type](data.content, {
     position: data.position,
-    autoClose: 3000,
+    autoClose: 4500,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: false,

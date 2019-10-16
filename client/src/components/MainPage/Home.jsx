@@ -1,21 +1,11 @@
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import Campaigns from "../../contracts/Campaigns.json";
-// import {
-//   Row,
-//   Col,
-//   Card,
-//   Alert,
-//   Button,
-//   ProgressBar,
-//   Image
-// } from "react-bootstrap";
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/styles';
 import Container from '@material-ui/core/Container';
-// import Link from '@material-ui/core/Link';
 
 import axios from "axios";
 //import getWeb3 from '../utils/getWeb3';

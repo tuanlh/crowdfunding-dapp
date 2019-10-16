@@ -3,12 +3,10 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import _ from 'lodash';
 import {
   Card,
-  Grid,
   CardContent,
   CardHeader,
   TextField,
   withStyles,
-  Typography,
   Button
 } from '@material-ui/core/';
 import validate from 'url-validator';
@@ -16,7 +14,6 @@ import { Send } from '@material-ui/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import DetailsDescription from './DetailsDescription';
-import showNoti from '../../utils/Notification'
 const useStyles = theme => ({
   textField: {
     marginLeft: theme.spacing(1),
@@ -52,11 +49,11 @@ class FormCreate extends Component {
     this.setState(prevState => ({
       data: {
         ...prevState.data,
-        ['desc']: value
+        desc: value
       },
       error: {
         ...prevState.error,
-        ['desc']: inputIsError
+        desc: inputIsError
       }
     }));
   };
@@ -109,7 +106,6 @@ class FormCreate extends Component {
     e.preventDefault()
     const { sendDataToParents } = this.props
     const { data, recaptchaRespone } = this.state
-    console.log('submit');
     sendDataToParents({
         ...data,
         recaptchaRespone
