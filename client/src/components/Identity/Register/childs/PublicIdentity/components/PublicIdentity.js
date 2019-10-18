@@ -1,10 +1,18 @@
 import React, { Component, Fragment } from 'react';
-import { TextField } from '@material-ui/core';
+import { TextField, withStyles } from '@material-ui/core';
 
+const useStyles = theme => ({
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    // marginTop: theme.spacing(3), 
+    width: "100%"
+  },
+})
 
 class PublicIdentity extends Component {
   render() {
-    const { handleChange } = this.props
+    const { handleChange, classes } = this.props
     return (
       <Fragment>
         <div className='position-relative form-group'>
@@ -14,7 +22,7 @@ class PublicIdentity extends Component {
             required
             label='Full Name'
             type='text'
-            className='form-control' onChange={handleChange}
+            className={classes.textField} onChange={handleChange}
           />
         </div>
         <div className='position-relative form-group'>
@@ -24,12 +32,12 @@ class PublicIdentity extends Component {
             label='Located'
             required
             type='text'
-            className='form-control' onChange={handleChange}
+            className={classes.textField} onChange={handleChange}
           />
         </div>
         <div className='position-relative form-group'>
           <TextField name='dob' id='dob'
-            required type="date" className='form-control' InputLabelProps={{
+            required type="date" className={classes.textField} InputLabelProps={{
               shrink: true,
             }}
             label='Date of Birth'
@@ -41,4 +49,4 @@ class PublicIdentity extends Component {
   }
 }
 
-export default PublicIdentity;
+export default withStyles(useStyles)(PublicIdentity);
