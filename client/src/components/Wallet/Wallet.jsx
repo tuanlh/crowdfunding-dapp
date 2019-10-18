@@ -1,11 +1,15 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import TokenSystem from "../../contracts/TokenSystem.json";
 import { Row, Col, Card, CardDeck, Alert, ListGroup, Form, InputGroup, Button, Badge } from 'react-bootstrap';
+import { Grid } from "@material-ui/core/";
+import AccountInfo from './childs/AccountInfo'
+import AccountAction from "./childs/AccountAction.js";
+
 import getWeb3 from "../../utils/getWeb3";
 import QRCode from 'qrcode.react';
 import TimeFormatter from '../utils/TimeFormatter';
-import Loading from '../utils/Loading';
+import Loading from '../utils/Loading2';
 import Paginator from '../utils/Paginator';
 
 class Wallet extends Component {
@@ -85,24 +89,6 @@ class Wallet extends Component {
     this.setState({ loading: false });
   };
 
-  handleChange = (e) => {
-    if (e.target.value !== '') {
-      const amountToken = parseInt(e.target.value);
-      if (isNaN(amountToken)) {
-        e.target.value = '';
-        this.setState({ amountToken: 0, amountEth: 0 });
-        return;
-      }
-      const amountEth = amountToken * this.state.price;
-      this.setState({
-        amountEth,
-        amountToken
-      });
-    } else {
-      this.setState({ amountToken: 0, amountEth: 0 });
-    }
-
-  };
 
   handleDeposit = async () => {
     const { wei, amountToken, granularity, account, contract } = this.state;
@@ -237,70 +223,6 @@ class Wallet extends Component {
     if (!this.state.web3) {
       return <Loading text="Loading Web3, account, and contract..." />;
     }
-    const renderAccountInfo = <Card>
-      <Card.Header>
-        <b>
-          <FontAwesomeIcon icon="user" /> 
-          Your account
-        </b>
-       {/*  <b>
-          <Notification />
-        </b> */}
-      </Card.Header>
-      <Card.Body className="p-1 m-1">
-        <ListGroup>
-          <ListGroup.Item>
-            <FontAwesomeIcon icon="coins" />
-            <b> Your token:</b> <Badge variant="danger">{this.state.token}</Badge>
-          </ListGroup.Item>
-          <ListGroup.Item>
-            <FontAwesomeIcon icon="tag" /> <b>Price:</b> {this.state.price} ETH
-          </ListGroup.Item>
-          <ListGroup.Item>
-            <FontAwesomeIcon icon={['fab', 'ethereum']} /> <b>Your balance:</b> {this.state.eth} ETH
-          </ListGroup.Item>
-          <ListGroup.Item>
-            <FontAwesomeIcon icon="address-card" /> <b>Your address: </b> {this.state.account}
-          </ListGroup.Item>
-        </ListGroup>
-      </Card.Body>
-    </Card>;
-
-    const renderAccountAction = <Card bg>
-      <Card.Header>
-        <b><FontAwesomeIcon icon="cart-plus" /> Deposit/Withdraw</b>
-      </Card.Header>
-      <Card.Body className="p-1 m-1">
-        {this.state.loading === false ? (<div>
-          <InputGroup>
-            <Form.Control
-              type="number"
-              placeholder="Number of tokens"
-              ref='inputToken'
-              onChange={this.handleChange} />
-            <InputGroup.Append>
-              <InputGroup.Text>{this.state.amountEth + " ETH"}</InputGroup.Text>
-              <Button variant="primary" onClick={this.handleDeposit}>Deposit</Button>
-              <Button variant="secondary" onClick={this.handleWithdraw}>Withdraw</Button>
-            </InputGroup.Append>
-          </InputGroup>
-          <Row className="pt-3">
-            <Col sm={3}>
-              Or send ETH to:
-            </Col>
-            <Col sm={5}>
-              <Form.Control readOnly type="text" defaultValue={this.state.contract.address} />
-            </Col>
-            <Col sm={4}>
-              <QRCode value={this.state.contract.address} />
-            </Col>
-          </Row>
-        </div>
-        ) : (
-            <Alert variant="warning"><FontAwesomeIcon icon="spinner" pulse /> Loading...</Alert>
-          )}
-      </Card.Body>
-    </Card>;
 
     let logs = [...this.state.logs];
     logs.sort((prev, next) => next.timestamp - prev.timestamp);
@@ -332,31 +254,56 @@ class Wallet extends Component {
         </Card.Footer>
       )}
     </Card>;
-
+    const { account, eth, price, token, isLoading, isProcessing } = this.state
+    console.log(this.state.price)
     return (
-      <div>
-        {this.state.isLoading && <Loading text="Loading account info..." />}
-        {this.state.isProcessing && <Loading text="Pending..." />}
-        <Row className="pt-1">
+      <Fragment>
+        { isLoading && <Loading text="Loading account info..." />}
+        { isProcessing && <Loading text="Pending..." />}
+        {
+          !isLoading &&
+          <Fragment>
+            <Grid container spacing={3}>
+              <Grid item xs={6}>
+                <AccountInfo
+                  data={{
+                    account, eth, price, token
+                  }}
+                />
+              </Grid>
+              <Grid item xs={6}>
+                <AccountAction key={price} data={{
+                    account, eth, price, token
+                  }}
+                />
+              </Grid>
+            </Grid>
+            <Grid container spacing={3}>
+              <Grid item xs={9}>
+              </Grid>
+            </Grid>
+          </Fragment>
+        }
+        {/* <Row className="pt-1">
           <Col>
             <CardDeck>
               {renderAccountInfo}
               {renderAccountAction}
             </CardDeck>
-          </Col>
-          {/* <Col sm={12} md={12} lg={6} xl={6} className="pt-1">
+          </Col> */}
+        {/* <Col sm={12} md={12} lg={6} xl={6} className="pt-1">
             {renderAccountInfo}
           </Col>
           <Col sm={12} md={12} lg={6} xl={6} className="pt-1">
             {renderAccountAction}
           </Col> */}
-        </Row>
+        {/* </Row>
         <Row>
           <Col className="pt-1">
             {renderEventLogs}
           </Col>
-        </Row>
-      </div>
+        </Row> */}
+      </Fragment>
     );
   };
 
