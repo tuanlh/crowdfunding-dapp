@@ -66,7 +66,9 @@ class AccountInfo extends Component {
               paddingBottom: '0px'
             }}
           />
-          <CardContent>
+          <CardContent style={{
+            paddingTop: "3px"
+          }}>
             <List dense={false}>
               {
                 this.renderData()

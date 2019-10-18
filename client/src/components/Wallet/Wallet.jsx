@@ -7,10 +7,10 @@ import AccountInfo from './childs/AccountInfo'
 import AccountAction from "./childs/AccountAction.js";
 
 import getWeb3 from "../../utils/getWeb3";
-import QRCode from 'qrcode.react';
 import TimeFormatter from '../utils/TimeFormatter';
 import Loading from '../utils/Loading2';
 import Paginator from '../utils/Paginator';
+import ErrorLogs from "./childs/ErrorLogs.js";
 
 class Wallet extends Component {
   state = {
@@ -89,74 +89,6 @@ class Wallet extends Component {
     this.setState({ loading: false });
   };
 
-
-  handleDeposit = async () => {
-    const { wei, amountToken, granularity, account, contract } = this.state;
-    const amount = amountToken * granularity;
-    if (amount > wei) {
-      alert('You do not have enough ETH');
-      return;
-    }
-    if (amount <= 0) {
-      alert('You must ENTER number token that you want deposit');
-      return;
-    }
-    this.resetForm();
-    this.setState({ isProcessing: true });
-    contract.methods.deposit().send({
-      from: account,
-      value: amount
-    }).on('transactionHash', hash => {
-      console.log(hash);
-      if (hash !== null) {
-        this.handleTransactionReceipt(hash)
-      }
-    }).on('error', err => {
-      if (err !== null) {
-        this.setState({ isProcessing: false });
-      }
-    });
-
-  };
-
-  handleWithdraw = async () => {
-    const { token, amountToken, account, contract } = this.state;
-    if (amountToken > token) {
-      alert('You do not have enough Token');
-      return;
-    }
-    if (amountToken === 0) {
-      alert('You must ENTER number token that you want withdraw');
-      return;
-    }
-    this.resetForm();
-    this.setState({ isProcessing: true });
-    contract.methods.withdraw(amountToken).send({
-      from: account
-    }).on('transactionHash', hash => {
-      if (hash !== null) {
-        this.handleTransactionReceipt(hash);
-      }
-    });
-  };
-
-  handleTransactionReceipt = async (hash) => {
-    const { web3 } = this.state;
-    let receipt = null;
-    while (receipt === null) {
-      receipt = await web3.eth.getTransactionReceipt(hash);
-    }
-
-    if (receipt.status === false) {
-      alert('Your transaction have been revert');
-    }
-    this.setState({ isProcessing: false });
-  };
-
-  resetForm = async () => {
-    this.setState({ amountToken: 0, amountEth: 0 }); // reset
-    this.refs.inputToken.value = '';
-  };
 
   listenEventLogs = async () => {
     const { account, contract, web3 } = this.state;
@@ -254,8 +186,8 @@ class Wallet extends Component {
         </Card.Footer>
       )}
     </Card>;
-    const { account, eth, price, token, isLoading, isProcessing } = this.state
-    console.log(this.state.price)
+    const { account, eth, price, token, isLoading, isProcessing, contract } = this.state
+    console.log(this.state)
     return (
       <Fragment>
         { isLoading && <Loading text="Loading account info..." />}
@@ -272,14 +204,13 @@ class Wallet extends Component {
                 />
               </Grid>
               <Grid item xs={6}>
-                <AccountAction key={price} data={{
-                    account, eth, price, token
-                  }}
+                <AccountAction key={price} {...this.state}
                 />
               </Grid>
             </Grid>
             <Grid container spacing={3}>
               <Grid item xs={9}>
+                <ErrorLogs {...this.state} />
               </Grid>
             </Grid>
           </Fragment>

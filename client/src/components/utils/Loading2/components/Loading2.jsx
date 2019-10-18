@@ -16,7 +16,7 @@ export default function Loading(props) {
       <div className="sweet-loading">
         <CircularProgress className={classes.progress} />
         <br />
-        {props.text || ''}
+        {props.text || 'Please waiting....'}
       </div>
     </div>
   );
