@@ -27,6 +27,7 @@
     "react-scripts": "2.1.1",
     "react-spinners": "^0.6.0",
     "react-toastify": "^5.3.2",
+    "react-virtualized": "^9.21.1",
     "reactstrap": "^8.0.1",
     "sha3": "^2.0.6",
     "sweetalert2": "^8.18.4",

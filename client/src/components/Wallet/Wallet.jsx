@@ -1,16 +1,13 @@
 import React, { Component, Fragment } from "react";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import TokenSystem from "../../contracts/TokenSystem.json";
-import { Row, Col, Card, CardDeck, Alert, ListGroup, Form, InputGroup, Button, Badge } from 'react-bootstrap';
 import { Grid } from "@material-ui/core/";
 import AccountInfo from './childs/AccountInfo'
 import AccountAction from "./childs/AccountAction.js";
 
 import getWeb3 from "../../utils/getWeb3";
-import TimeFormatter from '../utils/TimeFormatter';
 import Loading from '../utils/Loading2';
 import Paginator from '../utils/Paginator';
-import ErrorLogs from "./childs/ErrorLogs.js";
+import ErrorLogs from "./childs/ErrorLogs";
 
 class Wallet extends Component {
   state = {
@@ -27,7 +24,7 @@ class Wallet extends Component {
       firsIndex: 0,
       lastIndex: 0,
     },
-    loading: true,
+    isLoading: true,
     isProcessing: false,
     web3: null,
     account: null,
@@ -86,7 +83,7 @@ class Wallet extends Component {
         console.log(err);
       }
     });
-    this.setState({ loading: false });
+    this.setState({ isLoading: false });
   };
 
 
@@ -139,7 +136,7 @@ class Wallet extends Component {
         txHash: e.transactionHash
       });
       this.setState({ logs });
-      this.handlePaginator(1);
+      // this.handlePaginator(1);
     });
   };
 
@@ -159,41 +156,13 @@ class Wallet extends Component {
     let logs = [...this.state.logs];
     logs.sort((prev, next) => next.timestamp - prev.timestamp);
     logs = logs.slice(this.state.page.firstIndex, this.state.page.lastIndex);
-    const renderEventLogs = <Card>
-      <Card.Header><FontAwesomeIcon icon="calendar" /> <b>Event Logs</b></Card.Header>
-      <Card.Body>
-        <ListGroup>
-          {this.state.logs.length > 0 ?
-            (
-              logs.map(log => <ListGroup.Item key={log.id}>
-                <FontAwesomeIcon icon="clock" />
-                <span className="text-muted"> [<TimeFormatter time={log.timestamp} />] </span>
-                You {log.did} {log.amount} ETH
-                  <small className="text-muted"> (txHash {log.txHash})</small>
-              </ListGroup.Item>)
-            ) : (
-              <Alert variant="warning">Logs empty</Alert>
-            )
-          }
-        </ListGroup>
-      </Card.Body>
-      {this.state.logs.length >= this.state.page.limit && (
-        <Card.Footer>
-          <Paginator
-            numberOfItem={this.state.logs.length}
-            limit={this.state.page.limit}
-            callback={this.handlePaginator} />
-        </Card.Footer>
-      )}
-    </Card>;
     const { account, eth, price, token, isLoading, isProcessing, contract } = this.state
-    console.log(this.state)
     return (
       <Fragment>
         { isLoading && <Loading text="Loading account info..." />}
         { isProcessing && <Loading text="Pending..." />}
         {
-          !isLoading &&
+          !isLoading && !isProcessing &&
           <Fragment>
             <Grid container spacing={3}>
               <Grid item xs={6}>
@@ -209,7 +178,7 @@ class Wallet extends Component {
               </Grid>
             </Grid>
             <Grid container spacing={3}>
-              <Grid item xs={9}>
+              <Grid item xs={12}>
                 <ErrorLogs {...this.state} />
               </Grid>
             </Grid>
