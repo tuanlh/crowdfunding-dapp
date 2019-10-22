@@ -6,6 +6,8 @@ import { Wallet } from "./components/Wallet";
 import IdentityUser from "./components/Identity/Register";
 import CheckingIdentity from "./components/Identity/Checking";
 import AdminPanel from "./components/Identity/AdminPanel";
+import Explore from "./components/Campaign/Explore";
+
 import _ from "lodash";
 // import Notification from './components/Identity/Notification';
 export const listRouter = [
@@ -44,6 +46,12 @@ export const listRouter = [
     exact: true,
     component: AdminPanel,
     name: "Dashboard"
+  },
+  {
+    path: "/explore",
+    exact: true,
+    component: Explore,
+    name: 'Explore'
   },
   {
     path: "/campaign/:id",

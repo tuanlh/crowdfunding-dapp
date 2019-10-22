@@ -304,6 +304,7 @@ class Detail extends Component {
   };
 
   render() {
+    console.log('--details')
     if (!this.state.web3) {
       return <Loading text="Loading web3, account, contract" />;
     }

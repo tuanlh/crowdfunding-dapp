@@ -4,6 +4,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import { makeStyles } from "@material-ui/core/styles";
+import { withRouter } from "react-router";
 import clsx from "clsx";
 
 import MenuIcon from "@material-ui/icons/Menu";
@@ -41,7 +42,7 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1
   }
 }));
-function Header() {
+function Header(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const handleDrawerOpen = () => {
@@ -50,6 +51,8 @@ function Header() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const { location } = props
+  let showDrawer = location.pathname !== '/'
   return (
     <Fragment>
       <AppBar
@@ -57,7 +60,7 @@ function Header() {
         className={clsx(classes.appBar, open && classes.appBarShift)}
       >
         <Toolbar className={classes.toolbar}>
-          <IconButton
+         {  showDrawer && <IconButton
               edge="start"
               color="inherit"
               aria-label="open drawer"
@@ -65,7 +68,7 @@ function Header() {
               className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
             >
               <MenuIcon />
-            </IconButton>
+          </IconButton>}
           <Typography
             component="h1"
             variant="h6"
@@ -77,9 +80,12 @@ function Header() {
           </Typography>
         </Toolbar>
       </AppBar>
-      <MaterialDrawer handleDrawerClose={handleDrawerClose} open={open}/>
+      {
+        showDrawer &&
+        <MaterialDrawer handleDrawerClose={handleDrawerClose} open={open}/>
+      }
     </Fragment>
   );
 }
 
-export default Header;
+export default withRouter(Header);

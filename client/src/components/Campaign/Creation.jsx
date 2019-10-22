@@ -117,9 +117,6 @@ class Creation extends Component {
           short_description: inputShortDesc,
           thumbnail_url: inputThumbnail,
           captcha: recaptchaRespone
-        },
-        {
-          timeout: 5000
         }
       )
       .then(respone => {
@@ -162,20 +159,16 @@ class Creation extends Component {
       })
       .catch(error => {
         console.log(error);
+        this.showNotification(
+          "error",
+          "Error from backend. See console to more details",
+          "Please try again"
+        );
       })
       .finally(() => {
         this.setState({
           isProcessing: false,
-          isError: {
-            content: 'Error from backend. See console to more details',
-            position: 'bottom-center',
-            type: 'error'
-          }
-        }, () => {
-          this.setState({
-            isError: {}
-          })
-        });
+        })
       });
   };
 
