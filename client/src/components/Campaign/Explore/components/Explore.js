@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import { withRouter } from "react-router";
 import { withStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { Keccak } from "sha3";
 import Web3 from "web3";
-import TimeFormatter from "../../../utils/TimeFormatter";
 import Loading from '../../../utils/Loading2'
 import Campaigns from '../../../../contracts/Campaigns.json'
+import HandleExplore from './HandleExplore';
 
 const styles = theme => ({
   heroContent: {
@@ -30,10 +30,10 @@ class Explore extends Component {
       //api_db_set: null,
       api_db: null,
       loaded: 0,
-      isLoading: false,
       web3: null,
       account: null,
-      contract: null
+      contract: null,
+      isLoading: true
     }
   }
 
@@ -77,7 +77,6 @@ class Explore extends Component {
   };
 
   loadContractInfo = async () => {
-    this.setState({ isLoading: true });
     const { account, contract } = this.state;
     const numberOfCampaign = parseInt(
       await contract.methods.length().call({ from: account })
@@ -132,7 +131,6 @@ class Explore extends Component {
         progress: progress
       });
       if (numberOfCampaign !== loaded) {
-        console.log(campaigns);
         this.setState({ campaigns });
       }
     }
@@ -165,9 +163,9 @@ class Explore extends Component {
             hashEngine.update(temp);
             const result_hash = hashEngine.digest("hex");
             //console.log(result_hash, hash_integrity);
-            console.log(result_hash === hash_integrity);
             if (result_hash === hash_integrity) {
               data[index] = response.data;
+              data[index].id = index
               this.setState({ data });
             }
           }
@@ -226,13 +224,19 @@ class Explore extends Component {
   };
 
   render() {
-    console.log(this.state)
+    const { data, campaigns, isLoading, numberOfCampaign, loaded } = this.state
     return (
-      <div>
-        <p>qwes</p>
-      </div>
+      <Fragment>
+        {
+          isLoading && <Loading />
+        }
+        {
+          !isLoading &&
+          <HandleExplore data={data} campaigns={campaigns} />
+        }
+      </Fragment>
     )
   }
 }
 
-export default withStyles()(withRouter(Explore))
+export default withStyles(styles)(withRouter(Explore))

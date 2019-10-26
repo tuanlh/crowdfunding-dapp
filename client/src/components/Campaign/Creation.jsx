@@ -16,8 +16,6 @@ import Alert from '../utils/Alert'
 class Creation extends Component {
   state = {
     isProcessing: false,
-    isSucceed: false,
-    isFailed: false,
     web3: null,
     account: null,
     contract: null,
@@ -93,8 +91,7 @@ class Creation extends Component {
     let inputTime = dataProps.time;
     const { contract, account, api_db } = this.state;
 
-    this.setState({ isProcessing: true, isFailed: false, isSucceed: false });
-
+    // this.setState({ isProcessing: true })
     // compute hash to store information of campaign to DB
     const temp = inputName + Date.now() + Math.random();
     const integrity_data =
@@ -166,9 +163,9 @@ class Creation extends Component {
         );
       })
       .finally(() => {
-        this.setState({
-          isProcessing: false,
-        })
+        // this.setState({
+        //   isProcessing: false,
+        // })
       });
   };
 
@@ -186,15 +183,12 @@ class Creation extends Component {
     while (receipt === null) {
       receipt = await web3.eth.getTransactionReceipt(hash);
     }
-
+    // this.setState({ isProcessing: false });
     if (receipt.status === true) {
-      this.setState({ isSucceed: true });
       this.showNotification();
     } else {
-      this.setState({ isFailed: true });
       this.showNotification("error", "Your request has been reverted.");
     }
-    this.setState({ isProcessing: false });
   };
 
   render() {

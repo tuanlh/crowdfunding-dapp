@@ -107,15 +107,21 @@ class FormCreate extends Component {
     const { sendDataToParents } = this.props
     const { data, recaptchaRespone } = this.state
     sendDataToParents({
-        ...data,
-        recaptchaRespone
+      ...data,
+      recaptchaRespone
     })
-    this.recaptcha.reset()
+    this.setState({
+      recaptchaRespone: null,
+    })
+    process.env.REACT_APP_RECAPTCHA_ENABLE === '1' && this.recaptcha.reset()
   };
 
   checkValidated = () => {
     const { error, recaptchaRespone } = this.state;
-    if (_.isEmpty(error) || _.isNil(recaptchaRespone) || Object.keys(error).length !== INPUT_FIELD) {
+    if (process.env.REACT_APP_RECAPTCHA_ENABLE === '1' && _.isNil(recaptchaRespone)) {
+      return true
+    }
+    if (_.isEmpty(error) || Object.keys(error).length !== INPUT_FIELD) {
       return true;
     }
     return _.filter(error, o => {
