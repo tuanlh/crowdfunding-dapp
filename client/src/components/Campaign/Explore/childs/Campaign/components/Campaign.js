@@ -136,7 +136,7 @@ class Campaign extends Component {
                 {campaigns.collected}/{campaigns.goal}
               </Typography>
             </IconButton>
-            <Link to="/" className={classes.details}>
+            <Link to={`/campaign/${campaigns.id}`} className={classes.details}>
               <IconButton aria-label="details">
                 <KeyboardArrowRight />
               </IconButton>

@@ -24,12 +24,13 @@ class Explore extends Component {
     const { data, campaigns } = this.state;
     let result = _.map(data, (node, index) => {
       if(_.isEmpty(node)) return
+      let nodeCampaign = _.find(campaigns, { id: node.id })
       return (
         <Grid item xs={4} key={index}>
           <Campaign
             key={index}
             data={node}
-            campaigns={campaigns[node.id]}
+            campaigns={nodeCampaign}
           />
         </Grid>
       );
