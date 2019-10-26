@@ -1,18 +1,21 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, Fragment } from "react";
 import { withRouter } from "react-router";
 import { withStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { Keccak } from "sha3";
 import Web3 from "web3";
-import Loading from '../../../utils/Loading2'
-import Campaigns from '../../../../contracts/Campaigns.json'
-import HandleExplore from './HandleExplore';
+import _ from "lodash";
+
+import Loading from "../../../utils/Loading2";
+import Campaigns from "../../../../contracts/Campaigns.json";
+import HandleExplore from "./HandleExplore";
+import StepperExplore from "../childs/StepperExplore/components/StepperExplore";
 
 const styles = theme => ({
   heroContent: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(8, 0, 6)
-  },
+  }
 });
 
 class Explore extends Component {
@@ -33,8 +36,10 @@ class Explore extends Component {
       web3: null,
       account: null,
       contract: null,
-      isLoading: true
-    }
+      isLoading: true,
+      activeStep: 0,
+      currentData: []
+    };
   }
 
   componentDidMount = async () => {
@@ -57,7 +62,7 @@ class Explore extends Component {
       const api_db_default = "http://" + window.location.hostname + ":8080/";
       const api_db =
         !hasOwnProperty.call(process.env, "REACT_APP_STORE_CENTRALIZED_API") ||
-          process.env.REACT_APP_STORE_CENTRALIZED_API === ""
+        process.env.REACT_APP_STORE_CENTRALIZED_API === ""
           ? api_db_default
           : process.env.REACT_APP_STORE_CENTRALIZED_API;
 
@@ -140,9 +145,9 @@ class Explore extends Component {
       campaigns.sort((prev, next) => next.start > prev.start);
       this.setState({ campaigns, isLoading: false });
     }
-    if (loaded === page.limit || numberOfCampaign === loaded) {
-      this.handlePaginator(1);
-    }
+    // if (loaded === page.limit || numberOfCampaign === loaded) {
+    this.handlePaginator(1);
+    // }
   };
 
   loadDataOfCampaign = async (index, ref, hash_integrity) => {
@@ -165,7 +170,7 @@ class Explore extends Component {
             //console.log(result_hash, hash_integrity);
             if (result_hash === hash_integrity) {
               data[index] = response.data;
-              data[index].id = index
+              data[index].id = index;
               this.setState({ data });
             }
           }
@@ -217,26 +222,50 @@ class Explore extends Component {
   };
 
   handlePaginator = current => {
-    let { page } = this.state;
-    page.lastIndex = current * page.limit;
-    page.firstIndex = page.lastIndex - page.limit;
-    this.setState({ page });
+    let { data, activeStep, isLoading } = this.state;
+    if (!isLoading) {
+      let temp = _.chunk(data, 9);
+      this.setState({
+        activeStep: temp.length,
+        currentData: temp[0]
+      })
+    }
+  };
+
+  handleNext = () => {
+    let { activeStep } = this.state;
+    this.setState({
+      activeStep: (activeStep += 1)
+    });
+  };
+
+  handleBack = () => {
+    let { activeStep } = this.state;
+    this.setState({
+      activeStep: (activeStep -= 1)
+    });
   };
 
   render() {
-    const { data, campaigns, isLoading, numberOfCampaign, loaded } = this.state
+    const { data, campaigns, isLoading, activeStep, currentData } = this.state;
     return (
       <Fragment>
-        {
-          isLoading && <Loading />
-        }
-        {
-          !isLoading &&
-          <HandleExplore data={data} campaigns={campaigns} />
-        }
+        {isLoading && <Loading />}
+        {!isLoading && (
+          <Fragment>
+            <HandleExplore data={currentData} campaigns={campaigns} />
+            <div>
+              <StepperExplore
+                handleNext={this.handleNext}
+                handleBack={this.handleBack}
+                activeStep={activeStep}
+              />
+            </div>
+          </Fragment>
+        )}
       </Fragment>
-    )
+    );
   }
 }
 
-export default withStyles(styles)(withRouter(Explore))
+export default withStyles(styles)(withRouter(Explore));

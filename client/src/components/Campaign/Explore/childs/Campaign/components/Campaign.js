@@ -9,15 +9,18 @@ import {
   Typography
 } from "@material-ui/core/";
 import { red, green } from "@material-ui/core/colors";
-import clsx from "clsx";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHandsHelping } from "@fortawesome/free-solid-svg-icons";
 import { Favorite, KeyboardArrowRight } from "@material-ui/icons/";
 import { withStyles } from "@material-ui/styles";
-import TimeFormatter from "../../../../../utils/TimeFormatter";
+
+import clsx from "clsx";
 import _ from "lodash";
+
+import TimeFormatter from "../../../../../utils/TimeFormatter";
 import "../assets/Campaign.scss";
+
 const customStyle = theme => ({
   titleText: {
     fontSize: "16px",

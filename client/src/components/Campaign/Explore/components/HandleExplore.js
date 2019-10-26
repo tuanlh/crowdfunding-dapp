@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from "react";
 import { withStyles } from "@material-ui/core/styles";
-import Campaign from "../childs/Campaign/components/Campaign";
 import { Grid } from "@material-ui/core";
 import _ from "lodash";
+import Campaign from "../childs/Campaign/components/Campaign";
+
 const styles = theme => ({
   heroContent: {
     backgroundColor: theme.palette.background.paper,
@@ -23,7 +24,7 @@ class Explore extends Component {
   renderCampaign = () => {
     const { data, campaigns } = this.state;
     let result = _.map(data, (node, index) => {
-      if(_.isEmpty(node)) return
+      if (_.isEmpty(node)) return
       let nodeCampaign = _.find(campaigns, { id: node.id })
       return (
         <Grid item xs={4} key={index}>
@@ -40,12 +41,21 @@ class Explore extends Component {
 
   render() {
     const { data, campaigns } = this.state;
-    console.log(1);
+    let listEmpty = data.length === 0 || campaigns.length === 0
     return (
       <Fragment>
-        <Grid container spacing={2}>
-          {this.renderCampaign()}
-        </Grid>
+        {
+          listEmpty &&
+          <div>
+            Empty List
+          </div>
+        }
+        {
+          !listEmpty &&
+          <Grid container spacing={2}>
+            {this.renderCampaign()}
+          </Grid>
+        }
       </Fragment>
     );
   }
