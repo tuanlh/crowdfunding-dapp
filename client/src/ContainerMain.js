@@ -3,7 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
 import Router from './Router';
-import { Footer } from './components/MainPage';
 import Breadcrumb from './components/MainPage/Breadcrumb';
 import { listRouter } from './Router.js'
 

@@ -58,9 +58,6 @@ const customStyle = theme => ({
 });
 
 class Campaign extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   handleDonate = () => {
     console.log("donate");
@@ -71,15 +68,17 @@ class Campaign extends Component {
     let styleStatus = "";
     switch (_.toLower(campaigns.status)) {
       case "failed":
-        styleStatus = { color: red[500] };
+        styleStatus = red[500]
         break;
       default:
-        styleStatus = { color: green[300] };
+        styleStatus = green[300]
         break;
     }
     return (
       <span>
-        <span style={styleStatus}>{campaigns.status}</span> -{" "}
+        <span style={{
+          color: styleStatus
+        }}>{campaigns.status}</span> -{" "}
         {data.short_description}
       </span>
     );
@@ -102,7 +101,7 @@ class Campaign extends Component {
             }}
           />
           <div style={{ textAlign: "center" }}>
-            <img className={classes.media} src={data.thumbnail_url} />
+            <img className={classes.media} src={data.thumbnail_url} alt=''/>
           </div>
           <CardContent className={classes.content}>
             <p className={"short-description"}>{data.short_description}</p>

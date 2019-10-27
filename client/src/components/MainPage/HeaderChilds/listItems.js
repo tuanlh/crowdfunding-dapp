@@ -7,7 +7,7 @@ import {
   AccountBalanceWallet,
   Home,
   FeaturedPlayListSharp,
-  Dashboard,
+  // Dashboard,
   Help,
   Info,
   PermIdentityTwoTone

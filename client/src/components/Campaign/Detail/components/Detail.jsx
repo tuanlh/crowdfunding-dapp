@@ -1,13 +1,10 @@
 import React, { Component, Fragment } from "react";
 import axios from "axios";
-import ReactMarkdown from "react-markdown";
 import { Keccak } from "sha3";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Campaigns from "../../../../contracts/Campaigns.json";
 import TokenSystem from "../../../../contracts/TokenSystem.json";
 import getWeb3 from "../../../../utils/getWeb3";
-import TimeFormatter from "../../../utils/TimeFormatter";
 import Loading from "../../../utils/Loading2";
 import CampaignInfo from "../childs/CampaignInfo/components/CampaignInfo.js";
 import { Grid } from "@material-ui/core";
@@ -185,7 +182,7 @@ class Detail extends Component {
             d.name + d.short_description + d.description + d.thumbnail_url;
           const hashEngine = new Keccak(256);
           hashEngine.update(temp);
-          const result_hash = hashEngine.digest("hex");
+          // const result_hash = hashEngine.digest("hex");
           // if (result_hash === hash_integrity) {
           extData = response.data;
           this.setState({ extData });

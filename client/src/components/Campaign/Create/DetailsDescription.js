@@ -3,7 +3,6 @@ import ReactMarkdown from "react-markdown";
 import _ from "lodash";
 import {
   Button,
-  Typography,
   Dialog,
   DialogActions,
   DialogContent,

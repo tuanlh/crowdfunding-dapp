@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from 'react';
-import { Card, CardContent } from '@material-ui/core/';
+import { Card } from '@material-ui/core/';
 import TextField from '@material-ui/core/TextField';
-import Chip from '@material-ui/core/Chip';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import _ from 'lodash'

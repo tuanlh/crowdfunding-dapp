@@ -1,9 +1,5 @@
 import React, { Component, Fragment } from "react";
-import {
-  Card,
-  CardHeader,
-  CardContent,
-} from "@material-ui/core/";
+import { Card, CardHeader, CardContent } from "@material-ui/core/";
 import ReactMarkdown from "react-markdown";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import TimeFormatter from "../../../../../utils/TimeFormatter";
@@ -72,6 +68,7 @@ class CampaignInfo extends Component {
             <img
               className={classes.media}
               src={this.printData("thumbnail_url")}
+              alt=""
             />
           </div>
           <CardContent className={classes.content}>

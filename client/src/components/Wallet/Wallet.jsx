@@ -6,7 +6,6 @@ import AccountAction from "./childs/AccountAction.js";
 
 import getWeb3 from "../../utils/getWeb3";
 import Loading from '../utils/Loading2';
-import Paginator from '../utils/Paginator';
 import ErrorLogs from "./childs/ErrorLogs";
 
 class Wallet extends Component {
@@ -156,7 +155,7 @@ class Wallet extends Component {
     let logs = [...this.state.logs];
     logs.sort((prev, next) => next.timestamp - prev.timestamp);
     logs = logs.slice(this.state.page.firstIndex, this.state.page.lastIndex);
-    const { account, eth, price, token, isLoading, isProcessing, contract } = this.state
+    const { account, eth, price, token, isLoading, isProcessing } = this.state
     return (
       <Fragment>
         { isLoading && <Loading text="Loading account info..." />}

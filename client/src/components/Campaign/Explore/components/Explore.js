@@ -101,7 +101,7 @@ class Explore extends Component {
   };
 
   loadCampaign = async index => {
-    const { account, contract, page } = this.state;
+    const { account, contract } = this.state;
     const campaign = await contract.methods
       .getInfo(index)
       .call({ from: account });
@@ -164,7 +164,7 @@ class Explore extends Component {
               d.name + d.short_description + d.description + d.thumbnail_url;
             const hashEngine = new Keccak(256);
             hashEngine.update(temp);
-            const result_hash = hashEngine.digest("hex");
+            // const result_hash = hashEngine.digest("hex");
             // if (result_hash === hash_integrity) {
               data[index] = response.data;
               data[index].id = index;
@@ -242,7 +242,7 @@ class Explore extends Component {
   };
 
   render() {
-    const { data, campaigns, isLoading, activeStep, chunkData, currentData } = this.state;
+    const { campaigns, isLoading, activeStep, chunkData, currentData } = this.state;
     return (
       <Fragment>
         {isLoading && <Loading />}

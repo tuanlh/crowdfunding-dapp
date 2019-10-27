@@ -10,7 +10,6 @@ import {
   Button
 } from "@material-ui/core/";
 import QRCode from 'qrcode.react';
-import _ from "lodash";
 import clsx from "clsx";
 import { ShoppingCart } from "@material-ui/icons";
 import Loading from "../../utils/Loading2";
