@@ -15,17 +15,17 @@ const styles = theme => ({
 
 class StepperExplore extends Component {
   render() {
-    const { handleNext, handleBack, activeStep, classes, theme } = this.props
+    const { handleNext, handleBack, activeStep, classes, theme, data } = this.props
     return (
       <Fragment>
         <MobileStepper
           variant="dots"
-          steps={6}
+          steps={data.length}
           position="static"
           activeStep={activeStep}
           className={classes.root}
           nextButton={
-            <Button size="small" onClick={handleNext} disabled={activeStep === 5}>
+            <Button size="small" onClick={handleNext} disabled={activeStep === data.length}>
               Next
           {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
             </Button>

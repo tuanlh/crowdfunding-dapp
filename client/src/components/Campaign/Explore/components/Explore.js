@@ -38,6 +38,7 @@ class Explore extends Component {
       contract: null,
       isLoading: true,
       activeStep: 0,
+      chunkData: [],
       currentData: []
     };
   }
@@ -145,9 +146,6 @@ class Explore extends Component {
       campaigns.sort((prev, next) => next.start > prev.start);
       this.setState({ campaigns, isLoading: false });
     }
-    // if (loaded === page.limit || numberOfCampaign === loaded) {
-    this.handlePaginator(1);
-    // }
   };
 
   loadDataOfCampaign = async (index, ref, hash_integrity) => {
@@ -171,7 +169,9 @@ class Explore extends Component {
             if (result_hash === hash_integrity) {
               data[index] = response.data;
               data[index].id = index;
-              this.setState({ data });
+              this.setState({ data }, () => {
+                this.handlePaginator()
+              });
             }
           }
         }
@@ -221,44 +221,41 @@ class Explore extends Component {
     return { percent, state };
   };
 
-  handlePaginator = current => {
-    let { data, activeStep, isLoading } = this.state;
+  handlePaginator = () => {
+    let { data, isLoading } = this.state;
     if (!isLoading) {
-      let temp = _.chunk(data, 9);
+      let chunkData = _.chunk(data, 9);
+      let currentData = chunkData[0]
       this.setState({
-        activeStep: temp.length,
-        currentData: temp[0]
+        chunkData,
+        currentData
       })
     }
   };
 
-  handleNext = () => {
-    let { activeStep } = this.state;
+  handleNext = (isNextPage) => {
+    let { activeStep, chunkData } = this.state;
+    isNextPage ? activeStep += 1 : activeStep -= 1
     this.setState({
-      activeStep: (activeStep += 1)
-    });
-  };
-
-  handleBack = () => {
-    let { activeStep } = this.state;
-    this.setState({
-      activeStep: (activeStep -= 1)
+      activeStep,
+      currentData: chunkData[activeStep]
     });
   };
 
   render() {
-    const { data, campaigns, isLoading, activeStep, currentData } = this.state;
+    const { data, campaigns, isLoading, activeStep, chunkData, currentData } = this.state;
     return (
       <Fragment>
         {isLoading && <Loading />}
         {!isLoading && (
           <Fragment>
-            <HandleExplore data={currentData} campaigns={campaigns} />
+            <HandleExplore data={currentData} campaigns={campaigns} key={currentData} />
             <div>
               <StepperExplore
-                handleNext={this.handleNext}
-                handleBack={this.handleBack}
+                handleNext={() => this.handleNext(true)}
+                handleBack={() => this.handleNext(false)}
                 activeStep={activeStep}
+                data={chunkData}
               />
             </div>
           </Fragment>

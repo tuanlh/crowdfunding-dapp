@@ -12,17 +12,9 @@ const styles = theme => ({
 });
 
 class Explore extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: props.data,
-      campaigns: props.campaigns,
-      mergedList: []
-    };
-  }
 
   renderCampaign = () => {
-    const { data, campaigns } = this.state;
+    const { data, campaigns } = this.props;
     let result = _.map(data, (node, index) => {
       if (_.isEmpty(node)) return
       let nodeCampaign = _.find(campaigns, { id: node.id })
@@ -40,7 +32,7 @@ class Explore extends Component {
   };
 
   render() {
-    const { data, campaigns } = this.state;
+    const { data, campaigns } = this.props;
     let listEmpty = data.length === 0 || campaigns.length === 0
     return (
       <Fragment>
