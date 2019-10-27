@@ -5,6 +5,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import { withRouter } from 'react-router-dom'
 import _ from 'lodash'
 
 import getAllVerifier from '../../../utils/modules/getAllVerifier'
@@ -13,7 +14,7 @@ import getWeb3 from "../../../../utils/getWeb3";
 import Identity from "../../../../contracts/Identity.json";
 import AddVerifier from './AddVerifier';
 import './AdminPanel.scss'
-export default class AdminPanel extends Component {
+class AdminPanel extends Component {
   constructor(props) {
     console.log('asd')
     super(props);
@@ -73,6 +74,7 @@ export default class AdminPanel extends Component {
       }
       else {
         // deny access
+        this.props.history.push('/')
       }
     })
   }
@@ -161,3 +163,5 @@ export default class AdminPanel extends Component {
     )
   }
 }
+
+export default withRouter(AdminPanel)

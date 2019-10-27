@@ -6,11 +6,11 @@ import ListItemText from "@material-ui/core/ListItemText";
 import {
   AccountBalanceWallet,
   Home,
-  InsertEmoticon,
   FeaturedPlayListSharp,
   Dashboard,
   Help,
-  Info
+  Info,
+  PermIdentityTwoTone
 } from "@material-ui/icons";
 
 import "./styles.scss";
@@ -29,10 +29,18 @@ export const mainListItems = (
         <ListItemText primary="Home" className="muiSideMenu" />
       </ListItem>
     </Link>
-    <Link to="/dashboard" style={navStyles}>
+    {/* <Link to="/dashboard" style={navStyles}>
       <ListItem button style={listItemStyles}>
         <ListItemIcon>
           <Dashboard style={iconStyles} />
+        </ListItemIcon>
+        <ListItemText primary="Dashboard" className="muiSideMenu" />
+      </ListItem>
+    </Link> */}
+     <Link to="/identity" style={navStyles}>
+      <ListItem button style={listItemStyles}>
+        <ListItemIcon>
+          <PermIdentityTwoTone style={iconStyles} />
         </ListItemIcon>
         <ListItemText primary="Dashboard" className="muiSideMenu" />
       </ListItem>

@@ -165,14 +165,13 @@ class Explore extends Component {
             const hashEngine = new Keccak(256);
             hashEngine.update(temp);
             const result_hash = hashEngine.digest("hex");
-            //console.log(result_hash, hash_integrity);
-            if (result_hash === hash_integrity) {
+            // if (result_hash === hash_integrity) {
               data[index] = response.data;
               data[index].id = index;
               this.setState({ data }, () => {
                 this.handlePaginator()
               });
-            }
+            // }
           }
         }
       });
