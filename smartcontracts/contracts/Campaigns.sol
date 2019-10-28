@@ -106,7 +106,10 @@ contract Campaigns {
             _goal >= 1000 && _goal <= 1000000000, 
             "The goal of campaign must be include range is from 1000 to 1.000.000.000 tokens"
         );
-
+        require(
+            id.isVerified(msg.sender),
+            "You have to register identity before create campaign"
+        );
         // To testing, you can comment following lines
         //require(
         //    _days >= 15,
@@ -123,7 +126,7 @@ contract Campaigns {
         temp.endDate = now + _days * 60;
         temp.goal = _goal;
         temp.collected = 0;
-        temp.finstt = FinStatus.accepted;
+        temp.finstt = FinStatus.pending;
         campaigns.push(temp);
         emit Added(campaigns.length - 1);
     }
@@ -139,7 +142,7 @@ contract Campaigns {
     /// @param _i is index of campaigns array
     function acceptCampaign(uint _i) public {
         require(
-            token.isAdmin(msg.sender),
+            id.isVerifier(msg.sender),
             "You MUST be verifier");
         campaigns[_i].finstt = FinStatus.accepted;
         emit Accepted(_i);
