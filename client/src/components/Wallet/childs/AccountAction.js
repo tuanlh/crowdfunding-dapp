@@ -9,7 +9,7 @@ import {
   Typography,
   Button
 } from "@material-ui/core/";
-import QRCode from 'qrcode.react';
+import QRCode from "qrcode.react";
 import clsx from "clsx";
 import { ShoppingCart } from "@material-ui/icons";
 import Loading from "../../utils/Loading2";
@@ -18,11 +18,11 @@ const useStyles = theme => ({
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    // marginTop: theme.spacing(3), 
+    // marginTop: theme.spacing(3),
     width: "100%"
   },
   button: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(1)
   },
   typo: {
     marginLeft: theme.spacing(1),
@@ -35,9 +35,9 @@ class AccountAction extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      amountToken: '',
+      amountToken: "",
       amountEth: 0,
-      price: '',
+      price: "",
       isLoading: false
     };
   }
@@ -56,73 +56,80 @@ class AccountAction extends Component {
         amountToken: +amountToken
       });
     } else {
-      this.setState({ amountToken: '', amountEth: 0 });
+      this.setState({ amountToken: "", amountEth: 0 });
     }
   };
 
   handleDeposit = async () => {
     const { wei, granularity, account, contract } = this.props;
-    const { amountToken } = this.state
+    const { amountToken } = this.state;
     const amount = amountToken * granularity;
     if (amount > wei) {
       showNoti({
-        type: 'error',
-        details: 'You do not have enough ETH'
-      })
+        type: "error",
+        details: "You do not have enough ETH"
+      });
       return;
     }
     if (amount <= 0) {
       showNoti({
-        type: 'error',
-        details: 'You must ENTER number token that you want deposit'
-      })
+        type: "error",
+        details: "You must ENTER number token that you want deposit"
+      });
       return;
     }
     // this.resetForm();
     this.setState({ isLoading: true });
-    contract.methods.deposit().send({
-      from: account,
-      value: amount
-    }).on('transactionHash', hash => {
-      console.log(hash);
-      if (hash !== null) {
-        this.handleTransactionReceipt(hash)
-      }
-    }).on('error', err => {
-      if (err !== null) {
-        this.setState({ isLoading: false });
-      }
-    });
+    contract.methods
+      .deposit()
+      .send({
+        from: account,
+        value: amount
+      })
+      .on("transactionHash", hash => {
+        console.log(hash);
+        if (hash !== null) {
+          this.handleTransactionReceipt(hash);
+        }
+      })
+      .on("error", err => {
+        if (err !== null) {
+          this.setState({ isLoading: false });
+        }
+      });
   };
 
   handleWithdraw = async () => {
     const { token, account, contract } = this.props;
-    const { amountToken } = this.state
+    const { amountToken } = this.state;
     if (amountToken > token) {
       showNoti({
-        type: 'error',
-        details: 'You do not have enough Token'
-      })
+        type: "error",
+        details: "You do not have enough Token"
+      });
       return;
     }
     if (amountToken === 0) {
       showNoti({
-        type: 'error',
-        details: 'You must ENTER number token that you want withdraw'
-      })
+        type: "error",
+        details: "You must ENTER number token that you want withdraw"
+      });
       return;
     }
     // this.setState({ isLoading: true });
-    contract.methods.withdraw(amountToken).send({
-      from: account
-    }).on('transactionHash', hash => {
-      if (hash !== null) {
-        this.handleTransactionReceipt(hash);
-      }
-    });
+    contract.methods
+      .withdraw(amountToken)
+      .send({
+        from: account
+      })
+      .on("transactionHash", hash => {
+        if (hash !== null) {
+          this.handleTransactionReceipt(hash);
+        }
+      });
   };
 
-  handleTransactionReceipt = async (hash) => {
+  handleTransactionReceipt = async hash => {
     const { web3 } = this.props;
     let receipt = null;
     while (receipt === null) {
@@ -131,11 +138,11 @@ class AccountAction extends Component {
 
     if (receipt.status === false) {
       showNoti({
-        type: 'error',
-        details: 'Your transaction have been revert'
-      })
+        type: "error",
+        details: "Your transaction have been revert"
+      });
     } else {
-      showNoti()
+      showNoti();
     }
     this.setState({ isLoading: false });
   };
@@ -145,9 +152,7 @@ class AccountAction extends Component {
     const { amountToken, amountEth, isLoading } = this.state;
     return (
       <Fragment>
-        {
-          isLoading && <Loading />
-        }
+        {isLoading && <Loading />}
         <Card>
           <CardHeader
             avatar={<ShoppingCart />}
@@ -159,9 +164,11 @@ class AccountAction extends Component {
               paddingBottom: "0px"
             }}
           />
-          <CardContent style={{
-            paddingTop: "0px"
-          }}>
+          <CardContent
+            style={{
+              paddingTop: "0px"
+            }}
+          >
             <TextField
               label="Token"
               id="token"
@@ -172,20 +179,30 @@ class AccountAction extends Component {
               margin="normal"
               className={classes.textField}
               helperText={clsx(
-                amountToken !== '' && `${amountToken} Tokens = ${amountEth} Eth`,
-                amountToken === '' && `0 Tokens = ${amountEth} Eth`
+                amountToken !== "" &&
+                  `${amountToken} Tokens = ${amountEth} Eth`,
+                amountToken === "" && `0 Tokens = ${amountEth} Eth`
               )}
               required
               InputLabelProps={{
                 shrink: true
               }}
             />
-            <div style={{ textAlign: 'center' }}>
-              <Button size="small" variant="outlined" color="primary" className={classes.button}
-                onClick={this.handleDeposit}>
+            <div style={{ textAlign: "center" }}>
+              <Button
+                size="small"
+                variant="outlined"
+                color="primary"
+                className={classes.button}
+                onClick={this.handleDeposit}
+              >
                 Deposit
               </Button>
-              <Button size="small" variant="outlined" color="secondary" className={classes.button}
+              <Button
+                size="small"
+                variant="outlined"
+                color="secondary"
+                className={classes.button}
                 onClick={this.handleWithdraw}
               >
                 Withdraw
@@ -194,7 +211,12 @@ class AccountAction extends Component {
             <Typography className={classes.typo}>Or send ETH to:</Typography>
             <Grid container spacing={3}>
               <Grid item xs={9}>
-                <TextField readOnly type="text" defaultValue={contract.address}
+                <TextField
+                  InputProps={{
+                    readOnly: true
+                  }}
+                  type="text"
+                  defaultValue={contract.address}
                   className={classes.textField}
                 />
               </Grid>

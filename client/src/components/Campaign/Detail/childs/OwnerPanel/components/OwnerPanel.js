@@ -4,9 +4,9 @@ import {
   CardHeader,
   CardContent,
   Typography,
-  Button,
+  Button
 } from "@material-ui/core/";
-import { red, blue, cyan } from '@material-ui/core/colors'
+import { red, blue, cyan } from "@material-ui/core/colors";
 import { withStyles } from "@material-ui/styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -54,9 +54,15 @@ class OwnerPanel extends Component {
               ) : (
                 <Typography className={classes.success}>
                   Campaign is success, you can call a withdraw for campaign
-                  <Button className={classes.withdrawBtn} onClick={handleWithdraw}>
-                    Withdraw
-                  </Button>
+                  <div>
+                    <Button
+                      className={classes.withdrawBtn}
+                      onClick={handleWithdraw}
+                      variant="outlined"
+                    >
+                      Withdraw
+                    </Button>
+                  </div>
                 </Typography>
               )}
             </div>

@@ -5,7 +5,7 @@ import Paper from "@material-ui/core/Paper";
 import Breadcrumbs from "@material-ui/core/Breadcrumbs";
 import Typography from "@material-ui/core/Typography";
 import clsx from 'clsx'
-
+import _ from 'lodash'
 const useStyles = makeStyles(theme => ({
   root: {
     justifyContent: "center",
@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
 
 function getPaths(pathname) {
   let paths = ["/"];
-
+  debugger
   if (pathname === "/") return paths;
 
   pathname.split("/").reduce((prev, curr) => {
@@ -44,7 +44,7 @@ function findRouteName(url, routes = []) {
   const aroute = routes.find(route => {
     return (0, matchPath)(url, { path: route.path, exact: route.exact });
   });
-  return aroute && aroute.name ? aroute.name : null;
+  return aroute && aroute.name ? aroute.name : '';
 }
 
 const CustomSeparator = props => {
@@ -54,6 +54,9 @@ const CustomSeparator = props => {
 
   const items = paths.map((path, i) => {
     const routeName = findRouteName(path, appRoutes);
+    if(_.isEmpty(routeName)) { 
+      return
+    }
     if (i === paths.length - 1) {
       return (
         <Typography color="textPrimary" key={i} className={clsx(classes.activeLink, classes.textBreadcrumb)}>
