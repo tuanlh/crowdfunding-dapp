@@ -182,11 +182,11 @@ class Detail extends Component {
             d.name + d.short_description + d.description + d.thumbnail_url;
           const hashEngine = new Keccak(256);
           hashEngine.update(temp);
-          // const result_hash = hashEngine.digest("hex");
-          // if (result_hash === hash_integrity) {
-          extData = response.data;
-          this.setState({ extData });
-          // }
+          const result_hash = hashEngine.digest("hex");
+          if (result_hash === hash_integrity) {
+            extData = response.data;
+            this.setState({ extData });
+          }
         }
       }
     });

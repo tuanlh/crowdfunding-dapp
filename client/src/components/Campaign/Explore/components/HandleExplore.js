@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { withStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core";
+import { Grid, Typography } from "@material-ui/core";
 import _ from "lodash";
 import Campaign from "../childs/Campaign/components/Campaign";
 
@@ -12,19 +12,14 @@ const styles = theme => ({
 });
 
 class Explore extends Component {
-
   renderCampaign = () => {
     const { data, campaigns } = this.props;
     let result = _.map(data, (node, index) => {
-      if (_.isEmpty(node)) return
-      let nodeCampaign = _.find(campaigns, { id: node.id })
+      if (_.isEmpty(node)) return;
+      let nodeCampaign = _.find(campaigns, { id: node.id });
       return (
         <Grid item xs={4} key={index}>
-          <Campaign
-            key={index}
-            data={node}
-            campaigns={nodeCampaign}
-          />
+          <Campaign key={index} data={node} campaigns={nodeCampaign} />
         </Grid>
       );
     });
@@ -33,21 +28,26 @@ class Explore extends Component {
 
   render() {
     const { data, campaigns } = this.props;
-    let listEmpty = data.length === 0 || campaigns.length === 0
+    let listEmpty = data.length === 0 || campaigns.length === 0;
     return (
       <Fragment>
-        {
-          listEmpty &&
-          <div>
+        {listEmpty && (
+          <Typography
+            variant="body2"
+            color="textSecondary"
+            component="p"
+            style={{
+              textAlign: "center"
+            }}
+          >
             Empty List
-          </div>
-        }
-        {
-          !listEmpty &&
+          </Typography>
+        )}
+        {!listEmpty && (
           <Grid container spacing={2}>
             {this.renderCampaign()}
           </Grid>
-        }
+        )}
       </Fragment>
     );
   }

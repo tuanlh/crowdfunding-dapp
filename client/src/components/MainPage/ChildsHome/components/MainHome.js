@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
@@ -36,13 +36,13 @@ const styles = theme => ({
     padding: theme.spacing(6)
   },
   button: {
-    margin: theme.spacing(1),
-  },
+    margin: theme.spacing(1)
+  }
 });
 
 class MainHome extends Component {
   render() {
-    const { classes } = this.props
+    const { classes } = this.props;
     return (
       <Fragment>
         <Typography
@@ -53,25 +53,28 @@ class MainHome extends Component {
           gutterBottom
         >
           Crownfunding
-            </Typography>
-        <Typography
-          variant="h5"
-          align="center"
-          color="textSecondary"
-          paragraph
-        >
+        </Typography>
+        <Typography variant="h5" align="center" color="textSecondary" paragraph>
           To live in this life, one needs a soul. For what, you know? <br />
         </Typography>
         <div className={classes.heroButtons}>
           <Grid container spacing={2} justify="center">
             <Grid item>
-              <Link to="/create" style={{ textDecoration: 'none' }}>
-                <Button variant="contained" color="primary" className={classes.button}>
+              <Link to="/create" style={{ textDecoration: "none" }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  className={classes.button}
+                >
                   Start campaign
-                    </Button>
+                </Button>
               </Link>
-              <Link to="/explore" style={{ textDecoration: 'none' }} className={classes.button}>
-                <Button variant="contained" color="primary">
+              <Link
+                to="/explore"
+                style={{ textDecoration: "none" }}
+                className={classes.button}
+              >
+                <Button variant="outlined" color="primary">
                   Explore campaign
                 </Button>
               </Link>
@@ -79,9 +82,8 @@ class MainHome extends Component {
           </Grid>
         </div>
       </Fragment>
-    )
+    );
   }
 }
 
 export default withStyles(styles)(MainHome);
-

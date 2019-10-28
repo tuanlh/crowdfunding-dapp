@@ -12,6 +12,7 @@ import Loading from "../utils/Loading2";
 import Helper from "./Create/Helper.js";
 import FormCreate from "./Create/FormCreate.js";
 import showNoti from "../utils/Notification/";
+import showActionNoti from '../utils/Notification/ActionNoti';
 import Alert from '../utils/Alert'
 class Creation extends Component {
   state = {
@@ -61,14 +62,19 @@ class Creation extends Component {
         },
         () => {
           const { contractIdentity, account } = this.state;
-          console.log(account);
           contractIdentity.methods
-            .isVerifier(account)
+            .isVerified(account)
             .call({
               from: account
             })
             .then(res => {
-              console.log(res);
+              if(res === false) {
+                showActionNoti().then(res => {
+                  if(res) {
+                    this.props.history.push('/identity')
+                  }
+                })
+              }
             });
         }
       );

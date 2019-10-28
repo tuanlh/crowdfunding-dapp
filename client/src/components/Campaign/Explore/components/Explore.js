@@ -164,14 +164,14 @@ class Explore extends Component {
               d.name + d.short_description + d.description + d.thumbnail_url;
             const hashEngine = new Keccak(256);
             hashEngine.update(temp);
-            // const result_hash = hashEngine.digest("hex");
-            // if (result_hash === hash_integrity) {
+            const result_hash = hashEngine.digest("hex");
+            if (result_hash === hash_integrity) {
               data[index] = response.data;
               data[index].id = index;
               this.setState({ data }, () => {
                 this.handlePaginator()
               });
-            // }
+            }
           }
         }
       });
