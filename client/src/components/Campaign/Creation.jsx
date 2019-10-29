@@ -149,7 +149,7 @@ class Creation extends Component {
             this.showNotification(
               "error",
               "Error from backend",
-              respone.data.error_msg
+              JSON.stringify(respone.data.error_msg)
             );
           }
         } else {
@@ -162,11 +162,11 @@ class Creation extends Component {
       })
       .catch(error => {
         console.log(error);
-        this.showNotification(
-          "error",
-          "Error from backend. See console to more details",
-          "Please try again"
-        );
+        // this.showNotification(
+        //   "error",
+        //   "Error from backend. See console to more details",
+        //   "Please try again"
+        // );
       })
       .finally(() => {
         // this.setState({

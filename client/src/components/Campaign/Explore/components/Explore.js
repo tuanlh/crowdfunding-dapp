@@ -8,6 +8,7 @@ import _ from "lodash";
 
 import Loading from "../../../utils/Loading2";
 import Campaigns from "../../../../contracts/Campaigns.json";
+import Identity from "../../../../contracts/Identity.json";
 import HandleExplore from "./HandleExplore";
 import StepperExplore from "../childs/StepperExplore/components/StepperExplore";
 
@@ -118,6 +119,7 @@ class Explore extends Component {
     this.loadDataOfCampaign(index, ref, hashIntegrity);
     let { numberOfCampaign, campaigns, loaded } = this.state;
     finStatus = parseInt(finStatus);
+    console.log(finStatus)
     if (finStatus > 0) {
       collected = parseInt(collected);
       goal = parseInt(goal);
@@ -248,7 +250,7 @@ class Explore extends Component {
         {isLoading && <Loading />}
         {!isLoading && (
           <Fragment>
-            <HandleExplore data={currentData} campaigns={campaigns} key={currentData} />
+            <HandleExplore data={currentData} campaigns={campaigns} key={Math.random()} />
             <div>
               <StepperExplore
                 handleNext={() => this.handleNext(true)}
