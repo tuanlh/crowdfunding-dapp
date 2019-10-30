@@ -6,17 +6,24 @@ import { withRouter } from 'react-router-dom'
 import getWeb3 from "../../utils/getWeb3";
 import Campaigns from "../../contracts/Campaigns.json";
 import Identity from "../../contracts/Identity.json";
+import TokenSystem from "../../contracts/TokenSystem.json";
 import { authUser } from "../../actions/index";
-class Test extends Component {
-  state = {
-    isProcessing: false,
-    web3: null,
-    account: null,
-    contract: null,
-    api_db: null,
-    contractIdentity: null,
-    isError: {}
-  };
+import Loading from "../utils/Loading2";
+class AuthMetamask extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isProcessing: false,
+      web3: null,
+      account: null,
+      contract: null,
+      api_db: null,
+      contractIdentity: null,
+      isError: {},
+      isAuth: props.isAuth
+    }
+  }
+
   componentDidMount = async () => {
     try {
       const { authUser } = this.props;
@@ -28,37 +35,51 @@ class Test extends Component {
 
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
+      // campagins
       const deployedNetwork = Campaigns.networks[networkId];
-      const instance = new web3.eth.Contract(
+      const instanceCampaigns = new web3.eth.Contract(
         Campaigns.abi,
         deployedNetwork && deployedNetwork.address
       );
+      // identity
       const deployedNetworkIdentity = Identity.networks[networkId];
       const instanceIdentity = new web3.eth.Contract(
         Identity.abi,
         deployedNetworkIdentity && deployedNetworkIdentity.address
       );
+      // token system
+      const deployedTokenSystem = TokenSystem.networks[networkId];
+      const instanceTokenSystem = new web3.eth.Contract(
+        TokenSystem.abi,
+        deployedTokenSystem && deployedTokenSystem.address
+      );
+
       const api_db_default = "http://" + window.location.hostname + ":8080/";
+
       const api_db =
         !hasOwnProperty.call(process.env, "REACT_APP_STORE_CENTRALIZED_API") ||
-        process.env.REACT_APP_STORE_CENTRALIZED_API === ""
+          process.env.REACT_APP_STORE_CENTRALIZED_API === ""
           ? api_db_default
           : process.env.REACT_APP_STORE_CENTRALIZED_API;
+
       window.ethereum.on("accountsChanged", () => {
         window.location.reload();
       });
+
       authUser({
         data: {
           web3,
           account: accounts[0],
-          contract: instance,
-          loading: false,
+          contractCampaigns: instanceCampaigns,
+          contractIdentity: instanceIdentity,
+          contractTokenSystem: instanceTokenSystem,
+          isLoading: false,
           api_db,
-          contractIdentity: instanceIdentity
         },
         isAuth: true
       });
-      this.props.history.goBack()
+      // this.props.history.goBack()
+      this.props.history.push('/explore')
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -68,17 +89,19 @@ class Test extends Component {
     }
   };
   render() {
-    console.log(this.props)
+    const { users } = this.props
     return (
       <Fragment>
-        asda
-        {"sdf"}
+        {
+          !users.isAuth && <Loading />
+        }
       </Fragment>
     );
   }
 }
 const mapStateToProps = state => {
   return {
+    users: state.users,
     state
   };
 };
@@ -92,4 +115,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withRouter(Test));
+)(withRouter(AuthMetamask));

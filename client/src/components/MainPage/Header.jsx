@@ -52,7 +52,10 @@ function Header(props) {
     setOpen(false);
   };
   const { location } = props
-  let showDrawer = location.pathname !== '/'
+  let showDrawer = true
+  if (location.pathname === '/' || location.pathname === '/auth') {
+    showDrawer= false
+  }
   return (
     <Fragment>
       <AppBar
@@ -60,14 +63,14 @@ function Header(props) {
         className={clsx(classes.appBar, open && classes.appBarShift)}
       >
         <Toolbar className={classes.toolbar}>
-         {  showDrawer && <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
-            >
-              <MenuIcon />
+          {showDrawer && <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+          >
+            <MenuIcon />
           </IconButton>}
           <Typography
             component="h1"
@@ -82,7 +85,7 @@ function Header(props) {
       </AppBar>
       {
         showDrawer &&
-        <MaterialDrawer handleDrawerClose={handleDrawerClose} open={open}/>
+        <MaterialDrawer handleDrawerClose={handleDrawerClose} open={open} />
       }
     </Fragment>
   );

@@ -8,9 +8,8 @@ import IdentityUser from "./components/Identity/Register";
 import CheckingIdentity from "./components/Identity/Checking";
 import AdminPanel from "./components/Identity/AdminPanel";
 import Explore from "./components/Campaign/Explore";
-import Test from "./components/Test/index";
+import AuthMetaMask from "./components/AuthMetamask/index";
 import _ from "lodash";
-import { PrintSharp } from "@material-ui/icons";
 // import Notification from './components/Identity/Notification';
 export const listRouter = [
   {
@@ -70,10 +69,10 @@ export const listRouter = [
     isAuth: true
   },
   {
-    path: "/test",
+    path: "/auth",
     exact: true,
-    component: Test,
-    name: "Test",
+    component: AuthMetaMask,
+    name: "",
     isAuth: false
   },
   {
@@ -94,15 +93,14 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
         users.isAuth === true ? (
           <Component {...props} />
         ) : (
-          <Redirect to="/test" />
-        )
+            <Redirect to="/auth" />
+          )
       }
     />
   );
 };
 
 const Router = props => {
-  const { users } = props;
   return (
     <Switch>
       {_.map(listRouter, (router, index) => {
@@ -117,7 +115,7 @@ const Router = props => {
             />
           );
         }
-        if (!users.isAuth) {
+        else {
           return (
             <Route
               path={router.path}

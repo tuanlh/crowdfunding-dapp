@@ -90,6 +90,7 @@ class Campaign extends Component {
 
   render() {
     const { classes, data, campaigns } = this.props;
+    if (_.isEmpty(data) || _.isEmpty(campaigns)) return
     return (
       <Fragment>
         <Card className={clsx(classes.card, "campaign")}>
@@ -101,7 +102,7 @@ class Campaign extends Component {
             }}
           />
           <div style={{ textAlign: "center" }}>
-            <img className={classes.media} src={data.thumbnail_url} alt=''/>
+            <img className={classes.media} src={data.thumbnail_url} alt='' />
           </div>
           <CardContent className={classes.content}>
             <p className={"short-description"}>{data.short_description}</p>

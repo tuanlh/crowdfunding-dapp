@@ -15,8 +15,10 @@ class Explore extends Component {
   renderCampaign = () => {
     const { data, campaigns } = this.props;
     let result = _.map(data, (node, index) => {
-      if (_.isEmpty(node)) return;
-      let nodeCampaign = _.find(campaigns, { id: node.id });
+      let nodeCampaign = _.find(campaigns, { id: _.get(node, 'id') });
+      if(_.isEmpty(nodeCampaign) || _.isEmpty(campaigns) || _.isEmpty(node)) {
+        return 
+      }
       return (
         <Grid item xs={4} key={index}>
           <Campaign key={index} data={node} campaigns={nodeCampaign} />

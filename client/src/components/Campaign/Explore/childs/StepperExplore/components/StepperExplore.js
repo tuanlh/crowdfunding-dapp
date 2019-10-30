@@ -24,7 +24,7 @@ class StepperExplore extends Component {
           activeStep={activeStep}
           className={classes.root}
           nextButton={
-            <Button size="small" onClick={handleNext} disabled={activeStep === data.length}>
+            <Button size="small" onClick={handleNext} disabled={activeStep === data.length - 1}>
               Next
           {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
             </Button>

@@ -2,33 +2,40 @@ import React, { Component, Fragment } from "react";
 import axios from "axios";
 import { Keccak } from "sha3";
 
-import Campaigns from "../../../../contracts/Campaigns.json";
-import TokenSystem from "../../../../contracts/TokenSystem.json";
-import getWeb3 from "../../../../utils/getWeb3";
 import Loading from "../../../utils/Loading2";
 import CampaignInfo from "../childs/CampaignInfo/components/CampaignInfo.js";
 import { Grid } from "@material-ui/core";
 import OwnerPanel from "../childs/OwnerPanel/components/OwnerPanel.js";
 import BackerPanel from "../childs/BackerPanel/index.js";
+import VerifierPanel from "../childs/VerifierPanel/components/VerifierPanel.js";
 
 class Detail extends Component {
-  state = {
-    id: null,
-    campaign: {},
-    extData: {},
-    campaignStatusChr: ["During", "Failed", "Succeed"],
-    isExist: false,
-    isLoading: true,
-    balance: 0,
-    tokenBacked: 0,
-    amount: 0,
-    numberOfInvestor: 0,
-    web3: null,
-    account: null,
-    contract: {},
-    isComponentRemount: false,
-    api_db: null
-  };
+  constructor(props) {
+    super(props);
+    const { users } = props;
+    this.state = {
+      id: null,
+      campaign: {},
+      extData: {},
+      campaignStatusChr: ["During", "Failed", "Succeed"],
+      isExist: false,
+      isLoading: true,
+      balance: 0,
+      tokenBacked: 0,
+      amount: 0,
+      numberOfInvestor: 0,
+      web3: users.data.web3,
+      account: users.data.account,
+      contract: {
+        Campaigns: users.data.contractCampaigns,
+        Account: users.data.contractTokenSystem,
+        Identity: users.data.contractIdentity
+      },
+      isComponentRemount: false,
+      api_db: users.data.api_db,
+      isVerified: false
+    };
+  }
 
   componentDidMount = async () => {
     const {
@@ -40,54 +47,10 @@ class Detail extends Component {
     } else {
       this.setState({ id: params.id });
       try {
-        // Get network provider and web3 instance.
-        const web3 = await getWeb3();
-        // Use web3 to get the user's accounts.
-        const accounts = await web3.eth.getAccounts();
-        // Get the contract instance.
-        const networkId = await web3.eth.net.getId();
-        const deployedCampaign = Campaigns.networks[networkId];
-        const instanceCampaign = new web3.eth.Contract(
-          Campaigns.abi,
-          deployedCampaign && deployedCampaign.address
-        );
-        const deployedAccount = TokenSystem.networks[networkId];
-        const instanceAccount = new web3.eth.Contract(
-          TokenSystem.abi,
-          deployedAccount && deployedAccount.address
-        );
-
-        const api_db_default = "http://" + window.location.hostname + ":8080/";
-        const api_db =
-          !hasOwnProperty.call(
-            process.env,
-            "REACT_APP_STORE_CENTRALIZED_API"
-          ) || process.env.REACT_APP_STORE_CENTRALIZED_API === ""
-            ? api_db_default
-            : process.env.REACT_APP_STORE_CENTRALIZED_API;
-
-        this.setState(
-          {
-            web3,
-            account: accounts[0],
-            contract: {
-              Campaigns: instanceCampaign,
-              Account: instanceAccount
-            },
-            isComponentRemount: false,
-            api_db
-          },
-          this.getInfo
-        );
+        this.setState({}, this.getInfo);
         this.listenEventToUpdate();
-        window.ethereum.on("accountsChanged", () => {
-          window.location.reload();
-        });
       } catch (error) {
         // Catch any errors for any of the above operations.
-        alert(
-          `Failed to load web3, accounts, or contract. Check console for details.`
-        );
         console.error(error);
       }
     }
@@ -120,28 +83,35 @@ class Detail extends Component {
           finStatus = parseInt(finStatus);
           startDate = parseInt(startDate) * 1000;
           endDate = parseInt(endDate) * 1000;
-          if (finStatus > 0) {
-            const status = this.getStatus(endDate, goal, collected);
-            const progress = this.getProgress(collected, goal);
-            const fundEnabled = status === 0 && finStatus === 1;
-            const available = fundEnabled ? goal - collected : 0;
-            const campaign = {
-              name,
-              startDate,
-              endDate,
-              goal,
-              collected,
-              owner,
-              status,
-              progress,
-              finStatus,
-              fundEnabled,
-              available
-            };
-            this.setState({ campaign, isExist: true });
-          }
+          contract.Identity.methods
+            .isVerified(account)
+            .call({
+              from: account
+            })
+            .then(isVerified => {
+              if (finStatus > 0 || isVerified) {
+                const status = this.getStatus(endDate, goal, collected);
+                const progress = this.getProgress(collected, goal);
+                const fundEnabled = status === 0 && finStatus === 1;
+                const available = fundEnabled ? goal - collected : 0;
+                const campaign = {
+                  name,
+                  startDate,
+                  endDate,
+                  goal,
+                  collected,
+                  owner,
+                  status,
+                  progress,
+                  finStatus,
+                  fundEnabled,
+                  available
+                };
+                this.setState({ campaign, isExist: true, isVerified });
+              }
+              this.setState({ isLoading: false });
+            });
         }
-        this.setState({ isLoading: false });
       });
 
     contract.Campaigns.methods
@@ -354,6 +324,51 @@ class Detail extends Component {
     this.setState({ amount: 0 }); // reset
     this.refs.amount.value = "";
   };
+  handleConfirm = value => {
+    const { id, account, contract } = this.state;
+    if(value) {
+      contract.Campaigns.methods
+      .acceptCampaign(id)
+      .send({
+        from: account
+      })
+      .then(res => {
+        console.log(res);
+      });
+    }
+  };
+  renderPanel = () => {
+    const {
+      campaign,
+      numberOfInvestor,
+      balance,
+      tokenBacked,
+      account,
+      isVerified
+    } = this.state;
+    if (campaign.finStatus === 0 && isVerified) {
+      // return panel of user
+      return <VerifierPanel handleConfirm={this.handleConfirm} />;
+    } else {
+      return campaign.owner === account ? (
+        <OwnerPanel
+          numberOfInvestor={numberOfInvestor}
+          campaign={campaign}
+          handleWithdraw={this.handleWithdraw}
+        />
+      ) : (
+        <BackerPanel
+          tokenBacked={tokenBacked}
+          numberOfInvestor={numberOfInvestor}
+          campaign={campaign}
+          handleFund={this.handleFund}
+          handleRefund={this.handleRefund}
+          handleChange={this.handleChange}
+          balance={balance}
+        />
+      );
+    }
+  };
 
   render() {
     if (!this.state.web3) {
@@ -364,10 +379,7 @@ class Detail extends Component {
       isExist,
       extData,
       isLoading,
-      campaignStatusChr,
-      numberOfInvestor,
-      balance,
-      tokenBacked
+      campaignStatusChr
     } = this.state;
     return (
       <Fragment>
@@ -385,23 +397,7 @@ class Detail extends Component {
                 )}
               </Grid>
               <Grid item xs={4}>
-                {campaign.owner === this.state.account ? (
-                  <OwnerPanel
-                    numberOfInvestor={numberOfInvestor}
-                    campaign={campaign}
-                    handleWithdraw={this.handleWithdraw}
-                  />
-                ) : (
-                  <BackerPanel
-                    tokenBacked={tokenBacked}
-                    numberOfInvestor={numberOfInvestor}
-                    campaign={campaign}
-                    handleFund={this.handleFund}
-                    handleRefund={this.handleRefund}
-                    handleChange={this.handleChange}
-                    balance={balance}
-                  />
-                )}
+                {this.renderPanel()}
               </Grid>
             </Grid>
           </Fragment>
