@@ -15,7 +15,7 @@ contract Campaigns {
     * Failed: end date >= now AND token collected < goal
     * Succeed: end date >= now AND token collected >= goal
     */
-    enum Status {during, failed, succeed}
+    enum Status {during, failed, rejected, succeed}
 
     /* Explaintation of campaign FINACIAL status
     * Pending: new campaign just added. NOT allow investor fund to campaign
@@ -140,11 +140,12 @@ contract Campaigns {
 
     /// @notice Accept a campaign is allow all investor can invest to that campaign
     /// @param _i is index of campaigns array
-    function acceptCampaign(uint _i) public {
+    /// @param _isAccept is decide for accept campaign (true => accept, false => reject)
+    function acceptCampaign(uint _im bool _isAccept) public {
         require(
             id.isVerifier(msg.sender),
             "You MUST be verifier");
-        campaigns[_i].finstt = FinStatus.accepted;
+        campaigns[_i].finstt = _isAccept ? FinStatus.accepted : FinStatus.rejected;
         emit Accepted(_i);
     }
 
@@ -224,12 +225,8 @@ contract Campaigns {
             "Campaign MUST be succeed"
         );
         require(
-            campaigns[_i].finstt != FinStatus.pending, 
-            "Campaign MUST be verify");
-        require(
-            campaigns[_i].finstt != FinStatus.paid,
-            "Campaign already paid"
-        );
+            campaigns[_i].finstt == FinStatus.accepted,
+            "Campaign MUST be accepted (NOT reject or paid)");
 
         // Important: set status PAID before call external function to withdraw
         campaigns[_i].finstt = FinStatus.paid; 
@@ -256,10 +253,11 @@ contract Campaigns {
     function getTotalInvest(address _addr) public view returns(uint) {
         uint tokens = 0;
         uint[] memory campaignsOf = investors[_addr];
-        for (uint i=0; i < campaignsOf.length; i++) {
-            if (getStatus(i) != Status.failed) {
-                if (campaigns[i].investment[_addr] > 0) {
-                    tokens = tokens.add(campaigns[i].investment[_addr]);
+        for (uint i = 0; i < campaignsOf.length; i++) {
+            uint campID = campaignsOf[i];
+            if (getStatus(campID) != Status.failed) {
+                if (campaigns[campID].investment[_addr] > 0) {
+                    tokens = tokens.add(campaigns[campID].investment[_addr]);
                 }
             }
         }
