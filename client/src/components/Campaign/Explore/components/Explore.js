@@ -76,7 +76,7 @@ class Explore extends Component {
   };
   getCampaign = index => {
     return new Promise(resolve => {
-      const { account, contract, contractIdentity } = this.state;
+      const { account, contract, } = this.state;
       resolve(contract.methods.getInfo(index).call({ from: account }));
     });
   };
@@ -127,7 +127,8 @@ class Explore extends Component {
               collected: collected,
               owner: owner,
               status: statusChr,
-              progress: progress
+              progress: progress,
+              finStatus
             });
           } else {
             resolve(null);

@@ -54,7 +54,7 @@ const CustomSeparator = props => {
   const items = paths.map((path, i) => {
     const routeName = findRouteName(path, appRoutes);
     if (_.isEmpty(routeName)) {
-      return;
+      return '';
     }
     if (i === paths.length - 1) {
       return (
