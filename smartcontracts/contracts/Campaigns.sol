@@ -15,14 +15,14 @@ contract Campaigns {
     * Failed: end date >= now AND token collected < goal
     * Succeed: end date >= now AND token collected >= goal
     */
-    enum Status {during, failed, rejected, succeed}
+    enum Status {during, failed, succeed}
 
     /* Explaintation of campaign FINACIAL status
     * Pending: new campaign just added. NOT allow investor fund to campaign
     * Accepted: a campaign was verified => Allow investors fund to campaign
     * Paid: a campaign that owner withdraw token completed => end campaign
     */
-    enum FinStatus {pending, accepted, paid}
+    enum FinStatus {pending, accepted, rejected, paid}
 
     struct CampaignInfo {
         address owner;
