@@ -49,6 +49,10 @@ class OwnerPanel extends Component {
                 </Typography>
               ) : campaign.finStatus === 2 ? (
                 <Typography className={classes.warning}>
+                  Campaign is reject, you don't have any access
+                </Typography>
+              ) : campaign.finStatus === 3 ? (
+                <Typography className={classes.warning}>
                   Campaign is paid, you don't have any access
                 </Typography>
               ) : (

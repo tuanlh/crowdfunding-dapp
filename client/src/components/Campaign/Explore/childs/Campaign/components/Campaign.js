@@ -74,6 +74,10 @@ class Campaign extends Component {
         styleStatus = green[300]
         break;
     }
+    if(campaigns.finStatus === 2) {
+      campaigns.status = 'Reject'
+      styleStatus = red[500]
+    }
     return (
       <span>
         <span style={{

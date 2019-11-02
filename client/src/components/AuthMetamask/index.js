@@ -78,8 +78,12 @@ class AuthMetamask extends Component {
         },
         isAuth: true
       });
-      // this.props.history.goBack()
-      this.props.history.push('/explore')
+      const { location, history } = this.props
+      if(!_.isEmpty(location.state)) {
+        history.push(location.state.prePage)
+      } else {
+        history.push('/')
+      }
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(

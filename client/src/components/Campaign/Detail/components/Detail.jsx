@@ -326,16 +326,14 @@ class Detail extends Component {
   };
   handleConfirm = value => {
     const { id, account, contract } = this.state;
-    if(value) {
-      contract.Campaigns.methods
-      .acceptCampaign(id)
-      .send({
-        from: account
-      })
-      .then(res => {
-        console.log(res);
-      });
-    }
+    contract.Campaigns.methods
+    .acceptCampaign(id, value)
+    .send({
+      from: account
+    })
+    .then(res => {
+      console.log(res);
+    });
   };
   renderPanel = () => {
     const {

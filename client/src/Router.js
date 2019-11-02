@@ -85,7 +85,7 @@ export const listRouter = [
 ];
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const { users } = rest;
+  const { users, location } = rest;
   return (
     <Route
       {...rest}
@@ -93,7 +93,11 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
         users.isAuth === true ? (
           <Component {...props} />
         ) : (
-            <Redirect to="/auth" />
+            <Redirect
+              to={{
+                pathname: "/auth",
+                state: { prePage: location.pathname }
+              }} />
           )
       }
     />

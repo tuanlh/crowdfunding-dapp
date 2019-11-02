@@ -4,9 +4,10 @@ import {
   CardHeader,
   CardContent,
   Button,
-  TextField
+  TextField,
+  Typography
 } from "@material-ui/core/";
-import { blue, cyan } from "@material-ui/core/colors";
+import { blue, cyan, red } from "@material-ui/core/colors";
 import { withStyles } from "@material-ui/styles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 const customStyle = theme => ({
@@ -23,6 +24,9 @@ const customStyle = theme => ({
   btnRefund: {
     color: cyan[500],
     margin: theme.spacing(1),
+  },
+  warning: {
+    color: red[300]
   }
 })
 class BackerPanel extends Component {
@@ -88,6 +92,12 @@ class BackerPanel extends Component {
                 <b> Your token:</b> {balance}
               </p>
             </div>
+            {
+              campaign.finStatus === 2 &&
+              <Typography className={classes.warning}>
+                Campaign is reject, you don't have any access
+              </Typography>
+            }
           </CardContent>
         </Card>
       </Fragment>

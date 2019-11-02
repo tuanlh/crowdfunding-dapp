@@ -117,8 +117,8 @@ class CampaignInfo extends Component {
                 <b>
                   <FontAwesomeIcon icon="signal" /> Progress:{" "}
                 </b>
-                {campaign.collected} / {campaign.goal} tokens (
-                {this.props.campaignStatusChr[campaign.status]})
+                {campaign.collected} / {campaign.goal} tokens 
+                {campaign.finStatus !== 2 && ( " - " + this.props.campaignStatusChr[campaign.status] )}
               </p>
               <div className={classes.root}>
                 <LinearProgress
