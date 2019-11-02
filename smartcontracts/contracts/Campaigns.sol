@@ -141,7 +141,7 @@ contract Campaigns {
     /// @notice Accept a campaign is allow all investor can invest to that campaign
     /// @param _i is index of campaigns array
     /// @param _isAccept is decide for accept campaign (true => accept, false => reject)
-    function acceptCampaign(uint _im bool _isAccept) public {
+    function acceptCampaign(uint _i, bool _isAccept) public {
         require(
             id.isVerifier(msg.sender),
             "You MUST be verifier");
