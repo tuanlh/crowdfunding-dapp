@@ -12,12 +12,12 @@ contract TokenSystem {
         uint amount;
     }
 
-    Campaigns internal campaigns;
-    address internal admin;
-    uint internal mGranularity; //Minium value of Wei 
+    Campaigns internal camp;
+    uint internal mGranularity; //Minium value of Wei
     mapping(address => uint) internal mBalances; // wei
     uint internal mTotalBalances;
     mapping(address => Investment[]) investment;
+    address owner;
 
     event Deposit(address from, uint amount);
     event Withdraw(address to, uint amount);
@@ -30,13 +30,14 @@ contract TokenSystem {
     /// Or it is the minimum value of wei corresponds to a token
     /// Or it is price of token
     /// 1 token = mGranularity (wei)
-    /// Set admin = msg.sender (runner contract)
-    constructor() public {    
-        admin = msg.sender;
+    /// Set owner = msg.sender (runner contract)
+    constructor(Campaigns _camp) public {
+        camp = _camp;
+        owner = msg.sender;
         mGranularity = 10**15; // 1 ETH = 1000 tokens
         mTotalBalances = 0;
     }
-    
+
     /// @dev granularity can be understood as the price of a token. 1 token = granularity form as wei
     /// @return the granularity of the token
     function granularity() public view returns (uint) { return mGranularity; }
@@ -57,7 +58,7 @@ contract TokenSystem {
         }
         uint balance;
         balance = mBalances[msg.sender].div(mGranularity);
-        balance = balance.sub(campaigns.getTotalInvest(_addr));
+        balance = balance.sub(camp.getTotalInvest(_addr));
         return balance;
     }
 
@@ -82,7 +83,7 @@ contract TokenSystem {
         assert(address(this).balance >= mTotalBalances);
         emit Deposit(msg.sender, msg.value);
     }
-    
+
     /// @notice This function allow user withdraw balances in contract to ETH
     /// @dev Withdraw token in system to ETH. (Wei = token * mGranularity)
     /// @param _amountToken number of token that you want withdraw
@@ -110,16 +111,6 @@ contract TokenSystem {
         }
         emit Withdraw(msg.sender, amount);
         return true;
-        
-    }
-
-     /// @dev This function add address of campaign contract
-    /// @param _campaign is an address
-    function updateCampaignAddr(Campaigns _campaign) public {
-        require(
-            msg.sender == admin, 
-            "You MUST be owner of this contract");
-        campaigns = _campaign;
     }
 
     /// @notice Allow campaign owner (startups) can withdraw token from a succeed campaign
@@ -136,7 +127,7 @@ contract TokenSystem {
             "Run this contract MUST be a contract"
         );
         require(
-            address(campaigns) == msg.sender,
+            address(camp) == msg.sender,
             "Sender this function is invalid"
         );
         require(
@@ -144,11 +135,11 @@ contract TokenSystem {
             "Amount MUST be greater zero"
         );
         require(
-            campaigns.getFinStatus(_i) >= Campaigns.FinStatus.accepted,
+            camp.getFinStatus(_i) >= Campaigns.FinStatus.accepted,
             "Campaign MUST be accepted"
         );
         require(
-            campaigns.getStatus(_i) >= Campaigns.Status.succeed,
+            camp.getStatus(_i) >= Campaigns.Status.succeed,
             "Campaign MUST be succeed"
         );
 
@@ -157,12 +148,14 @@ contract TokenSystem {
         return true;
     }
 
-    /// @notice check wether is admin
-    /// @dev This function is called by a contract to verify address of sender
-    /// @param _addr is address that you want to check
-    /// @return `true` if _addr == admin
-    function isAdmin(address _addr) public view returns(bool) {
-        return admin == _addr;
+    /// @notice This function for contract owner to change granularity
+    /// @param _newGranularity is new value of granularity
+    function changeGranularity(uint _newGranularity) public {
+        require(
+            msg.sender == owner,
+            "This function must be run by owner"
+        );
+        mGranularity = _newGranularity;
     }
 
     /* -- Helper Functions -- */
