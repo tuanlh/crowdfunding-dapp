@@ -2,12 +2,14 @@ pragma solidity ^0.5;
 import {SafeMath} from "./SafeMath.sol";
 import {TokenSystem} from "./TokenSystem.sol";
 import {Identity} from "./Identity.sol";
+import {Disbursement} from "./Disbursement.sol";
 
 /// @title This contract store info about campaigns
 /// @author tuanlh
 contract Campaigns {
     TokenSystem token;
     Identity id;
+    Disbursement disb;
     using SafeMath for uint;
 
     /* Explaintation of campaign status
@@ -30,6 +32,7 @@ contract Campaigns {
         uint endDate;
         uint goal;
         uint collected;
+        uint stage;
         FinStatus finstt;
         address[] investors;
         mapping(address => uint) investment;
@@ -40,7 +43,7 @@ contract Campaigns {
 
     CampaignInfo[] internal campaigns;
     mapping(address => uint[]) internal investors; //mapping investors to campaigns id
-
+    address admin;
     event Added(uint id);
     event Accepted(uint id);
     event Invested(uint id, address invester, uint token);
@@ -51,20 +54,36 @@ contract Campaigns {
     //
     /// @notice Constructor to create a campaign contract
     /// @dev This contract MUST be run after TokenSystem
-    /// @param _token is address of TokenSystem contract
     /// @param _id is address of Identity contract
-    constructor(TokenSystem _token, Identity _id) public {
-        token = _token;
+    constructor(Identity _id) public {
+        admin = msg.sender;
         id = _id;
     }
-    
+
+    modifier onlyAdmin() {
+        require(
+            msg.sender == admin,
+            "Only admin"
+            );
+        _;
+    }
+
+    /// @notice Update address of other contracts
+    /// @param _token is address of TokenSystem contract
+    /// @param _disb is address of Disbursement contract
+    function linkOtherContracts(TokenSystem _token, Disbursement _disb)
+    public onlyAdmin() {
+        token = _token;
+        disb = _disb;
+    }
+
     /// @notice Get properties of a campaign
     /// @param _index is index of campaigns array
     /// @return object {startDate, endDate, goal, collected, owner, finStatus, status, ref}
-    function getInfo(uint _index) public view 
+    function getInfo(uint _index) public view
     returns(
-        uint startDate, 
-        uint endDate, 
+        uint startDate,
+        uint endDate,
         uint goal,
         uint collected,
         address owner,
@@ -86,48 +105,89 @@ contract Campaigns {
 
     /// @notice Create a campaign
     /// @dev Add an element to variable campaigns array
-    /// @param _days is deadline for fundraising of a campaign. Min: 15 days
+    /// @param _deadline is deadline for fundraising of a campaign. (unit: second)
     /// @param _goal is goal of a campaign. Min-Max: 100.000-1.000.000.000
+    /// @param _numStage is number of stage withdraw campaign
+    /// @param _amountStages is amount of each stage withdraw campaign
+    /// @param _mode is mode for disburse campaign
+    /// @param _timeStages is deadline for each stage withdraw campaign
     /// @param _ref is campaign reference to other information about campaign
     /// @param _hash is hash of data will store in db server, to check integrity
     function createCampaign(
-        uint _days, 
+        uint _deadline,
         uint _goal,
+        uint _numStage,
+        uint[] memory _amountStages,
+        Disbursement.Mode _mode,
+        uint[] memory _timeStages,
         string memory _ref,
         string memory _hash
         )
     public {
         // To testing, you can comment following lines
         // require(
-        //     _goal >= 100000 && _goal <= 1000000000, 
+        //     _goal >= 100000 && _goal <= 1000000000,
         //     "The goal of campaign must be include range is from 100.000 to 1.000.000.000 tokens"
         // );
         require(
-            _goal >= 1000 && _goal <= 1000000000, 
-            "The goal of campaign must be include range is from 1000 to 1.000.000.000 tokens"
+            _goal >= 1000 && _goal <= 1000000000,
+            "Campaign's goal must be include range is from 1000 to 1.000.000.000 tokens"
         );
+
         require(
             id.isVerified(msg.sender),
-            "You have to register identity before create campaign"
+            "You must be register identity and be accepted"
         );
+
         // To testing, you can comment following lines
         //require(
         //    _days >= 15,
         //    "The minimum fundraising time for the campaign is 15 days."
         //);
 
-        //In current Testing, default set Finacial Status is Accepted
-
         CampaignInfo memory temp;
         temp.ref = _ref;
         temp.hashIntegrity = _hash;
         temp.owner = msg.sender;
         temp.startDate = now;
-        temp.endDate = now + _days * 60;
+        temp.endDate = now + _deadline;
         temp.goal = _goal;
         temp.collected = 0;
-        temp.finstt = FinStatus.pending;
+        temp.finstt = FinStatus.pending; //In current Testing, default set Finacial Status is Accepted
         campaigns.push(temp);
+        
+        if (_numStage > 1) {
+            if (_amountStages.length != _numStage) {
+                revert('number element amount stage is invalid');
+            }
+            if (_mode >= Disbursement.Mode.TimingFlexible && _timeStages.length != _numStage) {
+                revert('Number of deadline is invalid');
+            }
+            uint sumOfAmount;
+            uint[] memory timeStages = new uint[](_numStage);
+            for (uint i = 0; i < _numStage; i++) {
+                sumOfAmount += _amountStages[i];
+                if (_mode >= Disbursement.Mode.TimingFlexible) {
+                    if (i == 0) {
+                        timeStages[0] = temp.endDate;
+                    } else {
+                        timeStages[i] = timeStages[i-1] + _timeStages[i];
+                    }
+                }
+            }
+            if (sumOfAmount != _goal) {
+                revert('Sum of amount must be equal goal');
+            }
+
+            disb.create(
+                length()-1,
+                _numStage,
+                _amountStages,
+                _mode,
+                timeStages
+            );
+        }
+
         emit Added(campaigns.length - 1);
     }
 
@@ -140,7 +200,7 @@ contract Campaigns {
 
     /// @notice Accept a campaign is allow all investor can invest to that campaign
     /// @param _i is index of campaigns array
-    /// @param _isAccept is decide for accept campaign (true => accept, false => reject)
+    /// @param _isAccept is variable used for decide a campaign be allowed transact
     function acceptCampaign(uint _i, bool _isAccept) public {
         require(
             id.isVerifier(msg.sender),
@@ -178,7 +238,7 @@ contract Campaigns {
         require(
             _token <= (token.balances(msg.sender) - getTotalInvest(msg.sender)),
             "You don't have enough token");
-        
+
         campaigns[_i].investment[msg.sender] = campaigns[_i].investment[msg.sender].add(_token);
         if (!campaigns[_i].isInvest[msg.sender]) {
             investors[msg.sender].push(_i);
@@ -211,7 +271,7 @@ contract Campaigns {
         campaigns[_i].collected = campaigns[_i].collected.sub(_token);
         emit Refund(_i, msg.sender, _token);
     }
-    
+
     /// @notice Handle after campaign. Only allow campaign owner run this function
     /// @dev If campaign is succeed, fundraiser will receive funds
     /// @param _i is index of campaign array
@@ -228,12 +288,32 @@ contract Campaigns {
             campaigns[_i].finstt == FinStatus.accepted,
             "Campaign MUST be accepted (NOT reject or paid)");
 
-        // Important: set status PAID before call external function to withdraw
-        campaigns[_i].finstt = FinStatus.paid; 
-        if(!token.withdrawFromCampaign(_i, msg.sender, campaigns[_i].collected)) {
-            campaigns[_i].finstt = FinStatus.accepted;
+        uint numStage;
+        uint amount;
+
+        (numStage, amount) = disb.getWithdrawInfo(_i, campaigns[_i].stage, campaigns[_i].investors.length);
+        if (numStage > 1) {
+            if (amount > 0) {
+                campaigns[_i].stage = campaigns[_i].stage.add(1);
+                if(!token.withdrawFromCampaign(_i, msg.sender, amount)) {
+                    campaigns[_i].stage = campaigns[_i].stage.sub(1);
+                } else {
+                    if (campaigns[_i].stage == numStage) {
+                        campaigns[_i].finstt = FinStatus.paid;
+                    }
+                    emit Paid(_i, msg.sender, amount);
+                }
+            } else {
+                revert("Missing condition for withdraw");
+            }
         } else {
-            emit Paid(_i, msg.sender, campaigns[_i].collected);
+            // Important: set status PAID before call external function to withdraw
+            campaigns[_i].finstt = FinStatus.paid;
+            if(!token.withdrawFromCampaign(_i, msg.sender, campaigns[_i].collected)) {
+                campaigns[_i].finstt = FinStatus.accepted;
+            } else {
+                emit Paid(_i, msg.sender, campaigns[_i].collected);
+            }
         }
     }
 
@@ -291,4 +371,5 @@ contract Campaigns {
     function length() public view returns(uint) {
         return campaigns.length;
     }
+
 }

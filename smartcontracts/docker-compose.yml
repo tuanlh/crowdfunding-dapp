@@ -1,0 +1,12 @@
+version: '2'
+services:
+  unit_test:
+    build:
+      context: .
+      dockerfile: test.Dockerfile
+    volumes:
+      - ./contracts/:/app/contracts/
+      - ./test/:/app/test/
+    entrypoint: /bin/sh
+    stdin_open: true
+    tty: true
