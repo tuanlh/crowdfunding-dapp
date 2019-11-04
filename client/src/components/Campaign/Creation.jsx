@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Campaigns from "../../contracts/Campaigns.json";
 import Identity from "../../contracts/Identity.json";
-// import { Row, Col, Alert, Form, Button, Spinner } from 'react-bootstrap';
 import { Keccak } from "sha3";
 import axios from "axios";
 import _ from "lodash";

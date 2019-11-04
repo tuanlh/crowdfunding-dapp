@@ -62,4 +62,4 @@ class Paginator extends Component {
     }
 
 }
-export default Paginator;
+// export default Paginator;
