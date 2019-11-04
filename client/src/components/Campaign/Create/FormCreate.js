@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import _ from 'lodash';
 import {
@@ -14,6 +14,7 @@ import { Send } from '@material-ui/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import DetailsDescription from './DetailsDescription';
+import './FormCreate.scss'
 const useStyles = theme => ({
   textField: {
     marginLeft: theme.spacing(1),
@@ -67,14 +68,13 @@ class FormCreate extends Component {
     let inputIsError = true;
     let idInput = e.target.id;
     let value = e.target.value.trim();
-    // showNoti({ type: 'success', details: '123' })
     switch (idInput) {
       case 'name':
         if (value.length >= 30 && value.length <= 300) inputIsError = false;
         break;
       case 'goal':
         value = parseInt(value);
-        if (value >= 100000 && value <= 1000000000) inputIsError = false;
+        if (value >= 1000 && value <= 1000000000) inputIsError = false;
         break;
       case 'short_desc':
         if (value.length >= 100 && value.length <= 300) inputIsError = false;
@@ -117,7 +117,6 @@ class FormCreate extends Component {
   };
 
   checkValidated = () => {
-    return false
     const { error, recaptchaRespone } = this.state;
     if (process.env.REACT_APP_RECAPTCHA_ENABLE === '1' && _.isNil(recaptchaRespone)) {
       return true
@@ -134,7 +133,7 @@ class FormCreate extends Component {
     const { error } = this.state;
     const { classes } = this.props;
     return (
-      <Fragment>
+      <div className='form-create'>
         <Card>
           <CardHeader
             avatar={<FontAwesomeIcon icon={faEdit} />}
@@ -207,7 +206,7 @@ class FormCreate extends Component {
                 onChange={this.handleInput}
                 margin='normal'
                 className={classes.textField}
-                helperText='Goal range: 100.000-1.000.000.000 (Testing: min 1000 tokens)'
+                helperText='Goal range: 1000-1.000.000.000 (Testing: min 1000 tokens)'
                 required
                 InputLabelProps={{
                   shrink: true
@@ -256,7 +255,7 @@ class FormCreate extends Component {
             </form>
           </CardContent>
         </Card>
-      </Fragment>
+      </div>
     );
   }
 }
