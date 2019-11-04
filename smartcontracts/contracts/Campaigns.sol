@@ -22,7 +22,7 @@ contract Campaigns {
     * Accepted: a campaign was verified => Allow investors fund to campaign
     * Paid: a campaign that owner withdraw token completed => end campaign
     */
-    enum FinStatus {pending, accepted, paid}
+    enum FinStatus {pending, accepted, rejected, paid}
 
     struct CampaignInfo {
         address owner;
@@ -106,7 +106,10 @@ contract Campaigns {
             _goal >= 1000 && _goal <= 1000000000, 
             "The goal of campaign must be include range is from 1000 to 1.000.000.000 tokens"
         );
-
+        require(
+            id.isVerified(msg.sender),
+            "You have to register identity before create campaign"
+        );
         // To testing, you can comment following lines
         //require(
         //    _days >= 15,
@@ -123,7 +126,7 @@ contract Campaigns {
         temp.endDate = now + _days * 60;
         temp.goal = _goal;
         temp.collected = 0;
-        temp.finstt = FinStatus.accepted;
+        temp.finstt = FinStatus.pending;
         campaigns.push(temp);
         emit Added(campaigns.length - 1);
     }
@@ -137,11 +140,12 @@ contract Campaigns {
 
     /// @notice Accept a campaign is allow all investor can invest to that campaign
     /// @param _i is index of campaigns array
-    function acceptCampaign(uint _i) public {
+    /// @param _isAccept is decide for accept campaign (true => accept, false => reject)
+    function acceptCampaign(uint _i, bool _isAccept) public {
         require(
-            token.isAdmin(msg.sender),
+            id.isVerifier(msg.sender),
             "You MUST be verifier");
-        campaigns[_i].finstt = FinStatus.accepted;
+        campaigns[_i].finstt = _isAccept ? FinStatus.accepted : FinStatus.rejected;
         emit Accepted(_i);
     }
 
@@ -221,12 +225,8 @@ contract Campaigns {
             "Campaign MUST be succeed"
         );
         require(
-            campaigns[_i].finstt != FinStatus.pending, 
-            "Campaign MUST be verify");
-        require(
-            campaigns[_i].finstt != FinStatus.paid,
-            "Campaign already paid"
-        );
+            campaigns[_i].finstt == FinStatus.accepted,
+            "Campaign MUST be accepted (NOT reject or paid)");
 
         // Important: set status PAID before call external function to withdraw
         campaigns[_i].finstt = FinStatus.paid; 
@@ -253,10 +253,11 @@ contract Campaigns {
     function getTotalInvest(address _addr) public view returns(uint) {
         uint tokens = 0;
         uint[] memory campaignsOf = investors[_addr];
-        for (uint i=0; i < campaignsOf.length; i++) {
-            if (getStatus(i) != Status.failed) {
-                if (campaigns[i].investment[_addr] > 0) {
-                    tokens = tokens.add(campaigns[i].investment[_addr]);
+        for (uint i = 0; i < campaignsOf.length; i++) {
+            uint campID = campaignsOf[i];
+            if (getStatus(campID) != Status.failed) {
+                if (campaigns[campID].investment[_addr] > 0) {
+                    tokens = tokens.add(campaigns[campID].investment[_addr]);
                 }
             }
         }

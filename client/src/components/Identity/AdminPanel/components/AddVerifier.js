@@ -1,11 +1,20 @@
 import React, { Component, Fragment } from 'react';
-import { Card, CardContent } from '@material-ui/core/';
+import { Card } from '@material-ui/core/';
 import TextField from '@material-ui/core/TextField';
-import Chip from '@material-ui/core/Chip';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import _ from 'lodash'
-export default class AddVerifier extends Component {
+import { withStyles } from "@material-ui/styles";
+
+const customStyle = theme => ({
+  textField: {
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    marginTop: theme.spacing(3),
+    width: '100%'
+  },
+})
+class AddVerifier extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -58,27 +67,34 @@ export default class AddVerifier extends Component {
   }
 
   render() {
+    const { classes } = this.props
     const { dataVerifier } = this.state
     return (
       <Fragment>
         <Card className='card-box-title'>
-          <Chip variant="outlined" size="small" icon={<AddIcon />} label='Add Verifier'/>
+          {/* <Chip variant="outlined" size="small" icon={<AddIcon />} label='Add Verifier'/> */}
           <div style={{ display: 'flex' }}>
             <TextField
               label='Address'
               id='address'
               value={dataVerifier.address}
               onChange={this.handleAddAddress}
-              className='form-control text-field-box'
+              className={classes.textField}
               margin='normal'
+              InputLabelProps={{
+                shrink: true
+              }}
             />
             <TextField
               label='Public Key'
               id='publicKey'
               value={dataVerifier.publicKey}
               onChange={this.handlePublicKey}
-              className='form-control text-field-box'
+              className={classes.textField}
               margin='normal'
+              InputLabelProps={{
+                shrink: true
+              }}
             />
             <div style={{ display: 'flex', marginTop: '32px' }} className='text-field-box'>
               <input
@@ -106,3 +122,5 @@ export default class AddVerifier extends Component {
     );
   }
 }
+
+export default withStyles(customStyle)(AddVerifier)
