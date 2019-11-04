@@ -1,89 +1,46 @@
 import React, { Component } from "react";
-import Campaigns from "../../contracts/Campaigns.json";
-import Identity from "../../contracts/Identity.json";
 import { Keccak } from "sha3";
 import axios from "axios";
 import _ from "lodash";
+import { connect } from "react-redux";
 import { Grid } from "@material-ui/core/";
-//import ReactMarkdown from 'react-markdown';
-import getWeb3 from "../../utils/getWeb3";
 import Loading from "../utils/Loading2";
 import Helper from "./Create/Helper.js";
 import FormCreate from "./Create/FormCreate.js";
 import showNoti from "../utils/Notification/";
-import showActionNoti from '../utils/Notification/ActionNoti';
-import Alert from '../utils/Alert'
+import showActionNoti from "../utils/Notification/ActionNoti";
+import Alert from "../utils/Alert";
 class Creation extends Component {
-  state = {
-    isProcessing: false,
-    web3: null,
-    account: null,
-    contract: null,
-    api_db: null,
-    contractIdentity: null,
-    isError: {}
-  };
+  constructor(props) {
+    super(props);
+    const { users } = props;
+    this.state = {
+      isProcessing: false,
+      web3: users.data.web3,
+      account: users.data.account,
+      contract: users.data.contractCampaigns,
+      api_db: users.data.api_db,
+      contractIdentity: users.data.contractIdentity,
+      isError: {}
+    };
+  }
 
   componentDidMount = async () => {
-    try {
-      // Get network provider and web3 instance.
-      const web3 = await getWeb3();
-
-      // Use web3 to get the user's accounts.
-      const accounts = await web3.eth.getAccounts();
-
-      // Get the contract instance.
-      const networkId = await web3.eth.net.getId();
-      const deployedNetwork = Campaigns.networks[networkId];
-      const instance = new web3.eth.Contract(
-        Campaigns.abi,
-        deployedNetwork && deployedNetwork.address
-      );
-      const deployedNetworkIdentity = Identity.networks[networkId];
-      const instanceIdentity = new web3.eth.Contract(
-        Identity.abi,
-        deployedNetworkIdentity && deployedNetworkIdentity.address
-      );
-      const api_db_default = "http://" + window.location.hostname + ":8080/";
-      const api_db =
-        !hasOwnProperty.call(process.env, "REACT_APP_STORE_CENTRALIZED_API") ||
-        process.env.REACT_APP_STORE_CENTRALIZED_API === ""
-          ? api_db_default
-          : process.env.REACT_APP_STORE_CENTRALIZED_API;
-      this.setState(
-        {
-          web3,
-          account: accounts[0],
-          contract: instance,
-          loading: false,
-          api_db,
-          contractIdentity: instanceIdentity
-        },
-        () => {
-          const { contractIdentity, account } = this.state;
-          contractIdentity.methods
-            .isVerified(account)
-            .call({
-              from: account
-            })
-            .then(res => {
-              if(res === false) {
-                showActionNoti().then(res => {
-                  if(res) {
-                    this.props.history.push('/identity')
-                  }
-                })
-              }
-            });
+    const { contractIdentity, account } = this.state;
+    contractIdentity.methods
+      .isVerified(account)
+      .call({
+        from: account
+      })
+      .then(res => {
+        if (res === false) {
+          showActionNoti().then(res => {
+            if (res) {
+              this.props.history.push("/identity");
+            }
+          });
         }
-      );
-    } catch (error) {
-      // Catch any errors for any of the above operations.
-      alert(
-        `Failed to load web3, accounts, or contract. Check console for details.`
-      );
-      console.error(error);
-    }
+      });
   };
 
   handleClick = dataProps => {
@@ -109,18 +66,15 @@ class Creation extends Component {
     const integrity_hash = hashEngine.digest("hex");
 
     axios
-      .post(
-        api_db + "campaign",
-        {
-          // upload data to DB before send to blockchain
-          id: ref,
-          name: inputName,
-          description: inputDesc,
-          short_description: inputShortDesc,
-          thumbnail_url: inputThumbnail,
-          captcha: recaptchaRespone
-        }
-      )
+      .post(api_db + "campaign", {
+        // upload data to DB before send to blockchain
+        id: ref,
+        name: inputName,
+        description: inputDesc,
+        short_description: inputShortDesc,
+        thumbnail_url: inputThumbnail,
+        captcha: recaptchaRespone
+      })
       .then(respone => {
         if (respone.status === 200) {
           if (respone.data.success === true) {
@@ -218,4 +172,10 @@ class Creation extends Component {
   }
 }
 
-export default Creation;
+const mapStateToProps = state => {
+  return {
+    users: state.users
+  };
+};
+
+export default connect(mapStateToProps)(Creation);

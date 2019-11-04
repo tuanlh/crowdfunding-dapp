@@ -1,3 +1,10 @@
 import IdentityUser from './components/IdentityUser'
+import { connect } from "react-redux";
 
-export default IdentityUser
+const mapStateToProps = state => {
+  return {
+    users: state.users
+  };
+};
+
+export default connect(mapStateToProps)(IdentityUser);
