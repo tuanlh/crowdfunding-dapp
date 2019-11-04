@@ -1,6 +1,4 @@
 import React, { Component, Fragment } from "react";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import TextField from "@material-ui/core/TextField";
 import { faIdCard } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,8 +8,13 @@ import {
   VpnKey,
   ContactPhone
 } from "@material-ui/icons/";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import Button from "@material-ui/core/Button";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle
+} from "@material-ui/core";
 import _ from "lodash";
 import Loading from "../../../../../utils/Loading2";
 import "../assets/RequestModal.scss";
@@ -22,7 +25,7 @@ import {
   decryptRSA
 } from "../../../../../utils/modules/crypto";
 import TextFieldComponent from "./TextFieldComponent";
-// import { makeStyles } from '@material-ui/core/styles';
+import "../assets/RequestModal.scss";
 
 class RequestModal extends Component {
   constructor(props) {
@@ -53,13 +56,6 @@ class RequestModal extends Component {
     });
   };
 
-  handleDataModal = () => {
-    const { handleModal, privateKeyData } = this.props;
-    const { privateKey } = this.state;
-    privateKeyData(privateKey);
-    handleModal();
-  };
-
   handleDecryptData = async () => {
     const { privateKey } = this.state;
     const { dataUser } = this.props;
@@ -82,20 +78,20 @@ class RequestModal extends Component {
     ).toString();
 
     // encrypt data
-    const keyPrivateData = ["hashImage", "privateKey", "email"];
+    // const keyPrivateData = ["hashImage", "privateKey", "email"];
     let privateDataUser = "";
     let imageArray = [];
     try {
       // privateKeyUser = decryptText(data.privData, secrectKey)
       // decrypt image
       await callGetIPFS(data.privData).then(res => {
-        console.log(res);
         imageArray = this.decryptImageData(
           res.data.dataEncryptedImage,
           secrectKey
         );
-        privateDataUser = JSON.parse(decryptText(res.data.privateData, secrectKey));
-        console.log(privateDataUser);
+        privateDataUser = JSON.parse(
+          decryptText(res.data.privateData, secrectKey)
+        );
         this.setState({
           imageArray,
           privateDataUser,
@@ -116,41 +112,48 @@ class RequestModal extends Component {
     return dataEncryptedImage;
   };
 
-  renderStatus = (status) => {
-    let styleStatus = ''
+  renderStatus = status => {
+    let styleStatus = "";
     switch (status) {
       case 1:
-        styleStatus = 'pending'
+        styleStatus = "pending";
         break;
       case 2:
-        styleStatus = 'success'
-        break
+        styleStatus = "success";
+        break;
       case 3:
-        styleStatus = 'failed'
-        break
+        styleStatus = "failed";
+        break;
       default:
         break;
     }
     return (
-      <div className='position-relative form-group'>
-        This status's profile: <span className={styleStatus}>{styleStatus}</span>
+      <div className="position-relative form-group">
+        This status's profile:{" "}
+        <span className={styleStatus}>{styleStatus}</span>
       </div>
-    )
-  }
+    );
+  };
 
   render() {
-    const { privateKey, isLoading, isError, privateDataUser, imageArray } = this.state;
-    const { isOpen, handleModal, dataUser } = this.props;
-    console.log(dataUser, privateDataUser)
+    const {
+      privateKey,
+      isLoading,
+      isError,
+      privateDataUser,
+      imageArray
+    } = this.state;
+    const { isOpen, handleModal, dataUser, handleVerifiedUser } = this.props;
     return (
-      <Modal
-        isOpen={isOpen}
-        toggle={handleModal}
-        size={"lg"}
+      <Dialog
+        open={isOpen}
+        onClose={handleModal}
+        maxWidth={"lg"}
+        fullWidth={true}
         className="request-modal"
       >
-        <ModalHeader toggle={handleModal}>User's Information</ModalHeader>
-        <ModalBody>
+        <DialogTitle>User's Information</DialogTitle>
+        <DialogContent>
           {isLoading && <Loading />}
           {!_.isEmpty(dataUser) && (
             <Fragment>
@@ -189,21 +192,21 @@ class RequestModal extends Component {
                   value={privateKey}
                   IconComponent={<VpnKey />}
                 />
-                <div style={{ display: "flex", marginTop: "20px" }}>
+                <div style={{ display: "flex", marginTop: "5%" }}>
                   <input
                     id="image-file"
                     type="file"
                     onChange={this.handleFileUpload}
                   />
                 </div>
-                <div style={{ marginTop: "12px" }}>
+                <div style={{ marginTop: "3%" }}>
                   <Button
                     variant="outlined"
                     color="primary"
                     size="medium"
                     onClick={this.handleDecryptData}
                   >
-                    Encrypt
+                    Decrypt
                   </Button>
                 </div>
               </div>
@@ -211,7 +214,7 @@ class RequestModal extends Component {
           )}
           {isError && <span className="required">Private Key is required</span>}
           <Fragment>
-            {!_.isEmpty(privateDataUser) &&
+            {!_.isEmpty(privateDataUser) && (
               <Fragment>
                 <div className="position-relative form-group">
                   <TextFieldComponent
@@ -238,35 +241,54 @@ class RequestModal extends Component {
                   />
                 </div>
                 <div className="position-relative form-group">
-                  {
-                    imageArray.map((imageURI, index) =>
-                      (
-                        <img
-                          className="photo-uploaded"
-                          src={imageURI} key={index}
-                          alt=""
-                          style={{
-                            width: '90%',
-                            height: '75%'
-                          }}
-                        />
-                      )
-                    )
-                  }
+                  {imageArray.map((imageURI, index) => (
+                    <img
+                      className="photo-uploaded"
+                      src={imageURI}
+                      key={index}
+                      alt=""
+                      style={{
+                        width: "90%",
+                        height: "75%"
+                      }}
+                    />
+                  ))}
                 </div>
               </Fragment>
-            }
+            )}
           </Fragment>
-        </ModalBody>
-        <ModalFooter>
-          <Button color="primary" onClick={this.handleDataModal}>
-            Allow
-          </Button>{" "}
-          <Button color="secondary" onClick={this.handleDataModal}>
-            Reject
-          </Button>{" "}
-        </ModalFooter>
-      </Modal>
+        </DialogContent>
+        <DialogActions>
+          {dataUser.status === 1 && (
+            <Fragment>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() => handleVerifiedUser(true)}
+              >
+                Allow
+              </Button>{" "}
+              <Button
+                variant="outlined"
+                color="secondary"
+                onClick={() => handleVerifiedUser(false)}
+              >
+                Reject
+              </Button>{" "}
+            </Fragment>
+          )}
+          {dataUser.status !== 1 && (
+            <Fragment>
+              <Button
+               variant="outlined"
+               onClick={handleModal}
+              >
+                Close
+              </Button>{" "}
+            </Fragment>
+          )}
+        </DialogActions>
+      </Dialog>
     );
   }
 }

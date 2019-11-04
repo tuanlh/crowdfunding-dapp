@@ -15,8 +15,8 @@ module.exports = {
             }
           });
     },
-    store: (req, res) => {
-        const input = validateInput(req.body);
+    store: async (req, res) => {
+        const input = await validateInput(req.body);
         if (input.isValid == true) {
             const data = {
                 name: input.data.name,
