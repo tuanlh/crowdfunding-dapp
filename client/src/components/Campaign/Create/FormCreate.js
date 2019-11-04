@@ -85,6 +85,7 @@ class FormCreate extends Component {
         break;
       case 'time':
         value = parseInt(value);
+        value = value * 60; // in test, convert second to minutes
         if (value >= 15 && value <= 180) inputIsError = false;
         break;
       default:
