@@ -1,0 +1,13 @@
+\documentclass[../main-report.tex]{subfiles}
+
+\begin{document}
+\part*{TÓM TẮT ĐỒ ÁN}
+\addcontentsline{toc}{chapter}{TÓM TẮT KHÓA LUẬN}
+Khóa luận này bao gồm các phần sau:
+
+\begin{itemize}
+\item Phần 1 - ABC
+\item Phần 2 - CDF
+\item Phần 3 - EFG
+\end{itemize}
+\end{document}

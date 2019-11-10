@@ -1,0 +1,29 @@
+\documentclass[../main-report.tex]{subfiles}
+\begin{document}
+
+\section{Hiện thực}
+\subsection{Môi trường hiện thực}
+Môi trường hiện thực bao gồm:
+
+
+\subsection{Các công nghệ được sử dụng}
+Các công nghệ được sử dụng bao gồm
+
+
+\subsection{Các bước hiện thực}
+\begin{itemize}
+\item Bước 1
+\item Bước 2
+\item Bước 3
+\end{itemize}
+
+\section{Đánh giá hệ thống đã hiện thực}
+\subsection{Mục tiêu đánh giá}
+
+\subsection{Tiêu chí đánh giá}
+
+\subsection{Phương pháp đánh giá}
+
+\subsection{Kết quả đánh giá}
+
+\end{document}
