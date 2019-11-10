@@ -27,7 +27,6 @@
 \setglossarystyle{superraggedheaderborder}
 \usepackage{setspace}
 \usepackage{parskip}
-%\usepackage[toc,page]{appendix}
 
 \setlength{\glsdescwidth}{9cm}
 
@@ -152,7 +151,7 @@ pdfmenubar=false % Ẩn đi menu bar trong PDF viewer
 \subfile{chapters/chap5_ket_luan}
 
 \newpage
-\addcontentsline{toc}{chapter}{Tài liệu tham khảo}
+\addcontentsline{toc}{chapter}{TÀI LIỆU THAM KHẢO}
 \nocite{*} % Tùy chọn cho phép in tất cả danh mục tài liệu tham khảo, kể cả tài liệu không được tham chiếu
 \pagestyle{plain}
 \printbibliography % In ra danh mục tài liệu tham khảo

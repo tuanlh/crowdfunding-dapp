@@ -1,13 +1,10 @@
 \documentclass[../main-report.tex]{subfiles}
 
 \begin{document}
-\part*{TÓM TẮT ĐỒ ÁN}
+\part*{TÓM TẮT KHÓA LUẬN}
 \addcontentsline{toc}{chapter}{TÓM TẮT KHÓA LUẬN}
-Khóa luận này bao gồm các phần sau:
+Khóa luận này tập trung giải quyết các vấn đề sau: (1) vấn đề 1, (2) vấn đề 2,...
 
-\begin{itemize}
-\item Phần 1 - ABC
-\item Phần 2 - CDF
-\item Phần 3 - EFG
-\end{itemize}
+Kết quả đạt được là: (i) kết quả 1, (ii) kết quả 2,..
+
 \end{document}

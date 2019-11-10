@@ -22,7 +22,13 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {2.1}T\IeC {\`\i }nh h\IeC {\`\i }nh nghi\IeC {\^e}n c\IeC {\'\uhorn }u}{8}{section.2.1}% 
 \defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.1.1}T\IeC {\`\i }nh h\IeC {\`\i }nh nghi\IeC {\^e}n c\IeC {\'\uhorn }u blockchain}{8}{subsection.2.1.1}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.1.2}M\IeC {\d \ocircumflex }t s\IeC {\'\ocircumflex } nghi\IeC {\^e}n c\IeC {\'\uhorn }u li\IeC {\^e}n quan}{8}{subsection.2.1.2}% 
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {2.2}Ki\IeC {\'\ecircumflex }n th\IeC {\'\uhorn }c n\IeC {\`\ecircumflex }n t\IeC {\h a}ng}{8}{section.2.2}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {subsection}{\numberline {2.2.1}C\IeC {\^o}ng ngh\IeC {\d \ecircumflex } Blockchain}{8}{subsection.2.2.1}% 
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {3}PH\IeC {\^A}N T\IeC {\'I}CH V\IeC {\`A} THI\IeC {\'\ECIRCUMFLEX }T K\IeC {\'\ECIRCUMFLEX } H\IeC {\d \ECIRCUMFLEX } TH\IeC {\'\OCIRCUMFLEX }NG}{9}{chapter.3}% 
 \defcounter {refsection}{0}\relax 
@@ -33,6 +39,8 @@
 \contentsline {section}{\numberline {3.3}S\IeC {\ohorn } \IeC {\dj }\IeC {\`\ocircumflex } ch\IeC {\'\uhorn }c n\IeC {\u a}ng}{9}{section.3.3}% 
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{\numberline {3.4}S\IeC {\ohorn } \IeC {\dj }\IeC {\`\ocircumflex } ho\IeC {\d a}t \IeC {\dj }\IeC {\d \ocircumflex }ng}{9}{section.3.4}% 
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{\numberline {3.5}T\IeC {\h \ocircumflex } ch\IeC {\'\uhorn }c d\IeC {\~\uhorn } li\IeC {\d \ecircumflex }u}{9}{section.3.5}% 
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {4}HI\IeC {\d \ECIRCUMFLEX }N TH\IeC {\d \UHORN }C V\IeC {\`A} \IeC {\DJ }\IeC {\'A}NH GI\IeC {\'A} H\IeC {\d \ECIRCUMFLEX } TH\IeC {\'\OCIRCUMFLEX }NG}{10}{chapter.4}% 
 \defcounter {refsection}{0}\relax 
