@@ -51,6 +51,11 @@ class Creation extends Component {
     let recaptchaRespone = dataProps.recaptchaRespone;
     let inputGoal = dataProps.goal;
     let inputTime = dataProps.time;
+    let inputNumStage = dataProps.numStage;
+    let inputAmountStages = dataProps.amountStageArr;
+    let inputMode = dataProps.mode;
+    let inputTimeStages = dataProps.timingArr;
+
     const { contract, account, api_db } = this.state;
 
     // this.setState({ isProcessing: true })
@@ -79,7 +84,16 @@ class Creation extends Component {
         if (respone.status === 200) {
           if (respone.data.success === true) {
             contract.methods
-              .createCampaign(inputTime, inputGoal, ref, integrity_hash)
+              .createCampaign(
+                inputTime,
+                inputGoal,
+                inputNumStage,
+                inputAmountStages,
+                inputMode,
+                inputTimeStages,
+                ref,
+                integrity_hash
+              )
               .send({
                 from: account
               })
