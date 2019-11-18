@@ -1,6 +1,8 @@
 pragma solidity ^0.5;
 import {Campaigns} from './Campaigns.sol';
 
+/// @title This contract store disbursement for each campaigns
+/// @author tuanlh
 contract Disbursement {
     enum Vote {none, Agree, Disagree}
     enum Mode {Flexible, Fixed, TimingFlexible, TimingFixed}
@@ -15,10 +17,17 @@ contract Disbursement {
 
     Campaigns camp;
     mapping (uint => Data) stages;
+
+    /* -- Constructor -- */
+    //
+    /// @notice Constructor run only one time
+    /// @dev This contract MUST be run after TokenSystem
+    /// @param _camp is address of Campaigns contract
     constructor(Campaigns _camp) public {
         camp = _camp;
     }
 
+    /// @notice only some contracts MUST be run
     modifier onlyAllowedContract() {
         require(
             msg.sender == address(camp),
@@ -27,10 +36,13 @@ contract Disbursement {
         _;
     }
 
-    /// @notice create disbursement for campaign id
-    /// @param _campID is id of campaign
-    /// @param _numStage is number of stages
-    /// @param _amount is amount of money for each stages
+    /// @notice Create disbursement for campaign
+    /// @dev This function must be run by Campaigns contract
+    /// @param _campID is campaign's id
+    /// @param _numStage is number of stage
+    /// @param _amount is array amount for each stages (unit: tokens, sum all must be equal with campaign's goal)
+    /// @param _mode is MODE for disbursement (type and requirement for withdraw)
+    /// @param _time is array of time for each stages (unit: seconds, start from campaign's end date). Notice: first element is default with zero
     function create(
         uint _campID,
         uint _numStage,
@@ -48,6 +60,9 @@ contract Disbursement {
         stages[_campID].agreed.length = _numStage;
     }
 
+    /// @notice Return disbursement info of a campaign
+    /// @param _campID is campaign's id
+    /// @return Some info as number of stage, array of amount, mode, array of time, array of number agree voted
     function getInfo(uint _campID) public view
     returns (
         uint numStage,
@@ -62,6 +77,10 @@ contract Disbursement {
         agreed = stages[_campID].agreed;
     }
 
+    /// @notice This function for backer to vote for a stage of campaign disbursement
+    /// @param _campID is campaign's id
+    /// @param _stage is stage number (start with 1. Stage 0 default withdraw without voting)
+    /// @param _decision is decision for vote (Two options: `true` for agree withdraw, otherwise for disagree)
     function vote(uint _campID, uint _stage, bool _decision) public {
         require(
             _stage > 0,
@@ -95,6 +114,12 @@ contract Disbursement {
         }
     }
 
+    /// @notice This function return info about withdraw campaign related with multi-stage disbursement
+    /// @dev This function was run by Campaigns contract
+    /// @param _campID is campaign's id
+    /// @param _stage is stage number (start with 0)
+    /// @param _numUser is number of backers (person that backed to campaign)
+    /// @return Two values: (1) number of stage; (2) amount for withdraw, if don't meet condition, amount will have value is zero
     function getWithdrawInfo(uint _campID, uint _stage, uint _numUser)
     public view returns (
         uint numStage,
