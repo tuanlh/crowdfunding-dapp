@@ -50,7 +50,7 @@ contract Campaigns {
     event Refund(uint id, address investor, uint token);
     event Paid(uint id, address ownerCampaign, uint token);
 
-     /* -- Constructor -- */
+    /* -- Constructor -- */
     //
     /// @notice Constructor to create a campaign contract
     /// @dev This contract MUST be run after TokenSystem
@@ -105,7 +105,7 @@ contract Campaigns {
 
     /// @notice Create a campaign
     /// @dev Add an element to variable campaigns array
-    /// @param _deadline is deadline for fundraising of a campaign. (unit: second)
+    /// @param _deadline is deadline for fundraising of a campaign. (unit: seconds)
     /// @param _goal is goal of a campaign. Min-Max: 100.000-1.000.000.000
     /// @param _numStage is number of stage withdraw campaign
     /// @param _amountStages is amount of each stage withdraw campaign
@@ -342,6 +342,13 @@ contract Campaigns {
             }
         }
         return tokens;
+    }
+
+    /// @notice Get list of campaign that backer backed
+    /// @param _addr is address of backer
+    /// @return Array of campaign's id
+    function getCampaignList(address _addr) public view returns(uint[] memory) {
+        return investors[_addr];
     }
 
     /// @notice Get status of a campaign
