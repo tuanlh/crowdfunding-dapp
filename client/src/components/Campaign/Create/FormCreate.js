@@ -56,7 +56,8 @@ class FormCreate extends Component {
         amountStage: '',
         timing: '',
         timingArr: [],
-        mode: '0'
+        mode: 0,
+        numStage: 1
       },
     };
     this.recaptcha = null;
@@ -139,6 +140,7 @@ class FormCreate extends Component {
     e.preventDefault()
     const { sendDataToParents } = this.props
     const { data, recaptchaRespone } = this.state
+
     if (data.mode === 0 || data.mode === 1) {
       data.timingArr = []
     } else {
@@ -362,7 +364,7 @@ class FormCreate extends Component {
                     }}
                   />
                   {
-                    (_.toInteger(data.numStage) >= 1 && data.numStage > data.amountStageArr.length) &&
+                    (_.toInteger(data.numStage) > 1 && data.numStage > data.amountStageArr.length) &&
                     <Fragment>
                       <TextField
                         label='Amount Stage'
@@ -389,7 +391,7 @@ class FormCreate extends Component {
                 }
               </div>
               {
-                _.toInteger(data.numStage) >= 1 &&
+                _.toInteger(data.numStage) > 1 &&
                 <div className={classes.textField} style={{ display: 'flex' }}>
                   <FormControl component="fieldset" className={classes.formControl}>
                     <FormLabel component="legend">Mode</FormLabel>

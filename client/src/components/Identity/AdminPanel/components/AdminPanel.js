@@ -13,6 +13,7 @@ import Loading from '../../../utils/Loading2';
 import AddVerifier from './AddVerifier';
 import './AdminPanel.scss'
 class AdminPanel extends Component {
+
   constructor(props) {
     const { users } = props;
     super(props);
@@ -29,6 +30,7 @@ class AdminPanel extends Component {
   componentDidMount() {
     this.loadAccountInfo()
   };
+
   loadAccountInfo = () => {
     const { contractIdentity, account } = this.state;
     contractIdentity.methods.isOwner().call({
@@ -63,8 +65,12 @@ class AdminPanel extends Component {
     ))
     return result
   }
+
   handleAddVerifier = (verifier) => {
     const { contractIdentity, account } = this.state;
+    this.setState({
+      isLoading: true
+    })
     contractIdentity.methods.addVerifier(verifier.address, verifier.publicKey
     ).send({
       from: account
@@ -94,6 +100,11 @@ class AdminPanel extends Component {
       console.log('--Failed---')
       // this.showError("Failed", "bottom-center");       
     }
+    
+    this.setState({
+      isLoading: true
+    })
+
   }
 
   render() {

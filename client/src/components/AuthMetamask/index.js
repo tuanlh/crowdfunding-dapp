@@ -4,9 +4,12 @@ import _ from "lodash";
 import { withRouter } from 'react-router-dom'
 //import ReactMarkdown from 'react-markdown';
 import getWeb3 from "../../utils/getWeb3";
+
 import Campaigns from "../../contracts/Campaigns.json";
 import Identity from "../../contracts/Identity.json";
 import TokenSystem from "../../contracts/TokenSystem.json";
+import Disbursement from "../../contracts/Disbursement.json";
+
 import { authUser } from "../../actions/index";
 import Loading from "../utils/Loading2";
 class AuthMetamask extends Component {
@@ -53,6 +56,13 @@ class AuthMetamask extends Component {
         TokenSystem.abi,
         deployedTokenSystem && deployedTokenSystem.address
       );
+      // Disbursement
+      const deployedDisbursement = Disbursement.networks[networkId];
+      const instanceDisbursement = new web3.eth.Contract(
+        Disbursement.abi,
+        deployedDisbursement && deployedDisbursement.address
+      );
+      
 
       const api_db_default = "http://" + window.location.hostname + ":8080/";
 
@@ -73,6 +83,7 @@ class AuthMetamask extends Component {
           contractCampaigns: instanceCampaigns,
           contractIdentity: instanceIdentity,
           contractTokenSystem: instanceTokenSystem,
+          contractDisbursement: instanceDisbursement,
           isLoading: false,
           api_db,
         },
