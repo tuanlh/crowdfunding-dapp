@@ -105,7 +105,7 @@ class FormCreate extends Component {
         break;
       case 'time':
         value = parseInt(value);
-        if (value >= 15 && value <= 180) inputIsError = false;
+        if (value >= 1 && value <= 180) inputIsError = false;
         value = value * 60; // in test, convert second to minutes
         break;
       case 'numStage':
@@ -118,8 +118,9 @@ class FormCreate extends Component {
         inputIsError = false;
         break;
       case 'timing':
-        value = _.toInteger(value)
+        value = parseInt(value)
         if (value >= 1) inputIsError = false;
+        value = value * 60
         break
       default:
         break;

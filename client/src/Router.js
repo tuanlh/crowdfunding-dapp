@@ -8,6 +8,8 @@ import IdentityUser from "./components/Identity/Register";
 import CheckingIdentity from "./components/Identity/Checking";
 import AdminPanel from "./components/Identity/AdminPanel";
 import Explore from "./components/Campaign/Explore";
+import VerifierCampaigns from "./components/Campaign/Verifier";
+import Contribute from './components/Campaign/Contribute'
 import AuthMetaMask from "./components/AuthMetamask/index";
 import _ from "lodash";
 // import Notification from './components/Identity/Notification';
@@ -62,10 +64,24 @@ export const listRouter = [
     isAuth: true
   },
   {
+    path: "/verifier-campaigin",
+    exact: true,
+    component: VerifierCampaigns,
+    name: "Verifier Campaigns",
+    isAuth: true
+  },
+  {
     path: "/campaign/:id",
     exact: true,
     component: Detail,
     name: "Details",
+    isAuth: true
+  },
+  {
+    path: "/contribute",
+    exact: true,
+    component: Contribute,
+    name: "Contribute",
     isAuth: true
   },
   {

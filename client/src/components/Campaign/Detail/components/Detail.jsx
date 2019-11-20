@@ -1,13 +1,17 @@
 import React, { Component, Fragment } from "react";
 import axios from "axios";
+import _ from 'lodash'
 import { Keccak } from "sha3";
+import { Grid } from "@material-ui/core";
+
+import CampaignInfo from "../childs/CampaignInfo/components/CampaignInfo.js";
+import OwnerPanel from "../childs/OwnerPanel";
+import BackerPanel from "../childs/BackerPanel";
+import VerifierPanel from "../childs/VerifierPanel";
+import DetailsPanel from '../childs/DetailsPanel'
 
 import Loading from "../../../utils/Loading2";
-import CampaignInfo from "../childs/CampaignInfo/components/CampaignInfo.js";
-import { Grid } from "@material-ui/core";
-import OwnerPanel from "../childs/OwnerPanel/components/OwnerPanel.js";
-import BackerPanel from "../childs/BackerPanel/index.js";
-import VerifierPanel from "../childs/VerifierPanel/components/VerifierPanel.js";
+import showNoti from "../../../utils/Notification";
 
 class Detail extends Component {
   constructor(props) {
@@ -29,11 +33,13 @@ class Detail extends Component {
       contract: {
         Campaigns: users.data.contractCampaigns,
         Account: users.data.contractTokenSystem,
-        Identity: users.data.contractIdentity
+        Identity: users.data.contractIdentity,
+        Disbursement: users.data.contractDisbursement
       },
       isComponentRemount: false,
       api_db: users.data.api_db,
-      isVerified: false
+      isVerified: false,
+      numberStageToVoted: ''
     };
   }
 
@@ -78,6 +84,7 @@ class Detail extends Component {
             hashIntegrity
           } = result;
           this.loadDataOfCampaign(ref, hashIntegrity);
+          this.loadDetailsContribute();
           collected = parseInt(collected);
           goal = parseInt(goal);
           finStatus = parseInt(finStatus);
@@ -149,7 +156,7 @@ class Detail extends Component {
         ) {
           const d = response.data;
           const temp =
-            d.name + d.short_description + d.description + d.thumbnail_url;
+            d.name.trim() + d.short_description.trim() + d.description.trim() + (d.thumbnail_url).trim();
           const hashEngine = new Keccak(256);
           hashEngine.update(temp);
           const result_hash = hashEngine.digest("hex");
@@ -162,18 +169,26 @@ class Detail extends Component {
     });
   };
 
-  printData = property => {
-    const { extData } = this.state;
-    if (hasOwnProperty.call(extData, property)) {
-      return extData[property];
-    } else {
-      if (property === "thumbnail_url") {
-        return "/default-thumbnail.jpg";
-      } else {
-        return "[Field not found]";
+  loadDetailsContribute = () => {
+    const { contract, id, account } = this.state
+    contract.Disbursement.methods.getInfo(id).call({ from: account }).then(res => {
+      let numStage = parseInt(res[0])
+      let amountArr = _.map(res[1], node => (parseInt(node)))
+      let mode = res[2]
+      let timeArr = _.map(res[3], node => (parseInt(node)))
+      let agreedArr = _.map(res[4], node => (parseInt(node)))
+      let detailsCampaign = {
+        numStage,
+        amountArr,
+        mode,
+        timeArr,
+        agreedArr
       }
-    }
-  };
+      this.setState({
+        detailsCampaign
+      })
+    })
+  }
 
   getStatus = (deadline, goal, collected) => {
     if (Date.now() < deadline) {
@@ -324,17 +339,19 @@ class Detail extends Component {
     this.setState({ amount: 0 }); // reset
     this.refs.amount.value = "";
   };
+
   handleConfirm = value => {
     const { id, account, contract } = this.state;
     contract.Campaigns.methods
-    .acceptCampaign(id, value)
-    .send({
-      from: account
-    })
-    .then(res => {
-      console.log(res);
-    });
+      .acceptCampaign(id, value)
+      .send({
+        from: account
+      })
+      .then(res => {
+        console.log(res);
+      });
   };
+
   renderPanel = () => {
     const {
       campaign,
@@ -342,7 +359,9 @@ class Detail extends Component {
       balance,
       tokenBacked,
       account,
-      isVerified
+      isVerified,
+      contract,
+      detailsCampaign
     } = this.state;
     if (campaign.finStatus === 0 && isVerified) {
       // return panel of user
@@ -355,18 +374,51 @@ class Detail extends Component {
           handleWithdraw={this.handleWithdraw}
         />
       ) : (
-        <BackerPanel
-          tokenBacked={tokenBacked}
-          numberOfInvestor={numberOfInvestor}
-          campaign={campaign}
-          handleFund={this.handleFund}
-          handleRefund={this.handleRefund}
-          handleChange={this.handleChange}
-          balance={balance}
-        />
-      );
+          <BackerPanel
+            tokenBacked={tokenBacked}
+            numberOfInvestor={numberOfInvestor}
+            campaign={campaign}
+            handleFund={this.handleFund}
+            handleRefund={this.handleRefund}
+            handleChange={this.handleChange}
+            balance={balance}
+            contract={contract}
+            detailsCampaign={detailsCampaign}
+          />
+        );
     }
   };
+
+  handleChangeVoted = (e) => {
+    const { detailsCampaign } = this.state
+    let numberStageToVoted = +e.target.value
+    if (numberStageToVoted < detailsCampaign.numStage) {
+      this.setState({
+        numberStageToVoted: numberStageToVoted
+      })
+    }
+  }
+
+  handleVoted = () => {
+    const { numberStageToVoted, detailsCampaign, contract, id, account } = this.state
+    if (!_.isNumber(numberStageToVoted) || numberStageToVoted >= detailsCampaign.numStage){
+      showNoti({
+        type: 'error',
+        message: 'Please check input stage to voted valid'
+      })
+      return
+    }
+    this.setState({
+      isLoading: true
+    })
+    contract.Disbursement.methods.vote(id, numberStageToVoted, true).send({
+      from: account
+    }).then(res => {
+      this.setState({
+        isLoading: false
+      })
+    })
+  }
 
   render() {
     if (!this.state.web3) {
@@ -377,7 +429,9 @@ class Detail extends Component {
       isExist,
       extData,
       isLoading,
-      campaignStatusChr
+      campaignStatusChr,
+      detailsCampaign,
+      numberStageToVoted
     } = this.state;
     return (
       <Fragment>
@@ -395,7 +449,21 @@ class Detail extends Component {
                 )}
               </Grid>
               <Grid item xs={4}>
-                {this.renderPanel()}
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    {this.renderPanel()}
+                  </Grid>
+                  <Grid item xs={12}>
+                    {
+                      !_.isEmpty(detailsCampaign) &&
+                      <DetailsPanel {...this.state}
+                        handleChangeVoted={this.handleChangeVoted}
+                        handleVoted={this.handleVoted}
+                        numberStageToVoted={numberStageToVoted}
+                      />
+                    }
+                  </Grid>
+                </Grid>
               </Grid>
             </Grid>
           </Fragment>

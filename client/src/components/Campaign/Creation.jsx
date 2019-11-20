@@ -62,14 +62,13 @@ class Creation extends Component {
     // compute hash to store information of campaign to DB
     const temp = inputName + Date.now() + Math.random();
     const integrity_data =
-      inputName + inputShortDesc + inputDesc + inputThumbnail;
+      inputName.trim() + inputShortDesc.trim() + inputDesc.trim() + inputThumbnail.trim();
     const hashEngine = new Keccak(256);
     hashEngine.update(temp);
     const ref = hashEngine.digest("hex");
     hashEngine.reset();
     hashEngine.update(integrity_data);
     const integrity_hash = hashEngine.digest("hex");
-
     axios
       .post(api_db + "campaign", {
         // upload data to DB before send to blockchain
