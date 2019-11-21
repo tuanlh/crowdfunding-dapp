@@ -102,7 +102,6 @@ class Contribute extends Component {
 
   buildCampagin = (campaign, index) => {
     return new Promise(resolve => {
-      const { account, contractIdentity, contractCampaigns } = this.state;
       let { startDate, endDate, goal, collected, owner, finStatus, ref, hashIntegrity } = campaign;
       finStatus = parseInt(finStatus);
 

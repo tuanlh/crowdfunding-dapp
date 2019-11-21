@@ -33,7 +33,7 @@ export const listRouter = [
     exact: true,
     component: Helper,
     name: "Help",
-    isAuth: true
+    isAuth: false
   },
   {
     path: "/identity",
@@ -61,7 +61,7 @@ export const listRouter = [
     exact: true,
     component: Explore,
     name: "Explore",
-    isAuth: true
+    isAuth: false
   },
   {
     path: "/verifier-campaigin",
@@ -75,7 +75,7 @@ export const listRouter = [
     exact: true,
     component: Detail,
     name: "Details",
-    isAuth: true
+    isAuth: false
   },
   {
     path: "/contribute",
@@ -96,7 +96,7 @@ export const listRouter = [
     exact: true,
     component: Home,
     name: "Home",
-    isAuth: true
+    isAuth: false
   }
 ];
 

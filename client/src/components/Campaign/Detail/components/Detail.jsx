@@ -8,10 +8,17 @@ import CampaignInfo from "../childs/CampaignInfo/components/CampaignInfo.js";
 import OwnerPanel from "../childs/OwnerPanel";
 import BackerPanel from "../childs/BackerPanel";
 import VerifierPanel from "../childs/VerifierPanel";
-import DetailsPanel from '../childs/DetailsPanel'
 
+import DetailsPanel from '../childs/DetailsPanel'
 import Loading from "../../../utils/Loading2";
+
 import showNoti from "../../../utils/Notification";
+
+import Campaigns from "../../../../contracts/Campaigns.json";
+import TokenSystem from "../../../../contracts/TokenSystem.json";
+
+import getWeb3 from "../../../../utils/getWeb3";
+import Web3 from "web3";
 
 class Detail extends Component {
   constructor(props) {
@@ -45,22 +52,90 @@ class Detail extends Component {
 
   componentDidMount = async () => {
     const {
-      match: { params }
+      match: { params },
+      history,
     } = this.props;
     const id = parseInt(params.id);
+    const { contract } = this.state
     if (isNaN(id)) {
       this.setState({ isLoading: false });
     } else {
       this.setState({ id: params.id });
       try {
-        this.setState({}, this.getInfo);
-        this.listenEventToUpdate();
+        if (_.isEmpty(contract.Campaigns)) {
+          let temp = await getWeb3()
+          if (!temp.notMetaMask) {
+            history.push({
+              pathname: '/auth',
+              state: { prePage: this.props.location.pathname }
+            })
+          } else {
+            this.getCampaign(temp.notMetaMask)
+          }
+        } else {
+          this.setState({}, this.getInfo);
+          this.listenEventToUpdate();
+        }
       } catch (error) {
         // Catch any errors for any of the above operations.
         console.error(error);
       }
     }
   };
+
+  getCampaign = async (notMetaMask = false) => {
+    try {
+      // Get network provider and web3 instance.
+      const web3 = new Web3(
+        new Web3.providers.HttpProvider(process.env.REACT_APP_DEFAULT_NETWORK)
+      );
+
+      // Use web3 to get the user's accounts.
+      const accounts = '0x41A418C946Fd3201b7b2b30B367De35b0c54A6ce';
+      // Get the contract instance.
+      const networkId = await web3.eth.net.getId();
+      const deployedCampaign = Campaigns.networks[networkId];
+      const instanceCampaign = new web3.eth.Contract(
+        Campaigns.abi,
+        deployedCampaign && deployedCampaign.address
+      );
+      const deployedAccount = TokenSystem.networks[networkId];
+      const instanceAccount = new web3.eth.Contract(
+        TokenSystem.abi,
+        deployedAccount && deployedAccount.address
+      );
+
+      const api_db_default = "http://" + window.location.hostname + ":8080/";
+      const api_db =
+        !hasOwnProperty.call(
+          process.env,
+          "REACT_APP_STORE_CENTRALIZED_API"
+        ) || process.env.REACT_APP_STORE_CENTRALIZED_API === ""
+          ? api_db_default
+          : process.env.REACT_APP_STORE_CENTRALIZED_API;
+
+      this.setState(
+        {
+          web3,
+          account: accounts,
+          contract: {
+            Campaigns: instanceCampaign,
+            Account: instanceAccount
+          },
+          notMetaMask,
+          isComponentRemount: false,
+          api_db
+        },
+        this.getInfo
+      );
+    } catch (error) {
+      // Catch any errors for any of the above operations.
+      alert(
+        `Failed to load web3, accounts, or contract. Check console for details.`
+      );
+      console.error(error);
+    }
+  }
 
   getInfo = async () => {
     const { id, account, contract } = this.state;
@@ -90,34 +165,58 @@ class Detail extends Component {
           finStatus = parseInt(finStatus);
           startDate = parseInt(startDate) * 1000;
           endDate = parseInt(endDate) * 1000;
-          contract.Identity.methods
-            .isVerified(account)
-            .call({
-              from: account
-            })
-            .then(isVerified => {
-              if (finStatus > 0 || isVerified) {
-                const status = this.getStatus(endDate, goal, collected);
-                const progress = this.getProgress(collected, goal);
-                const fundEnabled = status === 0 && finStatus === 1;
-                const available = fundEnabled ? goal - collected : 0;
-                const campaign = {
-                  name,
-                  startDate,
-                  endDate,
-                  goal,
-                  collected,
-                  owner,
-                  status,
-                  progress,
-                  finStatus,
-                  fundEnabled,
-                  available
-                };
-                this.setState({ campaign, isExist: true, isVerified });
-              }
-              this.setState({ isLoading: false });
-            });
+          if (_.isEmpty(contract.Identity)) {
+            if (finStatus > 0) {
+              const status = this.getStatus(endDate, goal, collected);
+              const progress = this.getProgress(collected, goal);
+              const fundEnabled = status === 0 && finStatus === 1;
+              const available = fundEnabled ? goal - collected : 0;
+              const campaign = {
+                name,
+                startDate,
+                endDate,
+                goal,
+                collected,
+                owner,
+                status,
+                progress,
+                finStatus,
+                fundEnabled,
+                available
+              };
+              this.setState({ campaign, isExist: true });
+            }
+            this.setState({ isLoading: false });
+          } else {
+            contract.Identity.methods
+              .isVerified(account)
+              .call({
+                from: account
+              })
+              .then(isVerified => {
+                if (finStatus > 0 || isVerified) {
+                  const status = this.getStatus(endDate, goal, collected);
+                  const progress = this.getProgress(collected, goal);
+                  const fundEnabled = status === 0 && finStatus === 1;
+                  const available = fundEnabled ? goal - collected : 0;
+                  const campaign = {
+                    name,
+                    startDate,
+                    endDate,
+                    goal,
+                    collected,
+                    owner,
+                    status,
+                    progress,
+                    finStatus,
+                    fundEnabled,
+                    available
+                  };
+                  this.setState({ campaign, isExist: true, isVerified });
+                }
+                this.setState({ isLoading: false });
+              });
+          }
         }
       });
 
@@ -171,6 +270,7 @@ class Detail extends Component {
 
   loadDetailsContribute = () => {
     const { contract, id, account } = this.state
+    if (_.isEmpty(contract.Disbursement)) return
     contract.Disbursement.methods.getInfo(id).call({ from: account }).then(res => {
       let numStage = parseInt(res[0])
       let amountArr = _.map(res[1], node => (parseInt(node)))
@@ -401,22 +501,15 @@ class Detail extends Component {
 
   handleVoted = () => {
     const { numberStageToVoted, detailsCampaign, contract, id, account } = this.state
-    if (!_.isNumber(numberStageToVoted) || numberStageToVoted >= detailsCampaign.numStage){
+    if (!_.isNumber(numberStageToVoted) || numberStageToVoted >= detailsCampaign.numStage) {
       showNoti({
         type: 'error',
         message: 'Please check input stage to voted valid'
       })
       return
     }
-    this.setState({
-      isLoading: true
-    })
     contract.Disbursement.methods.vote(id, numberStageToVoted, true).send({
       from: account
-    }).then(res => {
-      this.setState({
-        isLoading: false
-      })
     })
   }
 
@@ -431,7 +524,7 @@ class Detail extends Component {
       isLoading,
       campaignStatusChr,
       detailsCampaign,
-      numberStageToVoted
+      numberStageToVoted,
     } = this.state;
     return (
       <Fragment>
