@@ -1,4 +1,4 @@
-const TokenSystem = artifacts.require("./TokenSystem.sol");
+const Wallet = artifacts.require("./Wallet.sol");
 const Campaigns = artifacts.require("./Campaigns.sol");
 const Identity = artifacts.require("./Identity.sol");
 const Disbursement = artifacts.require("./Disbursement.sol");
@@ -8,11 +8,11 @@ module.exports = function(deployer) {
     await deployer.deploy(Identity);
     await deployer.deploy(Campaigns, Identity.address);
     await deployer.deploy(Disbursement, Campaigns.address);
-    await deployer.deploy(TokenSystem, Campaigns.address);
+    await deployer.deploy(Wallet, Campaigns.address);
 
     let instance = await Campaigns.deployed();
     return Promise.all([
-      instance.linkOtherContracts(TokenSystem.address, Disbursement.address)
+      instance.linkOtherContracts(Wallet.address, Disbursement.address)
     ]);
   });
 }

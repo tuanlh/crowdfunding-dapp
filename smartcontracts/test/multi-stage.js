@@ -1,5 +1,5 @@
 const Campaigns = artifacts.require('./Campaigns.sol');
-const TokenSystem = artifacts.require('./TokenSystem.sol');
+const Wallet = artifacts.require('./Wallet.sol');
 const Identity = artifacts.require('./Identity.sol');
 const Disbursement = artifacts.require('./Disbursement.sol');
 const date = Math.floor(Date.now() / 1000);
@@ -24,7 +24,7 @@ contract('Campaign - multi stage disbursement', accounts => {
         disb = await Disbursement.new(camp.address, {
             from: deployer
         });
-        token = await TokenSystem.new(camp.address, {
+        token = await Wallet.new(camp.address, {
             from: deployer
         });
         await camp.linkOtherContracts.sendTransaction(
@@ -40,12 +40,12 @@ contract('Campaign - multi stage disbursement', accounts => {
         const price = 10 ** 15; // 0.01 ETH
         const amount = 1200; // 1000 tokens
         for(let i = 0; i < backers.length; i++) {
-            const prevBalance = await token.getMyBalance.call({ from: backers[i] });
+            const prevBalance = await token.getBalance.call(backers[i], { from: backers[i] });
             await token.deposit({
                 from: backers[i],
                 value: amount * price
             });
-            const lastBalance = await token.getMyBalance.call({ from: backers[i] });
+            const lastBalance = await token.getBalance.call(backers[i], { from: backers[i] });
             assert.equal(lastBalance - prevBalance, amount, 'Balance is incorrect');
         }
     });
@@ -135,7 +135,7 @@ contract('Campaign - multi stage disbursement', accounts => {
     });
 
     it('Accept campaign after create', async() => {
-        await camp.acceptCampaign(
+        await camp.verifyCampaign(
             campID,
             true,
             {from: verifier}
@@ -173,13 +173,13 @@ contract('Campaign - multi stage disbursement', accounts => {
     it('Back to first campaign', async () => {
         const amount = 300; // 300 tokens
         for(let i = 0; i < backers.length; i++) {
-            const prevBalance = await token.getMyBalance.call({ from: backers[i] });
-            await camp.invest.sendTransaction(
+            const prevBalance = await token.getBalance.call(backers[i], { from: backers[i] });
+            await camp.donate.sendTransaction(
                 campID,
                 amount,
                 { from: backers[i] }
             );
-            const lastBalance = await token.getMyBalance.call({ from: backers[i] });
+            const lastBalance = await token.getBalance.call(backers[i], { from: backers[i] });
             assert.equal(prevBalance-lastBalance, amount, 'Balance is incorrect');
         }
         
@@ -199,14 +199,14 @@ contract('Campaign - multi stage disbursement', accounts => {
         ))['endDate'] * 1000;
         while (deadline >= (new Date().getTime()));
 
-        const prevBalance = await token.getMyBalance.call({ from: creator });
+        const prevBalance = await token.getBalance.call(creator, { from: creator });
 
         await camp.endCampaign.sendTransaction(
             campID,
             { from: creator }
         );
 
-        const lastBalance = await token.getMyBalance.call({ from: creator });
+        const lastBalance = await token.getBalance.call(creator, { from: creator });
         
         const amount = (await disb.getInfo.call(
              campID,
@@ -236,14 +236,14 @@ contract('Campaign - multi stage disbursement', accounts => {
     });
 
     it('1st campaign: Withdraw stage 1', async() => {
-        const prevBalance = await token.getMyBalance.call({ from: creator });
+        const prevBalance = await token.getBalance.call(creator, { from: creator });
         
         await camp.endCampaign.sendTransaction(
             campID,
             { from: creator }
         );
 
-        const lastBalance = await token.getMyBalance.call({ from: creator });
+        const lastBalance = await token.getBalance.call(creator, { from: creator });
         
         const amount = (await disb.getInfo.call(
              campID,
@@ -345,7 +345,7 @@ contract('Campaign - multi stage disbursement', accounts => {
     });
 
     it('Accept campaign after create', async() => {
-        await camp.acceptCampaign(
+        await camp.verifyCampaign(
             campID,
             true,
             {from: verifier}
@@ -360,13 +360,13 @@ contract('Campaign - multi stage disbursement', accounts => {
     it('Back to second campaign', async () => {
         const amount = 300; // 300 tokens
         for(let i = 0; i < backers.length; i++) {
-            const prevBalance = await token.getMyBalance.call({ from: backers[i] });
-            await camp.invest.sendTransaction(
+            const prevBalance = await token.getBalance.call(backers[i], { from: backers[i] });
+            await camp.donate.sendTransaction(
                 campID,
                 amount,
                 { from: backers[i] }
             );
-            const lastBalance = await token.getMyBalance.call({ from: backers[i] });
+            const lastBalance = await token.getBalance.call(backers[i], { from: backers[i] });
             assert.equal(prevBalance-lastBalance, amount, 'Balance is incorrect');
         }
         
@@ -386,14 +386,14 @@ contract('Campaign - multi stage disbursement', accounts => {
         ))['endDate'] * 1000;
         while (deadline >= (new Date().getTime()));
 
-        const prevBalance = await token.getMyBalance.call({ from: creator });
+        const prevBalance = await token.getBalance.call(creator, { from: creator });
 
         await camp.endCampaign.sendTransaction(
             campID,
             { from: creator }
         );
 
-        const lastBalance = await token.getMyBalance.call({ from: creator });
+        const lastBalance = await token.getBalance.call(creator, { from: creator });
         const amount = (await disb.getInfo.call(
              campID,
              { from: deployer }
@@ -529,7 +529,7 @@ contract('Campaign - multi stage disbursement', accounts => {
     });
 
     it('Accept campaign after create', async() => {
-        await camp.acceptCampaign(
+        await camp.verifyCampaign(
             campID,
             true,
             {from: verifier}
@@ -544,14 +544,14 @@ contract('Campaign - multi stage disbursement', accounts => {
     it('Back to third campaign', async () => {
         const amount = 300; // 300 tokens
         for(let i = 0; i < backers.length; i++) {
-            const prevBalance = await token.getMyBalance.call({ from: backers[i] });
+            const prevBalance = await token.getBalance.call(backers[i], { from: backers[i] });
             
-            await camp.invest.sendTransaction(
+            await camp.donate.sendTransaction(
                 campID,
                 amount,
                 { from: backers[i] }
             );
-            const lastBalance = await token.getMyBalance.call({ from: backers[i] });
+            const lastBalance = await token.getBalance.call(backers[i], { from: backers[i] });
             
             assert.equal(prevBalance-lastBalance, amount, 'Balance is incorrect');
         }
@@ -572,14 +572,14 @@ contract('Campaign - multi stage disbursement', accounts => {
         ))['endDate'] * 1000;
         while (deadline >= (new Date().getTime()));
 
-        const prevBalance = await token.getMyBalance.call({ from: creator });
+        const prevBalance = await token.getBalance.call(creator, { from: creator });
 
         await camp.endCampaign.sendTransaction(
             campID,
             { from: creator }
         );
 
-        const lastBalance = await token.getMyBalance.call({ from: creator });
+        const lastBalance = await token.getBalance.call(creator, { from: creator });
         const amount = (await disb.getInfo.call(
              campID,
              { from: deployer }
@@ -637,14 +637,14 @@ contract('Campaign - multi stage disbursement', accounts => {
     });
 
     it('3rd campaign: Withdraw stage 1', async() => {
-        const prevBalance = await token.getMyBalance.call({ from: creator });
+        const prevBalance = await token.getBalance.call(creator, { from: creator });
         
         await camp.endCampaign.sendTransaction(
             campID,
             { from: creator }
         );
 
-        const lastBalance = await token.getMyBalance.call({ from: creator });
+        const lastBalance = await token.getBalance.call(creator, { from: creator });
         
         const amount = (await disb.getInfo.call(
              campID,
@@ -759,7 +759,7 @@ contract('Campaign - multi stage disbursement', accounts => {
     });
 
     it('Accept campaign after create', async() => {
-        await camp.acceptCampaign(
+        await camp.verifyCampaign(
             campID,
             true,
             {from: verifier}
@@ -774,14 +774,14 @@ contract('Campaign - multi stage disbursement', accounts => {
     it('Back to fourth campaign', async () => {
         const amount = 300; // 300 tokens
         for(let i = 0; i < backers.length; i++) {
-            const prevBalance = await token.getMyBalance.call({ from: backers[i] });
+            const prevBalance = await token.getBalance.call(backers[i], { from: backers[i] });
             
-            await camp.invest.sendTransaction(
+            await camp.donate.sendTransaction(
                 campID,
                 amount,
                 { from: backers[i] }
             );
-            const lastBalance = await token.getMyBalance.call({ from: backers[i] });
+            const lastBalance = await token.getBalance.call(backers[i], { from: backers[i] });
             
             assert.equal(prevBalance-lastBalance, amount, 'Balance is incorrect');
         }
@@ -802,14 +802,14 @@ contract('Campaign - multi stage disbursement', accounts => {
         ))['endDate'] * 1000;
         while (deadline >= (new Date().getTime()));
 
-        const prevBalance = await token.getMyBalance.call({ from: creator });
+        const prevBalance = await token.getBalance.call(creator, { from: creator });
 
         await camp.endCampaign.sendTransaction(
             campID,
             { from: creator }
         );
 
-        const lastBalance = await token.getMyBalance.call({ from: creator });
+        const lastBalance = await token.getBalance.call(creator, { from: creator });
         const amount = (await disb.getInfo.call(
              campID,
              { from: deployer }
@@ -867,14 +867,14 @@ contract('Campaign - multi stage disbursement', accounts => {
     });
 
     it('4th campaign: Withdraw stage 1', async() => {
-        const prevBalance = await token.getMyBalance.call({ from: creator });
+        const prevBalance = await token.getBalance.call(creator, { from: creator });
         
         await camp.endCampaign.sendTransaction(
             campID,
             { from: creator }
         );
 
-        const lastBalance = await token.getMyBalance.call({ from: creator });
+        const lastBalance = await token.getBalance.call(creator, { from: creator });
         
         const amount = (await disb.getInfo.call(
              campID,

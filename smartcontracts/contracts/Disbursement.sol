@@ -15,8 +15,8 @@ contract Disbursement {
         mapping(address => mapping(uint => Vote)) voting; // user => stage => Vote
     }
 
-    Campaigns camp;
-    mapping (uint => Data) stages;
+    Campaigns internal camp;
+    mapping (uint => Data) internal stages;
 
     /* -- Constructor -- */
     //
@@ -46,24 +46,24 @@ contract Disbursement {
     function create(
         uint _campID,
         uint _numStage,
-        uint[] memory _amount,
+        uint[] calldata _amount,
         Mode _mode,
-        uint[] memory _time
+        uint[] calldata _time
         )
-     public onlyAllowedContract() {
+    external onlyAllowedContract() {
         Data memory temp;
         temp.numStage = _numStage;
         temp.amount = _amount;
         temp.mode = _mode;
         temp.time = _time;
         stages[_campID] = temp;
-        stages[_campID].agreed.length = _numStage;
+        stages[_campID].agreed = new uint[](_numStage);
     }
 
     /// @notice Return disbursement info of a campaign
     /// @param _campID is campaign's id
     /// @return Some info as number of stage, array of amount, mode, array of time, array of number agree voted
-    function getInfo(uint _campID) public view
+    function getInfo(uint _campID) external view
     returns (
         uint numStage,
         uint[] memory amount,
@@ -81,7 +81,7 @@ contract Disbursement {
     /// @param _campID is campaign's id
     /// @param _stage is stage number (start with 1. Stage 0 default withdraw without voting)
     /// @param _decision is decision for vote (Two options: `true` for agree withdraw, otherwise for disagree)
-    function vote(uint _campID, uint _stage, bool _decision) public {
+    function vote(uint _campID, uint _stage, bool _decision) external {
         require(
             _stage > 0,
             "Stage 0 is default full withdraw without voting"
@@ -95,16 +95,15 @@ contract Disbursement {
             "You already voted for this stage"
         );
         require(
-            camp.getInvest(_campID, msg.sender) > 0,
+            camp.getDonation(_campID, msg.sender) > 0,
             "You don't have right for this action"
         );
 
-        if (
-            stages[_campID].mode >= Mode.TimingFlexible &&
-            now < stages[_campID].time[_stage]
-        ) {
-            revert("Don't have enough time to do this action");
-        }
+        require(
+            !(stages[_campID].mode >= Mode.TimingFlexible &&
+            now < stages[_campID].time[_stage]),
+            "Don't have enough time to do this action"
+        );
 
         if (_decision == true) {
             stages[_campID].voting[msg.sender][_stage] = Vote.Agree;
@@ -121,7 +120,7 @@ contract Disbursement {
     /// @param _numUser is number of backers (person that backed to campaign)
     /// @return Two values: (1) number of stage; (2) amount for withdraw, if don't meet condition, amount will have value is zero
     function getWithdrawInfo(uint _campID, uint _stage, uint _numUser)
-    public view returns (
+    external view returns (
         uint numStage,
         uint amount
     ) {
