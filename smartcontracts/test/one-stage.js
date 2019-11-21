@@ -1,5 +1,5 @@
 const Campaigns = artifacts.require('./Campaigns.sol');
-const TokenSystem = artifacts.require('./TokenSystem.sol');
+const Wallet = artifacts.require('./Wallet.sol');
 const Identity = artifacts.require('./Identity.sol');
 const Disbursement = artifacts.require('./Disbursement.sol');
 const date = Math.floor(Date.now() / 1000);
@@ -22,7 +22,7 @@ contract('Campaign - one stage disbursement', accounts => {
         disb = await Disbursement.new(camp.address, {
             from: deployer
         });
-        token = await TokenSystem.new(camp.address, {
+        token = await Wallet.new(camp.address, {
             from: deployer
         });
         await camp.linkOtherContracts.sendTransaction(
@@ -38,12 +38,12 @@ contract('Campaign - one stage disbursement', accounts => {
         const price = 10 ** 15; // 0.01 ETH
         const amount = 1000; // 1000 tokens
         for(let i = 0; i < backers.length; i++) {
-            const prevBalance = await token.getMyBalance.call({ from: backers[i] });
+            const prevBalance = await token.getBalance.call(backers[i], { from: backers[i] });
             await token.deposit({
                 from: backers[i],
                 value: amount * price
             });
-            const lastBalance = await token.getMyBalance.call({ from: backers[i] });
+            const lastBalance = await token.getBalance.call(backers[i], { from: backers[i] });
             assert.equal(lastBalance - prevBalance, amount, 'Balance is incorrect');
         }
     });
@@ -126,7 +126,7 @@ contract('Campaign - one stage disbursement', accounts => {
     });
 
     it('Accept campaign after create', async() => {
-        await camp.acceptCampaign(
+        await camp.verifyCampaign(
             campID,
             true,
             {from: verifier}
@@ -141,13 +141,13 @@ contract('Campaign - one stage disbursement', accounts => {
     it('Back to first campaign (succeed campaign)', async () => {
         const amount = 500; // 500 tokens
         for(let i = 0; i < backers.length; i++) {
-            const prevBalance = await token.getMyBalance.call({ from: backers[i] });
-            await camp.invest.sendTransaction(
+            const prevBalance = await token.getBalance.call(backers[i], { from: backers[i] });
+            await camp.donate.sendTransaction(
                 campID,
                 amount,
                 { from: backers[i] }
             );
-            const lastBalance = await token.getMyBalance.call({ from: backers[i] });
+            const lastBalance = await token.getBalance.call(backers[i], { from: backers[i] });
             assert.equal(prevBalance-lastBalance, amount, 'Balance is incorrect');
         }
         
@@ -168,12 +168,12 @@ contract('Campaign - one stage disbursement', accounts => {
         const deadline = info.endDate * 1000;
         while (deadline >= (new Date().getTime())); //waiting for reach deadline
 
-        const prevBalance = await token.getMyBalance.call({ from: creator });
+        const prevBalance = await token.getBalance.call(creator, { from: creator });
         await camp.endCampaign.sendTransaction(
             campID,
             { from: creator }
         );
-        const lastBalance = await token.getMyBalance.call({ from: creator });
+        const lastBalance = await token.getBalance.call(creator, { from: creator });
         
         assert.equal(lastBalance-prevBalance, parseInt(info.collected), 'Balance is incorrect');
     });
@@ -187,7 +187,8 @@ contract('Campaign - one stage disbursement', accounts => {
 
         const tx = await web3.eth.getTransaction(transaction.tx);
         const gasCost = tx.gasPrice * transaction.receipt.gasUsed;
-        const balance = await token.getMyBalance.call(
+        const balance = await token.getBalance.call(
+            creator,
             { from: creator }
         );
         assert.equal(balance, 0, 'Balance is incorrect');
@@ -231,7 +232,7 @@ contract('Campaign - one stage disbursement', accounts => {
     });
 
     it('Accept campaign after create', async() => {
-        await camp.acceptCampaign(
+        await camp.verifyCampaign(
             campID,
             true,
             {from: verifier}
@@ -246,13 +247,13 @@ contract('Campaign - one stage disbursement', accounts => {
     it('Back to second campaign', async () => {
         const amount = 400; // 400 tokens
         for(let i = 0; i < backers.length; i++) {
-            const prevBalance = await token.getMyBalance.call({ from: backers[i] });
-            await camp.invest.sendTransaction(
+            const prevBalance = await token.getBalance.call(backers[i], { from: backers[i] });
+            await camp.donate.sendTransaction(
                 campID,
                 amount,
                 { from: backers[i] }
             );
-            const lastBalance = await token.getMyBalance.call({ from: backers[i] });
+            const lastBalance = await token.getBalance.call(backers[i], { from: backers[i] });
             assert.equal(prevBalance-lastBalance, amount, 'Balance is incorrect');
         }
         
@@ -269,8 +270,8 @@ contract('Campaign - one stage disbursement', accounts => {
         let prevBalances = [];
         let amounts = [];
         for (let i = 0; i < backers.length; i++) {
-            prevBalances[i] = await token.getMyBalance.call({ from: backers[i] });
-            amounts[i] = await camp.getInvest(
+            prevBalances[i] = await token.getBalance.call(backers[i], { from: backers[i] });
+            amounts[i] = await camp.getDonation(
                 campID,
                 backers[i],
                 {from: backers[i]}
@@ -283,7 +284,7 @@ contract('Campaign - one stage disbursement', accounts => {
         while (deadline >= (new Date().getTime())); //waiting for reach deadline
 
         for (let i = 0; i < backers.length; i++) {
-            const lastBalances = await token.getMyBalance.call({ from: backers[i] });
+            const lastBalances = await token.getBalance.call(backers[i], { from: backers[i] });
             assert.equal(lastBalances-prevBalances[i], amounts[i], 'Balance is incorrect');
         }
     });
