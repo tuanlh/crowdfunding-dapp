@@ -95,7 +95,7 @@ class CheckingIdentity extends Component {
   getUser = () => {
     const { account, contractIdentity } = this.state;
     contractIdentity.methods
-      .getUsers()
+      .getUsersRequested()
       .call({
         from: account
       })

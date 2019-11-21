@@ -7,7 +7,7 @@ import getWeb3 from "../../utils/getWeb3";
 
 import Campaigns from "../../contracts/Campaigns.json";
 import Identity from "../../contracts/Identity.json";
-import TokenSystem from "../../contracts/TokenSystem.json";
+import Wallet from "../../contracts/Wallet.json";
 import Disbursement from "../../contracts/Disbursement.json";
 
 import { authUser } from "../../actions/index";
@@ -63,10 +63,10 @@ class AuthMetamask extends Component {
         deployedNetworkIdentity && deployedNetworkIdentity.address
       );
       // token system
-      const deployedTokenSystem = TokenSystem.networks[networkId];
-      const instanceTokenSystem = new web3.eth.Contract(
-        TokenSystem.abi,
-        deployedTokenSystem && deployedTokenSystem.address
+      const deployedWallet = Wallet.networks[networkId];
+      const instanceWallet = new web3.eth.Contract(
+        Wallet.abi,
+        deployedWallet && deployedWallet.address
       );
       // Disbursement
       const deployedDisbursement = Disbursement.networks[networkId];
@@ -93,7 +93,7 @@ class AuthMetamask extends Component {
           account: accounts[0],
           contractCampaigns: instanceCampaigns,
           contractIdentity: instanceIdentity,
-          contractTokenSystem: instanceTokenSystem,
+          contractWallet: instanceWallet,
           contractDisbursement: instanceDisbursement,
           isLoading: false,
           api_db,

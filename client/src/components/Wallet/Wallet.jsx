@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import TokenSystem from "../../contracts/TokenSystem.json";
+import Wallet from "../../contracts/Wallet.json";
 import { Grid } from "@material-ui/core/";
 import AccountInfo from './childs/AccountInfo'
 import AccountAction from "./childs/AccountAction.js";
@@ -8,7 +8,7 @@ import getWeb3 from "../../utils/getWeb3";
 import Loading from '../utils/Loading2';
 import ErrorLogs from "./childs/ErrorLogs";
 
-class Wallet extends Component {
+class Wallets extends Component {
   state = {
     eth: 0, // balance of user form as ETH
     wei: 0, // balance of user form as Wei
@@ -38,9 +38,9 @@ class Wallet extends Component {
       const accounts = await web3.eth.getAccounts();
       // Get the contract instance.
       const networkId = await web3.eth.net.getId();
-      const deployedNetwork = TokenSystem.networks[networkId];
+      const deployedNetwork = Wallet.networks[networkId];
       const instance = new web3.eth.Contract(
-        TokenSystem.abi,
+        Wallet.abi,
         deployedNetwork && deployedNetwork.address,
       );
 
@@ -63,7 +63,7 @@ class Wallet extends Component {
   loadAccountInfo = async () => {
     const { web3, account, contract } = this.state;
 
-    contract.methods.getMyBalance().call({ from: account })
+    contract.methods.getBalance(account).call({ from: account })
       .then(token => {
         this.setState({ token: parseInt(token) });
       });
@@ -209,4 +209,4 @@ class Wallet extends Component {
 
 }
 
-export default Wallet;
+export default Wallets;

@@ -15,7 +15,7 @@ import Loading from "../../../utils/Loading2";
 import showNoti from "../../../utils/Notification";
 
 import Campaigns from "../../../../contracts/Campaigns.json";
-import TokenSystem from "../../../../contracts/TokenSystem.json";
+import Wallet from "../../../../contracts/Wallet.json";
 
 import getWeb3 from "../../../../utils/getWeb3";
 import Web3 from "web3";
@@ -39,7 +39,7 @@ class Detail extends Component {
       account: users.data.account,
       contract: {
         Campaigns: users.data.contractCampaigns,
-        Account: users.data.contractTokenSystem,
+        Account: users.data.contractWallet,
         Identity: users.data.contractIdentity,
         Disbursement: users.data.contractDisbursement
       },
@@ -99,9 +99,9 @@ class Detail extends Component {
         Campaigns.abi,
         deployedCampaign && deployedCampaign.address
       );
-      const deployedAccount = TokenSystem.networks[networkId];
+      const deployedAccount = Wallet.networks[networkId];
       const instanceAccount = new web3.eth.Contract(
-        TokenSystem.abi,
+        Wallet.abi,
         deployedAccount && deployedAccount.address
       );
 
@@ -221,7 +221,7 @@ class Detail extends Component {
       });
 
     contract.Campaigns.methods
-      .getNumberOfInvestors(id)
+      .getNumberOfDonors(id)
       .call({ from: account })
       .then(result => {
         this.setState({ numberOfInvestor: parseInt(result) });
@@ -229,14 +229,14 @@ class Detail extends Component {
 
     // Get some info about account
     contract.Account.methods
-      .getMyBalance()
+      .getBalance(account)
       .call({ from: account })
       .then(result => {
         this.setState({ balance: parseInt(result) });
       });
 
     contract.Campaigns.methods
-      .getInvest(id, account)
+      .getDonation(id, account)
       .call({ from: account })
       .then(result => {
         this.setState({ tokenBacked: parseInt(result) });
@@ -355,7 +355,7 @@ class Detail extends Component {
     }
     this.setState({ isProcessing: true });
     contract.Campaigns.methods
-      .invest(id, amount)
+      .donate(id, amount)
       .send({
         from: account
       })
@@ -443,7 +443,7 @@ class Detail extends Component {
   handleConfirm = value => {
     const { id, account, contract } = this.state;
     contract.Campaigns.methods
-      .acceptCampaign(id, value)
+      .verifyCampaign(id, value)
       .send({
         from: account
       })
