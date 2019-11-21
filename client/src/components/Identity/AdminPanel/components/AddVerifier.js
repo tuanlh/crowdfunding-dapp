@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Card } from '@material-ui/core/';
-import TextField from '@material-ui/core/TextField';
-import Fab from '@material-ui/core/Fab';
+import { Card, Button, TextField, Fab } from '@material-ui/core/';
 import AddIcon from '@material-ui/icons/Add';
 import _ from 'lodash'
 import { withStyles } from "@material-ui/styles";
@@ -13,6 +11,9 @@ const customStyle = theme => ({
     marginTop: theme.spacing(3),
     width: '100%'
   },
+  btnAdd: {
+    margin: '25px'
+  }
 })
 class AddVerifier extends Component {
   constructor(props) {
@@ -96,26 +97,28 @@ class AddVerifier extends Component {
                 shrink: true
               }}
             />
-            <div style={{ display: 'flex', marginTop: '32px' }} className='text-field-box'>
+            <div style={{ marginTop: '32px' }} className='text-field-box'>
+              Or choose file
               <input
                 id='image-file'
                 type='file'
                 onChange={this.handleFileUpload}
               />
             </div>
-            {/* <Button
-            variant='outlined'
-            color='primary'
-            size='medium'
-            onClick={this.handleAddVerifier}
-          >
-            Add
-          </Button> */}
-            <div className='text-field-box'>
+            <Button
+              variant='outlined'
+              color='primary'
+              size='medium'
+              onClick={this.handleAddVerifier}
+              className={classes.btnAdd}
+            >
+              Add
+          </Button>
+            {/* <div className='text-field-box'>
               <Fab color="primary" aria-label="add" onClick={this.handleAddVerifier} size='small' style={{ marginTop: '5px' }}>
                 <AddIcon />
               </Fab>
-            </div>
+            </div> */}
           </div>
         </Card>
       </Fragment >

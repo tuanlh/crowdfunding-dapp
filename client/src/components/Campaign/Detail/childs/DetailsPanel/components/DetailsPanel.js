@@ -95,7 +95,7 @@ class DetailsPanel extends Component {
                         <Fragment key={index}>
                           <br />
                           <span className={classes.subText}>
-                            Period {index} need to : {node} eth
+                            Period {index} need to : {node} tokens
                           </span>
                         </Fragment>
                       );
