@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import ReCAPTCHA from 'react-google-recaptcha';
 import _ from 'lodash';
 import {
@@ -7,7 +7,13 @@ import {
   CardHeader,
   TextField,
   withStyles,
-  Button
+  Button,
+  Radio,
+  RadioGroup,
+  FormControl,
+  FormLabel,
+  FormControlLabel,
+  Chip
 } from '@material-ui/core/';
 import validate from 'url-validator';
 import { Send } from '@material-ui/icons';
@@ -29,16 +35,30 @@ const useStyles = theme => ({
   centerButton: {
     textAlign: 'center',
     marginTop: theme.spacing(3)
-  }
+  },
+  formControl: {
+    margin: theme.spacing(1),
+    width: '100%',
+    color: '#757575'
+  },
+  chipTags: {
+    marginRight: theme.spacing(1),
+  },
 });
-const INPUT_FIELD = 6
 class FormCreate extends Component {
   constructor(props) {
     super(props);
     this.state = {
       recaptchaRespone: null,
       error: {},
-      data: {}
+      data: {
+        amountStageArr: [],
+        amountStage: '',
+        timing: '',
+        timingArr: [],
+        mode: 0,
+        numStage: 1
+      },
     };
     this.recaptcha = null;
   }
@@ -85,8 +105,23 @@ class FormCreate extends Component {
         break;
       case 'time':
         value = parseInt(value);
-        if (value >= 15 && value <= 180) inputIsError = false;
+        if (value >= 1 && value <= 180) inputIsError = false;
+        value = value * 60; // in test, convert second to minutes
         break;
+      case 'numStage':
+        value = _.toInteger(value)
+        if (value >= 0) inputIsError = false;
+        break;
+      case 'amountStage':
+      case 'mode':
+        value = _.toInteger(value)
+        inputIsError = false;
+        break;
+      case 'timing':
+        value = parseInt(value)
+        if (value >= 1) inputIsError = false;
+        value = value * 60
+        break
       default:
         break;
     }
@@ -106,6 +141,17 @@ class FormCreate extends Component {
     e.preventDefault()
     const { sendDataToParents } = this.props
     const { data, recaptchaRespone } = this.state
+
+    if (data.mode === 0 || data.mode === 1) {
+      data.timingArr = []
+    } else {
+      data.timingArr.unshift(0)
+    }
+    if (data.numStage === 1) {
+      data.amountStageArr = []
+    }
+    delete data.amountStage
+    delete data.timing
     sendDataToParents({
       ...data,
       recaptchaRespone
@@ -117,20 +163,94 @@ class FormCreate extends Component {
   };
 
   checkValidated = () => {
-    const { error, recaptchaRespone } = this.state;
+    // return true -> disabled button
+    const { error, recaptchaRespone, data } = this.state;
     if (process.env.REACT_APP_RECAPTCHA_ENABLE === '1' && _.isNil(recaptchaRespone)) {
       return true
     }
-    if (_.isEmpty(error) || Object.keys(error).length !== INPUT_FIELD) {
+    if (_.isEmpty(error)) {
       return true;
+    }
+    if (data.numStage > 1) {
+      let sumAmountStage = data.amountStageArr.reduce((a, b) => +a + +b, 0)
+      if (sumAmountStage !== _.get(data, 'goal', -1)) {
+        return true
+      }
+      if (data.mode === 2 || data.mode === 3) {
+        let lengthOfTiming = data.timingArr.length
+        if (lengthOfTiming !== data.numStage - 1) {
+          return true
+        }
+      }
     }
     return _.filter(error, o => {
       return o === true;
     }).length !== 0
   };
 
+  handleCreateTags = (e, value, valueArr) => {
+    if (e.key === 'Enter') {
+      const { data } = this.state
+      data[valueArr].push(data[value])
+      this.setState(prevState => ({
+        data: {
+          ...prevState.data,
+          [valueArr]: data[valueArr],
+          [value]: ''
+        }
+      }));
+    }
+  }
+
+  renderTags = (valueArr) => {
+    const { data } = this.state;
+    const { classes } = this.props
+    let result = []
+    if (data.numStage >= data[valueArr].length) {
+      let sumAmount = data[valueArr].reduce((a, b) => +a + +b, 0)
+      result = _.map(data[valueArr], (node, index) => {
+        return (
+          <Chip
+            variant="outlined"
+            color={sumAmount === _.get(data, 'goal', -1) ? 'primary' : 'secondary'}
+            onDelete={() => this.handleDeleteTags(index, valueArr)}
+            className={classes.chipTags}
+            key={index}
+            label={node}
+          />
+        )
+      })
+    }
+    return result
+  }
+  renderTagsMode = (valueArr) => {
+    const { data } = this.state;
+    const { classes } = this.props
+    let result = []
+    result = _.map(data[valueArr], (node, index) => {
+      return (
+        <Chip
+          variant="outlined"
+          color={'primary'}
+          onDelete={() => this.handleDeleteTags(index, valueArr)}
+          className={classes.chipTags}
+          key={index}
+          label={node}
+        />
+      )
+    })
+    return result
+  }
+  handleDeleteTags = (index, valueArr) => {
+    let { data } = this.state
+    data[valueArr].splice(index, 1)
+    this.setState({
+      data
+    })
+  }
+
   render() {
-    const { error } = this.state;
+    const { error, data } = this.state;
     const { classes } = this.props;
     return (
       <div className='form-create'>
@@ -228,6 +348,88 @@ class FormCreate extends Component {
                   shrink: true
                 }}
               />
+              {
+                <div style={{ display: 'flex' }}>
+                  <TextField
+                    label='Numstage'
+                    id='numStage'
+                    placeholder='Enter number of stage'
+                    margin='normal'
+                    defaultValue={1}
+                    type='number'
+                    onChange={this.handleInput}
+                    className={classes.textField}
+                    helperText='This is number stage of project'
+                    InputLabelProps={{
+                      shrink: true
+                    }}
+                  />
+                  {
+                    (_.toInteger(data.numStage) > 1 && data.numStage > data.amountStageArr.length) &&
+                    <Fragment>
+                      <TextField
+                        label='Amount Stage'
+                        id='amountStage'
+                        placeholder='Enter number amount each of stage'
+                        margin='normal'
+                        type='number'
+                        value={data.amountStage}
+                        onChange={this.handleInput}
+                        onKeyDown={e => this.handleCreateTags(e, 'amountStage', 'amountStageArr')}
+                        className={classes.textField}
+                        helperText='This is number stage of project'
+                        InputLabelProps={{
+                          shrink: true
+                        }}
+                      />
+                    </Fragment>
+                  }
+                </div>
+              }
+              <div className={classes.textField}>
+                {
+                  this.renderTags('amountStageArr')
+                }
+              </div>
+              {
+                _.toInteger(data.numStage) > 1 &&
+                <div className={classes.textField} style={{ display: 'flex' }}>
+                  <FormControl component="fieldset" className={classes.formControl}>
+                    <FormLabel component="legend">Mode</FormLabel>
+                    <RadioGroup aria-label="mode" value={data.mode} onChange={this.handleInput}>
+                      <FormControlLabel value={0} control={<Radio id='mode' />} label="Flexible" />
+                      <FormControlLabel value={1} control={<Radio id='mode' />} label="Fixed" />
+                      <FormControlLabel value={2} control={<Radio id='mode' />} label="Timing Flexible" />
+                      <FormControlLabel value={3} control={<Radio id='mode' />} label="Timing Fixed" />
+                    </RadioGroup>
+                  </FormControl>
+                  {
+                    ((data.mode === 2 || data.mode === 3) && (data.numStage > data.timingArr.length + 1)) &&
+                    <Fragment>
+                      <TextField
+                        label='Timing'
+                        id='timing'
+                        placeholder='Enter time each of stage'
+                        margin='normal'
+                        type='number'
+                        value={data.timing}
+                        onChange={this.handleInput}
+                        onKeyDown={e => this.handleCreateTags(e, 'timing', 'timingArr')}
+                        className={classes.textField}
+                        helperText='This is time stage of each period'
+                        InputLabelProps={{
+                          shrink: true
+                        }}
+                      />
+                    </Fragment>
+                  }
+                </div>
+              }
+              <div className={classes.textField}>
+                {
+                  this.renderTagsMode('timingArr')
+                }
+              </div>
               <div className={classes.textField}>
                 {process.env.REACT_APP_RECAPTCHA_ENABLE === '1' && (
                   <ReCAPTCHA

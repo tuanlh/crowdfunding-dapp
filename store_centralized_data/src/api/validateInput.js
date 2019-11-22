@@ -40,8 +40,8 @@ module.exports = async (input) => {
   if (!hasOwnProperty.call(input, 'thumbnail_url')) {
     error_msg.push('Thumbnail URL is empty');
   } else {
-    input.thumbnail_url = urlValidator(input.thumbnail_url);
-    if (input.thumbnail_url === false) {
+    let isValidateUrl = urlValidator(input.thumbnail_url);
+    if (isValidateUrl === false) {
       error_msg.push('Thumbnail URL is invalid');
     }
   }

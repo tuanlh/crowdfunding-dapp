@@ -10,62 +10,34 @@ import _ from 'lodash'
 
 import getAllVerifier from '../../../utils/modules/getAllVerifier'
 import Loading from '../../../utils/Loading2';
-import getWeb3 from "../../../../utils/getWeb3";
-import Identity from "../../../../contracts/Identity.json";
 import AddVerifier from './AddVerifier';
 import './AdminPanel.scss'
 class AdminPanel extends Component {
+
   constructor(props) {
-    console.log('asd')
+    const { users } = props;
     super(props);
     this.state = {
       data: {},
-      web3: '',
-      account: '',
-      contract: '',
       isLoading: true,
+      web3: users.data.web3,
+      account: users.data.account,
+      contractIdentity: users.data.contractIdentity,
       listAddressVerifier: []
     }
   }
 
-  async componentDidMount() {
-    try {
-      // Get network provider and web3 instance.
-      const web3 = await getWeb3();
-      // Use web3 to get the user's accounts.
-      const accounts = await web3.eth.getAccounts();
-      // Get the contract instance.
-      const networkId = await web3.eth.net.getId();
-      const deployedNetwork = Identity.networks[networkId];
-      const instance = new web3.eth.Contract(
-        Identity.abi,
-        deployedNetwork && deployedNetwork.address
-      );
-
-      // Set web3, accounts, and contract to the state, and then proceed with an
-      // example of interacting with the contract's methods.
-      this.setState(
-        { web3, account: accounts[0], contract: instance},
-        this.loadAccountInfo
-      );
-      window.ethereum.on("accountsChanged", () => {
-        window.location.reload();
-      });
-    } catch (error) {
-      // Catch any errors for any of the above operations.
-      alert(
-        `Failed to load web3, account, or contract. Check console for details.`
-      );
-      console.error(error);
-    }
+  componentDidMount() {
+    this.loadAccountInfo()
   };
+
   loadAccountInfo = () => {
-    const { contract, account } = this.state;
-    contract.methods.isOwner().call({
+    const { contractIdentity, account } = this.state;
+    contractIdentity.methods.isOwner().call({
       from: account
     }).then(res => {
-      if(res) {
-        getAllVerifier(contract, account).then(res => {
+      if (res) {
+        getAllVerifier(contractIdentity, account).then(res => {
           this.setState({
             listAddressVerifier: res,
             isLoading: false
@@ -81,7 +53,7 @@ class AdminPanel extends Component {
 
   renderData = () => {
     const { listAddressVerifier } = this.state
-    if(_.isEmpty(listAddressVerifier)) return
+    if (_.isEmpty(listAddressVerifier)) return
     let result = listAddressVerifier.map((verifier) => (
       <TableRow key={verifier.address}>
         <TableCell component="th" scope="row">
@@ -93,9 +65,13 @@ class AdminPanel extends Component {
     ))
     return result
   }
+
   handleAddVerifier = (verifier) => {
-    const { contract, account } = this.state;
-    contract.methods.addVerifier(verifier.address, verifier.publicKey
+    const { contractIdentity, account } = this.state;
+    this.setState({
+      isLoading: true
+    })
+    contractIdentity.methods.addVerifier(verifier.address, verifier.publicKey
     ).send({
       from: account
     }).on('transactionHash', hash => {
@@ -124,6 +100,11 @@ class AdminPanel extends Component {
       console.log('--Failed---')
       // this.showError("Failed", "bottom-center");       
     }
+    
+    this.setState({
+      isLoading: false
+    })
+
   }
 
   render() {

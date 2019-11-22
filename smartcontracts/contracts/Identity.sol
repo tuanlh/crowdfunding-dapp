@@ -16,12 +16,12 @@ contract Identity {
         uint task;
     }
 
-    mapping (address => PersonalData) userInfo;
-    mapping (address => bool) isVerifyRight;
-    mapping (address => VerifierData) verifierInfo;
-    mapping (address => address[]) verifier2users;
-    address owner;
-    address[] verifiers;
+    mapping (address => PersonalData) internal userInfo;
+    mapping (address => bool) internal isVerifyRight;
+    mapping (address => VerifierData) internal verifierInfo;
+    mapping (address => address[]) internal verifier2users;
+    address internal owner;
+    address[] internal verifiers;
 
     /* -- Constructor -- */
     //
@@ -54,13 +54,13 @@ contract Identity {
     /// @param _shareKey is secret key of user was encrypted
     /// @param _verifier is address of verifier
     function registerIdentity(
-        string memory _name,
-        string memory _located,
+        string calldata _name,
+        string calldata _located,
         uint _dob,
-        string memory _data,
-        string memory _shareKey,
+        string calldata _data,
+        string calldata _shareKey,
         address _verifier)
-    public {
+    external {
         require(
             bytes(_name).length > 3,
             "Your name is must be greater 3 characters"
@@ -105,7 +105,7 @@ contract Identity {
     /// @notice Get information of an user
     /// @param _user is address of user
     /// @return Name, Located Address, Date of birth and verify status
-    function getIdentity(address _user) public view
+    function getIdentity(address _user) external view
     returns (
         string memory name,
         string memory located,
@@ -126,45 +126,39 @@ contract Identity {
     /// @notice This function for verifier to verify an identity
     /// @param _user is address of user
     /// @param _status is status include `true` is verified and `false` is rejected
-    function verify(address _user, bool _status) public onlyVerifier() {
+    function verify(address _user, bool _status) external onlyVerifier() {
         require(
             userInfo[_user].status == VerifyStatus.pending,
             "User that you verifiy must be have data"
         );
 
+        uint loopLimit = verifier2users[msg.sender].length;
+        bool isVerifier2User;
+        for (uint i = 0; i < loopLimit; i++) {
+            if (verifier2users[msg.sender][i] == _user) {
+                isVerifier2User = true;
+            }
+        }
         require(
-            checkVerifier2User(msg.sender, _user) == true,
-            "User must be request you"
+            isVerifier2User == true,
+            "User must be requested verifier"
         );
 
         userInfo[_user].status = _status ? VerifyStatus.verified : VerifyStatus.rejected;
         verifierInfo[msg.sender].task -= 1;
     }
 
-    /// @notice check if verifier was requested by user to verify
-    /// @dev check user's address is exists in `verifier2users` array
-    /// @param _verifier is address of verifier
-    /// @param _user is address of user
-    /// @return `true` if address of user is exists in list
-    function checkVerifier2User(address _verifier, address _user) internal view
-    returns (bool) {
-        for (uint i = 0; i < verifier2users[_verifier].length; i++) {
-            if (verifier2users[_verifier][i] == _user) return true;
-        }
-        return false;
-    }
-
     /// @notice Get status of identity
     /// @param _user is address of user
-    /// @return Status (1 => pending, 2 => verified, 3 => reject)
-    function getStatus(address _user) public view returns(VerifyStatus) {
+    /// @return Status (1 => pending, 2 => verified, 3 => rejected)
+    function getStatus(address _user) external view returns(VerifyStatus) {
         return userInfo[_user].status;
     }
 
     /// @notice This function for owner to add a verifier
     /// @param _verifier is address of verifier
     /// @param _pubKey is public key of verifier
-    function addVerifier(address _verifier, string memory _pubKey) public onlyOwner() {
+    function addVerifier(address _verifier, string calldata _pubKey) external onlyOwner() {
         require(
             isVerifyRight[_verifier] == false,
             "This address have already added"
@@ -176,14 +170,14 @@ contract Identity {
 
     /// @notice Get list all verifiers
     /// @return array of verifier's addresses and count
-    function getVerifierAddresses() public view returns (address[] memory) {
+    function getVerifierAddresses() external view returns (address[] memory) {
         return verifiers;
     }
 
     /// @notice Get information of a verifier
     /// @param _verifier is address of verifier
     /// @return Public key and number task of verifier
-    function getVerifier(address _verifier) public view
+    function getVerifier(address _verifier) external view
     returns(string memory pubKey, uint task) {
         pubKey = verifierInfo[_verifier].pubKey;
         task = verifierInfo[_verifier].task;
@@ -192,34 +186,34 @@ contract Identity {
     /// @notice Check identity of an address is verified
     /// @param _user is address of user
     /// @return `true` if identity of address is verified
-    function isVerified(address _user) public view returns(bool) {
+    function isVerified(address _user) external view returns(bool) {
         return userInfo[_user].status == VerifyStatus.verified;
     }
 
     /// @notice Get list user that requested by Verifier
     /// @return List of users
-    function getUsers() public onlyVerifier() view returns(address[] memory) {
+    function getUsersRequested() external onlyVerifier() view returns(address[] memory) {
         return verifier2users[msg.sender];
     }
 
     /// @notice Function is used for other contract
     /// @param _verifier is address of user that you want to check
     /// @return `true` if address is verifier
-    function isVerifier(address _verifier) public view returns(bool) {
+    function isVerifier(address _verifier) external view returns(bool) {
         return isVerifyRight[_verifier];
     }
 
     /// @notice Change public key of verifier
     /// @param _verifier is address of verifier
     /// @param _newPubKey is new public key
-    function changePubKey (address _verifier, string memory _newPubKey)
-    public onlyOwner {
+    function changePubKey (address _verifier, string calldata _newPubKey)
+    external onlyOwner {
         verifierInfo[_verifier].pubKey = _newPubKey;
     }
 
     /// @notice Function is used to check if owner
     /// @return `true` if sender is owner of contract
-    function isOwner() public view returns(bool) {
+    function isOwner() external view returns(bool) {
         return msg.sender == owner;
     }
 }

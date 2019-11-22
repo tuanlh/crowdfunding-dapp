@@ -4,11 +4,15 @@ import _ from "lodash";
 import { withRouter } from 'react-router-dom'
 //import ReactMarkdown from 'react-markdown';
 import getWeb3 from "../../utils/getWeb3";
+
 import Campaigns from "../../contracts/Campaigns.json";
 import Identity from "../../contracts/Identity.json";
-import TokenSystem from "../../contracts/TokenSystem.json";
+import Wallet from "../../contracts/Wallet.json";
+import Disbursement from "../../contracts/Disbursement.json";
+
 import { authUser } from "../../actions/index";
 import Loading from "../utils/Loading2";
+import showNoti from "../utils/Notification";
 class AuthMetamask extends Component {
   constructor(props) {
     super(props);
@@ -20,16 +24,27 @@ class AuthMetamask extends Component {
       api_db: null,
       contractIdentity: null,
       isError: {},
-      isAuth: props.isAuth
+      isAuth: props.isAuth,
+      isLoading: true
     }
   }
 
   componentDidMount = async () => {
     try {
-      const { authUser } = this.props;
+      const { authUser, location, history } = this.props;
+
       // Get network provider and web3 instance.
       const web3 = await getWeb3();
-
+      if (web3.notMetaMask) {
+        this.setState({
+          isLoading: false
+        })
+        showNoti({
+          type: 'error',
+          message: 'You have to install Meta Mask extension',
+        })
+        history.push('/help')
+      }
       // Use web3 to get the user's accounts.
       const accounts = await web3.eth.getAccounts();
 
@@ -48,10 +63,16 @@ class AuthMetamask extends Component {
         deployedNetworkIdentity && deployedNetworkIdentity.address
       );
       // token system
-      const deployedTokenSystem = TokenSystem.networks[networkId];
-      const instanceTokenSystem = new web3.eth.Contract(
-        TokenSystem.abi,
-        deployedTokenSystem && deployedTokenSystem.address
+      const deployedWallet = Wallet.networks[networkId];
+      const instanceWallet = new web3.eth.Contract(
+        Wallet.abi,
+        deployedWallet && deployedWallet.address
+      );
+      // Disbursement
+      const deployedDisbursement = Disbursement.networks[networkId];
+      const instanceDisbursement = new web3.eth.Contract(
+        Disbursement.abi,
+        deployedDisbursement && deployedDisbursement.address
       );
 
       const api_db_default = "http://" + window.location.hostname + ":8080/";
@@ -72,14 +93,14 @@ class AuthMetamask extends Component {
           account: accounts[0],
           contractCampaigns: instanceCampaigns,
           contractIdentity: instanceIdentity,
-          contractTokenSystem: instanceTokenSystem,
+          contractWallet: instanceWallet,
+          contractDisbursement: instanceDisbursement,
           isLoading: false,
           api_db,
         },
         isAuth: true
       });
-      const { location, history } = this.props
-      if(!_.isEmpty(location.state)) {
+      if (!_.isEmpty(location.state)) {
         history.push(location.state.prePage)
       } else {
         history.push('/')
@@ -94,10 +115,11 @@ class AuthMetamask extends Component {
   };
   render() {
     const { users } = this.props
+    const { isLoading } = this.state
     return (
       <Fragment>
         {
-          !users.isAuth && <Loading />
+          (!users.isAuth && isLoading) && <Loading />
         }
       </Fragment>
     );

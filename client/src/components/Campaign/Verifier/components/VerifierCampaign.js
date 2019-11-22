@@ -4,13 +4,10 @@ import { withStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { Keccak } from "sha3";
 import _ from "lodash";
-import Web3 from "web3";
-
-import Campaigns from "../../../../contracts/Campaigns.json";
 
 import Loading from "../../../utils/Loading2";
-import HandleExplore from "./HandleExplore";
-import StepperExplore from "../childs/StepperExplore/components/StepperExplore";
+import HandleExplore from "../../Explore/components/HandleExplore";
+import StepperExplore from "../../Explore/childs/StepperExplore";
 
 const styles = theme => ({
   heroContent: {
@@ -19,9 +16,10 @@ const styles = theme => ({
   }
 });
 
-class Explore extends Component {
+class VerifierCampaign extends Component {
   constructor(props) {
     super(props);
+    const { users } = props;
     this.state = {
       numberOfCampaign: 0,
       campaigns: [],
@@ -31,11 +29,13 @@ class Explore extends Component {
         lastIndex: 0
       },
       data: [],
-      api_db: '',
+      //api_db_set: null,
+      api_db: users.data.api_db,
       loaded: 0,
-      web3: '',
-      account: null,
-      contract: null,
+      web3: users.data.web3,
+      account: users.data.account,
+      contract: users.data.contractCampaigns,
+      contractIdentity: users.data.contractIdentity,
       isLoading: true,
       activeStep: 0,
       chunkData: [],
@@ -44,42 +44,7 @@ class Explore extends Component {
   }
 
   componentDidMount = async () => {
-    try {
-      // Get network provider and web3 instance.
-      // const web3 = await getWeb3();
-      const web3 = new Web3(
-        new Web3.providers.HttpProvider(process.env.REACT_APP_DEFAULT_NETWORK)
-      );
-      // Use web3 to get the user's accounts.
-      //const accounts = await web3.eth.getAccounts();
-      web3.eth.defaultAccount = process.env.REACT_APP_DEFAULT_ACCOUNT;
-      // Get the contract instance.
-      const networkId = await web3.eth.net.getId();
-      const deployedNetwork = Campaigns.networks[networkId];
-      const instance = new web3.eth.Contract(
-        Campaigns.abi,
-        deployedNetwork && deployedNetwork.address
-      );
-      const api_db_default = "http://" + window.location.hostname + ":8080/";
-      const api_db =
-        !hasOwnProperty.call(process.env, "REACT_APP_STORE_CENTRALIZED_API") ||
-        process.env.REACT_APP_STORE_CENTRALIZED_API === ""
-          ? api_db_default
-          : process.env.REACT_APP_STORE_CENTRALIZED_API;
-
-      // Set web3, accounts, and contract to the state, and then proceed with an
-      // example of interacting with the contract's methods.
-      this.setState(
-        { web3, account: web3.eth.defaultAccount, api_db, contract: instance },
-        this.loadContractInfo
-      );
-    } catch (error) {
-      // Catch any errors for any of the above operations.
-      alert(
-        `Failed to load web3, accounts, or contract. Check console for details.`
-      );
-      console.error(error);
-    }
+    this.loadContractInfo();
   };
 
   loadContractInfo = async () => {
@@ -95,6 +60,7 @@ class Explore extends Component {
       this.setState({ isLoading: false });
     }
   };
+
   getCampaignFirst = numberOfCampaign => {
     return new Promise(resolve => {
       let campaigns = [];
@@ -115,6 +81,7 @@ class Explore extends Component {
       resolve(contract.methods.getInfo(index).call({ from: account }));
     });
   };
+
   loadCampaign = campaigns => {
     let campaignAfterBuild = [];
     let count = 0;
@@ -132,37 +99,46 @@ class Explore extends Component {
         }
       });
     });
-
   };
+
   buildCampagin = (campaign, index) => {
     return new Promise(resolve => {
+      const { account, contractIdentity } = this.state;
       let { startDate, endDate, goal, collected, owner, finStatus, ref, hashIntegrity } = campaign;
       finStatus = parseInt(finStatus);
-      if (finStatus > 0) {
-        this.loadDataOfCampaign(index, ref, hashIntegrity);
-        collected = parseInt(collected);
-        goal = parseInt(goal);
-        startDate = parseInt(startDate) * 1000;
-        endDate = parseInt(endDate) * 1000;
-        const stt = this.getStatus(endDate, goal, collected);
-        let statusChr = ["During", "Failed", "Succeed"][stt];
-        const progress = this.getProgress(collected, goal);
-        resolve({
-          id: index,
-          start: startDate,
-          end: endDate,
-          goal: goal,
-          collected: collected,
-          owner: owner,
-          status: statusChr,
-          progress: progress,
-          finStatus
+      contractIdentity.methods
+        .isVerified(account)
+        .call({
+          from: account
+        })
+        .then(isVerified => {
+          if (finStatus === 0 && isVerified) {
+            this.loadDataOfCampaign(index, ref, hashIntegrity);
+            collected = parseInt(collected);
+            goal = parseInt(goal);
+            startDate = parseInt(startDate) * 1000;
+            endDate = parseInt(endDate) * 1000;
+            const stt = this.getStatus(endDate, goal, collected);
+            let statusChr = ["During", "Failed", "Succeed"][stt];
+            const progress = this.getProgress(collected, goal);
+            resolve({
+              id: index,
+              start: startDate,
+              end: endDate,
+              goal: goal,
+              collected: collected,
+              owner: owner,
+              status: statusChr,
+              progress: progress,
+              finStatus
+            });
+          } else {
+            resolve(null);
+          }
         });
-      } else {
-        resolve(null);
-      }
     });
   };
+  
   loadDataOfCampaign = async (index, ref, hash_integrity) => {
     let { data, api_db } = this.state;
     if (!data.hasOwnProperty(index)) {
@@ -179,14 +155,14 @@ class Explore extends Component {
               d.name + d.short_description + d.description + d.thumbnail_url;
             const hashEngine = new Keccak(256);
             hashEngine.update(temp);
-            const result_hash = hashEngine.digest("hex");
-            if (result_hash === hash_integrity) {
-              data[index] = response.data;
-              data[index].id = index;
-              this.setState({ data }, () => {
-                this.handlePaginator();
-              });
-            }
+            // const result_hash = hashEngine.digest("hex");
+            // if (result_hash === hash_integrity) {
+            data[index] = response.data;
+            data[index].id = index;
+            this.setState({ data }, () => {
+              this.handlePaginator();
+            });
+            // }
           }
         }
       });
@@ -287,4 +263,4 @@ class Explore extends Component {
   }
 }
 
-export default withStyles(styles)(withRouter(Explore));
+export default withStyles(styles)(withRouter(VerifierCampaign));

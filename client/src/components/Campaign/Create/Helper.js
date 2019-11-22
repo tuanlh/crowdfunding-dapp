@@ -36,7 +36,7 @@ class Helper extends Component {
             <br />
             <Typography>
               <b>Notes 2:</b> After the campaign was accepted, investors can
-              invest for campaign. You (creator campaign) only can withdraw
+              donate for campaign. You (creator campaign) only can withdraw
               amount of campaign if campaign successful
             </Typography>
             <br />

@@ -3,9 +3,9 @@ const headers = {
   'Content-Type': 'multipart/form-data',
 }
 // const urlIPFS = 'http://akiz.ga:5001/api/v0'
-const URL_IPFS = 'http://138.91.3.168'
+const URL_IPFS = 'http://' + process.env.REACT_APP_IP_SERVER
 const PORT_ADD = 443 // 443
-const PORT_GET = 80 // 80
+const PORT_GET = 143 // 80
 
 const URL_ADD = URL_IPFS + ':' + PORT_ADD + '/api/v0/add?stream-channels=true'
 const URL_GET = URL_IPFS + ':' + PORT_GET + '/ipfs/'

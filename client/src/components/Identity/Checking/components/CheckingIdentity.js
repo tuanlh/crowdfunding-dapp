@@ -13,8 +13,6 @@ import {
 import { lightBlue } from "@material-ui/core/colors/";
 import { withRouter } from "react-router-dom";
 import _ from "lodash";
-import getWeb3 from "../../../../utils/getWeb3";
-import Identity from "../../../../contracts/Identity.json";
 import RequestModal from "../childs/RequestModal";
 import Loading from "../../../utils/Loading2/index";
 
@@ -48,61 +46,26 @@ const TableChild = ({ data, handleRequest }) => {
 class CheckingIdentity extends Component {
   constructor(props) {
     super(props);
+    const { users } = props;
     this.state = {
       data: [],
       isOpenRequest: false,
       isLoading: true,
       dataUser: {},
-      web3: null,
-      account: null,
-      contract: null
+      web3: users.data.web3,
+      account: users.data.account,
+      contractIdentity: users.data.contractIdentity,
     };
     this.fileInput = React.createRef();
   }
 
-  componentDidMount = async () => {
-    try {
-      const { account } = this.state;
-      if (!_.isEmpty(account)) return;
-      // Get network provider and web3 instance.
-      const web3 = await getWeb3();
-      // Use web3 to get the user's accounts.
-      const accounts = await web3.eth.getAccounts();
-      // Get the contract instance.
-      const networkId = await web3.eth.net.getId();
-      const deployedNetwork = Identity.networks[networkId];
-      const instance = new web3.eth.Contract(
-        Identity.abi,
-        deployedNetwork && deployedNetwork.address
-      );
-
-      // Set web3, accounts, and contract to the state, and then proceed with an
-      // example of interacting with the contract's methods.
-      this.setState(
-        {
-          web3,
-          account: accounts[0],
-          contract: instance
-        },
-        () => {
-          this.loadAccountInfo();
-        }
-      );
-      window.ethereum.on("accountsChanged", () => {
-        window.location.reload();
-      });
-    } catch (error) {
-      // Catch any errors for any of the above operations.
-      alert(
-        `Failed to load web3, account, or contract. Check console for details.`
-      );
-      console.error(error);
-    }
+  componentDidMount = () => {
+    this.loadAccountInfo();
   };
 
   loadAccountInfo = () => {
-    const { contract, account } = this.state;
-    contract.methods
+    const { contractIdentity, account } = this.state;
+    contractIdentity.methods
       .isVerifier(account)
       .call({
         from: account
@@ -130,9 +93,9 @@ class CheckingIdentity extends Component {
   };
 
   getUser = () => {
-    const { account, contract } = this.state;
-    contract.methods
-      .getUsers()
+    const { account, contractIdentity } = this.state;
+    contractIdentity.methods
+      .getUsersRequested()
       .call({
         from: account
       })
@@ -145,9 +108,9 @@ class CheckingIdentity extends Component {
   };
 
   showInfoUser = user_address => {
-    const { contract, account } = this.state;
+    const { contractIdentity, account } = this.state;
     return new Promise(resolve => {
-      contract.methods
+      contractIdentity.methods
         .getIdentity(user_address)
         .call({
           from: account
@@ -171,11 +134,11 @@ class CheckingIdentity extends Component {
   };
 
   handleVerifiedUser = action => {
-    const { contract, account, dataUser } = this.state;
+    const { contractIdentity, account, dataUser } = this.state;
     this.setState({
       isLoading: true
     });
-    contract.methods
+    contractIdentity.methods
       .verify(dataUser.user_address, action)
       .send({
         from: account

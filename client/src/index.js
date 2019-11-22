@@ -4,7 +4,6 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { BrowserRouter } from "react-router-dom";
 import * as serviceWorker from "./serviceWorker";
-// import { Container } from 'react-bootstrap';
 import { Header, Footer } from "./components/MainPage";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
@@ -13,7 +12,6 @@ import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import pink from "@material-ui/core/colors/pink";
 import "./css/style.scss";
 import rootReducer from "./reducers";
-// import './css/bootstrap.min.css';
 import "./fontawesome";
 import ContainerMain from "./ContainerMain";
 
