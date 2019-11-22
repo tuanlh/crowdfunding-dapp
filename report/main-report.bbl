@@ -1,0 +1,48 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.0 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global}
+    \entry{sample}{article}{}
+      \name{author}{1}{}{%
+        {{hash=38d4a8af066cc9dc9e0c879e9d252e33}{%
+           family={giả},
+           familyi={g\bibinitperiod},
+           given={Tác},
+           giveni={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{38d4a8af066cc9dc9e0c879e9d252e33}
+      \strng{fullhash}{38d4a8af066cc9dc9e0c879e9d252e33}
+      \strng{bibnamehash}{38d4a8af066cc9dc9e0c879e9d252e33}
+      \strng{authorbibnamehash}{38d4a8af066cc9dc9e0c879e9d252e33}
+      \strng{authornamehash}{38d4a8af066cc9dc9e0c879e9d252e33}
+      \strng{authorfullhash}{38d4a8af066cc9dc9e0c879e9d252e33}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Tên hội nghị}
+      \field{title}{Tiêu đề bài viết}
+      \field{year}{Năm}
+      \true{nocite}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

@@ -1,0 +1,31 @@
+\documentclass[main-report.tex]{subfiles}
+\begin{document}
+\begin{titlepage}
+\thispagestyle{empty}
+\thisfancypage{
+\setlength{\fboxsep}{3pt}
+\fbox}{} 
+\begin{center}
+{\bf\large ĐẠI HỌC QUỐC GIA TP. HỒ CHÍ MINH}\\
+{\bf\subtitlesize TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN}\\
+{\bf\subtitlesize KHOA MẠNG MÁY TÍNH VÀ TRUYỀN THÔNG}\\[5cm]
+
+{\bf\large NGUYỄN THANH TÙNG - 15520983}\\
+{\bf\large LÊ HOÀNG TUẤN - 15520967}\\[2cm]
+
+{\bf\large KHÓA LUẬN TỐT NGHIỆP}\\[0.5cm]
+{\bf\Large CẢI THIỆN TÍNH MINH BẠCH VÀ TIN CẬY}\\
+{\bf\Large CỦA ỨNG DỤNG GÂY QUỸ CỘNG ĐỒNG TỪ THIỆN}\\
+{\bf\Large ÁP DỤNG CÔNG NGHỆ BLOCKCHAIN}\\[6.5cm]
+
+{\bf GIẢNG VIÊN HƯỚNG DẪN}\\
+{\bf TS. PHẠM VĂN HẬU}
+\end{center}
+
+\vspace{2cm}
+\begin{center}
+{\bf TP. HỒ CHÍ MINH, 2019}
+\end{center}
+\end{titlepage}
+
+\end{document}
