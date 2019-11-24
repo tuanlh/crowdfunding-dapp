@@ -15,6 +15,7 @@ import { withRouter } from "react-router-dom";
 import _ from "lodash";
 import RequestModal from "../childs/RequestModal";
 import Loading from "../../../utils/Loading2/index";
+import showNoti from '../../../utils/Notification'
 
 const TableChild = ({ data, handleRequest }) => {
   let result = [];
@@ -149,12 +150,20 @@ class CheckingIdentity extends Component {
           // show pop up information
           window.open(urlEtherum + hash);
           this.handleTransactionReceipt(hash);
+          showNoti({
+            details: 'Please wait transaction confirm'
+          })
           this.setState({
-            isLoading: false
+            isLoading: false,
+            isOpenRequest: false
           });
         }
       })
       .on("error", err => {
+        this.setState({
+          isLoading: false,
+          isOpenRequest: false
+        });
         if (err !== null) {
           console.log("Error" + err);
           // this.setState({ isProcessing: false });

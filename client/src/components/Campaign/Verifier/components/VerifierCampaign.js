@@ -107,7 +107,7 @@ class VerifierCampaign extends Component {
       let { startDate, endDate, goal, collected, owner, finStatus, ref, hashIntegrity } = campaign;
       finStatus = parseInt(finStatus);
       contractIdentity.methods
-        .isVerified(account)
+        .isVerifier(account)
         .call({
           from: account
         })

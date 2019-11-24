@@ -24,7 +24,7 @@ import PrivateIdentity from "../childs/PrivateIdentity";
 import PublicIdentity from "../childs/PublicIdentity";
 import PreviewImage from "../childs/PreviewImage";
 import getAllVerifier from '../../../utils/modules/getAllVerifier'
-
+import showNoti from '../../../utils/Notification'
 export default class IdentityUser extends Component {
   constructor(props) {
     super(props);
@@ -39,6 +39,8 @@ export default class IdentityUser extends Component {
       openModal: false,
       web3: users.data.web3,
       account: users.data.account,
+      hasErrorPage: false,
+      statusUser: 0,
       contractIdentity: users.data.contractIdentity,
     };
     this.fileInput = React.createRef();
@@ -48,12 +50,32 @@ export default class IdentityUser extends Component {
     this.loadAccountInfo()
   };
 
+  componentDidCatch(error, info) {
+    // Display fallback UI
+    // this.setState({ hasError: true });
+    // You can also log the error to an error reporting service
+    // logErrorToMyService(error, info);
+    this.setState({
+      hasErrorPage: true
+    })
+    showNoti({
+      type: 'error'
+    })
+  }
+
   loadAccountInfo = async () => {
     const { account, contractIdentity } = this.state;
+    contractIdentity.methods.getStatus(account).call({
+      from: account
+    }).then(res => {
+      this.setState({
+        statusUser: res
+      })
+    })
     getAllVerifier(contractIdentity, account).then(res => {
       let listVerifier = []
       _.map(res, node => {
-        if(node.task <= 10) {
+        if (node.task <= 10) {
           listVerifier.push(node)
         }
       })
@@ -91,7 +113,7 @@ export default class IdentityUser extends Component {
 
   toTimestamp = (strDate) => {
     var datum = Date.parse(strDate);
-    return datum/1000;
+    return datum / 1000;
   }
 
   handleChange = e => {
@@ -216,7 +238,7 @@ export default class IdentityUser extends Component {
       this.showError("Success", "bottom-center", 'success');
     } else {
       console.log('--Failed---')
-      this.showError("Failed", "bottom-center");       
+      this.showError("Failed", "bottom-center");
     }
   }
 
@@ -237,11 +259,17 @@ export default class IdentityUser extends Component {
         this.setState({
           isLoading: false
         });
+        showNoti({
+          details: 'Please wait transaction confirm'
+        })
         // show pop up information
         window.open(urlEtherum + hash)
         this.handleTransactionReceipt(hash)
       }
     }).on('error', err => {
+      this.setState({
+        isLoading: false
+      });
       if (err !== null) {
         console.log('Error' + err)
         // this.setState({ isProcessing: false });
@@ -293,6 +321,29 @@ export default class IdentityUser extends Component {
     });
   };
 
+  renderStatusUser = () => {
+    const { statusUser } = this.state
+    let styleStatus = ''
+    switch (statusUser) {
+      case 1:
+        styleStatus = "Pending, please patience...";
+        break;
+      case 2:
+        styleStatus = "Success. You dont have to do this anymore.";
+        break;
+      case 3:
+        styleStatus = "Failed. Please contact us for more details.";
+        break;
+      default:
+        break;
+    }
+    return (
+      <div className="position-relative form-group" style={{ color: 'steelblue' }}>
+        This status's profile: {styleStatus}
+      </div>
+    )
+  }
+
   render() {
     const {
       openConfirm,
@@ -301,10 +352,13 @@ export default class IdentityUser extends Component {
       isError,
       openModal,
       listVerifier,
-      data
+      data,
+      hasErrorPage,
+      statusUser
     } = this.state;
     return (
       <Fragment>
+        {hasErrorPage && <div />}
         {isLoading && <Loading isLoading />}
         {openConfirm && (
           <ConfirmPassword
@@ -346,27 +400,35 @@ export default class IdentityUser extends Component {
                   </Box>
                   {
                     openModal && (
-                    <PreviewImage
-                      isOpen={openModal}
-                      handleModal={this.handleModal}
-                      imageArray={imageArray}
-                    />
-                  )}
+                      <PreviewImage
+                        isOpen={openModal}
+                        handleModal={this.handleModal}
+                        imageArray={imageArray}
+                      />
+                    )}
                 </CardContent>
-                <CardActions 
-                    style={{ justifyContent: "center" }}
+                <CardActions
+                  style={{ justifyContent: "center" }}
                 >
-                  <Button
-                    variant="contained"
-                    size="small"
-                    color='primary'
-                    onClick={this.handleSubmit}
-                  >
-                    <SaveIcon style={{
-                      fontSize: '20px'
-                    }}/>
+                  {
+                    statusUser === 0 &&
+                    <Button
+                      variant="contained"
+                      size="small"
+                      disabled={statusUser !== 0}
+                      color='primary'
+                      onClick={this.handleSubmit}
+                    >
+                      <SaveIcon style={{
+                        fontSize: '20px'
+                      }} />
                       &nbsp;Submit
                   </Button>
+                  }
+                  {
+                    statusUser !== 0 &&
+                    this.renderStatusUser()
+                  }
                 </CardActions>
               </Card>
             </Grid>

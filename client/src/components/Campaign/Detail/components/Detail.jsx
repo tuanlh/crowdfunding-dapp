@@ -189,7 +189,7 @@ class Detail extends Component {
             this.setState({ isLoading: false });
           } else {
             contract.Identity.methods
-              .isVerified(account)
+              .isVerifier(account)
               .call({
                 from: account
               })
@@ -448,6 +448,9 @@ class Detail extends Component {
         from: account
       })
       .then(res => {
+        showNoti({
+          details: 'Please wait transaction confirm'
+        })
         console.log(res);
       });
   };
