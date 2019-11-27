@@ -11,6 +11,7 @@ contract Disbursement {
         uint[] amount;
         uint[] time;
         uint[] agreed;
+        uint[] amountAgreed;
         Mode mode;
         mapping(address => mapping(uint => Vote)) voting; // user => stage => Vote
     }
@@ -58,6 +59,7 @@ contract Disbursement {
         temp.time = _time;
         stages[_campID] = temp;
         stages[_campID].agreed = new uint[](_numStage);
+        stages[_campID].amountAgreed = new uint[](_numStage);
     }
 
     /// @notice Return disbursement info of a campaign
@@ -108,6 +110,7 @@ contract Disbursement {
         if (_decision == true) {
             stages[_campID].voting[msg.sender][_stage] = Vote.Agree;
             stages[_campID].agreed[_stage] += 1;
+            stages[_campID].amountAgreed[_stage] += camp.getDonation(_campID, msg.sender);
         } else {
             stages[_campID].voting[msg.sender][_stage] = Vote.Disagree;
         }
@@ -119,7 +122,7 @@ contract Disbursement {
     /// @param _stage is stage number (start with 0)
     /// @param _numUser is number of backers (person that backed to campaign)
     /// @return Two values: (1) number of stage; (2) amount for withdraw, if don't meet condition, amount will have value is zero
-    function getWithdrawInfo(uint _campID, uint _stage, uint _numUser)
+    function getWithdrawInfo(uint _campID, uint _stage, uint _numUser, uint _collected)
     external view returns (
         uint numStage,
         uint amount
@@ -128,13 +131,16 @@ contract Disbursement {
             numStage = stages[_campID].numStage;
             if (_stage > 0) {
                 uint agreed = stages[_campID].agreed[_stage];
+                uint amountAgreed = stages[_campID].amountAgreed[_stage];
                 uint minAgree = _numUser / 2;
-                amount = agreed > minAgree ? stages[_campID].amount[_stage] : 0;
+                uint minAmount = _collected / 2;
+                amount = agreed > minAgree && amountAgreed > minAmount ? stages[_campID].amount[_stage] : 0;
                 if (
                     (stages[_campID].mode == Mode.Fixed ||
                     stages[_campID].mode == Mode.TimingFixed) &&
                     _stage > 1 &&
-                    stages[_campID].agreed[_stage-1] <= minAgree
+                    stages[_campID].agreed[_stage-1] <= minAgree &&
+                    stages[_campID].amountAgreed[_stage-1] <= minAmount
                 ) {
                     amount = 0;
                 }

@@ -285,7 +285,7 @@ contract Campaigns {
         uint numStage;
         uint amount;
 
-        (numStage, amount) = disb.getWithdrawInfo(_i, campaigns[_i].stage, campaigns[_i].donors.length);
+        (numStage, amount) = disb.getWithdrawInfo(_i, campaigns[_i].stage, campaigns[_i].donors.length, campaigns[_i].collected);
         if (numStage > 1) {
             if (amount > 0) {
                 campaigns[_i].stage = campaigns[_i].stage.add(1);
