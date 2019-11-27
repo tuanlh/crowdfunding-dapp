@@ -95,7 +95,7 @@ class DetailsPanel extends Component {
                         <Fragment key={index}>
                           <br />
                           <span className={classes.subText}>
-                            Period {index} need to : {node} eth
+                            Period {index} need to : {node} tokens
                           </span>
                         </Fragment>
                       );
@@ -125,26 +125,28 @@ class DetailsPanel extends Component {
                   </Typography>
                 </li>
               )}
-              <li>
-                <Typography
-                  variant="caption"
-                  color="initial"
-                  component="p"
-                  className={classes.textField}
-                >
-                  Voted agree for each stage is :
+              {
+                detailsCampaign.agreedArr.length > 1 && <li>
+                  <Typography
+                    variant="caption"
+                    color="initial"
+                    component="p"
+                    className={classes.textField}
+                  >
+                    Voted agree for each stage is :
                   {_.map(detailsCampaign.agreedArr, (node, index) => {
-                    return (
-                      <Fragment key={index}>
-                        <br />
-                        <span className={classes.subText}>
-                          Stage {index} is : {node} vote
+                      return (
+                        <Fragment key={index}>
+                          <br />
+                          <span className={classes.subText}>
+                            Stage {index} is : {node} vote
                         </span>
-                      </Fragment>
-                    );
-                  })}
-                </Typography>
-              </li>
+                        </Fragment>
+                      );
+                    })}
+                  </Typography>
+                </li>
+              }
             </ul>
             {
               tokenBacked > 0 &&

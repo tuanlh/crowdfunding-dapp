@@ -112,7 +112,7 @@ class VerifierCampaign extends Component {
           from: account
         })
         .then(isVerified => {
-          if (finStatus > 0 || isVerified) {
+          if (finStatus === 0 && isVerified) {
             this.loadDataOfCampaign(index, ref, hashIntegrity);
             collected = parseInt(collected);
             goal = parseInt(goal);

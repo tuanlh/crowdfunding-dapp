@@ -15,6 +15,9 @@ const styles = theme => ({
 class StepperExplore extends Component {
   render() {
     const { handleNext, handleBack, activeStep, classes, theme, data } = this.props
+    if (data.length === 0) {
+      return null
+    }
     return (
       <Fragment>
         <MobileStepper

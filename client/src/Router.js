@@ -3,7 +3,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { Home, NotfoundPage, Helper } from "./components/MainPage";
 import { Creation, Detail } from "./components/Campaign";
-import { Wallet } from "./components/Wallet";
+import { Wallets } from "./components/Wallet";
 import IdentityUser from "./components/Identity/Register";
 import CheckingIdentity from "./components/Identity/Checking";
 import AdminPanel from "./components/Identity/AdminPanel";
@@ -17,8 +17,8 @@ export const listRouter = [
   {
     path: "/wallet",
     exact: true,
-    component: Wallet,
-    name: "Wallet",
+    component: Wallets,
+    name: "Wallets",
     isAuth: true
   },
   {
@@ -33,7 +33,7 @@ export const listRouter = [
     exact: true,
     component: Helper,
     name: "Help",
-    isAuth: true
+    isAuth: false
   },
   {
     path: "/identity",
@@ -61,7 +61,7 @@ export const listRouter = [
     exact: true,
     component: Explore,
     name: "Explore",
-    isAuth: true
+    isAuth: false
   },
   {
     path: "/verifier-campaigin",
@@ -75,7 +75,7 @@ export const listRouter = [
     exact: true,
     component: Detail,
     name: "Details",
-    isAuth: true
+    isAuth: false
   },
   {
     path: "/contribute",
@@ -96,7 +96,7 @@ export const listRouter = [
     exact: true,
     component: Home,
     name: "Home",
-    isAuth: true
+    isAuth: false
   }
 ];
 

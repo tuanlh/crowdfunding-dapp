@@ -150,7 +150,6 @@ contract Campaigns {
         temp.collected = 0;
         temp.finstt = FinStatus.pending; //In current Testing, default set Finacial Status is Accepted
         campaigns.push(temp);
-
         if (_numStage > 1) {
             if (_amountStages.length != _numStage) {
                 revert('number element amount stage is invalid');

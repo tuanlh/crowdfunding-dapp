@@ -3,6 +3,7 @@ import "sweetalert2/src/sweetalert2.scss";
 function showActionNoti(props) {
   return Swal.fire({
     text: "You have to register identity before create campaign",
+    footer: 'If you already register, please patience while we verifying',
     type: "warning",
     confirmButtonColor: "#3085d6",
     confirmButtonText: "Okay, Let's go!!"
