@@ -1,7 +1,100 @@
-@article{sample,
-author = {Tác giả},
-title = {Tiêu đề bài viết},
-journaltitle = {Tên hội nghị},
-year = {Năm},
-OPTurl = {http://sample.com},
+@book{vuhongphong_tuthien,
+author = {Vu, Hong Phong and Bình, Lê and Dũng, Hoàng and Trà, Phạm},
+year = {2015},
+month = {11},
+pages = {},
+title = {Nhận thức của người dân về hoạt động từ thiện và khả năng gây quỹ của các tổ chức phi chính phủ Việt Nam},
+publisher = {NXB Giao thông vận tải}
+}
+
+@online{asiafoundation_thuthien,
+author = {Trung tâm Nghiên cứu Châu Á – Thái Bình Dương Hà Nội \& Quỹ Châu Á},
+title = {Đóng góp Từ thiện tại Việt Nam},
+year = {2011},
+url = {https://asiafoundation.org/resources/pdfs/ASIATVfinal.pdf},
+urldate = {2019-08-25}
+}
+
+@online{alice,
+author = {Alice},
+title = {Alice Whitepaper},
+year = {2019},
+url = {https://github.com/alice-si/whitepaper},
+urldate = {2019-08-25}
+}
+
+@article{bekkers2011literature,
+  title={A literature review of empirical studies of philanthropy: Eight mechanisms that drive charitable giving},
+  author={Bekkers, Ren{\'e} and Wiepking, Pamala},
+  journal={Nonprofit and voluntary sector quarterly},
+  volume={40},
+  number={5},
+  pages={924--973},
+  year={2011},
+  publisher={Sage Publications Sage CA: Los Angeles, CA}
+}
+
+@inproceedings{rouhani2017performance,
+  title={Performance analysis of ethereum transactions in private blockchain},
+  author={Rouhani, Sara and Deters, Ralph},
+  booktitle={2017 8th IEEE International Conference on Software Engineering and Service Science (ICSESS)},
+  pages={70--74},
+  year={2017},
+  organization={IEEE}
+}
+
+@article{yli2016current,
+  title={Where is current research on blockchain technology?—a systematic review},
+  author={Yli-Huumo, Jesse and Ko, Deokyoon and Choi, Sujin and Park, Sooyong and Smolander, Kari},
+  journal={PloS one},
+  volume={11},
+  number={10},
+  pages={e0163477},
+  year={2016},
+  publisher={Public Library of Science}
+}
+
+@inproceedings{belleflamme2010crowdfunding,
+  title={Crowdfunding: An industrial organization perspective},
+  author={Belleflamme, Paul and Lambert, Thomas and Schwienbacher, Armin},
+  booktitle={Prepared for the workshop Digital Business Models: Understanding Strategies’, held in Paris on June},
+  pages={25--26},
+  year={2010},
+  organization={Citeseer}
+}
+
+@book{hornuf2018economics,
+  title={The Economics of Crowdfunding: Startups, Portals and Investor Behavior},
+  author={Hornuf, Lars and Cumming, Douglas},
+  year={2018},
+  publisher={Taylor \& Francis Limited}
+}
+
+@article{mollick2014dynamics,
+  title={The dynamics of crowdfunding: An exploratory study},
+  author={Mollick, Ethan},
+  journal={Journal of business venturing},
+  volume={29},
+  number={1},
+  pages={1--16},
+  year={2014},
+  publisher={Elsevier}
+}
+
+@inproceedings{goranovic2017blockchain,
+  title={Blockchain applications in microgrids an overview of current projects and concepts},
+  author={Goranovi{\'c}, Andrija and Meisel, Marcus and Fotiadis, Lampros and Wilker, Stefan and Treytl, Albert and Sauter, Thilo},
+  booktitle={IECON 2017-43rd Annual Conference of the IEEE Industrial Electronics Society},
+  pages={6153--6158},
+  year={2017},
+  organization={IEEE}
+}
+
+@inproceedings{saadat2019blockchain,
+  title={Blockchain based crowdfunding systems in Malaysian Perspective},
+  author={Saadat, Md Nazmus and Rahman, Syed Abdul Halim Syed Abdul and Nassr, Rasheed Mohammad and Zuhiri, Megat F},
+  booktitle={Proceedings of the 2019 11th International Conference on Computer and Automation Engineering},
+  pages={57--61},
+  year={2019},
+  organization={ACM}
 }

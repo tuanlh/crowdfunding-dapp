@@ -8,15 +8,24 @@
 	description={chuỗi khối}
 }
 
-\newglossaryentry{ethereum}{
-	name = {ethereum}, 
-	description = {một công nghệ chuối khối công khai}
+\newglossaryentry{transaction}{
+	name = {transaction}, 
+	description = {giao dịch}
 }
 
+\newglossaryentry{smartcontract}{
+	name = {smart contract}, 
+	description = {hợp đồng thông minh}
+}
 
+\newglossaryentry{crowdfunding}{
+	name = {crowdfunding}, 
+	description = {gây quỹ cộng đồng}
+}
 % Danh mục từ viết tắt
 % Ví dụ
-\newacronym{http}{HTTP}{HyperText Transfer Protocol}
+\newacronym{ipfs}{IPFS}{InterPlanetary File System}
+\newacronym{bcf}{BCF}{Binance Charity Foundation}
 %\newacronym{ai}{AI}{Artificial Intelligence}
 %\newacronym{cart}{CART}{Classification and Regression Trees}
 %\newacronym{csdl}{CSDL}{Cơ Sở Dữ Liệu}

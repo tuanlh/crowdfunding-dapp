@@ -1996,6 +1996,17 @@
     <bcf:datasource type="file" datatype="bibtex">bibliography/main.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
+    <bcf:citekey order="1">vuhongphong_tuthien</bcf:citekey>
+    <bcf:citekey order="2">asiafoundation_thuthien</bcf:citekey>
+    <bcf:citekey order="3">bekkers2011literature</bcf:citekey>
+    <bcf:citekey order="4">alice</bcf:citekey>
+    <bcf:citekey order="5">yli2016current</bcf:citekey>
+    <bcf:citekey order="6">belleflamme2010crowdfunding</bcf:citekey>
+    <bcf:citekey order="7">hornuf2018economics</bcf:citekey>
+    <bcf:citekey order="8">mollick2014dynamics</bcf:citekey>
+    <bcf:citekey order="9">goranovic2017blockchain</bcf:citekey>
+    <bcf:citekey order="10">saadat2019blockchain</bcf:citekey>
+    <bcf:citekey order="11">rouhani2017performance</bcf:citekey>
     <bcf:citekey order="0" nocite="1">*</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
