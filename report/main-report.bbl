@@ -360,6 +360,49 @@
       \field{pages}{6153\bibrangedash 6158}
       \range{pages}{6}
     \endentry
+    \entry{saadat2019blockchain}{inproceedings}{}
+      \name{author}{4}{}{%
+        {{hash=10bc73013290475ccd210e2e0e0a104b}{%
+           family={Saadat},
+           familyi={S\bibinitperiod},
+           given={Md\bibnamedelima Nazmus},
+           giveni={M\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+        {{hash=d621e1400fd8b3bb63c8162993a8cd2b}{%
+           family={Rahman},
+           familyi={R\bibinitperiod},
+           given={Syed\bibnamedelimb Abdul\bibnamedelimb Halim\bibnamedelimb Syed\bibnamedelima Abdul},
+           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim H\bibinitperiod\bibinitdelim S\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+        {{hash=1dd28a803d4d4338a2de07187c30c490}{%
+           family={Nassr},
+           familyi={N\bibinitperiod},
+           given={Rasheed\bibnamedelima Mohammad},
+           giveni={R\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+        {{hash=a19c7cc2e2e2c6cee2b1223dcadafa9e}{%
+           family={Zuhiri},
+           familyi={Z\bibinitperiod},
+           given={Megat\bibnamedelima F},
+           giveni={M\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{0ecfe2f5950d59e8c3eb84a911fe3f6d}
+      \strng{fullhash}{db5abfdc57a9421471abb3d776db1c2c}
+      \strng{bibnamehash}{db5abfdc57a9421471abb3d776db1c2c}
+      \strng{authorbibnamehash}{db5abfdc57a9421471abb3d776db1c2c}
+      \strng{authornamehash}{0ecfe2f5950d59e8c3eb84a911fe3f6d}
+      \strng{authorfullhash}{db5abfdc57a9421471abb3d776db1c2c}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the 2019 11th International Conference on Computer and Automation Engineering}
+      \field{title}{Blockchain based crowdfunding systems in Malaysian Perspective}
+      \field{year}{2019}
+      \true{nocite}
+      \field{pages}{57\bibrangedash 61}
+      \range{pages}{5}
+    \endentry
     \entry{rouhani2017performance}{inproceedings}{}
       \name{author}{2}{}{%
         {{hash=a9735d0ff13f6a7be443a1a496b66053}{%
@@ -393,48 +436,45 @@
       \field{pages}{70\bibrangedash 74}
       \range{pages}{5}
     \endentry
-    \entry{saadat2019blockchain}{inproceedings}{}
-      \name{author}{4}{}{%
-        {{hash=10bc73013290475ccd210e2e0e0a104b}{%
-           family={Saadat},
-           familyi={S\bibinitperiod},
-           given={Md\bibnamedelima Nazmus},
-           giveni={M\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
-        {{hash=d621e1400fd8b3bb63c8162993a8cd2b}{%
-           family={Rahman},
-           familyi={R\bibinitperiod},
-           given={Syed\bibnamedelimb Abdul\bibnamedelimb Halim\bibnamedelimb Syed\bibnamedelima Abdul},
-           giveni={S\bibinitperiod\bibinitdelim A\bibinitperiod\bibinitdelim H\bibinitperiod\bibinitdelim S\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
-        {{hash=1dd28a803d4d4338a2de07187c30c490}{%
-           family={Nassr},
-           familyi={N\bibinitperiod},
-           given={Rasheed\bibnamedelima Mohammad},
-           giveni={R\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
-        {{hash=a19c7cc2e2e2c6cee2b1223dcadafa9e}{%
-           family={Zuhiri},
-           familyi={Z\bibinitperiod},
-           given={Megat\bibnamedelima F},
-           giveni={M\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+    \entry{henry2018blockchain}{article}{}
+      \name{author}{3}{}{%
+        {{hash=b1522f4f94556adb87af286fbeb17e44}{%
+           family={Henry},
+           familyi={H\bibinitperiod},
+           given={Ryan},
+           giveni={R\bibinitperiod}}}%
+        {{hash=85f6ae2adaaeb5a5ab3027ffe4578181}{%
+           family={Herzberg},
+           familyi={H\bibinitperiod},
+           given={Amir},
+           giveni={A\bibinitperiod}}}%
+        {{hash=720d5181b12368e1a1e450c13b0a32c0}{%
+           family={Kate},
+           familyi={K\bibinitperiod},
+           given={Aniket},
+           giveni={A\bibinitperiod}}}%
       }
-      \list{organization}{1}{%
-        {ACM}%
+      \list{publisher}{1}{%
+        {IEEE}%
       }
-      \strng{namehash}{0ecfe2f5950d59e8c3eb84a911fe3f6d}
-      \strng{fullhash}{db5abfdc57a9421471abb3d776db1c2c}
-      \strng{bibnamehash}{db5abfdc57a9421471abb3d776db1c2c}
-      \strng{authorbibnamehash}{db5abfdc57a9421471abb3d776db1c2c}
-      \strng{authornamehash}{0ecfe2f5950d59e8c3eb84a911fe3f6d}
-      \strng{authorfullhash}{db5abfdc57a9421471abb3d776db1c2c}
+      \strng{namehash}{23f039484ab4c4c033198fab3e02900f}
+      \strng{fullhash}{23f039484ab4c4c033198fab3e02900f}
+      \strng{bibnamehash}{23f039484ab4c4c033198fab3e02900f}
+      \strng{authorbibnamehash}{23f039484ab4c4c033198fab3e02900f}
+      \strng{authornamehash}{23f039484ab4c4c033198fab3e02900f}
+      \strng{authorfullhash}{23f039484ab4c4c033198fab3e02900f}
       \field{sortinit}{2}
       \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{booktitle}{Proceedings of the 2019 11th International Conference on Computer and Automation Engineering}
-      \field{title}{Blockchain based crowdfunding systems in Malaysian Perspective}
-      \field{year}{2019}
+      \field{journaltitle}{IEEE Security \& Privacy}
+      \field{number}{4}
+      \field{title}{Blockchain access privacy: challenges and directions}
+      \field{volume}{16}
+      \field{year}{2018}
       \true{nocite}
-      \field{pages}{57\bibrangedash 61}
-      \range{pages}{5}
+      \field{pages}{38\bibrangedash 45}
+      \range{pages}{8}
     \endentry
   \enddatalist
 \endrefsection

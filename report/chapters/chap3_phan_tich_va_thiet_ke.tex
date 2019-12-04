@@ -2,12 +2,129 @@
 \begin{document}
 
 \section{Giới thiệu hệ thống}
+Khóa luận hướng đến việc áp dụng công nghệ \gls{blockchain} để giải quyết các vấn đề về tính minh bạch, công khai và tin cậy của ứng dụng gây quỹ cộng đồng theo mô hình truyền thống đã đề cập ở mục \ref{sec:problem}, \ref{sec:related-work}. Nhóm tác giả sử dụng \gls{blockchain} cho việc lưu trữ các thông tin về tài chính, các giao dịch của người dùng trong hệ thống nhằm hạn chế việc lưu các thông tin này trên bất kì một bên thứ ba nào. Hơn thế nữa, hệ thống sử dụng hợp đồng thông minh cho các lệnh liên quan tài chính trong hệ thống. Các lệnh này được thực hiện một cách tự động và chính xác, tránh sự can thiệp hay tác động từ yếu tố con người vào hệ thống. Với hợp đồng thông minh, nhóm tác giả cũng bổ sung các tính năng như tự động hoàn tiền khi mục tiêu gây quỹ chiến dịch không thành công; bỏ phiếu để giải ngân, tăng quyền hạn cho người đóng góp chiến dịch.
 
+Bên cạnh đó, hệ thống của nhóm tác giả cũng sử dụng một phần dữ liệu được lưu trữ tập trung nhằm cải thiện tốc độ đọc ghi với các dữ liệu không cần độ tin cậy cao.
+
+\section{Quy trình gây quỹ cộng đồng}
+Đây là quy trình gây quỹ cộng đồng trong hệ thống của nhóm tác giả.
+\subsection{Các đối tượng trong quy trình}
+Trong quy trình gây quỹ, có các đối tượng sau:
+\begin{itemize}
+\item \textbf{Người tạo chiến dịch:} là những cá nhân / tổ chức có nhu cầu gây quỹ vì mục đích từ thiện, hướng tới cộng đồng.
+\item \textbf{Hệ thống:} là hệ thống gây quỹ trung gian, đứng giữa người tạo chiến dịch và người đóng góp.
+\item \textbf{Người đóng góp:} là người ủng hộ đóng góp tiền cho chiến dịch gây quỹ.
+\end{itemize}
+
+\subsection{Sơ đồ quy trình gây quỹ}
+Sơ đồ quy trình gây quỹ được thể hiện ở hình \ref{fig:crowdfunding-proccess}.
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:crowdfunding-proccess}
+\includegraphics[scale=0.75]{crowdfunding-process}
+\caption{Sơ đồ quy trình gây quỹ cộng đồng}
+\end{center}
+\end{figure}
+
+Quy trình này được diễn giải như sau:
+
+\begin{enumerate}[label=(\arabic*)]
+\item Người tạo chiến dịch sẽ tiến hành tạo lập hồ sơ định danh bao gồm thông tin cá nhân cơ bản và thông tin chứng minh định danh.
+\item Hệ thống (nhân viên xác minh) tiến hành xác minh hồ sơ định danh và chấp nhận hay từ chối hồ sơ. Nếu hồ sơ định danh được chấp nhận thì hồ sơ đó được phép gọi lệnh tạo chiến dịch, ngược lại thì không.
+\item Người tạo chiến dịch tiếp tục tạo lập hồ sơ chiến dịch gây quỹ nếu hồ sơ định danh được chấp nhận.
+\item Hệ thống (nhân viên xác minh) tiến hành xác minh hồ sơ chiến dịch và chấp nhận hay từ chối hồ sơ. Hồ sơ được chấp nhận sẽ được công khai lên hệ thống và cho phép người đóng góp ủng hộ tiền. Ngược lại thì không.
+\item Người đóng góp muốn ủng hộ tiền cho một chiến dịch thì cần sử dụng \gls{cryptocurrency} (\glsdesc{cryptocurrency}) gửi vào hệ thống (lúc này là hợp đồng thông minh) để sử dụng các chức năng trong hệ thống.
+\item Sau khi người đóng góp gửi tiền vào hệ thống, hệ thống sẽ lưu số tiền người gửi vào dưới dạng một giá trị được gọi là token. Người đóng góp sử dụng token này trong các giao dịch nội bộ của hệ thống. Token này có thể được đổi ngược lại sang đồng \gls{cryptocurrency} với giá tương ứng
+\item Người đóng góp ủng hộ tiền cho một chiến dịch (chiến dịch đã được xác minh) bằng một lượng token mà người đóng góp mong muốn và đang có.
+\item Mỗi chiến dịch sẽ có một khoảng thời gian để kêu gọi đóng góp, và một mục tiêu là số lượng token cần đạt được. Khi hết thời gian kêu gọi đóng góp, nếu chiến dịch hoàn thành mục tiêu thì sẽ tiến hành cho người tạo chiến dịch giải ngân. Ngược lại, lượng token đã đóng góp sẽ được hoàn lại cho người đóng góp.
+\end{enumerate}
 \section{Kiến trúc hệ thống}
 
-\section{Sơ đồ chức năng}
+\section{Các chức năng}
+\subsection{Tổng quan các chức năng}
+Tổng quan các chức năng trong hệ thống được thể hiện ở hình \ref{fig:usecase-diagram}.
 
-\section{Sơ đồ hoạt động}
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:usecase-diagram}
+\includegraphics[scale=0.3]{usecase-diagram}
+\caption{Sơ đồ tổng quan các chức năng trong hệ thống}
+\end{center}
+\end{figure}
+
+\subsection{Chức năng nộp tiền và rút tiền}
+\subsubsection{Mục tiêu}
+
+\subsubsection{Sơ đồ hoạt động}
+
+\subsection{Chức năng quản lý định danh}
+\subsubsection{Mục tiêu}
+Do trong \gls{blockchain} mỗi người dùng sẽ được xác định bởi các \gls{address} (địa chỉ), các địa chỉ này hoàn toàn tách biệt với danh tính của người dùng, tức nó không bao gồm danh tính hay bất cứ thông tin nào như địa chỉ IP, định vị, \ldots. Do đó có thể nói mỗi người dùng trên mạng \gls{blockchain} là ẩn danh \cite{henry2018blockchain}. Để tăng tính tin cậy cho chiến dịch gây quỹ thì cần thiết phải gắn mỗi địa chỉ người dùng cho một hồ sơ định danh, vì vậy một địa chỉ người dùng muốn đăng kí tạo chiến dịch thì bắt buộc địa chỉ đó đã có hồ sơ định danh và hồ sơ định danh đó phải được xác minh. Việc tạo lập hồ sơ định danh chỉ bắt buộc với địa chỉ người dùng nào muốn tạo chiến dịch, còn đối với người đóng góp vào chiến dịch thì không bắt buộc.
+
+Hồ sơ định danh có 2 loại thông tin cơ bản là: 
+
+\begin{itemize}
+\item \textbf{Thông tin công khai:} là những thông tin cơ bản của người tạo chiến dịch như họ tên, địa chỉ, ngày sinh. Việc công khai thông tin là bắt buộc đối với người tạo chiến dịch.
+\item \textbf{Thông tin cá nhân nhạy cảm}: là các thông tin cá nhân bí mật, được dùng để chứng minh cho các thông tin được công khai. Do đó cần lưu trữ thông tin cá nhân nhạy cảm một cách bí mật và toàn vẹn.
+\end{itemize}
+
+Yêu cầu về chia sẻ thông tin cá nhân giữa người dùng và người xác minh phải đảm bảo được các yếu tố:
+
+\begin{enumerate}
+\item Chỉ có người dùng và người xác minh mới có thể đọc được thông tin.
+\item Việc xác minh cho một hồ sơ được minh bạch. Tức biết ai là người đã xác minh cho hồ sơ, và vào thời gian nào.
+\end{enumerate}
+
+\subsubsection{Cách hoạt động}
+Nhóm tác giả chia làm 2 tiến trình hoạt động cho chức năng này:
+
+\begin{itemize}
+\item Tạo lập và lưu trữ hồ sơ định danh.
+\item Chia sẻ thông tin hồ sơ định danh.
+\end{itemize}
+
+Các đối tượng trong chức năng định danh bao gồm:
+
+\begin{itemize}
+\item \textbf{Người tạo lập hồ sơ (người dùng - user):} là người tạo hồ sơ định danh, hay người tạo chiến dịch gây quỹ.
+\item \textbf{Người xác minh hồ sơ (verifier)}: người xác minh cho một hồ sơ định danh. Có thể là nhân viên trong hệ thống, tình nguyện viên.
+\item \textbf{Người vận hành hệ thống (deployer):} người quản lí danh sách các verifier. Hay người sẽ triển khai hợp đồng thông minh lên \gls{blockchain}.
+\end{itemize}
+
+Cách thức tạo lập và lưu trữ hồ sơ định danh được thể hiện ở hình \ref{fig:identity-process-1}. Cụ thể:
+
+\begin{itemize}
+\item Người tạo lập hồ sơ định danh tiến hành nhập thông tin định danh.
+\item Người tạo lập hồ sơ nhập một chìa khóa bảo vệ hồ sơ định danh, được gọi là \textbf{SecretKey}. SecretKey được dùng cho 2 mục đích:
+\begin{enumerate}[label=(\roman*)]
+\item Làm khóa (key) cho thuật toán AES dùng để mã hóa các thông tin nhạy cảm của người dùng trước khi lưu trữ.
+\item SecretKey sẽ được mã hóa bằng thuật toán RSA bởi khóa công khai của verifier, sau đó chuỗi mã hóa sẽ được lưu trữ trên \gls{blockchain}.
+\end{enumerate}
+\end{itemize}
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:identity-process-1}
+\includegraphics[scale=0.4]{identity-process-1}
+\caption{Sơ đồ cách thức lưu trữ hồ sơ định danh}
+\end{center}
+\end{figure}
+
+Cách thức chia sẻ hồ sơ định danh được thể hiện trong hình \ref{fig:identity-process-2}.
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:identity-process-2}
+\includegraphics[scale=0.35]{identity-process-2}
+\caption{Sơ đồ cách thức chia sẻ thông tin định danh}
+\end{center}
+\end{figure}
+
+\subsection{Chức năng giải ngân theo tiến độ}
+\subsubsection{Mục tiêu}
+
+\subsubsection{Sơ đồ hoạt động}
 
 \section{Tổ chức dữ liệu}
 

@@ -26,6 +26,7 @@
 \usepackage[nogroupskip, toc, acronym]{glossaries}
 \usepackage{glossary-superragged}
 \setglossarystyle{superraggedheaderborder}
+\makenoidxglossaries
 \usepackage{setspace}
 \usepackage{parskip}
 %\setlength{\glsdescwidth}{4cm}
@@ -119,7 +120,6 @@ pdfmenubar=false % Ẩn đi menu bar trong PDF viewer
 \listoftables % Danh sách bảng biểu
 \addcontentsline{toc}{chapter}{\listtablename}
 
-\makenoidxglossaries
 %\glsaddall
 \renewcommand*{\glossaryname}{Danh sách thuật ngữ}
 \renewcommand*{\acronymname}{Danh sách từ viết tắt}
