@@ -1,0 +1,44 @@
+Đo thời gian thực hiện transaction:
+- Cấu hình máy: 
++ CPU: Intel(R) Xeon(R) CPU E5-2673 v4 @ 2.30GHz
++ RAM: 2GB
++ OS: Ubuntu 18.04 server x64 amd
+
+- Công cụ thực hiện: Truffle framework
+
+- Các function được chọn để đo thời gian:
++ Contract Wallet: deposit()
++ Contract Identity: getIdentity()
++ Contract Campaigns: createCampaign(), donate()
+
+- Phương pháp thực hiện: việc gửi transaction sẽ được xử lí bằng NodeJS, thời gian đo được tính từ lúc transaction được tạo ra đến lúc hoàn tất transaction đó. Với mỗi hàm được chọn, thực hiện gửi đi tuần tự 1000 lần với cùng một input cho trước. Sau đó lấy kết quả là thời gian trung bình thực hiện cho mỗi transaction.
+
+- Input cho các transaction:
++ deposit() -> value = 1000000000000000 gas
++ createCampaign(
+    77760000,
+    1000000,
+    1,
+    [],
+    0,
+    [],
+    '8f1ef45972ebd8ef45b2410e8a0b399181fed3d929738d2eb96baf470758a97d',
+    'c2337a3217ffcf3b01398d83577a1c32235ceb4f481b8c7be00a055798e95d36'
+)
++ createCampaign(
+    77760000,
+    1000000,
+    3,
+    [300000, 300000, 400000]
+    2,
+    [0, 7200, 7200],
+    '8f1ef45972ebd8ef45b2410e8a0b399181fed3d929738d2eb96baf470758a97d',
+    'c2337a3217ffcf3b01398d83577a1c32235ceb4f481b8c7be00a055798e95d36'
+)
++ donate(0, 1)
+
+- Kết quả:
++ Thời gian thực hiện lần lượt 1000 lần hàm deposit() là 49919 ms, trung bình một transaction sẽ là 49.919 ms
++ Thời gian thực hiện lần lượt 1000 lần hàm createCampaign() với input là chiến dịch một giai đoạn giải ngân là 123972 ms, trung bình một transaction sẽ là 123.972 ms
++ Thời gian thực hiện lần lượt 1000 lần hàm createCampaign() với input là chiến dịch nhiều giai đoạn giải ngân là 288936 ms, trung bình một transaction sẽ là 288.936 ms
++ Thời gian thực hiện lần lượt 1000 lần hàm donate() là 110999 ms, trung bình một transaction sẽ là 110.999 ms
