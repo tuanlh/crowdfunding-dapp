@@ -40,19 +40,73 @@ Quy trình này được diễn giải như sau:
 \item Mỗi chiến dịch sẽ có một khoảng thời gian để kêu gọi đóng góp, và một mục tiêu là số lượng token cần đạt được. Khi hết thời gian kêu gọi đóng góp, nếu chiến dịch hoàn thành mục tiêu thì sẽ tiến hành cho người tạo chiến dịch giải ngân. Ngược lại, lượng token đã đóng góp sẽ được hoàn lại cho người đóng góp.
 \end{enumerate}
 \section{Kiến trúc hệ thống}
+Kiến trúc hệ thống được thể hiện ở hình \ref{fig:system-architecture}.
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:system-architecture}
+\includegraphics[scale=0.9]{system-architecture}
+\caption{Sơ đồ kiến trúc hệ thống}
+\end{center}
+\end{figure}
+
+Các thành phần và vai trò của từng thành phần trong hệ thống mà nhóm tác giả đề xuất như sau:
+
+\begin{itemize}
+\item \textbf{DApp Interface} - là một giao diện ứng dụng phi tập trung, nơi người dùng sẽ tương tác trực tiếp. \textit{DApp Interface} sẽ tạo ra các \gls{transaction} để gọi các hàm có trong hợp đồng thông minh và chuyển các \gls{transaction} này tới Wallet Provider thực hiện công đoạn tiếp theo. Và đây cũng là nơi tương tác với cơ sở dữ liệu tập trung trong mô hình. Thực chất \textit{DApp Interface} chỉ là một giao diện front-end tĩnh chạy ở phía người dùng.
+\item \textbf{Wallet Provider} - là ứng dụng phi tập trung có nhiệm vụ xác nhận và kí transaction (\textit{sign transaction}) do \textit{DApp Interfac}e gửi tới trong mô hình, sau đó thực hiện gửi các \gls{transaction} đã được kí (\textit{signed-transaction}) đến mạng lưới \gls{blockchain}. Wallet cũng làm nhiệm vụ lưu trữ thông tin về khóa bí mật của người dùng.
+\item \textbf{Blokchain Node} - là một nút trong mạng \gls{blockchain} mà \textit{Wallet Provider} tương tác để lưu trữ các dữ liệu phi tập trung, các dữ liệu phi tập trung trong trường hợp này là các mã hợp đồng thông tin và các giá trị trong hợp đồng.
+\item \textbf{Centralized Database} - là một cơ sở dữ liệu tập trung, được dùng để lưu trữ một số thông tin như mô tả chiến dịch.
+\end{itemize}
 
 \section{Các chức năng}
 \subsection{Tổng quan các chức năng}
-Tổng quan các chức năng trong hệ thống được thể hiện ở hình \ref{fig:usecase-diagram}.
+Tổng quan các chức năng trong hệ thống được thể hiện ở hình \ref{fig:usecase-diagram}. Với sơ đồ được thể hiện có các đối tượng sau:
+
+\begin{itemize}
+\item \textbf{Creator} - là người tạo chiến dịch gây quỹ.
+\item \textbf{Donor} - là người đóng góp, ủng hộ tiến cho chiến dịch gây quỹ.
+\item \textbf{Verifier} - là người xác minh cho hồ sơ định danh và hồ sơ gây quỹ, là nhân viên trong hệ thống hoặc tình nguyện viên của hệ thống.
+\item \textbf{Deployer} - là người vận hành hệ thống hay người triển khai các hợp đồng thông minh.
+\end{itemize}
 
 \begin{figure}[ht!]
 \begin{center}
 \label{fig:usecase-diagram}
-\includegraphics[scale=0.3]{usecase-diagram}
+\includegraphics[scale=1]{usecase}
 \caption{Sơ đồ tổng quan các chức năng trong hệ thống}
 \end{center}
 \end{figure}
 
+Các chức năng trong hệ thống được phân nhóm thành các cụm theo 4 hệ thống con tương ứng các hợp đồng thông minh, cụ thể:
+
+\begin{itemize}
+\item \textbf{Wallet:}
+\begin{itemize}
+\item \textit{Deposit} - cho phép người dùng gửi tiền vào hệ thống, đổi lấy giá trị giao dịch nội bộ trong hệ thống.
+\item \textit{Withdraw} - cho phép người dùng chuyển đổi từ giá trị giao dịch nội bộ trong hệ thống thành đồng tiền mã hóa bên ngoài.
+\end{itemize}
+\item \textbf{Campaigns:}
+\begin{itemize}
+\item \textit{Create} - tạo lập hồ sơ chiến dịch gây quỹ.
+\item \textit{Verify} - xác minh chấp nhận / từ chối một hồ sơ gây quỹ.
+\item \textit{View} - xem thông tin chiến dịch.
+\item \textit{Donate} - cho phép người đóng góp ủng hộ tiền cho một chiến dịch, đóng góp dưới dạng giá trị trao đổi trong hệ thống.
+\item \textit{Disburse} - cho phép người tạo lập chiến dịch tiến dịch lệnh gọi giải ngân cho chiến dịch.
+\end{itemize}
+\item \textbf{Identity:}
+\begin{itemize}
+\item \textit{Add verifier} - thêm các verifier vào danh sách.
+\item \textit{Register} - cho phép người tạo chiến dịch gây quỹ tiến hành đăng kí hồ sơ định danh.
+\item \textit{Verify} - cho phép verifier tiến hành xác mịnh chấp nhận / từ chối một hồ sơ định danh.
+\item \textit{View info} - xem thông tin hồ sơ định danh (các thông tin công khai). 
+\end{itemize}
+\item \textbf{Disbursement:}
+\begin{itemize}
+\item \textit{Vote} - cho phép người đóng góp bỏ phiếu chấp nhận giải ngân cho một chiến dịch.
+\item \textit{View info} - trả về thông tin xác nhận giải ngân (chiến dịch có thỏa điều kiện hay chưa), phục vụ cho chức năng giải ngân trong chiến dịch gây quỹ.
+\end{itemize}
+\end{itemize}
 \subsection{Chức năng nộp tiền và rút tiền}
 \subsubsection{Mục tiêu}
 
@@ -101,6 +155,8 @@ Cách thức tạo lập và lưu trữ hồ sơ định danh được thể hi�
 \item Làm khóa (key) cho thuật toán AES dùng để mã hóa các thông tin nhạy cảm của người dùng trước khi lưu trữ.
 \item SecretKey sẽ được mã hóa bằng thuật toán RSA bởi khóa công khai của verifier, sau đó chuỗi mã hóa sẽ được lưu trữ trên \gls{blockchain}.
 \end{enumerate}
+\item Người tạo lập chọn khóa công khai của verifier (chọn một verifier trong danh sách các verifier), khóa này được dùng để mã hóa SecretKey của người tạo lập hồ sơ.
+\item Thông tin công khai và khóa bí mật đã mã hóa sẽ được lưu trữ trên hợp đồng thông minh trong blockchain. Thông tin bí mật đã mã hóa sẽ được lưu trữ trên một mạng lưu trữ phi tập trung (ở đây nhóm tác giả đề xuất \acrshort{ipfs}).
 \end{itemize}
 
 \begin{figure}[ht!]
@@ -111,21 +167,51 @@ Cách thức tạo lập và lưu trữ hồ sơ định danh được thể hi�
 \end{center}
 \end{figure}
 
-Cách thức chia sẻ hồ sơ định danh được thể hiện trong hình \ref{fig:identity-process-2}.
+Việc chia sẻ hồ sơ định danh là quá trình chia sẻ các thông tin bí mật giữa verifier và người tạo lập hồ sơ phục vụ cho qui trình xác minh hồ sơ. Cách thức chia sẻ hồ sơ định danh được thể hiện trong hình \ref{fig:identity-process-2}:
+
+\begin{itemize}
+\item Verifier chọn một hồ sơ định danh của người dùng. Danh sách hồ sơ mà verifier duyệt là các hồ sơ mà người tạo hồ sơ đã chọn khóa công khai tương ứng với verifier đó.
+\item Verifier sẽ nhập khóa bí mật (\textit{private key}) để giải mã \textit{SecretKey} của người dùng đã được mã hoá bởi khóa công khai của verifier trước đó.
+\item Sau khi có được \textit{SecretKey} của người dùng, verifier sẽ tiến hành giải mã thông tin hồ sơ của người dùng.
+\item Verifier dựa vào thông tin bí mật đã giải mã và tiến hành xác minh.
+\end{itemize}
 
 \begin{figure}[ht!]
 \begin{center}
 \label{fig:identity-process-2}
-\includegraphics[scale=0.4]{identity-process-2}
+\includegraphics[scale=0.35]{identity-process-2}
 \caption{Sơ đồ cách thức chia sẻ thông tin định danh}
 \end{center}
 \end{figure}
 
-\subsection{Chức năng giải ngân theo tiến độ}
+\subsection{Tạo lập và lưu trữ chiến dịch gây quỹ}
 \subsubsection{Mục tiêu}
 
-\subsubsection{Sơ đồ hoạt động}
+\subsubsection{Cách thức hoạt động}
+
+\subsection{Chức năng giải ngân}
+\subsubsection{Mục tiêu}
+Việc giải ngân được thực hiện khi chiến dịch gây quỹ đạt được mục tiêu gây quỹ. Và giải ngân đối với chiến dịch sẽ được phân làm hai loại:
+
+\begin{itemize}
+\item \textbf{Giải ngân một giai đoạn} - sau khi chiến dịch gây quỹ hoàn thành mục tiêu gây quỹ trong thời gian đặt ra, thì người tạo chiến dịch có thể gọi lệnh giải ngân và rút được tiền từ chiến dịch.
+\item \textbf{Giải ngân theo nhiều giai đoạn} - với một số chiến dịch có thể thực hiện theo nhiều giai đoạn khác nhau, thì việc giải ngân theo nhiều giai đoạn nhằm mục tiêu:
+\begin{itemize}
+\item Buộc người tạo chiến dịch có trách nhiệm báo cáo tiến độ thực hiện chiến dịch.
+\item Tăng cường quyền của người đóng góp bằng cách bỏ phiếu đồng ý xác nhận giải ngân cho chiến dịch theo từng giai đoạn.
+\end{itemize}
+\end{itemize}
+
+\subsubsection{Cách thức hoạt động}
+
+\subsection{Hoàn tiền chiến dịch gây quỹ}
+\subsubsection{Mục tiêu}
+
+\subsubsection{Cách hoạt động}
 
 \section{Tổ chức dữ liệu}
+\subsection{Dữ liệu phi tập trung}
+
+\subsection{Dữ liệu tập trung}
 
 \end{document}
