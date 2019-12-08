@@ -8,8 +8,8 @@ Môi trường hiện thực bao gồm:
 \subsection{Các công nghệ được sử dụng}
 Các công nghệ được sử dụng bao gồm:
 \begin{itemize}
-\item Phần giao diện người dùng: nhóm tác giả sử dụng \textbf{ReactJS/NodeJS} kết hợp \textbf{Material UI} để tạo giao diện ứng dụng web cho người dùng.
-\item Phần backend được chia làm hai thành phần như sau:
+\item Phần giao diện người dùng (\gls{frontend}): nhóm tác giả sử dụng \textbf{ReactJS/NodeJS} kết hợp \textbf{Material UI} để tạo giao diện ứng dụng web cho người dùng.
+\item Phần \gls{backend} được chia làm hai thành phần như sau:
 \begin{itemize}
  \item Kiến trúc phi tập trung (decentralized): nhóm sử dụng ngôn ngữ solidity để xây dựng các \gls{smartcontract} kết hợp \acrshort{ipfs} để thực hiện lưu trữ các dữ liệu phi tập trung.
  \item Kiến trúc tập trung (centralized): công nghệ NodeJS kết hợp với Redis để tổ chức và tương tác với dữ liệu tập trung.
@@ -17,7 +17,9 @@ Các công nghệ được sử dụng bao gồm:
 \end{itemize}
 
 \subsubsection{Công nghệ ReactJS/NodeJS}
+\textbf{ReactJS} là một thư viện để hỗ trợ cho việc phát triển giao diện của người dùng. Đây là một trong những thư viện \gls{frontend} nổi tiếng nhất với hơn $141.000$ sao đánh giá với hơn 2.8 triệu người dùng trên dịch vụ lưu trữ mã nguồn Github\footnote{https://github.com} (số liệu cập nhật tháng 12 năm 2019). Thư viện này được hỗ trợ và phát triển bởi Facebook\footnote{https://www.facebook.com} và Instagram\footnote{https://www.instagram.com} cùng với cộng đồng các nhà phát triển trên toàn thế giới và đang được phát triển từng ngày. ReactJS cung cấp tốt hơn về trải nghiệm người dùng và đồng thời có nhiều thư viện bên thứ ba hữu ích khác được phát triển kèm theo.
 
+ReactJS được thiết kế và phát triển theo kiến trúc các component\footnote{là một kiểu kiến trúc trong phát triển phần mềm, chia ứng dụng ra thành các thành phần, bộ phận không phụ thuộc lẫn nhau và có thể tải sử dụng các thành phần này khi cần thiết}. Theo như tài liệu từ Facebook, định nghĩa React là một thư viện dành cho phát triển các mô đun cho giao diện người dùng. Về cơ bản, React cho phép các nhà lập trình phát triển các ứng dụng web lớn, phức tạp và đổng thời có thể thay đổi dữ liệu mà không cần tải lại trang. React sử dụng DOM ảo, điều này có tác dụng tăng hiệu suất kết xuất trang web, đồng thời nâng cao trải nghiệm của người dùng, cũng như rất dễ dàng lập trình phát triển sản phẩm.
 \subsubsection{Material UI framework}
 
 \subsubsection{Cơ sở dữ liệu Redis}

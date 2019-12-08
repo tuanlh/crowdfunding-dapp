@@ -61,14 +61,7 @@ Các thành phần và vai trò của từng thành phần trong hệ thống m�
 
 \section{Các chức năng}
 \subsection{Tổng quan các chức năng}
-Tổng quan các chức năng trong hệ thống được thể hiện ở hình \ref{fig:usecase-diagram}. Với sơ đồ được thể hiện có các đối tượng sau:
-
-\begin{itemize}
-\item \textbf{Creator} - là người tạo chiến dịch gây quỹ.
-\item \textbf{Donor} - là người đóng góp, ủng hộ tiến cho chiến dịch gây quỹ.
-\item \textbf{Verifier} - là người xác minh cho hồ sơ định danh và hồ sơ gây quỹ, là nhân viên trong hệ thống hoặc tình nguyện viên của hệ thống.
-\item \textbf{Deployer} - là người vận hành hệ thống hay người triển khai các hợp đồng thông minh.
-\end{itemize}
+Tổng quan các chức năng trong hệ thống được thể hiện ở hình \ref{fig:usecase-diagram}.
 
 \begin{figure}[ht!]
 \begin{center}
@@ -77,6 +70,15 @@ Tổng quan các chức năng trong hệ thống được thể hiện ở hình
 \caption{Sơ đồ tổng quan các chức năng trong hệ thống}
 \end{center}
 \end{figure}
+
+Với sơ đồ được thể hiện có các đối tượng sau:
+
+\begin{itemize}
+\item \textbf{Creator} - là người tạo chiến dịch gây quỹ.
+\item \textbf{Donor} - là người đóng góp, ủng hộ tiền cho chiến dịch gây quỹ.
+\item \textbf{Verifier} - là người xác minh cho hồ sơ định danh và hồ sơ gây quỹ, là nhân viên trong hệ thống hoặc tình nguyện viên của hệ thống.
+\item \textbf{Deployer} - là người vận hành hệ thống hay người triển khai các hợp đồng thông minh.
+\end{itemize}
 
 Các chức năng trong hệ thống được phân nhóm thành các cụm theo 4 hệ thống con tương ứng các hợp đồng thông minh, cụ thể:
 
@@ -107,10 +109,40 @@ Các chức năng trong hệ thống được phân nhóm thành các cụm theo
 \item \textit{View info} - trả về thông tin xác nhận giải ngân (chiến dịch có thỏa điều kiện hay chưa), phục vụ cho chức năng giải ngân trong chiến dịch gây quỹ.
 \end{itemize}
 \end{itemize}
+
+Tiếp theo là sơ đồ ở hình \ref{fig:user-data-flow} thể hiện tổng quan về các đối tượng và luồng tương tác dữ liệu giữa các đối tượng. Đối tượng \textbf{``Hệ thống''} trong sơ đồ được nhóm tác giả đặc tả một cách khái quát cho toàn thể hệ thống.
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:user-data-flow}
+\includegraphics[scale=0.17]{user-data-flow}
+\caption{Sơ đồ tổng quan các đối tượng và luồng tương tác dữ liệu}
+\end{center}
+\end{figure}
+
 \subsection{Chức năng nộp tiền và rút tiền}
 \subsubsection{Mục tiêu}
 
 \subsubsection{Sơ đồ hoạt động}
+Sơ đồ hoạt động chức năng nộp tiền được thể hiện ở hình \ref{fig:deposit-activity}.
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:deposit-activity}
+\includegraphics[scale=0.8]{deposit-activity}
+\caption{Sơ đồ hoạt động chức năng nộp tiền}
+\end{center}
+\end{figure}
+
+Sơ đồ hoạt động chức năng rút tiền được thể hiện ở hình \ref{fig:withdraw-activity}.
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:withdraw-activity}
+\includegraphics[scale=0.8]{withdraw-activity}
+\caption{Sơ đồ hoạt động chức năng rút tiền}
+\end{center}
+\end{figure}
 
 \subsection{Chức năng quản lý định danh}
 \subsubsection{Mục tiêu}
@@ -186,8 +218,53 @@ Việc chia sẻ hồ sơ định danh là quá trình chia sẻ các thông tin
 
 \subsection{Tạo lập và lưu trữ chiến dịch gây quỹ}
 \subsubsection{Mục tiêu}
+Mục tiêu đối với chức năng tạo lập chiến dịch:
 
+\begin{itemize}
+\item Tạo điều kiện tốt nhất và thuận lợi cho người tạo chiến dịch có thể đăng kí được chiến dịch gây quỹ.
+\item Người tạo lập chiến dịch cần đăng kí hồ sơ định danh trước khi gọi lệnh đăng kí chiến dịch gây quỹ.
+\end{itemize}
+
+Đối với việc lưu trữ chiến dịch gây quỹ:
+
+\begin{itemize}
+\item Các thông tin liên quan tài chính thì đặt ưu tiên lưu trữ trên \gls{blockchain}, đảm bảo tính toàn vẹn, công khai và minh bạch.
+\item Các dữ liệu không tài chính thì có thể lưu trữ trên cơ sở dữ liệu tập trung, ưu tiên tốc độ đọc dữ liệu.
+\end{itemize}
 \subsubsection{Cách thức hoạt động}
+Sơ đồ hoạt động của tiến trình tạo chiến dịch được thể hiện ở hình \ref{fig:create-campaign-activity}. Tiến trình cụ thể như sau:
+
+\begin{itemize}
+\item Đầu tiên người tạo chiến dịch (creator) sẽ tiến hành nhập vào các thông tin của chiến dịch trên DApp Interface. Các thông tin này bao gồm: 
+\begin{itemize}
+\item Tên chiến dịch gây quỹ.
+\item Mô tả ngắn gọn về chiến dịch gây quỹ.
+\item Mô tả đầy đủ về chiến dịch.
+\item Ảnh (video) về chiến dịch.
+\item Mục tiêu gây quỹ.
+\item Thời gian gây quỹ.
+\item Hồ sơ giải ngân: số giai đoạn giải ngân, số tiền cho từng giai đoạn, phương thức giải ngân.
+\end{itemize}
+\item DApp Interface tiến hành kiểm tra thông tin mà người tạo đã nhập, nếu thông tin hợp lệ, dữ liệu được xử lí ở tiến trình tiếp theo. Ngược lại, người tạo phải nhập lại thông tin.
+\item Dữ liệu sau khi được kiểm tra ở DApp, sẽ được tính toán mã băm (hash) và tính toán một giá trị gọi là \textbf{RefID}, giá trị này được định nghĩa như sau:
+\begin{lstlisting} 
+RefID = hash(Campaign's name + NOW() + RANDOMIZE())
+\end{lstlisting}
+
+Trong đó: \textit{NOW()} là thời gian hiện dưới dạng số (timestamp); \textit{RANDOMIZE()} là một số ngẫu nhiên.
+\item RefID cùng với các thông tin chiến dịch như: tên chiến dịch, mô tả ngắn gọn về chiến dịch, mô tả đầy đủ về chiến dịch, ảnh (video) về chiến dịch. Sẽ được gửi tới một cơ sở dữ liệu tập trung của hệ thống (Centralized database). Lúc này cơ sở dữ liệu tập trung này sẽ kiểm tra lại dữ liệu được gửi tới lần nữa, nếu dữ liệu hợp lệ sẽ tiến hành lưu xuống cơ sở dữ liệu. Ngược lại, dữ liệu không hợp lệ sẽ bắt người tạo phải nhập lại thông tin.
+\item Khi dữ liệu về mô tả chiến dịch được lưu ở cơ sở dữ liệu tập trung thành công thì DApp sẽ tiến hành tạo giao dịch có kèm mã băm đã tính toán trước đó cùng các thông tin như: mục tiêu gây quỹ, thời gian gây quỹ, hồ sơ giải ngân, RefID. Sau đó transaction được gửi tới Wallet Provider.
+\item Wallet Provider tiến hành kí cho \gls{transaction} bằng khóa bí mật của người tạo. Sau đó \gls{transaction} được gửi tới một nút trong mạng blockchain, để hợp đồng thông minh xử lí.
+\item Khi giao dịch được gửi tới, hợp đồng thông minh sẽ kiếm tra lại lần nữa các đầu vào, nếu dữ liệu hợp lệ thì dữ liệu được lưu. Ngược lại trả về thông báo lỗi cho người dùng.
+\end{itemize}
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:create-campaign-activity}
+\includegraphics[scale=0.65]{create-campaign-activity}
+\caption{Sơ đồ hoạt động tiến trình tạo lập chiến dịch}
+\end{center}
+\end{figure}
 
 \subsection{Chức năng giải ngân}
 \subsubsection{Mục tiêu}
@@ -203,6 +280,43 @@ Việc giải ngân được thực hiện khi chiến dịch gây quỹ đạt 
 \end{itemize}
 
 \subsubsection{Cách thức hoạt động}
+Chức năng giải ngân bao gồm các tiến trình:
+
+\begin{itemize}
+\item Tạo hồ sơ giải ngân.
+\item Bỏ phiếu đồng ý giải ngân.
+\item Gọi lệnh giải ngân.
+\end{itemize}
+
+\paragraph{Tiến trình tạo hồ sơ giải ngân:} hồ sơ giải ngân sẽ được người tạo chiến dịch nhập vào lúc đăng kí chiến dịch gây quỹ, các thông tin trong hồ sơ giải ngân bao gồm:
+
+\begin{itemize}
+\item Số giai đoạn thực hiện giải ngân. Nếu giai đoạn giải ngân là $ 1 $ thì các thông tin bên dưới có thể bỏ trống.
+\item Số tiền cần cho mỗi giai đoạn (tổng tiền ở các giai đoạn sẽ bằng mục tiêu gây quỹ).
+\item Tùy chọn chế độ giải ngân, có $ 4 $ chế độ:
+\begin{itemize}
+\item \textbf{Flexible} -- đủ số vote ở giai đoạn nào thì được rút tiền ở giai đoạn đó.
+\item \textbf{Fixed} -- muốn rút tiền ở giai đoạn tiếp theo thì giai đoạn trước đó phải rút thành công (đủ số vote).
+\item \textbf{TimingFlexible} -- người tạo chiến dịch sẽ ấn định thời gian thực hiện cho mỗi giai đoạn, khi hết thời gian ấn định của giai đoạn hiện tại thì mới có thể thực hiện lệnh vote và rút tiền cho giai đoạn tiếp theo. 
+\item \textbf{TimingFixed} -- người tạo chiến dịch sẽ ấn định thời gian thực hiện cho mỗi giai đoạn, khi hết thời gian ấn định của giai đoạn hiện tại thì mới có thể thực hiện lệnh vote và rút tiền cho giai đoạn tiếp theo. Nếu giai đoạn hiện tại không đủ điều kiện rút tiền thì giai đoạn sau sẽ không được rút tiền.
+\end{itemize}
+\end{itemize}
+
+\paragraph{Tiền trình bỏ phiếu giải ngân cho mỗi giai đoạn} -- tiến trình bỏ phiếu được đặc tả như sau:
+
+\begin{itemize}
+\item Chỉ có người đã đóng góp tiền cho chiến dịch thì mới có quyền bỏ phiếu cho chiến dịch đó.
+\item Việc bỏ phiếu đồng ý giải ngân được thực hiện cho từng giai đoạn giải ngân của chiến dịch, không bỏ phiếu cho toàn bộ chiến dịch.
+\item Với mỗi lá phiếu sẽ có hai tùy chọn: Đồng ý hoặc Không đồng ý giải ngân.
+\item Số phiếu ``Đồng ý'' đạt từ 50\% trên tổng số người đã đóng góp vào chiến dịch và tổng số tiền mà những những người đồng ý giải ngân phải đạt tỉ lệ trên 50\% tổng số tiền mục tiêu gây quỹ thì được xem là đủ điều kiện giải ngân.
+\end{itemize}
+
+\paragraph{Tiến trình gọi lệnh giải ngân} -- việc gọi lệnh giải ngân sẽ có hai trường hợp:
+
+\begin{itemize}
+\item Đối với chiến dịch chỉ có một giai đoạn giải ngân: được rút toàn bộ số tiền gây quỹ được nếu hoàn thành mục tiêu gây quỹ trong thời gian đặt ra.
+\item Chiến dịch từ 2 giai đoạn thực hiện trở lên: giai đoạn đầu tiên sẽ được rút tiền mà không cần người đóng góp bỏ phiếu. Từ giai đoạn thứ hai trở đi, cần đạt điều kiện về bỏ phiếu giải ngân thì mới được rút tiền.
+\end{itemize}
 
 \subsection{Hoàn tiền chiến dịch gây quỹ}
 \subsubsection{Mục tiêu}
@@ -211,6 +325,15 @@ Việc giải ngân được thực hiện khi chiến dịch gây quỹ đạt 
 
 \section{Tổ chức dữ liệu}
 \subsection{Dữ liệu phi tập trung}
+Cấu trúc hợp đồng thông minh được thể hiện ở hình \ref{fig:smartcontract-structure}
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:smartcontract-structure}
+\includegraphics[scale=0.65]{smartcontract-structure}
+\caption{Kiến trúc hợp đồng thông minh}
+\end{center}
+\end{figure}
 
 \subsection{Dữ liệu tập trung}
 

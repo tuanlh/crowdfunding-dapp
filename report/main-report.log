@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2019.10.30)  5 DEC 2019 23:10
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2019.10.30)  9 DEC 2019 00:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1422,7 +1422,7 @@ l.51 ...\IeC {\'\ocircumflex }ng}{16}{section.3.3}
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.123 ... gi\IeC {\'a}}{26}{subsubsection.4.2.2.2}
+l.129 ... gi\IeC {\'a}}{32}{subsubsection.4.2.2.2}
                                                   % [2])
 \tf@toc=\write6
 \openout6 = `main-report.toc'.
@@ -1466,13 +1466,13 @@ Using TeX to sort glossary entries---this may take a while
 ]
 Ch\uhorn \ohorn ng 1.
 (./chapters/chap1_mo_dau.tex
-<figures/chart-problem-charity1.png, id=434, 640.3925pt x 317.185pt>
+<figures/chart-problem-charity1.png, id=444, 640.3925pt x 317.185pt>
 File: figures/chart-problem-charity1.png Graphic file (type png)
 <use figures/chart-problem-charity1.png>
 Package pdftex.def Info: figures/chart-problem-charity1.png  used on input line
  12.
 (pdftex.def)             Requested size: 416.25018pt x 206.16779pt.
-<figures/chart-problem-charity2.png, id=437, 556.0775pt x 345.29pt>
+<figures/chart-problem-charity2.png, id=447, 556.0775pt x 345.29pt>
 File: figures/chart-problem-charity2.png Graphic file (type png)
 <use figures/chart-problem-charity2.png>
 Package pdftex.def Info: figures/chart-problem-charity2.png  used on input line
@@ -1491,7 +1491,7 @@ Ch\uhorn \ohorn ng 2.
 (./chapters/chap2_tong_quan.tex [10
 
 ] [11]
-<figures/crowdfunding-process-old.png, id=505, 523.9575pt x 234.1247pt>
+<figures/crowdfunding-process-old.png, id=515, 523.9575pt x 234.1247pt>
 File: figures/crowdfunding-process-old.png Graphic file (type png)
 <use figures/crowdfunding-process-old.png>
 Package pdftex.def Info: figures/crowdfunding-process-old.png  used on input li
@@ -1502,77 +1502,114 @@ Ch\uhorn \ohorn ng 3.
 (./chapters/chap3_phan_tich_va_thiet_ke.tex [14
 
 ]
-<figures/crowdfunding-process.png, id=529, 562.38104pt x 327.50356pt>
+<figures/crowdfunding-process.png, id=539, 562.38104pt x 327.50356pt>
 File: figures/crowdfunding-process.png Graphic file (type png)
 <use figures/crowdfunding-process.png>
 Package pdftex.def Info: figures/crowdfunding-process.png  used on input line 2
 5.
 (pdftex.def)             Requested size: 421.78474pt x 245.62706pt.
  [15 <./figures/crowdfunding-process.png>]
-<figures/system-architecture.png, id=540, 445.665pt x 302.69086pt>
+<figures/system-architecture.png, id=550, 445.665pt x 302.69086pt>
 File: figures/system-architecture.png Graphic file (type png)
 <use figures/system-architecture.png>
 Package pdftex.def Info: figures/system-architecture.png  used on input line 48
 .
 (pdftex.def)             Requested size: 401.09479pt x 272.41925pt.
  [16 <./figures/system-architecture.png>]
-<figures/usecase.png, id=549, 365.9271pt x 365.9271pt>
+<figures/usecase.png, id=559, 365.9271pt x 365.9271pt>
 File: figures/usecase.png Graphic file (type png)
 <use figures/usecase.png>
-Package pdftex.def Info: figures/usecase.png  used on input line 76.
+Package pdftex.def Info: figures/usecase.png  used on input line 69.
 (pdftex.def)             Requested size: 365.9262pt x 365.9262pt.
- [17] [18 <./figures/usecase.png>] [19]
-<figures/identity-process-1.png, id=568, 1026.83624pt x 536.0025pt>
+ [17] [18 <./figures/usecase.png>]
+<figures/user-data-flow.png, id=569, 2237.35875pt x 1478.52374pt>
+File: figures/user-data-flow.png Graphic file (type png)
+<use figures/user-data-flow.png>
+Package pdftex.def Info: figures/user-data-flow.png  used on input line 118.
+(pdftex.def)             Requested size: 380.34596pt x 251.3457pt.
+<figures/deposit-activity.png, id=571, 531.54585pt x 460.72125pt>
+File: figures/deposit-activity.png Graphic file (type png)
+<use figures/deposit-activity.png>
+Package pdftex.def Info: figures/deposit-activity.png  used on input line 132.
+(pdftex.def)             Requested size: 425.23726pt x 368.5775pt.
+<figures/withdraw-activity.png, id=573, 531.54585pt x 390.0171pt>
+File: figures/withdraw-activity.png Graphic file (type png)
+<use figures/withdraw-activity.png>
+Package pdftex.def Info: figures/withdraw-activity.png  used on input line 142.
+
+(pdftex.def)             Requested size: 425.23726pt x 312.0141pt.
+ [19 <./figures/user-data-flow.png>] [20 <./figures/deposit-activity.png>] [21 
+<./figures/withdraw-activity.png>]
+<figures/identity-process-1.png, id=594, 1026.83624pt x 536.0025pt>
 File: figures/identity-process-1.png Graphic file (type png)
 <use figures/identity-process-1.png>
-Package pdftex.def Info: figures/identity-process-1.png  used on input line 165
+Package pdftex.def Info: figures/identity-process-1.png  used on input line 197
 .
 (pdftex.def)             Requested size: 410.72722pt x 214.3972pt.
- [20]
-<figures/identity-process-2.png, id=577, 1231.60126pt x 637.38126pt>
+ [22 <./figures/identity-process-1.png>]
+<figures/identity-process-2.png, id=603, 1231.60126pt x 637.38126pt>
 File: figures/identity-process-2.png Graphic file (type png)
 <use figures/identity-process-2.png>
-Package pdftex.def Info: figures/identity-process-2.png  used on input line 182
+Package pdftex.def Info: figures/identity-process-2.png  used on input line 214
 .
 (pdftex.def)             Requested size: 431.0669pt x 223.08678pt.
- [21 <./figures/identity-process-1.png> <./figures/identity-process-2.png>]) [2
-2]
-Ch\uhorn \ohorn ng 4.
-(./chapters/chap4_hien_thuc.tex [23
-
-] [24] [25]
-<figures/result-perform-cost-1.png, id=614, 403.5075pt x 180.675pt>
-File: figures/result-perform-cost-1.png Graphic file (type png)
-<use figures/result-perform-cost-1.png>
-Package pdftex.def Info: figures/result-perform-cost-1.png  used on input line 
-139.
-(pdftex.def)             Requested size: 322.80644pt x 144.54018pt.
- [26 <./figures/result-perform-cost-1.png (PNG copy)>] [27]) [28]
-Ch\uhorn \ohorn ng 5.
-(./chapters/chap5_ket_luan.tex) [29
-
-]
-LaTeX Font Info:    Try loading font information for T5+pcr on input line 160.
+ [23 <./figures/identity-process-2.png>]
+LaTeX Font Info:    Try loading font information for T5+pcr on input line 250.
 
 (/usr/share/texlive/texmf-dist/tex/latex/vntex/t5pcr.fd
 File: t5ucr.fd 2005/08/24 Fontinst v1.929 font definitions for T5/pcr.
 )
+LaTeX Font Info:    Try loading font information for TS1+pcr on input line 251.
+
+
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1pcr.fd
+File: ts1pcr.fd 2001/06/04 font definitions for TS1/pcr.
+) [24]
+<figures/create-campaign-activity.png, id=618, 645.1302pt x 558.6471pt>
+File: figures/create-campaign-activity.png Graphic file (type png)
+<use figures/create-campaign-activity.png>
+Package pdftex.def Info: figures/create-campaign-activity.png  used on input li
+ne 264.
+(pdftex.def)             Requested size: 419.32967pt x 363.1163pt.
+ [25 <./figures/create-campaign-activity.png>] [26]
+<figures/smartcontract-structure.png, id=631, 563.10374pt x 775.4571pt>
+File: figures/smartcontract-structure.png Graphic file (type png)
+<use figures/smartcontract-structure.png>
+Package pdftex.def Info: figures/smartcontract-structure.png  used on input lin
+e 333.
+(pdftex.def)             Requested size: 366.01309pt x 504.04115pt.
+) [27] [28 <./figures/smartcontract-structure.png>]
+Ch\uhorn \ohorn ng 4.
+(./chapters/chap4_hien_thuc.tex [29
+
+] [30] [31]
+<figures/result-perform-cost-1.png, id=675, 403.5075pt x 180.675pt>
+File: figures/result-perform-cost-1.png Graphic file (type png)
+<use figures/result-perform-cost-1.png>
+Package pdftex.def Info: figures/result-perform-cost-1.png  used on input line 
+141.
+(pdftex.def)             Requested size: 322.80644pt x 144.54018pt.
+ [32] [33]) [34 <./figures/result-perform-cost-1.png (PNG copy)>] [35]
+Ch\uhorn \ohorn ng 5.
+(./chapters/chap5_ket_luan.tex) [36
+
+]
 Overfull \hbox (3.10844pt too wide) in paragraph at lines 161--161
 \T5/ptm/m/it/12 11th In-ter-na-tional Con-fer-ence on Com-puter and Au-toma-tio
 n En-gi-neer-ing\T5/ptm/m/n/12 , ACM, 2019,
  []
 
-[30
+[37
 
-] [31]
+] [38]
 Ph\d {u} l\d {u}c A.
-[32
+[39
 
 
 ]
 Ph\d {u} l\d {u}c B.
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 171.
-[33
+[40
 
 ]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 171.
@@ -1587,26 +1624,27 @@ Package logreq Info: Writing requests to 'main-report.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 24326 strings out of 492609
- 383269 string characters out of 6131461
- 881352 words of memory out of 5000000
- 27635 multiletter control sequences out of 15000+600000
- 43572 words of font info for 63 fonts, out of 8000000 for 9000
+ 24710 strings out of 492609
+ 387814 string characters out of 6131461
+ 886564 words of memory out of 5000000
+ 27988 multiletter control sequences out of 15000+600000
+ 45363 words of font info for 66 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 45i,16n,64p,2009b,1347s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/vntex/t5.enc}{/usr/share/texli
-ve/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/
+ 45i,16n,64p,2009b,1643s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/share/texliv
+e/texmf-dist/fonts/enc/dvips/vntex/t5.enc}</usr/share/texlive/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/
 public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/vntex/urwvn/ucr
-r8v.pfb></usr/share/texlive/texmf-dist/fonts/type1/vntex/urwvn/utmb8v.pfb></usr
-/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/
-texmf-dist/fonts/type1/vntex/urwvn/utmr8v.pfb></usr/share/texlive/texmf-dist/fo
-nts/type1/vntex/urwvn/utmri8v.pfb>
-Output written on main-report.pdf (39 pages, 1008590 bytes).
+amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucr
+r8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/vntex/urwvn/ucrr8v.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/vntex/urwvn/utmb8v.pfb></usr/share/texliv
+e/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/vntex/urwvn/utmr8v.pfb></usr/share/texlive/texmf-dist/fonts/type1/vnt
+ex/urwvn/utmri8v.pfb>
+Output written on main-report.pdf (46 pages, 3064866 bytes).
 PDF statistics:
- 727 PDF objects out of 1000 (max. 8388607)
- 658 compressed objects within 7 object streams
- 167 named destinations out of 1000 (max. 500000)
- 606 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 800 PDF objects out of 1000 (max. 8388607)
+ 716 compressed objects within 8 object streams
+ 188 named destinations out of 1000 (max. 500000)
+ 631 words of extra memory for PDF output out of 10000 (max. 10000000)
 
