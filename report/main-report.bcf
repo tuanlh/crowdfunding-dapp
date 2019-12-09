@@ -2007,7 +2007,12 @@
     <bcf:citekey order="9">goranovic2017blockchain</bcf:citekey>
     <bcf:citekey order="10">saadat2019blockchain</bcf:citekey>
     <bcf:citekey order="11">henry2018blockchain</bcf:citekey>
-    <bcf:citekey order="12">rouhani2017performance</bcf:citekey>
+    <bcf:citekey order="12">nodejs-performance</bcf:citekey>
+    <bcf:citekey order="13">mccune2011node</bcf:citekey>
+    <bcf:citekey order="14">6106531</bcf:citekey>
+    <bcf:citekey order="15">5235364</bcf:citekey>
+    <bcf:citekey order="16">8441990</bcf:citekey>
+    <bcf:citekey order="17">rouhani2017performance</bcf:citekey>
     <bcf:citekey order="0" nocite="1">*</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->

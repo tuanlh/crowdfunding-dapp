@@ -46,9 +46,4 @@
 % Ví dụ
 \newacronym{ipfs}{IPFS}{InterPlanetary File System}
 \newacronym{bcf}{BCF}{Binance Charity Foundation}
-%\newacronym{ai}{AI}{Artificial Intelligence}
-%\newacronym{cart}{CART}{Classification and Regression Trees}
-%\newacronym{csdl}{CSDL}{Cơ Sở Dữ Liệu}
-%\newacronym{xss}{XSS}{Cross-Site Scripting}
-%\newacronym{id3}{ID3}{Iterative Dichotomiser 3}
-%\newacronym{csic}{CSIC}{Consejo Superior de Investigaciones Científicas}
+\newacronym{p2p}{P2P}{Peer-to-Peer}

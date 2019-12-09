@@ -17,13 +17,49 @@ Các công nghệ được sử dụng bao gồm:
 \end{itemize}
 
 \subsubsection{Công nghệ ReactJS/NodeJS}
-\textbf{ReactJS} là một thư viện để hỗ trợ cho việc phát triển giao diện của người dùng. Đây là một trong những thư viện \gls{frontend} nổi tiếng nhất với hơn $141.000$ sao đánh giá với hơn 2.8 triệu người dùng trên dịch vụ lưu trữ mã nguồn Github\footnote{https://github.com} (số liệu cập nhật tháng 12 năm 2019). Thư viện này được hỗ trợ và phát triển bởi Facebook\footnote{https://www.facebook.com} và Instagram\footnote{https://www.instagram.com} cùng với cộng đồng các nhà phát triển trên toàn thế giới và đang được phát triển từng ngày. ReactJS cung cấp tốt hơn về trải nghiệm người dùng và đồng thời có nhiều thư viện bên thứ ba hữu ích khác được phát triển kèm theo.
+\textbf{ReactJS} là một thư viện để hỗ trợ cho việc phát triển giao diện của người dùng. Đây là một trong những thư viện \gls{frontend} nổi tiếng với hơn $141.000$ sao đánh giá với hơn 2.8 triệu người dùng trên dịch vụ lưu trữ mã nguồn Github\footnote{https://github.com} (số liệu cập nhật tháng 12 năm 2019). Thư viện này được hỗ trợ và phát triển bởi Facebook\footnote{https://www.facebook.com} và Instagram\footnote{https://www.instagram.com} cùng với cộng đồng các nhà phát triển trên toàn thế giới và đang được phát triển từng ngày. ReactJS cung cấp tốt hơn về trải nghiệm người dùng và đồng thời có nhiều thư viện bên thứ ba hữu ích khác được phát triển kèm theo.
 
 ReactJS được thiết kế và phát triển theo kiến trúc các component\footnote{là một kiểu kiến trúc trong phát triển phần mềm, chia ứng dụng ra thành các thành phần, bộ phận không phụ thuộc lẫn nhau và có thể tải sử dụng các thành phần này khi cần thiết}. Theo như tài liệu từ Facebook, định nghĩa React là một thư viện dành cho phát triển các mô đun cho giao diện người dùng. Về cơ bản, React cho phép các nhà lập trình phát triển các ứng dụng web lớn, phức tạp và đổng thời có thể thay đổi dữ liệu mà không cần tải lại trang. React sử dụng DOM ảo, điều này có tác dụng tăng hiệu suất kết xuất trang web, đồng thời nâng cao trải nghiệm của người dùng, cũng như rất dễ dàng lập trình phát triển sản phẩm.
+
+\textbf{Node.js} hay còn được gọi là \textbf{Node} – là một nền tảng chạy trên môi trường Javascript hay còn được gọi là một nền tảng chạy trên môi trường V8 JavaScript runtime. Công nghệ V8 đã được triển khai hầu hết ở C và C++, công nghệ này tập trung chủ yếu vào hiệu suất và ít tiêu tốn bộ nhớ. Hầu hết V8 hỗ trợ chủ yếu Javascript trên trình duyệt (chú ý nhất là Google Chrome), mục đích hỗ trợ của Node đó chính là hỗ trợ các tiến trình có thời gian chạy dài. Không giống như những ngôn ngữ khác, Node không hỗ trợ đa luồng, nhưng hỗ trợ xử lý bất đồng bộ \cite{nodejs-performance}. Nhờ vào tính năng xử lý bất đồng bộ này, Node còn được biết đến là một nền tảng xử lý nhanh chóng hàng ngàn yêu cầu đồng thời, chịu tải cao, tốc độ thực thi và khả năng mở rộng tốt.
+
+Đánh giá về hiệu suất của các ứng dụng chạy Node.js, nhóm tác giả có tham khảo nghiên cứu của tác giả Robert Ryan McCune về đo lường hiệu suất của ứng dụng Node.js \cite{mccune2011node}. Trong bài nghiên cứu, tác giả Robert Ryan McCune đã thực hiện phần đánh giá trên một máy ảo trên iMac chạy \textit{OS X 10.6.8} với \textit{8GB RAM} và \textit{3.06Ghz Intel Core 2 Duo}, máy ảo này được tạo bởi VMWare Fusion 4.0.2 với cấu hình là hệ điều hành Ubuntu 11.10 được cài đặt \textit{2GB RAM}, và một bộ xử lý lõi kép. Tác giả đã thực hiện đồng thời 100 và 1000 yêu cầu đến máy chủ chạy bằng Node và thu được kết quả là thời gian trả lời từ máy chủ chưa tới 70ms. Tương tự thực hiện 500 yêu cầu đồng thời và thực hiện tổng cộng 10.000 yêu cầu thì thời gian phản hồi là dưới 140ms.
+
 \subsubsection{Material UI framework}
+\textbf{Material UI} là một thư viện được \textit{Google}\footnote{https://www.google.com} viết dành riêng cho ReactJS, bao gồm tập hợp nhiều các thành phần được xây dựng và thiết kế theo phong cách Material. Với hơn 52.8 nghìn sao đánh giá trên cộng đồng Github, và được sử dụng bởi hơn 139.000 dự án khác nhau, Material là một trong những thư viện UI được nhiều người sử dụng nhất trên thế giới. Giao diện của Material cũng tương đồng với các sản phẩm của Google như: \textit{Gmail, Google tìm kiếm, Google Form},\ldots
+
+Material UI hiện tại cũng đang được sử dụng bởi \textit{NASA, UNIQLO, shutterstock},\ldots
+
+Trong cuộc khảo sát vào năm 2019 của Oliver được đăng trên trang Medium\footnote{Nguồn: https://medium.com/material-ui/2019-material-ui-developer-survey-results-c9589434bbcf} đã chỉ ra rằng, có đến 74.4\% của 734 người khảo sát cho rằng sẽ thất vọng khi không còn sử dụng thư viện này. Biểu đồ thể hiện thái độ người khảo sát khi không còn được sử dụng thư viện Material ở hình \ref{fig:material-chart-survey}.
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:material-chart-survey}
+\includegraphics[scale=0.8]{material-chart-survey}
+\caption{Biểu đồ thể hiện thái độ người dùng khi không còn được sử dụng thư viện Material}
+\end{center}
+\end{figure}
+
+Cũng tại bài viết, tác giả đã ghi nhận nhận những lợi ích từ người khảo sát cho rằng yếu tố tập trung vào luồng xử lý, tiết kiệm thời gian, dễ dùng, \ldots và có đến 70\% dùng thư viện này để xây dựng dashboard, 40\% để thiết kế hệ thống, 35\% dùng để thiết kế các trang doanh nghiệp.
 
 \subsubsection{Cơ sở dữ liệu Redis}
+\textbf{Redis} là một cơ sở dữ liệu thường được xếp vào nhóm cơ sở dữ liệu NoSQL, được phát triển vào năm 2009. Khác với những cơ sở dữ liệu khác, Redis lưu dữ liệu trên RAM của máy chủ, điều này làm cho việc truy xuất giá trị nhanh hơn so với cách lưu trữ truyền thống – lưu trữ trên ổ cứng. Sau một thời gian, các bản ghi được lưu trên RAM này sẽ được lưu xuống ổ cứng nhằm tiết kiệm tài nguyên bộ nhớ RAM.
 
+Các đặc điểm của Redis \cite{6106531}:
+
+\begin{enumerate}[label=(\roman*)]
+\item Redis là một dạng lưu trữ dữ liệu \textit{key-value}, như được nói ở trên khi Redis chạy, dữ liệu sẽ được lưu trữ trong bộ nhớ, do đó nó có thể xử lý hơn 100.000 thao tác đọc và ghi mỗi giây.
+\item Redis hỗ trợ nhiều dạng lưu trữ như \textit{List} và \textit{Set},\ldots
+\item Giá trị lớn nhất lưu trên Redis là 1GB.
+\item Nhược điểm yếu nhất của Redis đó chính là dung lương của cơ sở dữ liệu bị giới hạn bởi bộ nhớ vật lý, do đó Redis không nên dùng làm cơ sở dữ liệu cho các dự án lớn và khả năng mở rộng kém.
+\end{enumerate}
+
+Với các đặc điểm trên, Redis phù hợp cho việc cung cấp hiệu suất cao cho lượng dữ liệu nhỏ.
+
+\subsubsection{IPFS}
+\textbf{\acrfull{ipfs}} là một giao thức chia sẻ tệp tin được phân tán ngang hàng \acrfull{p2p}. Giao thức này cho phép người dùng chia sẻ các tệp tin ngang hàng với nhau mà không cần có sự xuất hiện của máy chủ. Các dữ liệu khi người dùng tải lên sẽ được băm ra và đồng thời sinh ra mã băm của dữ liệu ấy. Với các dữ liệu giống nhau thì sẽ tạo ra những hàm băm giống nhau, do đó IPFS sẽ hạn chế được sự trùng lặp.
+ 
+\acrshort{ipfs} có thể giải quyết vấn đề về lưu trữ dữ liệu lớn cho các ứng dụng \gls{blockchain} bằng cách sử dụng blockchain để lưu trữ địa chỉ của dữ liệu được ra bằng IPFS (chính là mã băm nhận diện cho tập tin) và đặt địa chỉ bất biến này cho một giao dịch trong blockchain. Không những giải quyết vấn đề lưu trữ, \acrshort{ipfs} còn giải quyết vấn đề về bằng thông bằng cách phân tán nội dung đến hệ thống \acrshort{p2p}. Do đó, khi truy cập tập tin nào đó bằng các dùng hàm băm, nút gần nhất với tệp sẽ phản hồi và gửi tệp cho người yêu cầu. Như đã được chứng minh từ trước \cite{5235364}, một hệ thống phân phát \acrshort{p2p} có thể tiết kiệm lên đến 60\% so với hệ thống truyền thống. Đồng thời, IPFS còn tăng tính bảo mật và chống lại các cuộc tấn công từ chối dịch vụ và giới hạn lại kiểm duyệt vì không có địa chỉ IP cụ thể của máy chủ bị chặn \cite{8441990}.
 \subsection{Các bước hiện thực}
 \begin{itemize}
 \item Bước 1
@@ -41,9 +77,9 @@ Cụ thể, công trình của tác giả Sara Rouhani và Ralph Deters \cite{ro
 Nhóm tác giả thực hiện việc đánh giá này trên cấu hình máy như sau:
 
 \begin{itemize}
-\item \textbf{CPU}: Intel(R) Xeon(R) CPU E5-2673 v4 @ 2.30GHz
-\item \textbf{RAM}: 2GB
-\item \textbf{OS}: Ubuntu 18.04 server x64 amd
+\item \textbf{CPU}: 4 x Intel(E) Pentium(R) CPU N3540 @ 2.16GHz
+\item \textbf{RAM}: 8GB
+\item \textbf{OS}: Alpine Linux 3.9 running in Docker container
 \end{itemize}
 
 Công cụ mà nhóm tác giả sử dụng trong phần đánh giá này là \textbf{Truffle framework}\footnote{https://www.trufflesuite.com}, đây là một bộ công cụ được sử dụng để triển khai các hợp đồng thông minh hỗ trợ ngôn ngữ Solidity.
@@ -74,30 +110,43 @@ Wallet                                  & deposit()                             
 \subsubsection{Kết quả đánh giá}
 Sau khi thực hiện đánh giá thời gian, nhóm tác giả đã tổng hợp kết quả như ở bảng \ref{tab:result-timeperform}. Theo như kết quả tổng hợp được, nhóm tác giả nhận xét rằng với dữ liệu đầu vào càng nhiều (kích thước lớn) thì thời gian xử lí càng lâu.
 
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+% \usepackage{graphicx}
 \begin{table}[!ht]
 \centering
 \resizebox{\textwidth}{!}{%
-\begin{tabular}{|l|l|l|l|l|}
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|}
 \hline
-\multicolumn{1}{|c|}{\textbf{Contract}} & \multicolumn{1}{c|}{\textbf{Hàm được chọn}} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Tổng thời gian\\ 1000 lần thực hiện\\ (giây)\end{tabular}}} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Thời gian trung bình\\ một giao dịch\\ (giây)\end{tabular}}} & \multicolumn{1}{c|}{\textbf{Ghi chú}}                    \\ \hline
-Wallet                                  & deposit()                                   & 49.919                                                                                                             & 0.049919                                                                                                            &                                                          \\ \hline
-\multirow{3}{*}{Campaigns}              & createCampaign()                            & 123.9712                                                                                                           & 0.1239712                                                                                                           & \begin{tabular}[c]{@{}l@{}}tạo chiến dịch\\với số giai đoạn\\giải ngân $= 1$\end{tabular}            \\ \cline{2-5} 
-                                        & createCampaign()                            & 288.936                                                                                                            & 0.288936                                                                                                            & \begin{tabular}[c]{@{}l@{}}tạo chiến dịch\\với số giai đoạn\\giải ngân $> 1$\end{tabular} \\ \cline{2-5} 
-                                        & donate()                                    & 110.999                                                                                                            & 0.110999                                                                                                            &                                                          \\ \hline
+\multicolumn{1}{|c|}{\textbf{Contract}} & \multicolumn{1}{c|}{\textbf{Hàm}} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Thời gian\\ thực hiện\\ 100 lần\\ (giây)\end{tabular}}} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Thời gian\\ thực hiện\\ 200 lần\\ (giây)\end{tabular}}} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Thời gian\\ thực hiện\\ 400 lần\\ (giây)\end{tabular}}} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Thời gian\\ thực hiện\\ 600 lần\\ (giây)\end{tabular}}} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Thời gian\\ thực hiện\\ 900 lần\\ (giây\end{tabular}}} & \multicolumn{1}{c|}{\textbf{\begin{tabular}[c]{@{}c@{}}Thời gian\\ trung bình\\ (giây)\end{tabular}}} & \multicolumn{1}{c|}{\textbf{Ghi chú}}                            \\ \hline
+Wallet                                  & deposit                           & 11.099                                                                                                         & 18.035                                                                                                         & 36.484                                                                                                         & 54.166                                                                                                         & 86.968                                                                                                        & 0.095856                                                                                              &                                                                  \\ \hline
+\multirow{3}{*}{Campaigns}              & createCampaign                    & 19.613                                                                                                         & 37.839                                                                                                         & 76.577                                                                                                         & 115.433                                                                                                        & 172.447                                                                                                       & 0.1921527                                                                                             & \begin{tabular}[c]{@{}l@{}}một g.đoạn\\ giải ngân\end{tabular}   \\ \cline{2-9} 
+                                        & createCampaign                    & 31.986                                                                                                         & 63.561                                                                                                         & 127.236                                                                                                        & 191.94                                                                                                         & 287.694                                                                                                       & 0.319063                                                                                              & \begin{tabular}[c]{@{}l@{}}nhiều g.đoạn\\ giải ngân\end{tabular} \\ \cline{2-9} 
+                                        & donate                            & 16.529                                                                                                         & 32.083                                                                                                         & 63.9                                                                                                           & 94.204                                                                                                         & 142.934                                                                                                       & 0.160255                                                                                              &                                                                  \\ \hline
 \end{tabular}%
 }
-\caption{Bảng kết quả đánh giá thời gian thực hiện giao dịch}
+\caption{Bảng kết quả đánh giá thời gian hiện thực một số hàm trong hệ thống.}
 \label{tab:result-timeperform}
 \end{table}
+
+Từ kết quả thu được, ta có biểu đồ tổng quan về tốc độ thực hiện của các hàm như ở hình \ref{fig:result-time-perform-chart}.
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:result-time-perform-chart}
+\includegraphics[scale=0.5]{result-time-perform-chart}
+\caption{Biểu đồ thể hiện tốc độ thực hiện giao dịch giữa các hàm}
+\end{center}
+\end{figure}
 
 \subsection{Chi phí thực hiện các giao dịch trong hệ thống}
 \subsubsection{Môi trường thực hiện đánh giá}
 Nhóm tác giả thực hiện việc đo lường chi phí giao dịch trên cấu hình máy như sau:
 
 \begin{itemize}
-\item \textbf{CPU}: Intel(R) Xeon(R) CPU E5-2673 v4 @ 2.30GHz
-\item \textbf{RAM}: 2GB
-\item \textbf{OS}: Ubuntu 18.04 server x64 amd
+\item \textbf{CPU}: 4 x Intel(E) Pentium(R) CPU N3540 @ 2.16GHz
+\item \textbf{RAM}: 8GB
+\item \textbf{OS}: Alpine Linux 3.9 running in Docker container
 \end{itemize}
 
 Bộ công cụ \textbf{Truffle framework} kết hợp plug-in có tên là \textbf{eth-gas-reporter}\footnote{https://www.npmjs.com/package/eth-gas-reporter} được sử dụng để triển khai các hợp đồng thông minh và đo lường chi phí thực hiện. Mạng ethereum riêng chạy trên máy cục bộ được sử dụng nhằm loại bỏ đi thời gian chờ xác nhận giao dịch thông thường trên các mạng công khai hiện tại.
@@ -195,4 +244,35 @@ Wallet                                  & 1163284                               
 
 \subsection{Phân tích bảo mật của hợp đồng thông minh trong hệ thống}
 
+\subsection{Đánh giá tốc độ tải trang của giao diện người dùng}
+\subsubsection{Môi trường thực hiện}
+Thông tin cấu hình máy sử dụng để đo tốc độ truy xuất của ReactJS như sau:
+
+\begin{itemize}
+\item Trình duyệt Google Chrome version 78.0.3904 (được cài sẵn extension MetaMask đã cấp phép truy cập thông tin)
+\item Chip xử lý: 2.7 Ghz Dual-Core intel Core i5
+\item HĐH: macOS Catalina version 10.15.1
+\item RAM: 8GB 1867Mhz DDR3
+\item Graphics: Intel Iris Graphics 6100 1536 MB
+\end{itemize}
+\subsubsection{Kết quả đánh giá}
+Kết quả được tổng hợp ở bảng \ref{tab:result-perform-ui}.
+
+% Please add the following required packages to your document preamble:
+% \usepackage{graphicx}
+\begin{table}[!ht]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|l|l|l|l|l|l|l|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Page}} & \multicolumn{1}{c|}{\textbf{Loading}} & \multicolumn{1}{c|}{\textbf{Scripting}} & \multicolumn{1}{c|}{\textbf{Rendering}} & \multicolumn{1}{c|}{\textbf{Painting}} & \multicolumn{1}{c|}{\textbf{System}} & \multicolumn{1}{c|}{\textbf{Idle}} & \multicolumn{1}{c|}{\textbf{Total}} \\ \hline
+Detail campaign                     & 28 ms                                 & 1320 ms                                 & 70 ms                                   & 65 ms                                  & 220 ms                               & 918 ms                             & 2621 ms                             \\ \hline
+Home page                           & 6 ms                                  & 743 ms                                  & 3 ms                                    & 3 ms                                   & 41 ms                                & 102 ms                             & 898 ms                              \\ \hline
+Create campaign                     & 24 ms                                 & 1181 ms                                 & 47 ms                                   & 36 ms                                  & 196 ms                               & 672 ms                             & 2156 ms                             \\ \hline
+Explore campaigns                   & 14 ms                                 & 798 ms                                  & 98 ms                                   & 82 ms                                  & 237 ms                               & 1541 ms                            & 2770 ms                             \\ \hline
+\end{tabular}%
+}
+\caption{Bảng kết quả đo tốc độ truy xuất front-end của hệ thống}
+\label{tab:result-perform-ui}
+\end{table}
 \end{document}

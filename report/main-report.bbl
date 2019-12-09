@@ -403,6 +403,148 @@
       \field{pages}{57\bibrangedash 61}
       \range{pages}{5}
     \endentry
+    \entry{henry2018blockchain}{article}{}
+      \name{author}{3}{}{%
+        {{hash=b1522f4f94556adb87af286fbeb17e44}{%
+           family={Henry},
+           familyi={H\bibinitperiod},
+           given={Ryan},
+           giveni={R\bibinitperiod}}}%
+        {{hash=85f6ae2adaaeb5a5ab3027ffe4578181}{%
+           family={Herzberg},
+           familyi={H\bibinitperiod},
+           given={Amir},
+           giveni={A\bibinitperiod}}}%
+        {{hash=720d5181b12368e1a1e450c13b0a32c0}{%
+           family={Kate},
+           familyi={K\bibinitperiod},
+           given={Aniket},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{23f039484ab4c4c033198fab3e02900f}
+      \strng{fullhash}{23f039484ab4c4c033198fab3e02900f}
+      \strng{bibnamehash}{23f039484ab4c4c033198fab3e02900f}
+      \strng{authorbibnamehash}{23f039484ab4c4c033198fab3e02900f}
+      \strng{authornamehash}{23f039484ab4c4c033198fab3e02900f}
+      \strng{authorfullhash}{23f039484ab4c4c033198fab3e02900f}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Security \& Privacy}
+      \field{number}{4}
+      \field{title}{Blockchain access privacy: challenges and directions}
+      \field{volume}{16}
+      \field{year}{2018}
+      \true{nocite}
+      \field{pages}{38\bibrangedash 45}
+      \range{pages}{8}
+    \endentry
+    \entry{nodejs-performance}{article}{}
+      \name{author}{2}{}{%
+        {{hash=c9b37d42af327288357a5a4ddfc2c56e}{%
+           family={{Tilkov}},
+           familyi={T\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=71ac3143231ed8059297263cde07ee7a}{%
+           family={{Vinoski}},
+           familyi={V\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{bad5893b6aebe300cb528f8e92dc6a44}
+      \strng{fullhash}{bad5893b6aebe300cb528f8e92dc6a44}
+      \strng{bibnamehash}{bad5893b6aebe300cb528f8e92dc6a44}
+      \strng{authorbibnamehash}{bad5893b6aebe300cb528f8e92dc6a44}
+      \strng{authornamehash}{bad5893b6aebe300cb528f8e92dc6a44}
+      \strng{authorfullhash}{bad5893b6aebe300cb528f8e92dc6a44}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{1941-0131}
+      \field{journaltitle}{IEEE Internet Computing}
+      \field{month}{11}
+      \field{number}{6}
+      \field{title}{Node.js: Using JavaScript to Build High-Performance Network Programs}
+      \field{volume}{14}
+      \field{year}{2010}
+      \true{nocite}
+      \field{pages}{80\bibrangedash 83}
+      \range{pages}{4}
+      \verb{doi}
+      \verb 10.1109/MIC.2010.145
+      \endverb
+      \keyw{Java;Node.js;high performance network program;server-side JavaScript space;concurrent program;mainstream multithreading;event-driven programming model;Sockets;Instruction sets;Programming;Servers;Libraries;Writing;Registers;Node;Node.js;functional programming;Web development;JavaScript;Internet}
+    \endentry
+    \entry{mccune2011node}{article}{}
+      \name{author}{1}{}{%
+        {{hash=011b780bff5893aee51cc3e06bf0499c}{%
+           family={McCune},
+           familyi={M\bibinitperiod},
+           given={Robert\bibnamedelima Ryan},
+           giveni={R\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+      }
+      \strng{namehash}{011b780bff5893aee51cc3e06bf0499c}
+      \strng{fullhash}{011b780bff5893aee51cc3e06bf0499c}
+      \strng{bibnamehash}{011b780bff5893aee51cc3e06bf0499c}
+      \strng{authorbibnamehash}{011b780bff5893aee51cc3e06bf0499c}
+      \strng{authornamehash}{011b780bff5893aee51cc3e06bf0499c}
+      \strng{authorfullhash}{011b780bff5893aee51cc3e06bf0499c}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Striegel, Grad Os F}
+      \field{title}{Node.js paradigms and benchmarks}
+      \field{volume}{11}
+      \field{year}{2011}
+      \true{nocite}
+      \field{pages}{86}
+      \range{pages}{1}
+    \endentry
+    \entry{6106531}{inproceedings}{}
+      \name{author}{4}{}{%
+        {{hash=7eb4bf3c2c24a89c3a5a621ffd559cdd}{%
+           family={{Jing Han}},
+           familyi={J\bibinitperiod}}}%
+        {{hash=cc34a607d0f70fa3b5d726f86d3b2331}{%
+           family={{Haihong E}},
+           familyi={H\bibinitperiod}}}%
+        {{hash=49077d128128cee17535ff3f89e3f4c6}{%
+           family={{Guan Le}},
+           familyi={G\bibinitperiod}}}%
+        {{hash=598eecf7692ca1fe9c943ec08fde4d44}{%
+           family={{Jian Du}},
+           familyi={J\bibinitperiod}}}%
+      }
+      \strng{namehash}{1536f9e7ad9435c5175a96dc60e8a7b5}
+      \strng{fullhash}{42a9dcf47526b039ca5408f745336d21}
+      \strng{bibnamehash}{42a9dcf47526b039ca5408f745336d21}
+      \strng{authorbibnamehash}{42a9dcf47526b039ca5408f745336d21}
+      \strng{authornamehash}{1536f9e7ad9435c5175a96dc60e8a7b5}
+      \strng{authorfullhash}{42a9dcf47526b039ca5408f745336d21}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2011 6th International Conference on Pervasive Computing and Applications}
+      \field{issn}{null}
+      \field{month}{10}
+      \field{title}{Survey on NoSQL database}
+      \field{year}{2011}
+      \true{nocite}
+      \field{pages}{363\bibrangedash 366}
+      \range{pages}{4}
+      \verb{doi}
+      \verb 10.1109/ICPCA.2011.6106531
+      \endverb
+      \keyw{cloud computing;query processing;relational databases;SQL;NoSQL database;Internet;cloud computing;relational database;high-concurrency applications;search engines;SNS;query dynamic user data;data model;CAP theorem;Databases;Facebook;Computational modeling;Blogs;Reliability;NoSQL;key-value;column-oriented;document;database;Big Data}
+    \endentry
     \entry{rouhani2017performance}{inproceedings}{}
       \name{author}{2}{}{%
         {{hash=a9735d0ff13f6a7be443a1a496b66053}{%
@@ -436,45 +578,77 @@
       \field{pages}{70\bibrangedash 74}
       \range{pages}{5}
     \endentry
-    \entry{henry2018blockchain}{article}{}
+    \entry{5235364}{inproceedings}{}
       \name{author}{3}{}{%
-        {{hash=b1522f4f94556adb87af286fbeb17e44}{%
-           family={Henry},
-           familyi={H\bibinitperiod},
-           given={Ryan},
-           giveni={R\bibinitperiod}}}%
-        {{hash=85f6ae2adaaeb5a5ab3027ffe4578181}{%
-           family={Herzberg},
-           familyi={H\bibinitperiod},
-           given={Amir},
-           giveni={A\bibinitperiod}}}%
-        {{hash=720d5181b12368e1a1e450c13b0a32c0}{%
-           family={Kate},
+        {{hash=4dec59068676671f268da53d4c7c7b05}{%
+           family={{Nguyen}},
+           familyi={N\bibinitperiod},
+           given={K.},
+           giveni={K\bibinitperiod}}}%
+        {{hash=b09b9fab0bc3ed13d1127f4ee47fa373}{%
+           family={{Nguyen}},
+           familyi={N\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod}}}%
+        {{hash=b3bbdfca8bcb5274f09231a1c77ead41}{%
+           family={{Kovchegov}},
            familyi={K\bibinitperiod},
-           given={Aniket},
-           giveni={A\bibinitperiod}}}%
+           given={Y.},
+           giveni={Y\bibinitperiod}}}%
       }
-      \list{publisher}{1}{%
-        {IEEE}%
-      }
-      \strng{namehash}{23f039484ab4c4c033198fab3e02900f}
-      \strng{fullhash}{23f039484ab4c4c033198fab3e02900f}
-      \strng{bibnamehash}{23f039484ab4c4c033198fab3e02900f}
-      \strng{authorbibnamehash}{23f039484ab4c4c033198fab3e02900f}
-      \strng{authornamehash}{23f039484ab4c4c033198fab3e02900f}
-      \strng{authorfullhash}{23f039484ab4c4c033198fab3e02900f}
-      \field{sortinit}{2}
-      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
+      \strng{namehash}{457ad5d6b2c31aca6caccb96d6adaeb9}
+      \strng{fullhash}{457ad5d6b2c31aca6caccb96d6adaeb9}
+      \strng{bibnamehash}{457ad5d6b2c31aca6caccb96d6adaeb9}
+      \strng{authorbibnamehash}{457ad5d6b2c31aca6caccb96d6adaeb9}
+      \strng{authornamehash}{457ad5d6b2c31aca6caccb96d6adaeb9}
+      \strng{authorfullhash}{457ad5d6b2c31aca6caccb96d6adaeb9}
+      \field{sortinit}{3}
+      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
-      \field{journaltitle}{IEEE Security \& Privacy}
-      \field{number}{4}
-      \field{title}{Blockchain access privacy: challenges and directions}
-      \field{volume}{16}
+      \field{booktitle}{2009 Proceedings of 18th International Conference on Computer Communications and Networks}
+      \field{issn}{1095-2055}
+      \field{month}{8}
+      \field{title}{A P2P Video Delivery Network (P2P-VDN)}
+      \field{year}{2009}
+      \true{nocite}
+      \field{pages}{1\bibrangedash 7}
+      \range{pages}{7}
+      \verb{doi}
+      \verb 10.1109/ICCCN.2009.5235364
+      \endverb
+      \keyw{peer-to-peer computing;protocols;random codes;video streaming;P2P video delivery network;video streaming;storage systems;YouTube;architectural elements;random network coding scheme;data replenishment process;path-diversity protocol;Streaming media;YouTube;Bandwidth;Video sharing;Peer to peer computing;Network servers;Web and internet services;Computer networks;Scalability;Network coding}
+    \endentry
+    \entry{8441990}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{hash=829d790ca081e75de4e2a2ba30dc96f3}{%
+           family={{Alabdulwahhab}},
+           familyi={A\bibinitperiod},
+           given={F.\bibnamedelimi A.},
+           giveni={F\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \strng{namehash}{829d790ca081e75de4e2a2ba30dc96f3}
+      \strng{fullhash}{829d790ca081e75de4e2a2ba30dc96f3}
+      \strng{bibnamehash}{829d790ca081e75de4e2a2ba30dc96f3}
+      \strng{authorbibnamehash}{829d790ca081e75de4e2a2ba30dc96f3}
+      \strng{authornamehash}{829d790ca081e75de4e2a2ba30dc96f3}
+      \strng{authorfullhash}{829d790ca081e75de4e2a2ba30dc96f3}
+      \field{sortinit}{3}
+      \field{sortinithash}{a37a8ef248a93c322189792c34fc68c9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2018 1st International Conference on Computer Applications Information Security (ICCAIS)}
+      \field{issn}{null}
+      \field{month}{4}
+      \field{title}{Web 3.0: The Decentralized Web Blockchain networks and Protocol Innovation}
       \field{year}{2018}
       \true{nocite}
-      \field{pages}{38\bibrangedash 45}
-      \range{pages}{8}
+      \field{pages}{1\bibrangedash 4}
+      \range{pages}{4}
+      \verb{doi}
+      \verb 10.1109/CAIS.2018.8441990
+      \endverb
+      \keyw{semantic Web;social networking (online);decentralized web blockchain networks;social media platforms;virtual web;Web 2.0;semantic web;protocol innovation;Protocols;Internet;Servers;Peer-to-peer computing;Big Data;blockchain;decentralized;token model;protocol;web 3.0;data;internet}
     \endentry
   \enddatalist
 \endrefsection
