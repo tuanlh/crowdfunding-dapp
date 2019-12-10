@@ -1,17 +1,20 @@
-[1] Config.pm:304> INFO - This is Biber 2.12
-[1] Config.pm:307> INFO - Logfile is 'main-report.blg'
-[97] biber:315> INFO - === CN Thg 11 10, 2019, 22:41:31
-[169] Biber.pm:371> INFO - Reading 'main-report.bcf'
-[414] Biber.pm:886> INFO - Using all citekeys in bib section 0
-[467] Biber.pm:4093> INFO - Processing section 0
-[499] Biber.pm:4254> INFO - Looking for bibtex format file 'bibliography/main.bib' for section 0
-[501] bibtex.pm:1512> INFO - LaTeX decoding ...
-[509] bibtex.pm:1329> INFO - Found BibTeX data source 'bibliography/main.bib'
-[524] Utils.pm:193> WARN - year field 'Năm' in entry 'sample' is not an integer - this will probably not sort properly.
-[561] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[561] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[561] Biber.pm:3921> INFO - Sorting list 'none/global//global/global' of type 'entry' with template 'none' and locale 'en-US'
-[562] Biber.pm:3927> INFO - No sort tailoring available for locale 'en-US'
-[565] bbl.pm:636> INFO - Writing 'main-report.bbl' with encoding 'UTF-8'
-[567] bbl.pm:739> INFO - Output to main-report.bbl
-[568] Biber.pm:110> INFO - WARNINGS: 1
+[2] Config.pm:304> INFO - This is Biber 2.12
+[3] Config.pm:307> INFO - Logfile is 'main-report.blg'
+[114] biber:315> INFO - === T2 Thg 12  9, 2019, 23:16:51
+[190] Biber.pm:371> INFO - Reading 'main-report.bcf'
+[449] Biber.pm:886> INFO - Using all citekeys in bib section 0
+[501] Biber.pm:4093> INFO - Processing section 0
+[538] Biber.pm:4254> INFO - Looking for bibtex format file 'bibliography/main.bib' for section 0
+[542] bibtex.pm:1512> INFO - LaTeX decoding ...
+[641] bibtex.pm:1329> INFO - Found BibTeX data source 'bibliography/main.bib'
+[837] Utils.pm:193> WARN - month field 'Aug' in entry '5235364' is not an integer - this will probably not sort properly.
+[888] Utils.pm:193> WARN - month field 'Oct' in entry '6106531' is not an integer - this will probably not sort properly.
+[951] Utils.pm:193> WARN - month field 'Nov' in entry 'nodejs-performance' is not an integer - this will probably not sort properly.
+[965] Utils.pm:193> WARN - month field 'April' in entry '8441990' is not an integer - this will probably not sort properly.
+[1104] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[1104] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[1105] Biber.pm:3921> INFO - Sorting list 'none/global//global/global' of type 'entry' with template 'none' and locale 'en-US'
+[1105] Biber.pm:3927> INFO - No sort tailoring available for locale 'en-US'
+[1161] bbl.pm:636> INFO - Writing 'main-report.bbl' with encoding 'UTF-8'
+[1197] bbl.pm:739> INFO - Output to main-report.bbl
+[1198] Biber.pm:110> INFO - WARNINGS: 4

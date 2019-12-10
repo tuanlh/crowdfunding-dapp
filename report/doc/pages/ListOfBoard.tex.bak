@@ -1,0 +1,15 @@
+\documentclass[../main-report.tex]{subfiles}
+
+\begin{document}
+\part*{DANH SÁCH HỘI ĐỒNG BẢO VỆ KHÓA LUẬN}
+Hội đồng chấm khóa luận tốt nghiệp, thành lập theo quyết định số .../QĐ-ĐHCNTT ...QĐ-ĐHCNTT ngày ../../.. của Hiệu trưởng Trường Đại học Công nghệ Thông tin.
+
+
+
+\begin{enumerate}
+\item ........................... --- Chủ tịch.
+\item ........................... --- Thư ký.
+\item ........................... --- Ủy viên.
+\end{enumerate}
+
+\end{document}

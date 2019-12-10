@@ -1,0 +1,4 @@
+Đóng góp của khóa luận:
+- Xây dựng mô hình hệ thống cho ứng dụng gây quỹ cộng đồng từ thiện áp dụng công nghệ blockchain.
+- Hiện thực ứng dụng trên một nền tảng blockchain.
+- Tăng cường tính tin cậy và minh bạch cho ứng dụng bằng phương pháp:...

@@ -1,0 +1,23 @@
+Công cụ Manticore là công cụ được dùng để phân tích smart contract và tập tin nhị phân khi thực thi (symbolic execution)
+Các chức năng:
+- Input generation: tạo ra các input có thể kích hoạt các luồng chạy khác nhau (trigger unique code paths)
+- Error Discovery: phát hiện lỗi và tạo ra các mẫu input có thể kích hoạt được các lỗi đó
+- Execution Tracing: ghi lại dấu vết ở cấp độ lệnh (instruction-level) cho mỗi mẫu input được tạo ra
+- Programmatic Interface: Manticore cung cấp Python API cho phép lập trình việc phân tích (tạo ra một công cụ phân tích của riêng bạn)
+
+Manticore cung cấp hai cách thức sử dụng:
+- CLI: giao diện dòng lệnh đơn giản, sau đó nó sẽ tạo ra một thư mục với tên bắt đầu là mcore_ chứa kết quả phân tích.
+- Python API: cho phép bạn có thể tạo được một bộ phân tích của riêng bạn, Manticore cung cấp một bộ thư viện hỗ trợ phân tích bằng Python.
+
+Đối tượng phân tích của Manticore:
+- Ethereum smart contracts (EVM bytecode)
+- Linux ELF binaries
+
+Link github: https://github.com/trailofbits/manticore
+
+Cách sử dụng bằng docker:
+docker run --rm -it --ulimit stack=100000000:100000000 trailofbits/manticore bash
+
+cd manticore/examples/evm
+manticore simple_int_overflow.sol
+

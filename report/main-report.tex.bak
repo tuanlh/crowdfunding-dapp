@@ -11,7 +11,7 @@
 \usepackage{amsbsy} % Hỗ trợ các kí hiệu in đậm
 \usepackage{times} % Chọn font Time New Romans
 \usepackage{array} % Tạo bảng array
-\usepackage{enumitem} % Cho phép thay đổi kí hiệu của list
+\usepackage[inline]{enumitem}
 \usepackage{subfiles} % Chèn các file nhỏ, giúp chia các chapter ra nhiều file hơn
 \usepackage{titlesec} % Giúp chỉnh sửa các tiêu đề, đề mục như chương, phần,..
 \usepackage{chngcntr} % Dùng để thiết lập lại cách đánh số caption,..
@@ -21,14 +21,15 @@
 \usepackage{multirow} % Merge cells
 \usepackage{fancyhdr} % Cho phép tùy biến header và footer
 \usepackage[natbib,backend=biber,style=ieee]{biblatex} % Giúp chèn tài liệu tham khảo
-
-\usepackage[nonumberlist, nopostdot, nogroupskip, toc, acronym]{glossaries}
+%\usepackage[table,xcdraw]{xcolor}
+%nonumberlist, nopostdot, nogroupskip
+\usepackage[nogroupskip, toc, acronym]{glossaries}
 \usepackage{glossary-superragged}
 \setglossarystyle{superraggedheaderborder}
+\makenoidxglossaries
 \usepackage{setspace}
 \usepackage{parskip}
-
-\setlength{\glsdescwidth}{9cm}
+%\setlength{\glsdescwidth}{4cm}
 
 \bibliography{bibliography/main.bib} % chèn file chứa danh mục tài liệu tham khảo vào 
 
@@ -119,18 +120,20 @@ pdfmenubar=false % Ẩn đi menu bar trong PDF viewer
 \listoftables % Danh sách bảng biểu
 \addcontentsline{toc}{chapter}{\listtablename}
 
-\glsaddall
+%\glsaddall
 \renewcommand*{\glossaryname}{Danh sách thuật ngữ}
 \renewcommand*{\acronymname}{Danh sách từ viết tắt}
-\renewcommand*{\entryname}{Tiếng Anh}
-\renewcommand*{\descriptionname}{Tiếng Việt}
+\renewcommand*{\entryname}{Thuật ngữ}
+\renewcommand*{\descriptionname}{Diễn giải}
+%\renewcommand*{\pagelistname}{Trang}
 \printnoidxglossary
 \newpage
 \renewcommand*{\entryname}{Từ viết tắt}
 \renewcommand*{\descriptionname}{Từ đầy đủ}
   %\printglossary[type=\acronymtype]
-  \printnoidxglossary[type=\acronymtype]
+\printnoidxglossary[type=\acronymtype]
 \newpage
+
 \subfile{pages/Summarize} % Tóm tắt
 
 \newpage
