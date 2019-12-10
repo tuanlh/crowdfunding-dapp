@@ -11,6 +11,8 @@ import _ from 'lodash'
 import getAllVerifier from '../../../utils/modules/getAllVerifier'
 import Loading from '../../../utils/Loading2';
 import AddVerifier from './AddVerifier';
+import showNoti from "../../../utils/Notification";
+
 import './AdminPanel.scss'
 class AdminPanel extends Component {
 
@@ -68,14 +70,15 @@ class AdminPanel extends Component {
 
   handleAddVerifier = (verifier) => {
     const { contractIdentity, account } = this.state;
-    this.setState({
-      isLoading: true
-    })
+    
     contractIdentity.methods.addVerifier(verifier.address, verifier.publicKey
     ).send({
       from: account
     }).on('transactionHash', hash => {
       if (hash !== null) {
+        showNoti({
+          details: 'Please wait transaction confirm'
+        })
         this.handleTransactionReceipt(hash)
       }
     }).on('error', err => {
@@ -95,15 +98,16 @@ class AdminPanel extends Component {
 
     if (receipt.status === true) {
       console.log('---Success---')
+      showNoti({})
       // this.showError("Success", "bottom-center", 'success');
     } else {
+      showNoti({
+        type: 'error'
+      })
+
       console.log('--Failed---')
       // this.showError("Failed", "bottom-center");       
     }
-    
-    this.setState({
-      isLoading: false
-    })
 
   }
 
