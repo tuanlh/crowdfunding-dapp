@@ -66,7 +66,7 @@ Tổng quan các chức năng trong hệ thống được thể hiện ở hình
 \begin{figure}[ht!]
 \begin{center}
 \label{fig:usecase-diagram}
-\includegraphics[scale=1]{usecase}
+\includegraphics[scale=0.6]{usecase-vi}
 \caption{Sơ đồ tổng quan các chức năng trong hệ thống}
 \end{center}
 \end{figure}
@@ -74,41 +74,21 @@ Tổng quan các chức năng trong hệ thống được thể hiện ở hình
 Với sơ đồ được thể hiện có các đối tượng sau:
 
 \begin{itemize}
-\item \textbf{Creator} - là người tạo chiến dịch gây quỹ.
-\item \textbf{Donor} - là người đóng góp, ủng hộ tiền cho chiến dịch gây quỹ.
-\item \textbf{Verifier} - là người xác minh cho hồ sơ định danh và hồ sơ gây quỹ, là nhân viên trong hệ thống hoặc tình nguyện viên của hệ thống.
-\item \textbf{Deployer} - là người vận hành hệ thống hay người triển khai các hợp đồng thông minh.
+\item \textbf{Người tạo chiến dịch} - là người tạo chiến dịch gây quỹ.
+\item \textbf{Người đóng góp} - là người đóng góp, ủng hộ tiền cho chiến dịch gây quỹ.
+\item \textbf{Nhân viên xác minh} - là người xác minh cho hồ sơ định danh và hồ sơ gây quỹ, là nhân viên trong hệ thống hoặc tình nguyện viên của hệ thống.
+\item \textbf{Nhân viên vận hành} - là người vận hành hệ thống hay người triển khai các hợp đồng thông minh.
 \end{itemize}
 
-Các chức năng trong hệ thống được phân nhóm thành các cụm theo 4 hệ thống con tương ứng các hợp đồng thông minh, cụ thể:
+Nhóm tác giả cũng thực hiện phân rã các chức năng và được sơ đồ như ở hình \ref{fig:function-tree}.
 
-\begin{itemize}
-\item \textbf{Wallet:}
-\begin{itemize}
-\item \textit{Deposit} - cho phép người dùng gửi tiền vào hệ thống, đổi lấy giá trị giao dịch nội bộ trong hệ thống.
-\item \textit{Withdraw} - cho phép người dùng chuyển đổi từ giá trị giao dịch nội bộ trong hệ thống thành đồng tiền mã hóa bên ngoài.
-\end{itemize}
-\item \textbf{Campaigns:}
-\begin{itemize}
-\item \textit{Create} - tạo lập hồ sơ chiến dịch gây quỹ.
-\item \textit{Verify} - xác minh chấp nhận / từ chối một hồ sơ gây quỹ.
-\item \textit{View} - xem thông tin chiến dịch.
-\item \textit{Donate} - cho phép người đóng góp ủng hộ tiền cho một chiến dịch, đóng góp dưới dạng giá trị trao đổi trong hệ thống.
-\item \textit{Disburse} - cho phép người tạo lập chiến dịch tiến dịch lệnh gọi giải ngân cho chiến dịch.
-\end{itemize}
-\item \textbf{Identity:}
-\begin{itemize}
-\item \textit{Add verifier} - thêm các verifier vào danh sách.
-\item \textit{Register} - cho phép người tạo chiến dịch gây quỹ tiến hành đăng kí hồ sơ định danh.
-\item \textit{Verify} - cho phép verifier tiến hành xác mịnh chấp nhận / từ chối một hồ sơ định danh.
-\item \textit{View info} - xem thông tin hồ sơ định danh (các thông tin công khai). 
-\end{itemize}
-\item \textbf{Disbursement:}
-\begin{itemize}
-\item \textit{Vote} - cho phép người đóng góp bỏ phiếu chấp nhận giải ngân cho một chiến dịch.
-\item \textit{View info} - trả về thông tin xác nhận giải ngân (chiến dịch có thỏa điều kiện hay chưa), phục vụ cho chức năng giải ngân trong chiến dịch gây quỹ.
-\end{itemize}
-\end{itemize}
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:function-tree}
+\includegraphics[scale=0.7]{function-tree}
+\caption{Sơ đồ phân rã các chức năng trong hệ thống}
+\end{center}
+\end{figure}
 
 Tiếp theo là sơ đồ ở hình \ref{fig:user-data-flow} thể hiện tổng quan về các đối tượng và luồng tương tác dữ liệu giữa các đối tượng. Đối tượng \textbf{``Hệ thống''} trong sơ đồ được nhóm tác giả đặc tả một cách khái quát cho toàn thể hệ thống.
 
@@ -255,7 +235,7 @@ Trong đó: \textit{NOW()} là thời gian hiện dưới dạng số (timestamp
 \item RefID cùng với các thông tin chiến dịch như: tên chiến dịch, mô tả ngắn gọn về chiến dịch, mô tả đầy đủ về chiến dịch, ảnh (video) về chiến dịch. Sẽ được gửi tới một cơ sở dữ liệu tập trung của hệ thống (Centralized database). Lúc này cơ sở dữ liệu tập trung này sẽ kiểm tra lại dữ liệu được gửi tới lần nữa, nếu dữ liệu hợp lệ sẽ tiến hành lưu xuống cơ sở dữ liệu. Ngược lại, dữ liệu không hợp lệ sẽ bắt người tạo phải nhập lại thông tin.
 \item Khi dữ liệu về mô tả chiến dịch được lưu ở cơ sở dữ liệu tập trung thành công thì DApp sẽ tiến hành tạo giao dịch có kèm mã băm đã tính toán trước đó cùng các thông tin như: mục tiêu gây quỹ, thời gian gây quỹ, hồ sơ giải ngân, RefID. Sau đó transaction được gửi tới Wallet Provider.
 \item Wallet Provider tiến hành kí cho \gls{transaction} bằng khóa bí mật của người tạo. Sau đó \gls{transaction} được gửi tới một nút trong mạng blockchain, để hợp đồng thông minh xử lí.
-\item Khi giao dịch được gửi tới, hợp đồng thông minh sẽ kiếm tra lại lần nữa các đầu vào, nếu dữ liệu hợp lệ thì dữ liệu được lưu. Ngược lại trả về thông báo lỗi cho người dùng.
+\item Khi giao dịch được gửi tới, hợp đồng thông minh sẽ kiểm tra lại lần nữa các đầu vào, nếu dữ liệu hợp lệ thì dữ liệu được lưu. Ngược lại trả về thông báo lỗi cho người dùng.
 \end{itemize}
 
 \begin{figure}[ht!]
@@ -295,10 +275,10 @@ Chức năng giải ngân bao gồm các tiến trình:
 \item Số tiền cần cho mỗi giai đoạn (tổng tiền ở các giai đoạn sẽ bằng mục tiêu gây quỹ).
 \item Tùy chọn chế độ giải ngân, có $ 4 $ chế độ:
 \begin{itemize}
-\item \textbf{Flexible} -- đủ số vote ở giai đoạn nào thì được rút tiền ở giai đoạn đó.
-\item \textbf{Fixed} -- muốn rút tiền ở giai đoạn tiếp theo thì giai đoạn trước đó phải rút thành công (đủ số vote).
-\item \textbf{TimingFlexible} -- người tạo chiến dịch sẽ ấn định thời gian thực hiện cho mỗi giai đoạn, khi hết thời gian ấn định của giai đoạn hiện tại thì mới có thể thực hiện lệnh vote và rút tiền cho giai đoạn tiếp theo. 
-\item \textbf{TimingFixed} -- người tạo chiến dịch sẽ ấn định thời gian thực hiện cho mỗi giai đoạn, khi hết thời gian ấn định của giai đoạn hiện tại thì mới có thể thực hiện lệnh vote và rút tiền cho giai đoạn tiếp theo. Nếu giai đoạn hiện tại không đủ điều kiện rút tiền thì giai đoạn sau sẽ không được rút tiền.
+\item \textbf{Flexible} -- đủ điều kiện giải ngân ở giai đoạn nào thì được rút tiền ở giai đoạn đó.
+\item \textbf{Fixed} -- muốn rút tiền ở giai đoạn tiếp theo thì giai đoạn trước đó phải đủ điều kiện giải ngân.
+\item \textbf{TimingFlexible} -- người tạo chiến dịch sẽ ấn định thời gian thực hiện cho mỗi giai đoạn, khi hết thời gian ấn định của giai đoạn hiện tại thì mới có thể thực hiện lệnh bỏ phiếu giải ngân và rút tiền cho giai đoạn tiếp theo. 
+\item \textbf{TimingFixed} -- người tạo chiến dịch sẽ ấn định thời gian thực hiện cho mỗi giai đoạn, khi hết thời gian ấn định của giai đoạn hiện tại thì mới có thể thực hiện lệnh bỏ phiếu giải ngân và rút tiền cho giai đoạn tiếp theo. Nếu giai đoạn hiện tại không đủ điều kiện giải ngân thì giai đoạn sau sẽ không được rút tiền.
 \end{itemize}
 \end{itemize}
 
@@ -320,12 +300,24 @@ Chức năng giải ngân bao gồm các tiến trình:
 
 \subsection{Hoàn tiền chiến dịch gây quỹ}
 \subsubsection{Mục tiêu}
+Chức năng này giúp người đóng góp tiền vào chiến dịch có thể thực hiện hoàn tiền trong hai trường hợp:
 
+\begin{itemize}
+\item Trường hợp 1: hoàn tiền khi đang trong thời gian gây quỹ. Việc hoàn tiền này được thực hiện theo yêu cầu của người đóng góp.
+\item Trường hợp 2: hoàn tiền sau khi hết thời gian gây quỹ. Điều kiện để hoàn tiền trong trường hợp này là chiến dịch không đạt được mục tiêu gây quỹ trong thời gian đặt ra. Việc hoàn tiền này phải diễn ra một cách tự động. Tức người đóng góp không cần thực hiện bất kì thao tác gì.
+\end{itemize}
 \subsubsection{Cách hoạt động}
 
 \section{Tổ chức dữ liệu}
 \subsection{Dữ liệu phi tập trung}
-Cấu trúc hợp đồng thông minh được thể hiện ở hình \ref{fig:smartcontract-structure}
+Cấu trúc hợp đồng thông minh được thể hiện ở hình \ref{fig:smartcontract-structure}. Cụ thể trong hệ thống có các hợp đồng thông minh sau:
+
+\begin{itemize}
+\item \textbf{Wallet} -- đây là hợp đồng chứa mã lưu trữ và xử lí các tác vụ liên quan đến tài chính trong hệ thống, bao gồm các tác vụ như nộp tiền và rút tiền trong hệ thống.
+\item \textbf{Campaigns} -- là một contract chứa nhiều mã xử lí nhất trong hệ thống, bao gồm việc lưu trữ thông tin liên quan đến chiến dịch, các tác vụ như tạo chiến dịch, đóng góp tiền vào một chiến dịch, giải ngân.
+\item \textbf{Identity} -- chứa mã lưu trữ và xử lí các tác vụ liên quan đến thông tin định danh. Các tác vụ trên contract này như: đăng kí hồ sơ định danh, duyệt hồ sơ định danh.
+\item \textbf{Disbursement} -- chứa mã lưu trữ thông tin giải ngân của chiến, tác vụ bỏ phiếu giải ngân được contract này xử lí. 
+\end{itemize}
 
 \begin{figure}[ht!]
 \begin{center}

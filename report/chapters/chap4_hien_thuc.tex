@@ -3,18 +3,39 @@
 
 \section{Hiện thực}
 \subsection{Môi trường hiện thực}
-Môi trường hiện thực bao gồm:
+Để thuận tiện trong việc đóng gói và triển khai ứng dụng, nhóm tác giả sử dụng công nghệ Container để hỗ trợ, đại diện tiêu biểu cho công nghệ Container mà nhóm tác giả chọn để sử dụng là Docker\footnote{https://www.docker.com}.
+
+Công nghệ Docker container giúp người phát triển có thể triển khai ứng ở bất kì đâu miễn là có thể chạy được docker. Các ứng dụng được đóng gói trong container, có thể kiểm tra, xóa bất kì container. Các ứng dụng được triển khai dễ dàng và đồng nhất giữa các môi trường khác nhau.
+
+Phiên bản docker và ứng dụng kèm theo mà nhóm tác giả triển khai bao gồm:
+
+\begin{itemize}
+\item \textbf{Docker Engine:} 19.03.3
+\item \textbf{Docker Compose}: 1.21.0
+\end{itemize}
 
 \subsection{Các công nghệ được sử dụng}
+Dựa vào kiến trúc hệ thống ở hình \ref{fig:system-architecture}, nhóm tác giả tiến hành chọn các công nghệ để hiện thực. Sơ đồ tổng quan về các công nghệ mà nhóm tác giả hiện thực được thể hiện ở hình \ref{fig:architecture-implementation}.
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:architecture-implementation}
+\includegraphics[scale=0.3]{architecture-implementation}
+\caption{Sơ đồ hiện thực hệ thống}
+\end{center}
+\end{figure}
+
 Các công nghệ được sử dụng bao gồm:
 \begin{itemize}
-\item Phần giao diện người dùng (\gls{frontend}): nhóm tác giả sử dụng \textbf{ReactJS/NodeJS} kết hợp \textbf{Material UI} để tạo giao diện ứng dụng web cho người dùng.
+\item Phần giao diện người dùng (\gls{frontend}): nhóm tác giả sử dụng \textbf{ReactJS/NodeJS} kết hợp \textbf{Material UI} để tạo giao diện ứng dụng web cho người dùng. Để tương tác với các hợp đồng thông minh, nhóm tác giả sử dụng thư viện Web3js và trình mở rộng Ví Metamask.
 \item Phần \gls{backend} được chia làm hai thành phần như sau:
 \begin{itemize}
  \item Kiến trúc phi tập trung (decentralized): nhóm sử dụng ngôn ngữ solidity để xây dựng các \gls{smartcontract} kết hợp \acrshort{ipfs} để thực hiện lưu trữ các dữ liệu phi tập trung.
  \item Kiến trúc tập trung (centralized): công nghệ NodeJS kết hợp với Redis để tổ chức và tương tác với dữ liệu tập trung.
  \end{itemize} 
 \end{itemize}
+
+Với hợp đồng thông minh và ngôn ngữ Solidity, nhóm tác giả sử dụng bộ công cụ Truffle framework để xây dựng và triển khai các mã hợp đồng thông minh.
 
 \subsubsection{Công nghệ ReactJS/NodeJS}
 \textbf{ReactJS} là một thư viện để hỗ trợ cho việc phát triển giao diện của người dùng. Đây là một trong những thư viện \gls{frontend} nổi tiếng với hơn $141.000$ sao đánh giá với hơn 2.8 triệu người dùng trên dịch vụ lưu trữ mã nguồn Github\footnote{https://github.com} (số liệu cập nhật tháng 12 năm 2019). Thư viện này được hỗ trợ và phát triển bởi Facebook\footnote{https://www.facebook.com} và Instagram\footnote{https://www.instagram.com} cùng với cộng đồng các nhà phát triển trên toàn thế giới và đang được phát triển từng ngày. ReactJS cung cấp tốt hơn về trải nghiệm người dùng và đồng thời có nhiều thư viện bên thứ ba hữu ích khác được phát triển kèm theo.
@@ -23,7 +44,7 @@ ReactJS được thiết kế và phát triển theo kiến trúc các component
 
 \textbf{Node.js} hay còn được gọi là \textbf{Node} – là một nền tảng chạy trên môi trường Javascript hay còn được gọi là một nền tảng chạy trên môi trường V8 JavaScript runtime. Công nghệ V8 đã được triển khai hầu hết ở C và C++, công nghệ này tập trung chủ yếu vào hiệu suất và ít tiêu tốn bộ nhớ. Hầu hết V8 hỗ trợ chủ yếu Javascript trên trình duyệt (chú ý nhất là Google Chrome), mục đích hỗ trợ của Node đó chính là hỗ trợ các tiến trình có thời gian chạy dài. Không giống như những ngôn ngữ khác, Node không hỗ trợ đa luồng, nhưng hỗ trợ xử lý bất đồng bộ \cite{nodejs-performance}. Nhờ vào tính năng xử lý bất đồng bộ này, Node còn được biết đến là một nền tảng xử lý nhanh chóng hàng ngàn yêu cầu đồng thời, chịu tải cao, tốc độ thực thi và khả năng mở rộng tốt.
 
-Đánh giá về hiệu suất của các ứng dụng chạy Node.js, nhóm tác giả có tham khảo nghiên cứu của tác giả Robert Ryan McCune về đo lường hiệu suất của ứng dụng Node.js \cite{mccune2011node}. Trong bài nghiên cứu, tác giả Robert Ryan McCune đã thực hiện phần đánh giá trên một máy ảo trên iMac chạy \textit{OS X 10.6.8} với \textit{8GB RAM} và \textit{3.06Ghz Intel Core 2 Duo}, máy ảo này được tạo bởi VMWare Fusion 4.0.2 với cấu hình là hệ điều hành Ubuntu 11.10 được cài đặt \textit{2GB RAM}, và một bộ xử lý lõi kép. Tác giả đã thực hiện đồng thời 100 và 1000 yêu cầu đến máy chủ chạy bằng Node và thu được kết quả là thời gian trả lời từ máy chủ chưa tới 70ms. Tương tự thực hiện 500 yêu cầu đồng thời và thực hiện tổng cộng 10.000 yêu cầu thì thời gian phản hồi là dưới 140ms.
+Đánh giá về hiệu suất của các ứng dụng chạy Node.js, nhóm tác giả có tham khảo nghiên cứu của tác giả Robert Ryan McCune về đo lường hiệu suất của ứng dụng Node.js \cite{mccune2011node}. Trong bài nghiên cứu, tác giả Robert Ryan McCune đã thực hiện phần đánh giá trên một máy ảo \textbf{Ubuntu 11.10} được tạo bởi VMWare Fusion 4.0.2 trên iMac \textit{OS X 10.6.8} với 8GB RAM và \textit{3.06Ghz Intel Core 2 Duo}, máy ảo này được được cấu hình với bộ nhớ là \textbf{2GB RAM}, và một bộ vi xử lý lõi kép. Tác giả đã thực hiện đồng thời 100 và 1000 yêu cầu đến máy chủ chạy bằng Node và thu được kết quả là thời gian trả lời từ máy chủ chưa tới 70ms. Tương tự thực hiện 500 yêu cầu đồng thời và thực hiện tổng cộng 10.000 yêu cầu thì thời gian phản hồi là dưới 140ms.
 
 \subsubsection{Material UI framework}
 \textbf{Material UI} là một thư viện được \textit{Google}\footnote{https://www.google.com} viết dành riêng cho ReactJS, bao gồm tập hợp nhiều các thành phần được xây dựng và thiết kế theo phong cách Material. Với hơn 52.8 nghìn sao đánh giá trên cộng đồng Github, và được sử dụng bởi hơn 139.000 dự án khác nhau, Material là một trong những thư viện UI được nhiều người sử dụng nhất trên thế giới. Giao diện của Material cũng tương đồng với các sản phẩm của Google như: \textit{Gmail, Google tìm kiếm, Google Form},\ldots
@@ -60,6 +81,16 @@ Với các đặc điểm trên, Redis phù hợp cho việc cung cấp hiệu s
 \textbf{\acrfull{ipfs}} là một giao thức chia sẻ tệp tin được phân tán ngang hàng \acrfull{p2p}. Giao thức này cho phép người dùng chia sẻ các tệp tin ngang hàng với nhau mà không cần có sự xuất hiện của máy chủ. Các dữ liệu khi người dùng tải lên sẽ được băm ra và đồng thời sinh ra mã băm của dữ liệu ấy. Với các dữ liệu giống nhau thì sẽ tạo ra những hàm băm giống nhau, do đó IPFS sẽ hạn chế được sự trùng lặp.
  
 \acrshort{ipfs} có thể giải quyết vấn đề về lưu trữ dữ liệu lớn cho các ứng dụng \gls{blockchain} bằng cách sử dụng blockchain để lưu trữ địa chỉ của dữ liệu được ra bằng IPFS (chính là mã băm nhận diện cho tập tin) và đặt địa chỉ bất biến này cho một giao dịch trong blockchain. Không những giải quyết vấn đề lưu trữ, \acrshort{ipfs} còn giải quyết vấn đề về bằng thông bằng cách phân tán nội dung đến hệ thống \acrshort{p2p}. Do đó, khi truy cập tập tin nào đó bằng các dùng hàm băm, nút gần nhất với tệp sẽ phản hồi và gửi tệp cho người yêu cầu. Như đã được chứng minh từ trước \cite{5235364}, một hệ thống phân phát \acrshort{p2p} có thể tiết kiệm lên đến 60\% so với hệ thống truyền thống. Đồng thời, IPFS còn tăng tính bảo mật và chống lại các cuộc tấn công từ chối dịch vụ và giới hạn lại kiểm duyệt vì không có địa chỉ IP cụ thể của máy chủ bị chặn \cite{8441990}.
+
+\subsubsection{Bộ công cụ Truffle framework}
+
+
+\subsubsection{Thư viện web3js}
+
+
+\subsubsection{Ví Metamask}
+
+
 \subsection{Các bước hiện thực}
 \begin{itemize}
 \item Bước 1
@@ -68,6 +99,9 @@ Với các đặc điểm trên, Redis phù hợp cho việc cung cấp hiệu s
 \end{itemize}
 
 \section{Đánh giá hệ thống đã hiện thực}
+\subsection{Kiểm tra các quy trình trong hệ thống}
+
+
 \subsection{Đo lường tốc độ thực hiện giao dịch}
 Để tăng tính tin cậy cho phần đánh giá dưới đây của khóa luận, nhóm tác giả đã tham khảo mô hình đánh giá và kết quả đánh giá về hiệu suất của ethereum ở các công trình khác để làm thước đo và thực hiện tương tự với mô hình đánh giá đó.
 
@@ -87,7 +121,7 @@ Công cụ mà nhóm tác giả sử dụng trong phần đánh giá này là \t
 Trong phần đánh giá thời gian này, nhóm tác giả sử dụng một mạng ethereum riêng được chạy trên mạng cục bộ nhằm loại bỏ đi thời gian chờ xác nhận giao dịch thông thường trên các mạng công khai hiện tại.
 
 \subsubsection{Phương pháp thực hiện đánh giá}
-Đầu tiên nhóm tác giả thực hiện lựa chọn các hàm trong hợp đồng thông minh thường xuyên được sử dụng trong hệ thống, sau đó các hàm được chọn sẽ được hiện thực thông qua các \gls{transaction}. Các \gls{transaction} sẽ được xử lí và gửi đi bằng NodeJS, thời gian đo được tính từ lúc \gls{transaction} được tạo ra đến lúc hoàn tất \gls{transaction} đó. Với mỗi \gls{transaction}, thực hiện gửi đi tuần tự 1000 lần với cùng một input cho trước. Sau đó lấy kết quả là thời gian trung bình thực hiện cho mỗi \gls{transaction}.
+Đầu tiên nhóm tác giả thực hiện lựa chọn các hàm trong hợp đồng thông minh thường xuyên được sử dụng trong hệ thống, sau đó các hàm được chọn sẽ được hiện thực thông qua các \gls{transaction}. Các \gls{transaction} sẽ được xử lí và gửi đi bằng NodeJS, thời gian đo được tính từ lúc \gls{transaction} được tạo ra đến lúc hoàn tất \gls{transaction} đó. Với mỗi \gls{transaction}, thực hiện gửi đi tuần tự 100, 200, 400, 600, 900 lần với cùng một bộ tham số cho trước. Sau đó lấy kết quả là thời gian trung bình thực hiện cho mỗi \gls{transaction}.
 
 Các hàm được chọn và tham số đầu vào cho mỗi hàm để đo thời gian được thể hiện ở bảng \ref{tab:listfunction-timeperform}.
 
@@ -139,6 +173,12 @@ Từ kết quả thu được, ta có biểu đồ tổng quan về tốc độ 
 \end{center}
 \end{figure}
 
+Nhìn vào kết quả, ta thấy được:
+
+\begin{itemize}
+\item Hàm \textit{deposit} là hàm có tốc độ thực hiện nhanh nhất với thời gian trung bình là 0.095856 giây. Phần mã xử lí của hàm deposit tương đối ngắn nên thời gian xử lí nhanh hơn.
+\item Hàm có tốc độ xử lí chậm nhất là hàm \textit{createCampaign} (với chiến dịch gây quỹ có nhiều giai đoạn giải ngân). Do hàm này có tham số đầu vào tương đối nhiều và phần mã lí phức tạp hơn nên thời gian hoàn tất lâu hơn những hàm khác.
+\end{itemize}
 \subsection{Chi phí thực hiện các giao dịch trong hệ thống}
 \subsubsection{Môi trường thực hiện đánh giá}
 Nhóm tác giả thực hiện việc đo lường chi phí giao dịch trên cấu hình máy như sau:
@@ -242,6 +282,13 @@ Wallet                                  & 1163284                               
 \label{tab:result-cost-deployment}
 \end{table}
 
+Đánh giá tổng quan về chi phí:
+
+\begin{itemize}
+\item Hàm \textit{verify} trong contract Identity có mức chi phí thực hiện thấp nhất với 20778 gas (tương đương 0.000041556 ETH). Phần mã xử lí của hàm này tương đối ngắn nên chi phí thấp hơn.
+\item Hàm có chi phí cao nhất là hàm \textit{createCampaign} (tạo chiến dịch với nhiều giai đoạn) với chi phí 497048 gas (tương đương 0.000994096 ETH). Do hàm này có tham số đầu vào tương đối nhiều và phần mã lí phức tạp hơn nên chi phí cao hơn những hàm khác.
+\item Contract \textit{Campaigns} có chi phí triển khai cao nhất (3447461 gas), contract có chi phí triển khai thấp nhất là \textit{Identity} với 1163284 gas.
+\end{itemize}
 \subsection{Phân tích bảo mật của hợp đồng thông minh trong hệ thống}
 
 \subsection{Đánh giá tốc độ tải trang của giao diện người dùng}

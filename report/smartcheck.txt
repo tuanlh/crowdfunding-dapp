@@ -1,9 +1,0 @@
-https://tool.smartdec.net
-
-- Giúp kiểm tra smart contract, giúp tối ưu hóa smart contract và những strict trong solidity
-- Giao diện dễ sử dụng, kiểm tra được nhiều contract.
-
-- Một số cải tiến trong smart contract dựa vào công cụ smart check:
-+ Tối ưu hóa chi phí
-+ Viết lại rõ ràng các visibility-level function: private, internal, external
-
