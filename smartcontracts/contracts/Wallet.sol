@@ -7,17 +7,11 @@ import {Campaigns} from "./Campaigns.sol";
 contract Wallet {
     using SafeMath for uint;
 
-    struct Investment {
-        uint id;
-        uint amount;
-    }
-
     Campaigns internal camp;
     uint internal mGranularity; //Minium value of Wei
-    mapping(address => uint) internal mBalances; // wei
     uint internal mTotalBalances;
-    mapping(address => Investment[]) internal investment;
     address internal deployer;
+    mapping(address => uint) internal mBalances; // wei
 
     event Deposit(address from, uint amount);
     event Withdraw(address to, uint amount);

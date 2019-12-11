@@ -1,4 +1,4 @@
-const path = require("path");
+const path = require('path');
 const HDWalletProvider = require('truffle-hdwallet-provider');
 require('dotenv').config();
 
@@ -58,5 +58,14 @@ module.exports = {
       gas: 5500000,        
       skipDryRun: true
     }
-  }
+  },
+  // mocha: {
+  //   reporter: 'eth-gas-reporter',
+  //   reporterOptions : { 
+  //     currency: 'USD',
+  //     outputFile: 'result.txt',
+  //     noColors: true
+  //    } // See at https://www.npmjs.com/package/eth-gas-reporter
+
+  // }
 };

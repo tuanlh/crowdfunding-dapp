@@ -36,9 +36,9 @@ contract('Campaign - multi stage disbursement', accounts => {
         );
     });
 
-    it('Deposit wallet: 5 accounts with 1200 tokens / account', async () => {
+    it('Deposit wallet: 5 accounts with 1500 tokens / account', async () => {
         const price = 10 ** 15; // 0.01 ETH
-        const amount = 1200; // 1000 tokens
+        const amount = 1500; // 1200 tokens
         for(let i = 0; i < backers.length; i++) {
             const prevBalance = await token.getBalance.call(backers[i], { from: backers[i] });
             await token.deposit({
@@ -170,8 +170,8 @@ contract('Campaign - multi stage disbursement', accounts => {
         }
     });
 
-    it('Back to first campaign', async () => {
-        const amount = 300; // 300 tokens
+    it('Donate to first campaign', async () => {
+        const amount = 300;
         for(let i = 0; i < backers.length; i++) {
             const prevBalance = await token.getBalance.call(backers[i], { from: backers[i] });
             await camp.donate.sendTransaction(
@@ -357,7 +357,7 @@ contract('Campaign - multi stage disbursement', accounts => {
         assert.equal(result.finStatus, 1, 'Fin Status must be set to Accepted');
     });
 
-    it('Back to second campaign', async () => {
+    it('Donate to second campaign', async () => {
         const amount = 300; // 300 tokens
         for(let i = 0; i < backers.length; i++) {
             const prevBalance = await token.getBalance.call(backers[i], { from: backers[i] });
@@ -541,11 +541,10 @@ contract('Campaign - multi stage disbursement', accounts => {
         assert.equal(result.finStatus, 1, 'Fin Status must be set to Accepted');
     });
 
-    it('Back to third campaign', async () => {
+    it('Donate to third campaign', async () => {
         const amount = 300; // 300 tokens
         for(let i = 0; i < backers.length; i++) {
-            const prevBalance = await token.getBalance.call(backers[i], { from: backers[i] });
-            
+            const prevBalance = await token.getBalance.call(backers[i], { from: backers[i] });            
             await camp.donate.sendTransaction(
                 campID,
                 amount,
@@ -771,7 +770,7 @@ contract('Campaign - multi stage disbursement', accounts => {
         assert.equal(result.finStatus, 1, 'Fin Status must be set to Accepted');
     });
 
-    it('Back to fourth campaign', async () => {
+    it('Donate to fourth campaign', async () => {
         const amount = 300; // 300 tokens
         for(let i = 0; i < backers.length; i++) {
             const prevBalance = await token.getBalance.call(backers[i], { from: backers[i] });
@@ -976,6 +975,141 @@ contract('Campaign - multi stage disbursement', accounts => {
     });
 
     it('4th campaign: Withdraw stage 3 -> fail', async() => {
+        try {
+            await camp.endCampaign.sendTransaction(
+                campID,
+                { from: creator }
+            );
+            assert.fail(true, false, 'should throw error');
+        } catch(err) {
+            assert.include(
+                String(err),
+                'Missing condition for withdraw',
+                'Throw different error'
+            );
+        }
+    });
+
+    it('Create fiveth campaign: multi stages (MODE 1 - check again)', async () => {
+        const expectedDeadline = 3; // 3 seconds for testing
+        const expectedExpire = Math.floor(Date.now() / 1000) + expectedDeadline; // now + 15 seconds
+        const expectedGoal = 1000; // 1.500 tokens
+        const expectedData = 'description';
+        const expectedHash = 'hash';
+        const expectedStage = 3;
+        const expectedAmountStage = [300, 200, 500];
+        const expectedModeStage = 0;
+        const expectedDeadlineStage = [];
+
+        await camp.createCampaign.sendTransaction(
+            expectedDeadline,
+            expectedGoal,
+            expectedStage,
+            expectedAmountStage,
+            expectedModeStage,
+            expectedDeadlineStage,
+            expectedData,
+            expectedHash,
+            { from: creator }
+        );
+        // check result
+        campID = await camp.length.call({ from: deployer }) - 1;
+        const result = await camp.getInfo.call(
+            campID,
+            { from: deployer }
+        );
+
+        assert.equal(result.goal, expectedGoal, 'Goal value is incorrect');
+        assert.equal(result.collected, 0, 'Collected is must be zero');
+        assert.equal(result.owner, creator, 'Owner address is incorrect');
+        assert.equal(result.finStatus, 0, 'FinStatus is incorrect');
+        assert.equal(result.status, 0, 'Status campaign is incorrect');
+        assert.equal(result.ref, expectedData, 'Reference data is incorrect');
+        assert.equal(result.hashIntegrity, expectedHash, 'Hash data is incorrect');
+        assert.isTrue(result.endDate >= expectedExpire, 'End data is incorrect');
+    });
+
+    it('Accept campaign after create', async() => {
+        await camp.verifyCampaign(
+            campID,
+            true,
+            {from: verifier}
+        );
+        const result = await camp.getInfo.call(
+            campID,
+            { from: deployer }
+        );
+        assert.equal(result.finStatus, 1, 'Fin Status must be set to Accepted');
+    });
+
+    it('Donate to fiveth campaign', async () => {
+        const amount = [100, 100, 200, 300, 300];
+        
+        for(let i = 0; i < backers.length; i++) {
+            const prevBalance = await token.getBalance.call(backers[i], { from: backers[i] });
+            await camp.donate.sendTransaction(
+                campID,
+                amount[i],
+                { from: backers[i] }
+            );
+            const lastBalance = await token.getBalance.call(backers[i], { from: backers[i] });
+            const actual = parseInt(prevBalance-lastBalance);
+            assert.equal(actual, parseInt(amount[i]), 'Balance is incorrect');
+        }
+        
+        // check value after back
+        const result = await camp.getInfo.call(
+            campID,
+            { from: deployer }
+        );
+        assert.equal(result.collected, 1000, 'Tokens is incorrect');
+    });
+
+    it('5th campaign: Withdraw stage 0', async() => {
+        console.log('Waiting for reach deadline...');
+        const deadline = (await camp.getInfo.call(
+            campID,
+            { from: deployer }
+        ))['endDate'] * 1000;
+        while (deadline >= (new Date().getTime()));
+
+        const prevBalance = await token.getBalance.call(creator, { from: creator });
+
+        await camp.endCampaign.sendTransaction(
+            campID,
+            { from: creator }
+        );
+
+        const lastBalance = await token.getBalance.call(creator, { from: creator });
+        
+        const amount = (await disb.getInfo.call(
+             campID,
+             { from: deployer }
+        ))['amount'];
+        
+        assert.equal(lastBalance-prevBalance, parseInt(amount[0]), 'Balance is incorrect');
+    });
+
+    it('5th campaign: Voting for stage 1 (3/5 agree but low ratio token)', async() => {
+        const stage = 1;
+        const decision = [true, true, true, false, false];
+        for(let i = 0; i < backers.length; i++) {
+            await disb.vote.sendTransaction(
+                campID,
+                stage,
+                decision[i],
+                {from: backers[i]}
+            );
+        }
+        const agreed = (await disb.getInfo.call(
+            campID,
+            {from: deployer}
+        ))["agreed"][stage];
+        const expectedAgreed = decision.filter(Boolean).length;
+        assert.equal(agreed, expectedAgreed, 'Incorrect number voted');
+    });
+
+    it('5th campaign: Withdraw stage 1 -> fail', async() => {
         try {
             await camp.endCampaign.sendTransaction(
                 campID,
