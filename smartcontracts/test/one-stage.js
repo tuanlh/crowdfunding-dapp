@@ -125,7 +125,7 @@ contract('Campaign - one stage disbursement', accounts => {
         assert.isTrue(result.endDate >= expectedExpire, 'End data is incorrect');
     });
 
-    it('Accept campaign after create', async() => {
+    it('Accept first campaign', async() => {
         await camp.verifyCampaign(
             campID,
             true,
@@ -138,7 +138,7 @@ contract('Campaign - one stage disbursement', accounts => {
         assert.equal(result.finStatus, 1, 'Fin Status must be set to Accepted');
     });
 
-    it('Back to first campaign (succeed campaign)', async () => {
+    it('Donate first campaign (reach target token)', async () => {
         const amount = 500; // 500 tokens
         for(let i = 0; i < backers.length; i++) {
             const prevBalance = await token.getBalance.call(backers[i], { from: backers[i] });
@@ -159,8 +159,7 @@ contract('Campaign - one stage disbursement', accounts => {
         assert.equal(result.collected, amount*backers.length, 'Tokens is incorrect');
     });
 
-    it('Withdraw from a campaign', async () => {
-        console.log('Waiting for reach deadline...');
+    it('Disburse first campaign', async () => {
         const info = await camp.getInfo.call(
             campID,
             { from: deployer }
@@ -231,7 +230,7 @@ contract('Campaign - one stage disbursement', accounts => {
         assert.isTrue(result.endDate >= expectedExpire, 'End data is incorrect');
     });
 
-    it('Accept campaign after create', async() => {
+    it('Accept second campaign', async() => {
         await camp.verifyCampaign(
             campID,
             true,
@@ -244,7 +243,7 @@ contract('Campaign - one stage disbursement', accounts => {
         assert.equal(result.finStatus, 1, 'Fin Status must be set to Accepted');
     });
 
-    it('Back to second campaign', async () => {
+    it('Donate second campaign (NOT reach target token)', async () => {
         const amount = 400; // 400 tokens
         for(let i = 0; i < backers.length; i++) {
             const prevBalance = await token.getBalance.call(backers[i], { from: backers[i] });

@@ -83,14 +83,25 @@ Với các đặc điểm trên, Redis phù hợp cho việc cung cấp hiệu s
 \acrshort{ipfs} có thể giải quyết vấn đề về lưu trữ dữ liệu lớn cho các ứng dụng \gls{blockchain} bằng cách sử dụng blockchain để lưu trữ địa chỉ của dữ liệu được ra bằng IPFS (chính là mã băm nhận diện cho tập tin) và đặt địa chỉ bất biến này cho một giao dịch trong blockchain. Không những giải quyết vấn đề lưu trữ, \acrshort{ipfs} còn giải quyết vấn đề về bằng thông bằng cách phân tán nội dung đến hệ thống \acrshort{p2p}. Do đó, khi truy cập tập tin nào đó bằng các dùng hàm băm, nút gần nhất với tệp sẽ phản hồi và gửi tệp cho người yêu cầu. Như đã được chứng minh từ trước \cite{5235364}, một hệ thống phân phát \acrshort{p2p} có thể tiết kiệm lên đến 60\% so với hệ thống truyền thống. Đồng thời, IPFS còn tăng tính bảo mật và chống lại các cuộc tấn công từ chối dịch vụ và giới hạn lại kiểm duyệt vì không có địa chỉ IP cụ thể của máy chủ bị chặn \cite{8441990}.
 
 \subsubsection{Bộ công cụ Truffle framework}
+\textbf{Truffle} là một bộ công cụ để phát triển các ứng dụng phi tập trung trên mạng Ethereum. Khi sử dụng truffle, theo tài liệu kĩ thuật\footnote{https://www.trufflesuite.com/docs} của Truffle mô tả framework này có các tính năng sau:
 
+\begin{itemize}
+\item Tích hợp các tính năng biên dịch, liên kết, triển khai và quản lý mã nhị phân các hợp đồng thông minh.
+\item Tự động kiểm thử các contract để quá trình phát triển nhanh hơn.
+\item Khung triển khai các hợp đồng thông minh có thể tùy biến và mở rộng.
+\item Quản lí mạng để triển khai hợp đồng thông minh đến bất kì mạng công khai hay riêng tư nào.
+\item Quản lí gói với EthPM và NPM, sử dụng tiêu chuẩn ERC190\footnote{https://github.com/ethereum/EIPs/issues/190}.
+\item Tương tác trực tiếp với hợp đồng thông minh thông qua giao diện console.
+\end{itemize}
 
 \subsubsection{Thư viện web3js}
+\textbf{Web3js} là một thư viện được viết bằng \textit{Javascript}, thư viện cung cấp các API cần thiết cho lập trình viên tương tác với mạng blockchain Ethereum cũng như là hợp đồng thông minh trên Ethereum thông qua giao tiếp \acrfull{rpc}\footnote{Remote Procedure Call (RPC) tạm dịch là các cuộc gọi thủ tục từ xa, đây là một phương pháp dùng để trao đổi dữ liệu theo kiến trúc yêu cầu - phản hồi.}.
 
-
+Theo như tài liệu của thư viện Web3js\footnote{https://web3js.readthedocs.io}, các hàm trong \textit{web3-eth} dùng để tương tác với mạng blockchain và hợp đồng thông minh như là lấy thông tin địa chỉ của tài khoản, chọn lựa mạng,\ldots. \textit{web3-ssh} cung cấp giao thức để giao tiếp \acrshort{p2p} và broadcast. \textit{web3-bzz} được dành cho giao thức swarm\footnote{Swarm - một thuật ngữ được dùng để biểu thị kiến trúc phân tán.}, lưu trữ tập trung. Cuối cùng là \textit{web-utils} chứa đựng các hàm tiện ích cho dự án DApp.
 \subsubsection{Ví Metamask}
+\textbf{Metamask} là một ví Ethereum, được phát triển dưới dạng trình mở rộng trên trình duyệt. Metamask là ứng dụng cầu nối cho phép người dùng truy cập vào các ứng dụng web phi tập trung và tương tác với mạng blockchain đơn giản hơn.
 
-
+Metamask cung cấp giao diện người dùng để quản lí các khóa bí mật, các giao dịch, số dư Ethereum, kí transaction, \ldots. Metamask có giao diện dễ dùng, hỗ trợ hầu hết các trình duyệt hiện nay.
 \subsection{Các bước hiện thực}
 \begin{itemize}
 \item Bước 1
@@ -98,8 +109,45 @@ Với các đặc điểm trên, Redis phù hợp cho việc cung cấp hiệu s
 \item Bước 3
 \end{itemize}
 
+\subsection{Kết quả hiện thực}
+
+
 \section{Đánh giá hệ thống đã hiện thực}
 \subsection{Kiểm tra các quy trình trong hệ thống}
+\subsubsection{Mục tiêu}
+Kiểm tra các quy trình trong hệ thống nhằm mục tiêu sau:
+
+\begin{itemize}
+\item Xác định đầu ra các hàm trong hợp đồng thông minh có trả về kết quả như mong đợi với đầu vào cho trước hay không.
+\item Việc thực hiện kiểm tra các hàm tuần tự như quy trình hoạt động thực tế của hệ thống.
+\item Phát hiện các lỗi ở mức đơn vị nhỏ nhất trong hệ thống.
+\end{itemize}
+\subsubsection{Phương pháp thực hiện}
+Nhóm tác giả tiến hành kiểm thử đơn vị (unit testing) với các hàm trong hệ thống theo hai kịch bản. Bao gồm:
+
+\begin{itemize}
+\item \textbf{Kịch bản 1:} kiểm thử quy trình với chiến dịch một giai đoạn.
+\item \textbf{Kịch bản 2:} kiểm thử quy trình với chiến dịch nhiều giai đoạn.
+\end{itemize}
+
+Kịch bản 1 được nhóm tác giả soạn như sau:
+
+\begin{enumerate}[label=(\arabic*)]
+\item Nhân viên vận hành tiến hành biên dịch và triển khai các hợp đồng thông minh lên mạng blockchain. Kiểm tra kết quả: địa chỉ các hợp đồng thông minh đã có trên mạng blockchain hay chưa?
+\item Người đóng góp gọi hàm \textit{deposit} để nộp tiền vào hệ thống. Kiểm tra kết quả: chênh lệch số dư trước và sau khi gọi hàm có bằng số tiền đã nộp?
+\item Người vận hành gọi hàm \textit{addVerify} để thêm danh sách xác nhân viên xác minh. Kiểm tra kết quả: địa chỉ có trong danh sách địa chỉ nhân viên xác minh?
+\item Người tạo chiến dịch gọi hàm \textit{registerIdentity} để đăng kí hồ sơ định danh. Kiểm tra kết quả: lấy thông tin hồ sơ định danh đã lưu đối chiếu với đầu vào trước đó đã nhập, hai thông tin có giống nhau?
+\item Nhân viên xác minh gọi hàm \textit{verify} để xác minh cho một hồ sơ định danh. Kiểm tra kết quả: trạng thái của hồ sơ định danh đã được xác minh hay chưa?
+\item Người tạo chiến dịch gọi hàm \textit{createCampaign} để tạo chiến dịch thứ nhất. Kiểm tra kết quả: đối chiếu thông tin chiến dịch đã lưu với đầu vào đã nhập có khớp nhau?
+\item Nhân viên xác minh gọi hàm \textit{verifyCampaign} để xác minh cho chiến dịch, cho phép chiến được nhận đóng góp từ người dùng. Kiểm tra kết quả: trạng thái chiến dịch có được xác minh hay chưa?
+\item Người đóng góp gọi hàm \textit{donate} để đóng góp tiền cho chiến dịch, số tiền đóng góp đúng bằng mục tiêu của chiến dịch. Kiểm tra kết quả: chênh lệch số dư trước và sau khi đóng góp có bằng với số tiền đã đóng góp?
+\item Người tạo chiến dịch tiến hành gọi hàm \textit{endCampaign} để gọi lệnh giải ngân từ chiến dịch khi kết thúc thời gian chiến dịch gây quỹ. Kiểm tra kết quả: chênh lệch số dư (tokens) của người tạo chiến dịch trước và sau khi gọi lệnh giải ngân đúng bằng số tiền đã đóng góp hay không?
+\item Người tạo chiến dịch gọi hàm \textit{createCampaign} để tạo chiến dịch thứ hai. Kiểm tra kết quả: đối chiếu thông tin chiến dịch đã lưu với đầu vào đã nhập có khớp nhau?
+\item Người đóng góp gọi hàm \textit{donate} để đóng góp tiền cho chiến dịch, số tiền đóng góp không đạt được mục tiêu gây quỹ. Kiểm tra kết quả: chênh lệch số dư trước và sau khi đóng góp có bằng với số tiền đã đóng góp?
+\item Sau khi kết thúc thời gian gây quỹ, người đóng góp tiến hành kiểm tra số dư có đúng bằng số tiền đã đúng bằng số tiền đã đóng góp hay không?
+\end{enumerate}
+
+\subsubsection{Kết quả thực hiện}
 
 
 \subsection{Đo lường tốc độ thực hiện giao dịch}
@@ -111,9 +159,9 @@ Cụ thể, công trình của tác giả Sara Rouhani và Ralph Deters \cite{ro
 Nhóm tác giả thực hiện việc đánh giá này trên cấu hình máy như sau:
 
 \begin{itemize}
-\item \textbf{CPU}: 4 x Intel(E) Pentium(R) CPU N3540 @ 2.16GHz
+\item \textbf{Chip xử lí}: 4 x Intel(E) Pentium(R) CPU N3540 @ 2.16GHz
 \item \textbf{RAM}: 8GB
-\item \textbf{OS}: Alpine Linux 3.9 running in Docker container
+\item \textbf{Hệ điều hành}: Alpine Linux 3.9 chạy trên Docker container
 \end{itemize}
 
 Công cụ mà nhóm tác giả sử dụng trong phần đánh giá này là \textbf{Truffle framework}\footnote{https://www.trufflesuite.com}, đây là một bộ công cụ được sử dụng để triển khai các hợp đồng thông minh hỗ trợ ngôn ngữ Solidity.
@@ -131,9 +179,9 @@ Các hàm được chọn và tham số đầu vào cho mỗi hàm để đo th�
 \begin{tabular}{|l|l|l|l|}
 \hline
 \multicolumn{1}{|c|}{\textbf{Contract}} & \multicolumn{1}{c|}{\textbf{Hàm được chọn}} & \multicolumn{1}{c|}{\textbf{Tham số đầu vào}}                                                                                                                                                                                                                           & \multicolumn{1}{c|}{\textbf{Ghi chú}}                    \\ \hline
-Wallet                                  & deposit()                                   &                                                                                                                                                                                                                                                                         & value  = $10^{15}$ gas                      \\ \hline
-\multirow{3}{*}{Campaigns}              & createCampaign()                            & \begin{tabular}[c]{@{}l@{}}77760000,\\ 1000000,\\ 1,\\ {[}{]},\\ 0,\\ {[}{]},\\ '8f1ef45972ebd8ef45b2410e8a0b399181fed3d929738d2eb96baf470758a97d',\\ 'c2337a3217ffcf3b01398d83577a1c32235ceb4f481b8c7be00a055798e95d36'\end{tabular}                                   & \begin{tabular}[c]{@{}l@{}}tạo chiến dịch\\với số giai đoạn\\giải ngân $= 1$\end{tabular}            \\ \cline{2-4} 
-                                        & createCampaign()                            & \begin{tabular}[c]{@{}l@{}}77760000,\\ 1000000,\\ 3,\\ {[}300000, 300000, 400000{]}\\ 2,\\ {[}0, 7200, 7200{]},\\'8f1ef45972ebd8ef45b2410e8a0b399181fed3d929738d2eb96baf470758a97d',\\ 'c2337a3217ffcf3b01398d83577a1c32235ceb4f481b8c7be00a055798e95d36'\end{tabular} & \begin{tabular}[c]{@{}l@{}}tạo chiến dịch\\với số giai đoạn\\giải ngân $> 1$\end{tabular} \\ \cline{2-4} 
+Wallet                                  & deposit()                                   &                                                                                                                                                                                                                                                                         & \\ \hline
+\multirow{3}{*}{Campaigns}              & createCampaign()                            & \begin{tabular}[c]{@{}l@{}}77760000,\\ 1000000,\\ 1,\\ {[}{]},\\ 0,\\ {[}{]},\\ '8f1ef45972ebd8ef45b2410e8a0b399181fed3d929738d2eb96baf470758a97d',\\ 'c2337a3217ffcf3b01398d83577a1c32235ceb4f481b8c7be00a055798e95d36'\end{tabular}                                   & \begin{tabular}[c]{@{}l@{}}một g.đoạn\\giải ngân\end{tabular}            \\ \cline{2-4} 
+                                        & createCampaign()                            & \begin{tabular}[c]{@{}l@{}}77760000,\\ 1000000,\\ 3,\\ {[}300000, 300000, 400000{]}\\ 2,\\ {[}0, 7200, 7200{]},\\'8f1ef45972ebd8ef45b2410e8a0b399181fed3d929738d2eb96baf470758a97d',\\ 'c2337a3217ffcf3b01398d83577a1c32235ceb4f481b8c7be00a055798e95d36'\end{tabular} & \begin{tabular}[c]{@{}l@{}}nhiều g.đoạn\\giải ngân\end{tabular} \\ \cline{2-4} 
                                         & donate()                                    & \begin{tabular}[c]{@{}l@{}}0,\\ 1\end{tabular}                                                                                                                                                                                                                          &                                                          \\ \hline
 \end{tabular}%
 }
@@ -177,16 +225,16 @@ Nhìn vào kết quả, ta thấy được:
 
 \begin{itemize}
 \item Hàm \textit{deposit} là hàm có tốc độ thực hiện nhanh nhất với thời gian trung bình là 0.095856 giây. Phần mã xử lí của hàm deposit tương đối ngắn nên thời gian xử lí nhanh hơn.
-\item Hàm có tốc độ xử lí chậm nhất là hàm \textit{createCampaign} (với chiến dịch gây quỹ có nhiều giai đoạn giải ngân). Do hàm này có tham số đầu vào tương đối nhiều và phần mã lí phức tạp hơn nên thời gian hoàn tất lâu hơn những hàm khác.
+\item Hàm có tốc độ xử lí chậm nhất là hàm \textit{createCampaign} (với chiến dịch gây quỹ có nhiều giai đoạn giải ngân). Do hàm này có tham số đầu vào tương đối nhiều và phần mã xử lí phức tạp hơn nên thời gian hoàn tất lâu hơn những hàm khác.
 \end{itemize}
 \subsection{Chi phí thực hiện các giao dịch trong hệ thống}
 \subsubsection{Môi trường thực hiện đánh giá}
 Nhóm tác giả thực hiện việc đo lường chi phí giao dịch trên cấu hình máy như sau:
 
 \begin{itemize}
-\item \textbf{CPU}: 4 x Intel(E) Pentium(R) CPU N3540 @ 2.16GHz
+\item \textbf{Chip xử lí}: 4 x Intel(E) Pentium(R) CPU N3540 @ 2.16GHz
 \item \textbf{RAM}: 8GB
-\item \textbf{OS}: Alpine Linux 3.9 running in Docker container
+\item \textbf{Hệ điều hành}: Alpine Linux 3.9 running in Docker container
 \end{itemize}
 
 Bộ công cụ \textbf{Truffle framework} kết hợp plug-in có tên là \textbf{eth-gas-reporter}\footnote{https://www.npmjs.com/package/eth-gas-reporter} được sử dụng để triển khai các hợp đồng thông minh và đo lường chi phí thực hiện. Mạng ethereum riêng chạy trên máy cục bộ được sử dụng nhằm loại bỏ đi thời gian chờ xác nhận giao dịch thông thường trên các mạng công khai hiện tại.
@@ -201,18 +249,18 @@ Các hàm được chọn và tham số đầu vào cho mỗi hàm để đo lư
 \begin{tabular}{|l|l|l|l|}
 \hline
 \multicolumn{1}{|c|}{\textbf{Contract}} & \multicolumn{1}{c|}{\textbf{Hàm}} & \multicolumn{1}{c|}{\textbf{Dữ liệu đầu vào}}                                                                                                                                                                                                                                                                                                                                                  & \multicolumn{1}{c|}{\textbf{Ghi chú}}                                                                \\ \hline
-\multirow{2}{*}{Wallet}                 & deposit                           &                                                                                                                                                                                                                                                                                                                                                                                                & \begin{tabular}[c]{@{}l@{}}Thực hiện gửi\\ vào 2000 tokens\end{tabular}                              \\ \cline{2-4} 
+\multirow{2}{*}{Wallet}                 & deposit                           &                                                                                                                                                                                                                                                                                                                                                                                                & \\ \cline{2-4} 
                                         & withdraw                          & 1000                                                                                                                                                                                                                                                                                                                                                                                           &                                                                                                      \\ \hline
 \multirow{4}{*}{Identity}               & addVerify                         & \begin{tabular}[c]{@{}l@{}}'0x93598a39777ED4B4Af3Ac7429d123Ca3bE9658C5',\\ 'AAAAB3NzaC1yc2EAAAADAQABAAAAgQCDxbho2O3XWhktz4Hwi6/61ltfk/l\\ SCqeXLufvjr6O3wh1++MmTZT+KzcO0azsKsiFJTXL7ynC06Vp1Hp9o0BK3Q/Q\\ ZTo8jRoP3XX1LBu1CLe7OeOA5P2TO/nz2mWtuxz0b11GmRrjO8YoznizlPiolL\\ kv9hoDBvwTy0JonyJ6+w=='\end{tabular}                                                                                &                                                                                                      \\ \cline{2-4} 
                                         & changePubKey                      & \begin{tabular}[c]{@{}l@{}}'0x93598a39777ED4B4Af3Ac7429d123Ca3bE9658C5',\\ 'MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCMjs5j52lzXN6XX+nZ1js\\ yaBgzVBsA/JlWVux1zL0pw4GocvqPsZrIKwKsTeQycGdf3azjKRKwMga6g8fPF\\ HO+Ayh+6v33B1h+3ckWu81alwsM+Y9ADpcMret5qH2Mv9rDyWi+lmAYeUA\\ OOosAWfmgc6QJz+psSMtuGKOr08q+1wIDAQAB'\end{tabular}                                                                    &                                                                                                      \\ \cline{2-4} 
                                         & registerIdentity                  & \begin{tabular}[c]{@{}l@{}}'KLTN',\\ 'UIT-HCM, Linh Trung, Thu Duc, HCM',\\ 830550240,\\ 'QmarHSr9aSNaPSR6G9KFPbuLV9aEqJfTk1y9B8pdwqK4Rq',\\ 'frPULs0boASMCqSq1guu+jX636wkY+fzhFSRnFQi9dQuK50yzCobUIGm5b/f7\\ oGDea/NrieB5c883EpWiQdgJlO+0B43jJLAtfSfJ/mlbGX3FUPc6LAQzxlCb5FSh\\ 7+Q1E4WIUyFwLwoNdipDYFcpuXxtCsKeepjFHwGFhfupxM=',\\ '0x93598a39777ED4B4Af3Ac7429d123Ca3bE9658C5'\end{tabular} &                                                                                                      \\ \cline{2-4} 
                                         & verify                            & \begin{tabular}[c]{@{}l@{}}'0x41A418C946Fd3201b7b2b30B367De35b0c54A6ce',\\ true\end{tabular}                                                                                                                                                                                                                                                                                                   &                                                                                                      \\ \hline
-\multirow{7}{*}{Campaigns}              & createCampaign                    & \begin{tabular}[c]{@{}l@{}}77760000,\\ 1000000,\\ 1,\\ {[}{]},\\ 0,\\ {[}{]},\\ '8f1ef45972ebd8ef45b2410e8a0b399181fed3d929738d2eb96baf470758a97d',\\ 'c2337a3217ffcf3b01398d83577a1c32235ceb4f481b8c7be00a055798e95d36'\end{tabular}                                                                                                                                                          & \begin{tabular}[c]{@{}l@{}}tạo chiến dịch\\ với số giai đoạn\\ giải ngân = 1\end{tabular}            \\ \cline{2-4} 
-                                        & createCampaign                    & \begin{tabular}[c]{@{}l@{}}10,\\ 1000,\\ 3,\\ {[}300, 300, 400{]},\\ 0,\\ {[}{]},\\ '8f1ef45972ebd8ef45b2410e8a0b399181fed3d929738d2eb96baf470758a97d',\\ 'c2337a3217ffcf3b01398d83577a1c32235ceb4f481b8c7be00a055798e95d36'\end{tabular}                                                                                                                                                      & \begin{tabular}[c]{@{}l@{}}tạo chiến dịch\\ với số giai đoạn\\ giải ngân \textgreater 1\end{tabular} \\ \cline{2-4} 
+\multirow{7}{*}{Campaigns}              & createCampaign                    & \begin{tabular}[c]{@{}l@{}}77760000,\\ 1000000,\\ 1,\\ {[}{]},\\ 0,\\ {[}{]},\\ '8f1ef45972ebd8ef45b2410e8a0b399181fed3d929738d2eb96baf470758a97d',\\ 'c2337a3217ffcf3b01398d83577a1c32235ceb4f481b8c7be00a055798e95d36'\end{tabular}                                                                                                                                                          & \begin{tabular}[c]{@{}l@{}}một g.đoạn\\giải ngân\end{tabular}            \\ \cline{2-4} 
+                                        & createCampaign                    & \begin{tabular}[c]{@{}l@{}}10,\\ 1000,\\ 3,\\ {[}300, 300, 400{]},\\ 0,\\ {[}{]},\\ '8f1ef45972ebd8ef45b2410e8a0b399181fed3d929738d2eb96baf470758a97d',\\ 'c2337a3217ffcf3b01398d83577a1c32235ceb4f481b8c7be00a055798e95d36'\end{tabular}                                                                                                                                                      & \begin{tabular}[c]{@{}l@{}}nhiều g.đoạn\\giải ngân\end{tabular} \\ \cline{2-4} 
                                         & verifyCampaign                    & \begin{tabular}[c]{@{}l@{}}1,\\ true\end{tabular}                                                                                                                                                                                                                                                                                                                                              &                                                                                                      \\ \cline{2-4} 
                                         & donate                            & \begin{tabular}[c]{@{}l@{}}1,\\ 1000\end{tabular}                                                                                                                                                                                                                                                                                                                                              &                                                                                                      \\ \cline{2-4} 
                                         & claimRefund                       & \begin{tabular}[c]{@{}l@{}}1,\\ 200\end{tabular}                                                                                                                                                                                                                                                                                                                                               &                                                                                                      \\ \cline{2-4} 
-                                        & donate                            & \begin{tabular}[c]{@{}l@{}}1,\\ 200\end{tabular}                                                                                                                                                                                                                                                                                                                                               & \begin{tabular}[c]{@{}l@{}}thực hiện donate\\ lại cho đủ mục\\ tiêu chiến dịch\end{tabular}          \\ \cline{2-4} 
+                                        & donate                            & \begin{tabular}[c]{@{}l@{}}1,\\ 200\end{tabular}                                                                                                                                                                                                                                                                                                                                               & \begin{tabular}[c]{@{}l@{}}donate lần 2\end{tabular}          \\ \cline{2-4} 
                                         & endCampaign                       & 1                                                                                                                                                                                                                                                                                                                                                                                              &                                                                                                      \\ \hline
 Disbursement                            & vote                              & \begin{tabular}[c]{@{}l@{}}1,\\ 1,\\ true\end{tabular}                                                                                                                                                                                                                                                                                                                                         &                                                                                                      \\ \hline
 \end{tabular}%
@@ -296,11 +344,11 @@ Wallet                                  & 1163284                               
 Thông tin cấu hình máy sử dụng để đo tốc độ truy xuất của ReactJS như sau:
 
 \begin{itemize}
-\item Trình duyệt Google Chrome version 78.0.3904 (được cài sẵn extension MetaMask đã cấp phép truy cập thông tin)
 \item Chip xử lý: 2.7 Ghz Dual-Core intel Core i5
-\item HĐH: macOS Catalina version 10.15.1
+\item Hệ điều hành: macOS Catalina version 10.15.1
 \item RAM: 8GB 1867Mhz DDR3
-\item Graphics: Intel Iris Graphics 6100 1536 MB
+\item Đồ họa: Intel Iris Graphics 6100 1536 MB
+\item Trình duyệt Google Chrome version 78.0.3904 (được cài sẵn extension MetaMask đã cấp phép truy cập thông tin)
 \end{itemize}
 \subsubsection{Kết quả đánh giá}
 Kết quả được tổng hợp ở bảng \ref{tab:result-perform-ui}.

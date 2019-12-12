@@ -47,3 +47,4 @@
 \newacronym{ipfs}{IPFS}{InterPlanetary File System}
 \newacronym{bcf}{BCF}{Binance Charity Foundation}
 \newacronym{p2p}{P2P}{Peer-to-Peer}
+\newacronym{rpc}{RPC}{Remote Procedure Call}
