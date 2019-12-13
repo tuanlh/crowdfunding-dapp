@@ -42,9 +42,15 @@
 	name = {back-end}, 
 	description = {lập trình phía máy chủ, xử lí luồng thông tin giao diện người dùng}
 }
+
+\newglossaryentry{service}{
+	name = {service}, 
+	description = {dịch vụ}
+}
 % Danh mục từ viết tắt
 % Ví dụ
 \newacronym{ipfs}{IPFS}{InterPlanetary File System}
 \newacronym{bcf}{BCF}{Binance Charity Foundation}
 \newacronym{p2p}{P2P}{Peer-to-Peer}
 \newacronym{rpc}{RPC}{Remote Procedure Call}
+\newacronym{abi}{ABI}{Application Binary Interface}

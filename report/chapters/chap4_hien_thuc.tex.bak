@@ -5,7 +5,7 @@
 \subsection{Môi trường hiện thực}
 Để thuận tiện trong việc đóng gói và triển khai ứng dụng, nhóm tác giả sử dụng công nghệ Container để hỗ trợ, đại diện tiêu biểu cho công nghệ Container mà nhóm tác giả chọn để sử dụng là Docker\footnote{https://www.docker.com}.
 
-Công nghệ Docker container giúp người phát triển có thể triển khai ứng ở bất kì đâu miễn là có thể chạy được docker. Các ứng dụng được đóng gói trong container, có thể kiểm tra, xóa bất kì container. Các ứng dụng được triển khai dễ dàng và đồng nhất giữa các môi trường khác nhau.
+Công nghệ Docker container giúp người phát triển có thể triển khai ứng dụng ở bất kì đâu miễn là thiết bị đó có thể chạy được docker. Các ứng dụng được đóng gói trong container, có thể kiểm tra, xóa bất kì container. Các ứng dụng được triển khai dễ dàng và đồng nhất giữa các môi trường khác nhau.
 
 Phiên bản docker và ứng dụng kèm theo mà nhóm tác giả triển khai bao gồm:
 
@@ -97,17 +97,82 @@ Với các đặc điểm trên, Redis phù hợp cho việc cung cấp hiệu s
 \subsubsection{Thư viện web3js}
 \textbf{Web3js} là một thư viện được viết bằng \textit{Javascript}, thư viện cung cấp các API cần thiết cho lập trình viên tương tác với mạng blockchain Ethereum cũng như là hợp đồng thông minh trên Ethereum thông qua giao tiếp \acrfull{rpc}\footnote{Remote Procedure Call (RPC) tạm dịch là các cuộc gọi thủ tục từ xa, đây là một phương pháp dùng để trao đổi dữ liệu theo kiến trúc yêu cầu - phản hồi.}.
 
-Theo như tài liệu của thư viện Web3js\footnote{https://web3js.readthedocs.io}, các hàm trong \textit{web3-eth} dùng để tương tác với mạng blockchain và hợp đồng thông minh như là lấy thông tin địa chỉ của tài khoản, chọn lựa mạng,\ldots. \textit{web3-ssh} cung cấp giao thức để giao tiếp \acrshort{p2p} và broadcast. \textit{web3-bzz} được dành cho giao thức swarm\footnote{Swarm - một thuật ngữ được dùng để biểu thị kiến trúc phân tán.}, lưu trữ tập trung. Cuối cùng là \textit{web-utils} chứa đựng các hàm tiện ích cho dự án DApp.
+Theo như tài liệu của thư viện Web3js\footnote{https://web3js.readthedocs.io}, các hàm trong \textit{web3-eth} dùng để tương tác với mạng blockchain và hợp đồng thông minh như là lấy thông tin địa chỉ của tài khoản, chọn lựa mạng,\ldots. \textit{web3-ssh} cung cấp giao thức để giao tiếp \acrshort{p2p} và broadcast. \textit{web3-bzz} được dành cho giao thức swarm\footnote{swarm - một mô hình kiến trúc phân tán.}, lưu trữ tập trung. Cuối cùng là \textit{web-utils} chứa đựng các hàm tiện ích cho dự án DApp.
 \subsubsection{Ví Metamask}
-\textbf{Metamask} là một ví Ethereum, được phát triển dưới dạng trình mở rộng trên trình duyệt. Metamask là ứng dụng cầu nối cho phép người dùng truy cập vào các ứng dụng web phi tập trung và tương tác với mạng blockchain đơn giản hơn.
+\textbf{Metamask}\footnote{https://metamask.io} là một ví Ethereum, được phát triển dưới dạng trình mở rộng trên trình duyệt. Metamask là ứng dụng cầu nối cho phép người dùng truy cập vào các ứng dụng web phi tập trung và tương tác với mạng blockchain đơn giản hơn mà không cần phải chạy một nút Ethereum đầy đủ.
 
 Metamask cung cấp giao diện người dùng để quản lí các khóa bí mật, các giao dịch, số dư Ethereum, kí transaction, \ldots. Metamask có giao diện dễ dùng, hỗ trợ hầu hết các trình duyệt hiện nay.
 \subsection{Các bước hiện thực}
+Phần hiện thực hệ thống được viết thành kịch bản và thực hiện tự động bằng trình Docker Compose, hệ thống sẽ được chia thành nhiều dịch vụ, bao gồm:
+
 \begin{itemize}
-\item Bước 1
-\item Bước 2
-\item Bước 3
+\item \textbf{smartcontract} -- thực hiện chức năng biên dịch và triển khai các hợp đồng thông minh lên mạng blockchain, sau đó trả về các tệp json chứa \acrfull{abi}\footnote{là cách tiêu chuẩn để tương tác với các hợp đồng trong hệ sinh thái Ethereum, cả từ bên ngoài blockchain và cho tương tác giữa các hợp đồng với nhau.} và địa chỉ của hợp đồng thông minh. Các tệp json này được \gls{frontend} sử dụng để kết nối với hợp đồng thông minh.
+\item \textbf{client} -- kết xuất và triển khai giao diện người dùng.
+\item \textbf{store\_centralized\_data} -- xây dựng và triển khai Restful API để xử lí đọc và ghi dữ liệu ở cơ sở dữ liệu tập trung.
+\item \textbf{redis} -- cơ sở dữ liệu Redis, lưu trữ các thông tin mô tả về chiến dịch.
 \end{itemize}
+
+Nội dung tệp \textbf{docker-compose.yml}\footnote{docker-compose.yml là tệp mặc định được sử dụng bởi Docker Compose} triển khai các dịch vụ trong hệ thống như sau:
+
+\begin{lstlisting}
+version: '3.4'
+services:
+  smartcontracts:
+    build: ./smartcontracts/
+    volumes:
+      - contracts:/app/build/
+  client:
+    build: ./client/
+    ports:
+      - 3000:3000
+    volumes:
+      - ./client/src/:/app/src/
+      - contracts:/app/src/contracts/:ro
+    depends_on:
+      - smartcontracts
+  store_centralized_data:
+    build: ./store_centralized_data/
+    ports:
+      - 8080:8080
+    volumes:
+      - ./store_centralized_data/src/:/app/src/
+    depends_on:
+      - redis
+  redis:
+    image: redis:alpine
+    command: redis-server --requirepass 12345678 --appendonly yes
+    volumes:
+      - data:/data
+volumes:
+  data:
+  contracts:
+\end{lstlisting}
+
+Các bước để hiện thực hệ thống như sau:
+
+\begin{itemize}
+\item \textbf{Bước 1:} cấu hình thông số các \gls{service}.
+\item \textbf{Bước 2:} tạo các \gls{service}.
+\item \textbf{Bước 3:} chạy các \gls{service}.
+\end{itemize}
+
+Chi tiết các bước trên được mô tả ở mục \ref{sec:configure-service}, \ref{sec:build-service}, \ref{sec:run-service}.
+
+\subsubsection{Cấu hình thông số các service}
+\label{sec:configure-service}
+Để các service chạy chính xác, nhóm tác giả tạo ra các biến môi trường được lưu ở file \textbf{.env} trong thư mục của từng service trong bộ mã nguồn chương trình kèm theo khóa luận này để phục vụ cho việc cấu hình.
+
+Chỉnh sửa các biến sau trong tệp \textbf{smartcontracts/.env}:
+
+\begin{itemize}
+\item MNEMONIC -- biến chứa giá trị mnemonic của tài khoản nhân viên vận hành hệ thống, mnemonic là một chuổi 12 kí tự gợi nhớ, chuỗi này gắn liền với các tài khoản trên ethereum. Tài khoản mặc định gắn với mnemonic nhập vào sẽ là tài khoản triển khai các hợp đồng thông minh lên mạng blockchain.
+]i  
+\end{itemize}
+\subsubsection{Tạo các service}
+\label{sec:build-service}
+
+\subsubsection{Chạy các service}
+\label{sec:run-service}
 
 \subsection{Kết quả hiện thực}
 

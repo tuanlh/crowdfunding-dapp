@@ -16,7 +16,7 @@ We provide a file with named ``Dockerfile`` in each folders (client, store_centr
 To install Docker, please read docs at https://docs.docker.com/install/
 ### 1. Edit some env variable to run correctly
 First, in file ``smartcontracts/.env``:
-- ``MNENOMIC`` is mnenomic of your account to deploy contract and sign transaction.
+- ``MNEMONIC`` is mnenomic of your account to deploy contract and sign transaction.
 - ``INFURA_API_KEY`` is api key on infura.io, you can register an account and get infura key. Why need infura? --> In this project, i choose infura to sync states on blockchain.
 
 And in file ``client/.env``:

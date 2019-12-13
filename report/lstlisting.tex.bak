@@ -9,9 +9,9 @@
  
 \lstdefinestyle{mystyle}{
     %backgroundcolor=\color{lightgray},   
-    commentstyle=\color{codegray},
-    keywordstyle=\color{magenta},
-    stringstyle=\color{codegreen},
+    %commentstyle=\color{codegray},
+    %keywordstyle=\color{magenta},
+    %stringstyle=\color{codegreen},
     basicstyle=\scriptsize\ttfamily,
     breakatwhitespace=false,         
     breaklines=true,                 
@@ -21,10 +21,10 @@
     showspaces=false,                
     showstringspaces=false,
     showtabs=false,             
-    tabsize=4,
+    tabsize=2,
     upquote=true,
-    xleftmargin=1.5\parindent,
-    framexleftmargin=3mm,
+    xleftmargin=.25in,
+    framexleftmargin=2mm,
     inputencoding=utf8,
     autogobble=true,
     frame=single
