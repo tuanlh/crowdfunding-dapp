@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2019.10.30)  13 DEC 2019 23:55
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2019.10.30)  15 DEC 2019 00:14
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1376,7 +1376,7 @@ LaTeX Font Info:    Font shape `T5/ptm/bx/n' in size <14.4> not available
 LaTeX Font Info:    Font shape `T5/ptm/bx/n' in size <16> not available
 (Font)              Font shape `T5/ptm/b/n' tried instead on input line 10.
 LaTeX Font Info:    Font shape `T5/ptm/bx/n' in size <17.28> not available
-(Font)              Font shape `T5/ptm/b/n' tried instead on input line 17.
+(Font)              Font shape `T5/ptm/b/n' tried instead on input line 18.
  [1
 
 
@@ -1422,7 +1422,7 @@ l.51 ...\IeC {\'\ocircumflex }ng}{16}{section.3.3}
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.129 ...\IeC {\d \uhorn }c}{36}{subsection.4.1.4}
+l.129 ...\IeC {\d \uhorn }c}{39}{subsection.4.1.4}
                                                   % [2])
 \tf@toc=\write6
 \openout6 = `main-report.toc'.
@@ -1466,13 +1466,13 @@ Using TeX to sort glossary entries---this may take a while
 ]
 Ch\uhorn \ohorn ng 1.
 (./chapters/chap1_mo_dau.tex
-<figures/chart-problem-charity1.png, id=536, 640.3925pt x 317.185pt>
+<figures/chart-problem-charity1.png, id=535, 640.3925pt x 317.185pt>
 File: figures/chart-problem-charity1.png Graphic file (type png)
 <use figures/chart-problem-charity1.png>
 Package pdftex.def Info: figures/chart-problem-charity1.png  used on input line
  12.
 (pdftex.def)             Requested size: 416.25018pt x 206.16779pt.
-<figures/chart-problem-charity2.png, id=539, 556.0775pt x 345.29pt>
+<figures/chart-problem-charity2.png, id=538, 556.0775pt x 345.29pt>
 File: figures/chart-problem-charity2.png Graphic file (type png)
 <use figures/chart-problem-charity2.png>
 Package pdftex.def Info: figures/chart-problem-charity2.png  used on input line
@@ -1604,29 +1604,41 @@ File: figures/material-chart-survey.png Graphic file (type png)
 Package pdftex.def Info: figures/material-chart-survey.png  used on input line 
 59.
 (pdftex.def)             Requested size: 387.24727pt x 256.55884pt.
- [32 <./figures/material-chart-survey.png>] [33] [34] [35] [36]
-[37] [38]
-<figures/result-time-perform-chart.png, id=885, 768.471pt x 779.0706pt>
+ [32 <./figures/material-chart-survey.png>] [33] [34] [35]
+Overfull \hbox (20.48816pt too wide) in paragraph at lines 180--181
+[]\T5/ptm/b/n/12 REACT_APP_DEFAULT_NETWORK \T5/ptm/m/n/12 -- ^^_àa ch¿ ^^_º k¸t
+ nèi ^^_¸n mët nót m¤ng blockchain
+ []
+
+
+Overfull \hbox (7.72226pt too wide) in paragraph at lines 190--191
+[]\T5/ptm/m/n/12 Cuèi còng l  c§u h¼nh cho ser-vice \T5/ptm/b/n/12 store_centra
+lized_data \T5/ptm/m/n/12 ð t»p \T5/ptm/b/n/12 store_centralized_data/.env\T5/p
+tm/m/n/12 : 
+ []
+
+[36] [37] [38] [39] [40]
+<figures/result-time-perform-chart.png, id=975, 768.471pt x 779.0706pt>
 File: figures/result-time-perform-chart.png Graphic file (type png)
 <use figures/result-time-perform-chart.png>
 Package pdftex.def Info: figures/result-time-perform-chart.png  used on input l
-ine 285.
+ine 397.
 (pdftex.def)             Requested size: 384.23456pt x 389.53435pt.
- [39] [40 <./figures/result-time-perform-chart.png
+ [41] [42 <./figures/result-time-perform-chart.png
 
 pdfTeX warning: /usr/bin/pdflatex (file ./figures/result-time-perform-chart.png
 ): large interlaced PNG might cause out of memory (use non-interlaced PNG to fi
 x this)
 >]
-<figures/result-perform-cost-1.png, id=900, 403.5075pt x 180.675pt>
+<figures/result-perform-cost-1.png, id=990, 403.5075pt x 180.675pt>
 File: figures/result-perform-cost-1.png Graphic file (type png)
 <use figures/result-perform-cost-1.png>
 Package pdftex.def Info: figures/result-perform-cost-1.png  used on input line 
-344.
+456.
 (pdftex.def)             Requested size: 322.80644pt x 144.54018pt.
- [41 <./figures/result-perform-cost-1.png (PNG copy)>] [42] [43]) [44]
+ [43] [44] [45 <./figures/result-perform-cost-1.png (PNG copy)>]) [46]
 Ch\uhorn \ohorn ng 5.
-(./chapters/chap5_ket_luan.tex) [45
+(./chapters/chap5_ket_luan.tex) [47
 
 ]
 Overfull \hbox (3.10844pt too wide) in paragraph at lines 161--161
@@ -1634,42 +1646,46 @@ Overfull \hbox (3.10844pt too wide) in paragraph at lines 161--161
 n En-gi-neer-ing\T5/ptm/m/n/12 , ACM, 2019,
  []
 
-[46
-
-] [47]
-Ph\d {u} l\d {u}c A.
 [48
 
+] [49] (./pages/Appendix.tex
+Ph\d {u} l\d {u}c A.
+[50
 
-]
+
+] [51] [52] [53]
 Ph\d {u} l\d {u}c B.
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 171.
-[49
+)
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 166.
+ [54
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 171.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 166.
  (./main-report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 171.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 171.
-Package rerunfilecheck Info: File `main-report.out' has not changed.
-(rerunfilecheck)             Checksum: 9E4096D295A27170447B51E4F4B4C041;16551.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 166.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 166.
 
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+Package rerunfilecheck Warning: File `main-report.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 171.
+Package rerunfilecheck Info: Checksums for `main-report.out':
+(rerunfilecheck)             Before: 89CD2D3CDCD3E7AA1EBD30C992345503;16526
+(rerunfilecheck)             After:  40F92A600CBD5B5D94A39BEE10A5AD6E;16619.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 166.
 Package logreq Info: Writing requests to 'main-report.run.xml'.
 \openout1 = `main-report.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 24989 strings out of 492609
- 394004 string characters out of 6131461
- 959921 words of memory out of 5000000
- 28167 multiletter control sequences out of 15000+600000
+ 25230 strings out of 492609
+ 397585 string characters out of 6131461
+ 1195921 words of memory out of 5000000
+ 28168 multiletter control sequences out of 15000+600000
  50919 words of font info for 68 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 45i,15n,64p,2009b,1647s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 45i,15n,64p,2009b,1907s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/share/texliv
 e/texmf-dist/fonts/enc/dvips/vntex/t5.enc}</usr/share/texlive/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/
@@ -1680,10 +1696,10 @@ r8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/vntex/urwvn/ucrr8v.pfb></usr
 e/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fo
 nts/type1/vntex/urwvn/utmr8v.pfb></usr/share/texlive/texmf-dist/fonts/type1/vnt
 ex/urwvn/utmri8v.pfb>
-Output written on main-report.pdf (55 pages, 3660195 bytes).
+Output written on main-report.pdf (60 pages, 3685504 bytes).
 PDF statistics:
- 1051 PDF objects out of 1200 (max. 8388607)
- 949 compressed objects within 10 object streams
- 282 named destinations out of 1000 (max. 500000)
+ 1355 PDF objects out of 1440 (max. 8388607)
+ 1245 compressed objects within 13 object streams
+ 519 named destinations out of 1000 (max. 500000)
  779 words of extra memory for PDF output out of 10000 (max. 10000000)
 

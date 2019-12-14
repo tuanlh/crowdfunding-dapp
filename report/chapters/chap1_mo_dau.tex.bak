@@ -2,7 +2,7 @@
 \begin{document}
 \section{Vấn đề đặt ra}
 \label{sec:problem}
-Hoạt động từ thiện là một hoạt động được đông đảo mọi người quan tâm, theo một kết quả của cuộc một cuộc điều tra \cite{vuhongphong_tuthien} cho thấy có tới 81\% người ở nước ta được khảo sát cho rằng những hoạt động tình nguyện thì họ rất quan tâm đến. Tương tự có khoảng 83\% cho rằng hoạt động từ thiện đặc biệt quan trọng đối với một đất nước đang phát triển như Việt Nam.
+Hoạt động từ thiện là một hoạt động được đông đảo mọi người quan tâm, theo kết quả của một cuộc khảo sát \cite{vuhongphong_tuthien} cho thấy có tới 81\% người ở nước ta được khảo sát cho rằng những hoạt động tình nguyện thì họ rất quan tâm đến. Tương tự có khoảng 83\% cho rằng hoạt động từ thiện đặc biệt quan trọng đối với một đất nước đang phát triển như Việt Nam.
 
 Tuy nhiên, các hoạt động từ thiện thì chưa được đông đảo người dân thực sự tin tưởng. Thật vậy, trong một cuộc khảo sát \cite{asiafoundation_thuthien} có hơn 50\% người dân thành thị (người dân thành thị chiếm đa số trong nguồn gây quỹ) cho rằng các hoạt động từ thiện của người dân hiện tại chưa công khai minh bạch, và đứng sau đó là các lý do được thể hiện ở hình \ref{fig:chart-problem-charity1} như: chưa tạo niềm tin, chưa trùng đối tượng, chưa tuyên truyền tốt, thiếu nguồn lực.
 
@@ -70,9 +70,11 @@ Mục tiêu khi thực hiện khóa luận này bao gồm:
 \end{itemize}
 \end{itemize}
 
-\section{Đối tượng và phạm vi nghiên cứu}
-Thứ nhất về mặt công nghệ, tập trung nghiên cứu nền tảng công nghệ Ethereum và hợp đồng thông minh. Các công nghệ xây dựng ứng dụng trên nền web như NodeJS, ReactJS.
+\section{Đối tượng nghiên cứu}
+Thứ nhất về mặt công nghệ, tập trung nghiên cứu nền tảng công nghệ Ethereum và hợp đồng thông minh.
 
 Thứ hai về mặt nghiệp vụ, nghiên cứu các phương thức gây quỹ từ thiện bằng tài chính, các quy trình, giai đoạn của hoạt động gây quỹ.
 
+\section{Phạm vi nghiên cứu}
+Khóa luận tập trung vào nghiên cứu các chiến dịch gây quỹ từ thiện cộng đồng bằng internet, các chiến dịch gây quỹ với người tạo chiến dịch có am hiểu về công nghệ blockchain và đồng tiền mã hóa.
 \end{document}

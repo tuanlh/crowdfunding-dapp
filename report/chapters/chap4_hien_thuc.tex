@@ -5,7 +5,7 @@
 \subsection{Môi trường hiện thực}
 Để thuận tiện trong việc đóng gói và triển khai ứng dụng, nhóm tác giả sử dụng công nghệ Container để hỗ trợ, đại diện tiêu biểu cho công nghệ Container mà nhóm tác giả chọn để sử dụng là Docker\footnote{https://www.docker.com}.
 
-Công nghệ Docker container giúp người phát triển có thể triển khai ứng dụng ở bất kì đâu miễn là thiết bị đó có thể chạy được docker. Các ứng dụng được đóng gói trong container, có thể kiểm tra, xóa bất kì container. Các ứng dụng được triển khai dễ dàng và đồng nhất giữa các môi trường khác nhau.
+Công nghệ Docker container giúp người phát triển có thể triển khai ứng dụng ở bất kì đâu miễn là thiết bị đó có thể chạy được docker. Các ứng dụng được đóng gói trong container, có thể kiểm tra, xóa bất kì container nào. Các ứng dụng được triển khai dễ dàng và đồng nhất giữa các môi trường khác nhau.
 
 Phiên bản docker và ứng dụng kèm theo mà nhóm tác giả triển khai bao gồm:
 
@@ -57,7 +57,7 @@ Trong cuộc khảo sát vào năm 2019 của Oliver được đăng trên trang
 \begin{center}
 \label{fig:material-chart-survey}
 \includegraphics[scale=0.8]{material-chart-survey}
-\caption{Biểu đồ thể hiện thái độ người dùng khi không còn được sử dụng thư viện Material}
+\caption{Biểu đồ thể hiện thái độ người dùng khi không được sử dụng thư viện Material}
 \end{center}
 \end{figure}
 
@@ -162,16 +162,128 @@ Chi tiết các bước trên được mô tả ở mục \ref{sec:configure-ser
 \label{sec:configure-service}
 Để các service chạy chính xác, nhóm tác giả tạo ra các biến môi trường được lưu ở file \textbf{.env} trong thư mục của từng service trong bộ mã nguồn chương trình kèm theo khóa luận này để phục vụ cho việc cấu hình.
 
-Chỉnh sửa các biến sau trong tệp \textbf{smartcontracts/.env}:
+Cấu hình service smartcontracts, chỉnh sửa các biến sau trong tệp \textbf{smartcontracts/.env}:
 
 \begin{itemize}
 \item \textbf{MNEMONIC} -- biến chứa giá trị mnemonic của tài khoản nhân viên vận hành hệ thống, mnemonic là một chuổi 12 kí tự gợi nhớ, chuỗi này gắn liền với các tài khoản trên ethereum. Tài khoản mặc định gắn với mnemonic nhập vào sẽ là tài khoản triển khai các hợp đồng thông minh lên mạng blockchain.
-\item \textbf{INFURA\_API\_KEY} -- khóa để sử dụng API của Infura để tương tác với một nút trong mạng blockchain để đưa các hợp đồng thông minh lên mạng. Để có khóa này, có thể đăng kí sử dụng API của Infura.
+\item \textbf{INFURA\_API\_KEY} -- khóa để sử dụng API của Infura\footnote{https://infura.io} để tương tác với một nút trong mạng blockchain để triển khai các hợp đồng thông minh lên mạng. Để có khóa này, có thể đăng kí sử dụng API của Infura. Giá trị mặc định: 
 
+\begin{lstlisting}
+417dc4db619c43798109b08709985882
+\end{lstlisting}
+\end{itemize}
+
+Cấu hình service client, chỉnh sửa các biến trong tệp \textbf{client/.env}:
+
+\begin{itemize}
+\item \textbf{REACT\_APP\_STORE\_CENTRALIZED\_API}  -- là địa chỉ máy chủ Restful API trong mô hình hệ thống, định dạng \textit{``http://[IP|DOMAIN]:PORT/''}
+\item \textbf{REACT\_APP\_DEFAULT\_NETWORK} -- địa chỉ để kết nối đến một nút mạng blockchain mặc định để lấy dữ liệu, phục vụ việc hiển thị thông tin chiến dịch khi không có ví Metamask. Giá trị mặc định:
+
+\begin{lstlisting}
+https://ropsten.infura.io/v3/b56a34eee35e491691629e3412875afa
+\end{lstlisting}
+
+\item \textbf{REACT\_APP\_RECAPTCHA\_ENABLE} -- biến cờ để xác định việc sử dụng captcha trong trang đăng kí chiến dịch. Với giá trị \textbf{``1''} là xác định sử dụng dụng dịch vụ captcha, \textbf{``0''} là tắt captcha. Giá trị mặc định: \textbf{``0''}.
+\item \textbf{REACT\_APP\_RECAPTCHA\_SITEKEY} -- phần captcha trên trang đăng kí chiến dịch được nhóm tác giả sử dụng là \textbf{reCAPTCHA}\footnote{https://www.google.com/recaptcha/intro/v3.html} của \textit{Google}, nên để sử dụng được thành phần này trong hệ thống, cần đăng kí dịch vụ ReCaptcha của Google. Sau đó thực hiện lấy khóa captcha tương ứng để sử dụng. Nếu captcha không được sử dụng thì có thể bỏ qua biến này.
+\end{itemize}
+
+Cuối cùng là cấu hình cho service \textbf{store\_centralized\_data} ở tệp \textbf{store\_centralized\_data/.env}:
+
+\begin{itemize}
+\item \textbf{PORT\_LISTEN} -- cổng mà máy chủ sẽ lắng nghe. Giá trị mặc định: \textbf{``8080''}.
+\item \textbf{RECAPTCHA\_ENABLE} -- biến cờ để xác định việc sử dụng captcha trong trang đăng kí chiến dịch. Với giá trị \textbf{``1''} là xác định sử dụng dụng dịch vụ captcha, \textbf{``0''} là tắt captcha. Giá trị mặc định: \textbf{``0''}.
+\item \textbf{RECAPTCHA\_SECRET\_KEY} -- phần khóa captcha này liết kết với captcha ở phía service \textbf{client}. Tuy nhiên ở service này sẽ nhận kết quả captcha từ client gửi và xử lí. Nên khóa ở đây là khóa bí mật của dịch vụ \textit{reCAPTCHA}.
+\item Các biến \textbf{REDIS\_HOST}, \textbf{REDIS\_PORT}, \textbf{REDIS\_PASSWORD} là thông tin để kết nối đến dịch vụ redis. Giá trị mặc định được gán cho các biến này gồm: ``redis'', ``6379'', ``12345678''.
 \end{itemize}
 \subsubsection{Tạo các service}
 \label{sec:build-service}
+Để các service có thể chạy được thì cần cài đặt môi trường và thư viện tương ứng. Để đơn giản quá trình cài đặt môi trường, thư viện phức tạp, nhóm tác giả đã tiến hành viết sẵn kịch bản để cài đặt môi trường cần thiết. Kịch bản này được tạo ra bằng tệp \textbf{Dockerfile} và lưu vào từng thư mục của từng service.
 
+Tệp \textbf{Dockerfile} của services \textbf{smartcontracts} có nội dung như sau:
+
+\begin{lstlisting}
+# BUILDER IMAGE
+FROM node:8-alpine AS builder
+
+# Create app directory and set to working directory
+WORKDIR /app
+
+# Install dev dependencies
+RUN apk add --no-cache git python make g++
+
+# Install dependencies
+COPY yarn.lock package.json /app/
+RUN yarn
+
+# RUN TIME IMAGES
+FROM node:8-alpine
+
+# Create app directory and set to working directory
+WORKDIR /app
+
+# Copy from builder image
+COPY --from=builder /app .
+
+# Bundle source code
+COPY . /app/
+
+# Build and deploy contract to Ethereum network
+RUN yarn truffle migrate --network ropsten
+\end{lstlisting}
+
+Tiếp theo là tệp \textbf{Dockerfile} của services \textbf{client} có nội dung như sau:
+
+\begin{lstlisting}
+# BUILDER IMAGE
+FROM node:8-alpine AS builder
+
+# Create app directory and set to working directory
+WORKDIR /app
+
+# Install dev dependencies
+RUN apk add --no-cache python make g++
+
+# Install dependencies
+COPY yarn.lock package.json /app/
+RUN yarn
+
+# RUN TIME IMAGES
+FROM node:8-alpine
+
+EXPOSE 3000
+
+# Create app directory and set to working directory
+WORKDIR /app
+
+# Copy from builder image
+COPY --from=builder /app .
+
+# Bundle source code
+COPY . /app/
+
+CMD yarn start
+\end{lstlisting}
+
+Cuối cùng là tệp \textbf{Dockerfile} của services \textbf{stored\_centralized\_data}:
+
+\begin{lstlisting}
+FROM node:8-alpine
+
+EXPOSE 8080
+ENV DIR /app
+
+# Create app directory and set to working directory
+WORKDIR ${DIR}
+
+# Install dependencies
+COPY yarn.lock package.json ${DIR}/
+RUN yarn
+
+# Bundle source code
+COPY . ${DIR}/
+
+CMD yarn start
+\end{lstlisting}
 \subsubsection{Chạy các service}
 \label{sec:run-service}
 
