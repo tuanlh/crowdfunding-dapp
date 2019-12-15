@@ -1,11 +1,20 @@
 import React, { Component, Fragment } from 'react'
-import { Card, Grid } from '@material-ui/core/';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Card, Grid, Fab
+} from "@material-ui/core";
 import { withRouter } from 'react-router-dom'
+import RemoveRedEyeOutlinedIcon from '@material-ui/icons/RemoveRedEyeOutlined'
+
 import _ from 'lodash'
 
 import getAllVerifier from '../../../utils/modules/getAllVerifier'
@@ -25,7 +34,9 @@ class AdminPanel extends Component {
       web3: users.data.web3,
       account: users.data.account,
       contractIdentity: users.data.contractIdentity,
-      listAddressVerifier: []
+      listAddressVerifier: [],
+      isOpenModal: false,
+      pubPick: ''
     }
   }
 
@@ -53,16 +64,27 @@ class AdminPanel extends Component {
     })
   }
 
+  handleShowPub = (data) => {
+    this.setState({
+      pubPick: data,
+      isOpenModal: true
+    })
+  }
+
   renderData = () => {
     const { listAddressVerifier } = this.state
     if (_.isEmpty(listAddressVerifier)) return
-    let result = listAddressVerifier.map((verifier) => (
+    let result = listAddressVerifier.map((verifier, index) => (
       <TableRow key={verifier.address}>
         <TableCell component="th" scope="row">
           {verifier.address}
         </TableCell>
-        <TableCell align="right">{verifier.publicKey}</TableCell>
-        <TableCell align="right">{verifier.task}</TableCell>
+        <TableCell>
+          <Fab color="primary" aria-label="add"  onClick={() => this.handleShowPub(verifier.publicKey)} size={'small'}>
+            <RemoveRedEyeOutlinedIcon />
+          </Fab>
+        </TableCell>
+        <TableCell>{verifier.task}</TableCell>
       </TableRow>
     ))
     return result
@@ -70,7 +92,7 @@ class AdminPanel extends Component {
 
   handleAddVerifier = (verifier) => {
     const { contractIdentity, account } = this.state;
-    
+
     contractIdentity.methods.addVerifier(verifier.address, verifier.publicKey
     ).send({
       from: account
@@ -110,9 +132,13 @@ class AdminPanel extends Component {
     }
 
   }
-
+  handleModal = () => {
+    this.setState({
+      isOpenModal: !this.state.isOpenModal
+    })
+  }
   render() {
-    const { isLoading } = this.state
+    const { isLoading, isOpenModal, pubPick } = this.state
     return (
       <Fragment>
         {
@@ -130,8 +156,8 @@ class AdminPanel extends Component {
                   <TableHead>
                     <TableRow>
                       <TableCell>Address</TableCell>
-                      <TableCell align="right">Public Key</TableCell>
-                      <TableCell align="right">Task Count</TableCell>
+                      <TableCell>Public Key</TableCell>
+                      <TableCell>Task Count</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
@@ -141,6 +167,20 @@ class AdminPanel extends Component {
                   </TableBody>
                 </Table>
               </Card>
+              <Dialog
+                open={isOpenModal}
+                onClose={this.handleModal}
+              >
+                <DialogTitle>Public Key</DialogTitle>
+                <DialogContent>
+                  {pubPick}
+                </DialogContent>
+                <DialogActions>
+                  <Button color="primary" onClick={this.handleModal}>
+                    Okay
+                  </Button>{" "}
+                </DialogActions>
+              </Dialog>
             </Grid>
           </Grid>
         }

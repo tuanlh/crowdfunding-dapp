@@ -10,7 +10,8 @@ import {
   // Dashboard,
   Help,
   Info,
-  PermIdentityTwoTone
+  PermIdentityTwoTone,
+  AssignmentTurnedIn
 } from "@material-ui/icons";
 
 import "./styles.scss";
@@ -51,6 +52,14 @@ export const mainListItems = (
           <AccountBalanceWallet style={iconStyles} />
         </ListItemIcon>
         <ListItemText primary="Wallet" className="muiSideMenu" />
+      </ListItem>
+    </Link>
+    <Link to="/contribute" style={navStyles}>
+      <ListItem button style={listItemStyles}>
+        <ListItemIcon>
+          <AssignmentTurnedIn style={iconStyles} />
+        </ListItemIcon>
+        <ListItemText primary="Contribute" className="muiSideMenu" />
       </ListItem>
     </Link>
     <Link to="/feature" style={navStyles}>
