@@ -72,7 +72,7 @@ Các đặc điểm của Redis \cite{6106531}:
 \item Redis là một dạng lưu trữ dữ liệu \textit{key-value}, như được nói ở trên khi Redis chạy, dữ liệu sẽ được lưu trữ trong bộ nhớ, do đó nó có thể xử lý hơn 100.000 thao tác đọc và ghi mỗi giây.
 \item Redis hỗ trợ nhiều dạng lưu trữ như \textit{List} và \textit{Set},\ldots
 \item Giá trị lớn nhất lưu trên Redis là 1GB.
-\item Nhược điểm yếu nhất của Redis đó chính là dung lương của cơ sở dữ liệu bị giới hạn bởi bộ nhớ vật lý, do đó Redis không nên dùng làm cơ sở dữ liệu cho các dự án lớn và khả năng mở rộng kém.
+\item Nhược điểm của Redis là dung lượng của cơ sở dữ liệu bị giới hạn bởi bộ nhớ vật lý, do đó Redis không nên dùng làm cơ sở dữ liệu cho các dự án lớn và khả năng mở rộng kém.
 \end{enumerate}
 
 Với các đặc điểm trên, Redis phù hợp cho việc cung cấp hiệu suất cao cho lượng dữ liệu nhỏ.
@@ -165,8 +165,8 @@ Chi tiết các bước trên được mô tả ở mục \ref{sec:configure-ser
 Cấu hình service smartcontracts, chỉnh sửa các biến sau trong tệp \textbf{smartcontracts/.env}:
 
 \begin{itemize}
-\item \textbf{MNEMONIC} -- biến chứa giá trị mnemonic của tài khoản nhân viên vận hành hệ thống, mnemonic là một chuổi 12 kí tự gợi nhớ, chuỗi này gắn liền với các tài khoản trên ethereum. Tài khoản mặc định gắn với mnemonic nhập vào sẽ là tài khoản triển khai các hợp đồng thông minh lên mạng blockchain.
-\item \textbf{INFURA\_API\_KEY} -- khóa để sử dụng API của Infura\footnote{https://infura.io} để tương tác với một nút trong mạng blockchain để triển khai các hợp đồng thông minh lên mạng. Để có khóa này, có thể đăng kí sử dụng API của Infura. Giá trị mặc định: 
+\item \texttt{MNEMONIC} -- biến chứa giá trị mnemonic của tài khoản nhân viên vận hành hệ thống, mnemonic là một chuổi 12 kí tự gợi nhớ, chuỗi này gắn liền với các tài khoản trên ethereum. Tài khoản mặc định gắn với mnemonic nhập vào sẽ là tài khoản triển khai các hợp đồng thông minh lên mạng blockchain.
+\item \texttt{INFURA\_API\_KEY} -- khóa để sử dụng API của Infura\footnote{https://infura.io} để tương tác với một nút trong mạng blockchain để triển khai các hợp đồng thông minh lên mạng. Để có khóa này, có thể đăng kí sử dụng API của Infura. Giá trị mặc định: 
 
 \begin{lstlisting}
 417dc4db619c43798109b08709985882
@@ -176,24 +176,24 @@ Cấu hình service smartcontracts, chỉnh sửa các biến sau trong tệp \t
 Cấu hình service client, chỉnh sửa các biến trong tệp \textbf{client/.env}:
 
 \begin{itemize}
-\item \textbf{REACT\_APP\_STORE\_CENTRALIZED\_API}  -- là địa chỉ máy chủ Restful API trong mô hình hệ thống, định dạng \textit{``http://[IP|DOMAIN]:PORT/''}
-\item \textbf{REACT\_APP\_DEFAULT\_NETWORK} -- địa chỉ để kết nối đến một nút mạng blockchain mặc định để lấy dữ liệu, phục vụ việc hiển thị thông tin chiến dịch khi không có ví Metamask. Giá trị mặc định:
+\item \texttt{REACT\_APP\_STORE\_CENTRALIZED\_API}  -- là địa chỉ máy chủ Restful API trong mô hình hệ thống, định dạng \textit{``http://[IP|DOMAIN]:PORT/''}
+\item \texttt{REACT\_APP\_DEFAULT\_NETWORK} -- địa chỉ để kết nối đến một nút mạng blockchain mặc định để lấy dữ liệu, phục vụ việc hiển thị thông tin chiến dịch khi không có ví Metamask. Giá trị mặc định:
 
 \begin{lstlisting}
 https://ropsten.infura.io/v3/b56a34eee35e491691629e3412875afa
 \end{lstlisting}
 
-\item \textbf{REACT\_APP\_RECAPTCHA\_ENABLE} -- biến cờ để xác định việc sử dụng captcha trong trang đăng kí chiến dịch. Với giá trị \textbf{``1''} là xác định sử dụng dụng dịch vụ captcha, \textbf{``0''} là tắt captcha. Giá trị mặc định: \textbf{``0''}.
-\item \textbf{REACT\_APP\_RECAPTCHA\_SITEKEY} -- phần captcha trên trang đăng kí chiến dịch được nhóm tác giả sử dụng là \textbf{reCAPTCHA}\footnote{https://www.google.com/recaptcha/intro/v3.html} của \textit{Google}, nên để sử dụng được thành phần này trong hệ thống, cần đăng kí dịch vụ ReCaptcha của Google. Sau đó thực hiện lấy khóa captcha tương ứng để sử dụng. Nếu captcha không được sử dụng thì có thể bỏ qua biến này.
+\item \texttt{REACT\_APP\_RECAPTCHA\_ENABLE} -- biến cờ để xác định việc sử dụng captcha trong trang đăng kí chiến dịch. Với giá trị \textbf{``1''} là xác định sử dụng dụng dịch vụ captcha, \textbf{``0''} là tắt captcha. Giá trị mặc định: \textbf{``0''}.
+\item \texttt{REACT\_APP\_RECAPTCHA\_SITEKEY} -- phần captcha trên trang đăng kí chiến dịch được nhóm tác giả sử dụng là \textbf{reCAPTCHA}\footnote{https://www.google.com/recaptcha/intro/v3.html} của \textit{Google}, nên để sử dụng được thành phần này trong hệ thống, cần đăng kí dịch vụ ReCaptcha của Google. Sau đó thực hiện lấy khóa captcha tương ứng để sử dụng. Nếu captcha không được sử dụng thì có thể bỏ qua biến này.
 \end{itemize}
 
-Cuối cùng là cấu hình cho service \textbf{store\_centralized\_data} ở tệp \textbf{store\_centralized\_data/.env}:
+Cuối cùng là cấu hình cho service \textbf{store\_centralized\_data}:
 
 \begin{itemize}
-\item \textbf{PORT\_LISTEN} -- cổng mà máy chủ sẽ lắng nghe. Giá trị mặc định: \textbf{``8080''}.
-\item \textbf{RECAPTCHA\_ENABLE} -- biến cờ để xác định việc sử dụng captcha trong trang đăng kí chiến dịch. Với giá trị \textbf{``1''} là xác định sử dụng dụng dịch vụ captcha, \textbf{``0''} là tắt captcha. Giá trị mặc định: \textbf{``0''}.
-\item \textbf{RECAPTCHA\_SECRET\_KEY} -- phần khóa captcha này liết kết với captcha ở phía service \textbf{client}. Tuy nhiên ở service này sẽ nhận kết quả captcha từ client gửi và xử lí. Nên khóa ở đây là khóa bí mật của dịch vụ \textit{reCAPTCHA}.
-\item Các biến \textbf{REDIS\_HOST}, \textbf{REDIS\_PORT}, \textbf{REDIS\_PASSWORD} là thông tin để kết nối đến dịch vụ redis. Giá trị mặc định được gán cho các biến này gồm: ``redis'', ``6379'', ``12345678''.
+\item \texttt{PORT\_LISTEN} -- cổng mà máy chủ sẽ lắng nghe. Giá trị mặc định: \textbf{``8080''}.
+\item \texttt{RECAPTCHA\_ENABLE} -- biến cờ để xác định việc sử dụng captcha trong trang đăng kí chiến dịch. Với giá trị \textbf{``1''} là xác định sử dụng dụng dịch vụ captcha, \textbf{``0''} là tắt captcha. Giá trị mặc định: \textbf{``0''}.
+\item \texttt{RECAPTCHA\_SECRET\_KEY} -- phần khóa captcha này liên kết với captcha ở phía service \textbf{client}. Tuy nhiên ở service này sẽ nhận kết quả captcha từ client gửi và xử lí. Nên khóa ở đây là khóa bí mật của dịch vụ \textit{reCAPTCHA}.
+\item Các biến \texttt{REDIS\_HOST}, \texttt{REDIS\_PORT}, \texttt{REDIS\_PASSWORD} là thông tin để kết nối đến dịch vụ redis. Giá trị mặc định được gán cho các biến này gồm: ``redis'', ``6379'', ``12345678''.
 \end{itemize}
 \subsubsection{Tạo các service}
 \label{sec:build-service}
@@ -286,9 +286,133 @@ CMD yarn start
 \end{lstlisting}
 \subsubsection{Chạy các service}
 \label{sec:run-service}
+Chạy lệnh sau ở thư mục gốc của ứng dụng (thư mục chứa tệp docker-compose.yml) để tiến hành xây dựng và khởi chạy các service:
+
+\begin{lstlisting}
+$	docker-compose up
+\end{lstlisting}
+
+Sau khi chạy lệnh trên, các service có mở cổng để lắng kết nối bao gồm:
+
+\begin{itemize}
+\item \textbf{client} với cổng mặc định được định nghĩa là \textbf{3000}.
+\item \textbf{stored\_centralized\_data} với cổng mặc định được định nghĩa là \textbf{8080}.
+\item \textbf{redis} với cổng mặc định \textbf{6379} được mở trong phạm vi kết nối giữa các container với nhau.
+\end{itemize}
 
 \subsection{Kết quả hiện thực}
+Kết quả sau khi hiện thực được trình bày theo qui trình từ đăng kí hồ sơ định danh đến khi một chiến dịch gây quỹ được tạo thành công.
 
+Kết quả màn hình của trang nộp tiền / rút tiền trong hệ thống được thể hiện ở hình \ref{fig:ui-wallet}, người đóng góp sẽ thực hiện nộp tiền vào hệ thống để đóng góp cho các chiến dịch gây quỹ.
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:ui-wallet}
+\includegraphics[scale=0.32]{ui-wallet}
+\caption{Màn hình giao diện trang nộp tiền và rút tiền}
+\end{center}
+\end{figure}
+
+Nhân viên vận hành tiến hành thêm vào các nhân viên xác minh, ảnh chụp giao diện người dùng của trang thêm nhân viên xác minh ở hình \ref{fig:ui-add-verifier}.
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:ui-add-verifier}
+\includegraphics[scale=0.34]{ui-add-verifier}
+\caption{Màn hình giao diện trang thêm nhân viên xác minh}
+\end{center}
+\end{figure}
+
+Tiếp theo, người tạo chiến dịch tiến hành đăng kí hồ sơ định danh, giao diện trang đăng kí thông tin định danh dành cho người tạo chiến dịch được thể hiện ở hình \ref{fig:ui-register-identity}. Người tạo chiến dịch sẽ nhập các thông tin cần thiết theo mẫu, sau đó nhấn vào nút \textbf{``Submit''}.
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:ui-register-identity}
+\includegraphics[scale=0.33]{ui-register-identity}
+\caption{Màn hình giao diện trang đăng kí định danh}
+\end{center}
+\end{figure}
+
+Sau đó, một hộp thoại sẽ xuất hiện để xác nhận lại các điều khoản, nếu chấp nhận các điều khoản thì sẽ tiến hành tạo \gls{transaction}. Sau đó transaction được kí bởi Metamask, một hộp thoại khác được hiển thị để xác nhận phía Metamask như ở hình \ref{fig:ui-metamask-confirm-1}.
+
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:ui-metamask-confirm-1}
+\includegraphics[scale=0.5]{ui-metamask-confirm-1}
+\caption{Màn hình hộp thoại xác nhận kí transaction trên Metamask}
+\end{center}
+\end{figure}
+
+Transaction sau khi được kí sẽ được gửi đến mạng blockchain, có thể xem chi tiết transaction trên Etherscan\footnote{https://etherscan.io}, hình \ref{fig:ui-transaction-detail} là ảnh chụp chi tiết transacion.
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:ui-transaction-detail}
+\fbox{\includegraphics[scale=0.5]{ui-transaction-detail}}
+\caption{Ảnh chụp chi tiết transaction trên etherscan}
+\end{center}
+\end{figure}
+
+Tiếp theo, nhân viên xác minh tiến hành kiểm tra các danh sách các hồ sơ định danh, màn hình hiển thị danh sách người dùng đã đăng kí hồ sơ định danh được thể hiện ở hình \ref{fig:ui-list-user}.
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:ui-list-user}
+\includegraphics[scale=0.34]{ui-list-user}
+\caption{Giao diện người dùng trang hiển thị danh sách hồ sơ định danh}
+\end{center}
+\end{figure}
+
+Ứng với từng địa chỉ, ấn nút \textbf{``VIEW''} để xem chi tiết thông tin ở từng hồ sơ. Sau đó, một hộp thoại hiện lên chứa các thông tin như ở hình \ref{fig:ui-identity-view}. Để xem thông tin bí mật chia sẻ từ người tạo lập hồ sơ, nhân viên xác minh cần nhập khóa bí mật của mình. Sau khi xem xét tất cả thông tin cần thiết, nhân viên xác minh có thể chấp nhận hồ sơ đó bằng cách nhấn vào nút \textbf{``ALLOW''} hoặc từ chối với nút \textbf{``REJECT''}. Hồ sơ định danh được chấp nhận thì người tạo chiến dịch mới được quyền tạo chiến dịch gây quỹ.
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:ui-identity-view}
+\fbox{\includegraphics[scale=0.7]{ui-identity-view}}
+\caption{Màn hình hiển thị thông tin định danh người dùng}
+\end{center}
+\end{figure}
+
+Nếu hồ sơ định danh được xét duyệt, người tạo chiến dịch có thể đăng kí chiến dịch gây quỹ. Giao diện người dùng của trang đăng kí chiến dịch như ở hình \ref{fig:ui-create-campaign}.
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:ui-create-campaign}
+\includegraphics[scale=0.5]{ui-create-campaign.jpg}
+\caption{Giao diện người dùng trang đăng kí chiến dịch gây quỹ}
+\end{center}
+\end{figure}
+
+Sau khi người tạo chiến dịch gửi transaction đi thành công thì chiến dịch đó tạm thời được gán trạng thái là đang chờ xét duyệt. Nhân viên xác minh sẽ tiến hành đọc thông tin chiến dịch và xét duyệt chiến dịch đó. Màn hình hiển thị thông tin chiến dịch chờ xét từ nhân viên xác minh được thể hiện ở hình \ref{fig:ui-campaign-pending}, lưu ý trang này chỉ dành cho nhân viên xác minh.
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:ui-campaign-pending}
+\includegraphics[scale=0.34]{ui-campaign-pending}
+\caption{Giao diện người dùng khi xem thông tin chiến dịch đang chờ xét duyệt}
+\end{center}
+\end{figure}
+
+Chỉ có những chiến dịch nào được xét duyệt cho đồng ý đóng góp thì mới được xuất hiện trong danh sách chiến dịch cho người đóng góp thấy. Hình \ref{fig:ui-list-campaign} là ảnh chụp giao diện danh sách các chiến đã được xác minh cho người đóng góp có thể nhìn thấy được. Tại danh sách các chiến dịch, người đóng góp có thể thấy được các thông tin tổng quát của chiến dịch như thời gian bắt đầu, thời gian kết thúc chiến dịch, trạng thái của chiến dịch, \ldots.
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:ui-list-campaign}
+\includegraphics[scale=0.34]{ui-list-campaign}
+\caption{Giao diện người dùng của trang danh sách các chiến dịch}
+\end{center}
+\end{figure}
+
+Để xem thông tin chi tiết của chiến dịch, người đóng góp có thể ấn chọn chiến dịch đó và sau đó là trang thông tin chi tiết chiến dịch như ở hình \ref{fig:ui-detail-campaign}.
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:ui-detail-campaign}
+\includegraphics[scale=0.34]{ui-detail-campaign}
+\caption{Giao diện người dùng của trang chi tiết thông tin chiến dịch}
+\end{center}
+\end{figure}
 
 \section{Đánh giá hệ thống đã hiện thực}
 \subsection{Kiểm tra các quy trình trong hệ thống}
@@ -296,7 +420,7 @@ CMD yarn start
 Kiểm tra các quy trình trong hệ thống nhằm mục tiêu sau:
 
 \begin{itemize}
-\item Xác định đầu ra các hàm trong hợp đồng thông minh có trả về kết quả như mong đợi với đầu vào cho trước hay không.
+\item Xác định đầu ra các hàm trong hợp đồng thông minh có trả về kết quả đúng như mong đợi với đầu vào cho trước hay không.
 \item Việc thực hiện kiểm tra các hàm tuần tự như quy trình hoạt động thực tế của hệ thống.
 \item Phát hiện các lỗi ở mức đơn vị nhỏ nhất trong hệ thống.
 \end{itemize}
@@ -317,16 +441,56 @@ Kịch bản 1 được nhóm tác giả soạn như sau:
 \item Người tạo chiến dịch gọi hàm \textit{registerIdentity} để đăng kí hồ sơ định danh. Kiểm tra kết quả: lấy thông tin hồ sơ định danh đã lưu đối chiếu với đầu vào trước đó đã nhập, hai thông tin có giống nhau?
 \item Nhân viên xác minh gọi hàm \textit{verify} để xác minh cho một hồ sơ định danh. Kiểm tra kết quả: trạng thái của hồ sơ định danh đã được xác minh hay chưa?
 \item Người tạo chiến dịch gọi hàm \textit{createCampaign} để tạo chiến dịch thứ nhất. Kiểm tra kết quả: đối chiếu thông tin chiến dịch đã lưu với đầu vào đã nhập có khớp nhau?
-\item Nhân viên xác minh gọi hàm \textit{verifyCampaign} để xác minh cho chiến dịch, cho phép chiến được nhận đóng góp từ người dùng. Kiểm tra kết quả: trạng thái chiến dịch có được xác minh hay chưa?
+\item Nhân viên xác minh gọi hàm \textit{verifyCampaign} để xác minh cho chiến dịch, cho phép chiến dịch được nhận đóng góp từ người dùng. Kiểm tra kết quả: trạng thái chiến dịch có được xác minh hay chưa?
 \item Người đóng góp gọi hàm \textit{donate} để đóng góp tiền cho chiến dịch, số tiền đóng góp đúng bằng mục tiêu của chiến dịch. Kiểm tra kết quả: chênh lệch số dư trước và sau khi đóng góp có bằng với số tiền đã đóng góp?
 \item Người tạo chiến dịch tiến hành gọi hàm \textit{endCampaign} để gọi lệnh giải ngân từ chiến dịch khi kết thúc thời gian chiến dịch gây quỹ. Kiểm tra kết quả: chênh lệch số dư (tokens) của người tạo chiến dịch trước và sau khi gọi lệnh giải ngân đúng bằng số tiền đã đóng góp hay không?
 \item Người tạo chiến dịch gọi hàm \textit{createCampaign} để tạo chiến dịch thứ hai. Kiểm tra kết quả: đối chiếu thông tin chiến dịch đã lưu với đầu vào đã nhập có khớp nhau?
+\item Nhân viên xác minh gọi hàm \textit{verifyCampaign} để xác minh cho chiến dịch, cho phép chiến dịch được nhận đóng góp từ người dùng. Kiểm tra kết quả: trạng thái chiến dịch có được xác minh hay chưa?
 \item Người đóng góp gọi hàm \textit{donate} để đóng góp tiền cho chiến dịch, số tiền đóng góp không đạt được mục tiêu gây quỹ. Kiểm tra kết quả: chênh lệch số dư trước và sau khi đóng góp có bằng với số tiền đã đóng góp?
 \item Sau khi kết thúc thời gian gây quỹ, người đóng góp tiến hành kiểm tra số dư có đúng bằng số tiền đã đúng bằng số tiền đã đóng góp hay không?
 \end{enumerate}
 
-\subsubsection{Kết quả thực hiện}
+Kịch bản 2 như sau:
 
+\begin{enumerate}[label=(\arabic*)]
+\item Nhân viên vận hành tiến hành biên dịch và triển khai các hợp đồng thông minh lên mạng blockchain. Kiểm tra kết quả: địa chỉ các hợp đồng thông minh đã có trên mạng blockchain hay chưa?
+\item Người đóng góp gọi hàm \textit{deposit} để nộp tiền vào hệ thống, số lượng tài khoản người đóng góp là 5 và mỗi tài khoản sẽ có 1500 tokens dùng cho đóng góp chiến dịch. Kiểm tra kết quả: chênh lệch số dư trước và sau khi gọi hàm có bằng số tiền đã nộp?
+\item Người vận hành gọi hàm \textit{addVerify} để thêm danh sách xác nhân viên xác minh. Kiểm tra kết quả: địa chỉ có trong danh sách địa chỉ nhân viên xác minh?
+\item Người tạo chiến dịch gọi hàm \textit{registerIdentity} để đăng kí hồ sơ định danh. Kiểm tra kết quả: lấy thông tin hồ sơ định danh đã lưu đối chiếu với đầu vào trước đó đã nhập, hai thông tin có giống nhau?
+\item Nhân viên xác minh gọi hàm \textit{verify} để xác minh cho một hồ sơ định danh. Kiểm tra kết quả: trạng thái của hồ sơ định danh đã được xác minh hay chưa?
+\item Người tạo chiến dịch gọi hàm \textit{createCampaign} để tạo chiến dịch thứ nhất, chiến dịch thứ nhất có 3 giai đoạn giải ngân. Kiểm tra kết quả: đối chiếu thông tin chiến dịch đã lưu với đầu vào đã nhập có khớp nhau?
+\item Nhân viên xác minh gọi hàm \textit{verifyCampaign} để xác minh cho chiến dịch, cho phép chiến dịch được nhận đóng góp từ người dùng. Kiểm tra kết quả: trạng thái chiến dịch có được xác minh hay chưa?
+\item Người đóng góp gọi hàm \textit{donate} để đóng góp tiền cho chiến dịch, số tiền đóng góp đúng bằng mục tiêu của chiến dịch. Kiểm tra kết quả: chênh lệch số dư trước và sau khi đóng góp có bằng với số tiền đã đóng góp?
+\item Người tạo chiến dịch tiến hành gọi hàm \textit{endCampaign} để gọi lệnh giải ngân giai đoạn đầu tiên từ chiến dịch khi kết thúc thời gian chiến dịch gây quỹ. Kiểm tra kết quả: chênh lệch số dư (tokens) của người tạo chiến dịch trước và sau khi gọi lệnh giải ngân đúng bằng số tiền được giải ngân ở giai đoạn đầu tiên hay không?
+\item Người đóng góp tiến hành gọi hàm \textit{vote} để bình chọn cho giai đoạn thứ hai trở đi. Kiểm tra kết quả: danh sách đã bình chọn cho giai đoạn giải ngân của chiến dịch có địa chỉ của người đóng góp hay không?
+\item Người tạo chiến dịch tiến hành gọi hàm \textit{endCampaign} lần nữa để gọi lệnh giải ngân giai đoạn tiếp theo. Kiểm tra kết quả: chênh lệch số dư (tokens) của người tạo chiến dịch trước và sau khi gọi lệnh giải ngân đúng bằng số tiền được giải ngân ở giai đoạn đó hay không?
+\end{enumerate}
+
+Với kịch bản 2, nhóm tác giả tiến hành tạo ra nhiều chiến dịch khác nhau, sau đó người đóng góp tiến hành biểu quyết với tỉ lệ đồng ý khác nhau. Kịch bản được nhóm tác giả hiện thực bằng ngôn ngữ Nodejs đính kèm với khóa luận này.
+\subsubsection{Kết quả thực hiện}
+Kết quả chạy kịch bản kiểm thử với kịch bản 1 được thể hiện ở hình \ref{fig:result-one-stage}.
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:result-one-stage}
+\fbox{\includegraphics[scale=1]{result-one-stage}}
+\caption{Kết quả kiểm thử kịch bản 1}
+\end{center}
+\end{figure}
+
+Hình \ref{fig:result-multi-stage} là kết quả kiểm thử với kịch bản 2.
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:result-multi-stage}
+\begin{tabular}{cc}
+\fbox{\includegraphics[scale=0.5]{result-multi-stage-1}}
+&
+\fbox{\includegraphics[scale=0.5]{result-multi-stage-2}}
+\end{tabular}
+\caption{Kết quả kiểm thử kịch bản 2}
+\end{center}
+\end{figure}
 
 \subsection{Đo lường tốc độ thực hiện giao dịch}
 Để tăng tính tin cậy cho phần đánh giá dưới đây của khóa luận, nhóm tác giả đã tham khảo mô hình đánh giá và kết quả đánh giá về hiệu suất của ethereum ở các công trình khác để làm thước đo và thực hiện tương tự với mô hình đánh giá đó.
