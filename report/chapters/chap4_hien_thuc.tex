@@ -360,7 +360,7 @@ Tiếp theo, nhân viên xác minh tiến hành kiểm tra các danh sách các 
 \begin{center}
 \label{fig:ui-list-user}
 \includegraphics[scale=0.34]{ui-list-user}
-\caption{Giao diện người dùng trang hiển thị danh sách hồ sơ định danh}
+\caption{Giao diện trang hiển thị danh sách hồ sơ định danh}
 \end{center}
 \end{figure}
 
@@ -380,7 +380,7 @@ Nếu hồ sơ định danh được xét duyệt, người tạo chiến dịch
 \begin{center}
 \label{fig:ui-create-campaign}
 \includegraphics[scale=0.5]{ui-create-campaign.jpg}
-\caption{Giao diện người dùng trang đăng kí chiến dịch gây quỹ}
+\caption{Giao diện trang đăng kí chiến dịch gây quỹ}
 \end{center}
 \end{figure}
 
@@ -400,7 +400,7 @@ Chỉ có những chiến dịch nào được xét duyệt cho đồng ý đón
 \begin{center}
 \label{fig:ui-list-campaign}
 \includegraphics[scale=0.34]{ui-list-campaign}
-\caption{Giao diện người dùng của trang danh sách các chiến dịch}
+\caption{Giao diện của trang danh sách các chiến dịch}
 \end{center}
 \end{figure}
 
@@ -410,7 +410,7 @@ Chỉ có những chiến dịch nào được xét duyệt cho đồng ý đón
 \begin{center}
 \label{fig:ui-detail-campaign}
 \includegraphics[scale=0.34]{ui-detail-campaign}
-\caption{Giao diện người dùng của trang chi tiết thông tin chiến dịch}
+\caption{Giao diện của trang chi tiết thông tin chiến dịch}
 \end{center}
 \end{figure}
 
@@ -680,6 +680,164 @@ Wallet                                  & 1163284                               
 \item Contract \textit{Campaigns} có chi phí triển khai cao nhất (3447461 gas), contract có chi phí triển khai thấp nhất là \textit{Identity} với 1163284 gas.
 \end{itemize}
 \subsection{Phân tích bảo mật của hợp đồng thông minh trong hệ thống}
+\subsubsection{Các lỗ hổng phổ biến trong hợp đồng thông minh trên Ethereum}
+Các lỗ hổng phổ biến được nhóm tác giả tham khảo từ công trình khảo sát của tác giả Nicola Atzei \cite{atzei2016survey}, bảng \ref{tab:smartcontract-vuln} là bảng tổng hợp được trình được trích dẫn từ tác giả Atzei.
+
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+\begin{table}[!ht]
+\centering
+\begin{tabular}{|l|l|}
+\hline
+\multicolumn{1}{|c|}{\textbf{Level}} & \multicolumn{1}{c|}{\textbf{Cause of vulnerability}} \\ \hline
+\multirow{6}{*}{Solidity} & Call to the unknown \\ \cline{2-2} 
+ & Gasless send \\ \cline{2-2} 
+ & Exception disorders \\ \cline{2-2} 
+ & Type casts \\ \cline{2-2} 
+ & Reentrancy \\ \cline{2-2} 
+ & Keeping secrets \\ \hline
+\multirow{3}{*}{EVM} & Immutable bugs \\ \cline{2-2} 
+ & Ether lost in transfer \\ \cline{2-2} 
+ & Stack size limit \\ \hline
+\multirow{3}{*}{Blockchain} & Unpredictable state \\ \cline{2-2} 
+ & Generating randomness \\ \cline{2-2} 
+ & Time constraints \\ \hline
+\end{tabular}
+\caption{Bảng tổng hợp các lỗ hổng trong hợp đồng thông minh trên Ethereum \cite{atzei2016survey}.}
+\label{tab:smartcontract-vuln}
+\end{table}
+
+Phần này chỉ tập trung vào giới thiệu các lỗi phổ biến với smart contract được lập trình bằng ngôn ngữ Solidity.
+
+\textbf{Call to unknown} -- một lổ hổng khi gọi tới một vài lệnh cơ bản trong solidity như \texttt{call}, \texttt{send}, \texttt{delegatecall}. Nếu đối tượng được gọi trong các hàm này không tồn tại thì sẽ có một tác dụng phụ là gọi đến hàm fallback\footnote{fall back là một hàm đặc biệt trong smart contract, là hàm không có tên và được sử dụng khi: contract nhận ether, hoặc khi có ai đó gọi hàm không có trong contract hoặc tham số không đúng.} của người nhận.
+
+\textbf{Gasless send} -- khi sử dụng hàm \texttt{send} để chuyển \gls{eth} sang contract, có thể xảy ra lỗi out-of-gas (hết gas / không đủ gas) do việc thực thi hàm \texttt{send} đến contract sẽ dẫn đến gọi fallback của contract, mà số gas giới hạn trong trường hợp này là 2300 gas. Mà 2300 gas chỉ cho phép thực hiện một tập bytecode giới hạn, ví dụ: những lệnh / hàm không làm thay đổi trạng thái của contract. Nếu fallback có những tập lệnh phức tạp sẽ dẫn đến lỗi, khi đó người dùng sẽ bị mất toàn bộ phí thực hiện transaction.
+
+\textbf{Exception disorder} -- có thể tạm dịch lổ hổng này là làm rối exception. Trong smart contract có một điều đặc biệt là với một exception được ném ra thì sẽ có hai cách xử lí khác nhau phụ thuộc vào cách các contract gọi nhau. Cụ thể:
+
+\begin{itemize}
+\item Nếu tất cả lời gọi hàm trong chuỗi đều là lời gọi trực tiếp, thì việc thực thi dừng lại và mọi giá trị trong lúc thực thi được hoàn nguyên.
+\item Nếu có ít nhất một lời gọi hàm được thực hiện thông qua lệnh \texttt{call} (tương tự với  \texttt{delegatecall} và \texttt{send}), thì exception được truyền dọc theo chuỗi, chỉ hoàn nguyên các giá trị thực thi bên trong hàm của lời gọi call. Từ thời điểm đó (từ lệnh \texttt{call}), việc thực hiện được nối lại, và lệnh \texttt{call} trả về \texttt{false}.
+\end{itemize}
+
+Để hiểu rõ về lỗ hổng, ta xem xét một ví dụ sau:
+
+\begin{lstlisting}
+contract Alice { function ping(uint) returns (uint) }
+
+contract Bob { 
+    uint x=0;
+    function pong(Alice c) {
+        x=1;
+        c.ping(42);
+        x=2;
+    }
+}
+\end{lstlisting}
+
+Có hai trường hợp xảy ra:
+
+\begin{itemize}
+\item Trường hợp 1: thực hiện gọi hàm pong của Bob và sau đó hàm ping của Alice ném ra một exception. Sau đó, việc thực thi dừng lại và các giá trị của toàn bộ giao dịch được hoàn nguyên. Do đó, biến \texttt{x} có giá trị là $0$ sau khi kết thúc việc thực thi.
+\item Trường hợp 2: giả sử contract Bob gọi ping của Alice thông qua lệnh call và sau đó ping của Alice ném ra một exception. Khi đó, chỉ có giá trị bên trong hàm ping được hoàn nguyên và lúc này khi kết thúc việc thực thi thì giá trị của \texttt{x} là $2$.
+\end{itemize}
+
+Sự bất thường trong cách xử lý các trường hợp exception có thể ảnh hưởng đến tính bảo mật của contract. Chẳng hạn, sẽ khiến lập trình viên tin rằng việc chuyển ether thông qua hàm \texttt{send} là thành công chỉ vì không có exception nào có thể dẫn đến các cuộc tấn công.
+
+\textbf{Type casts} -- trình biên dịch Solidity có thể phát hiện một số lỗi kiểu dữ liệu. Ví dụ: gán một giá trị số nguyên cho một biến thuộc kiểu chuỗi. Khi thực hiện gọi một hàm hay chương trình con nào đó, người gọi phải khai báo interface của hàm hay chương trình con đó. Nhưng điều này chỉ kiểm tra được hàm đó có tồn tại không, chứ không xác định được mã thực thi của hàm đích có trùng khớp với hàm thực tế cần gọi hay không. Do đó, điều này có thể đánh lừa lập trình vì khi thực thi sẽ không có bất lỗi nào được ném ra dù cho việc gọi hàm không đúng như mong muốn.
+
+\textbf{Reentrancy} -- lỗ hổng này cho phép gọi lại một hàm không đệ quy lần nữa nhờ vào cơ chế gọi fallback của solidity. Như đã đề cập trước đó, nếu ta sử dụng lệnh call hoặc các lệnh tương tự mà đích đến không tồn tại hoặc rỗng thì sẽ thực hiện gọi fallback của contract, điều này có thể dẫn đến vòng lặp, vòng lặp này kết thúc khi tiêu thụ hết gas. Để rõ hơn lỗ hổng này, xem xét ví dụ sau:
+
+\begin{lstlisting}
+contract Bob {
+  bool sent = false;
+  function ping(address c) {
+    if (!sent) {
+      c.call.value(2)();
+      sent = true;
+    }
+  }
+}
+
+contract Attacker {
+  function() {
+    Bob(msg.sender).ping(this);
+  }
+}
+\end{lstlisting}
+
+Cách khai thác ví dụ trên:
+
+\begin{itemize}
+\item Chức năng của hàm ping trong contract \textbf{Bob}: gửi 2wei đến địa chỉ \textbf{c}, sử dụng lệnh \texttt{call} có đích đến rỗng (tức không gọi hàm nào) và không có giới hạn gas.
+\item Bây giờ, giả sử rằng ping đã được gọi với địa chỉ của \textbf{Attacker}. Như đã đề cập trước đó, \texttt{call} có tác dụng phụ là gọi fallback của \textbf{Attacker}, lần lượt gọi lại ping. Vì biến \textbf{sent} chưa được đặt thành \texttt{true}, Bob gửi lại 2wei cho Attacker và gọi lại fallback lần nữa, do đó bắt đầu một vòng lặp. Vòng lặp này kết thúc khi việc thực thi cuối cùng hết gas hoặc khi đạt đến giới hạn ngăn xếp hoặc khi Bob đã rút hết ether của mình.
+\end{itemize}
+
+\textbf{Keeping secrets} -- trong smart contract hỗ trợ việc khai báo cấp độ truy xuất dữ liệu từ riêng tư đến công khai. Tuy nhiên việc khai báo một biến hay một hàm nào đó là riêng tư chỉ có tác dụng ngăn người dùng hoặc contract khác gọi trực tiếp, trên thực tế người dùng vẫn đọc được giá trị của các biến được khai báo là riêng tư trong smart contract, do đó không đảm bảo được độ bí mật của dữ liệu. Điều này là do mỗi lời gọi hàm được đóng gói trong transaction, và các transaction này được công khai trong toàn mạng blockchain. Vì thế, mọi người đều có thể kiểm tra nội dung của giao dịch và suy ra giá trị của các trường dữ liệu.
+
+\subsubsection{Các công cụ phân tích bảo mật smart contract}
+\label{sec:smartcontract-vuln}
+Danh sách các công cụ phân tích, đánh giá smart contract giới thiệu bên dưới được tham khảo từ công trình của tác giả Jiaming Ye \cite{8728953} và luận văn thạc sĩ của tác giả Ardit Dika \cite{dika2017ethereum}.
+
+\textbf{Smartcheck}\footnote{https://tool.smartdec.net} -- là một công cụ phân tích tĩnh giúp phát hiện ra những lỗi hoặc cảnh báo trong smart contract được viết bằng Solidity. Công cụ này có các ưu điểm sau:
+
+\begin{itemize}
+\item Giao diện dễ sử dụng, kiểm tra được nhiều contract,hiện.
+\item Các lỗ hổng có thể phát hiện: \textit{Non-strict comparison with zero}, \textit{Hardcoded address},  \textit{DoS by external contract}, \textit{Reentrancy}, \textit{Overflow and Underflow in Solidity}, \textit{Redundant fallback function}, \ldots.
+\item Ở mỗi lỗi được phát hiện, smartcheck cung cấp cụ thể số dòng bị lỗi và đánh dấu chúng.
+\item Bên cạnh việc phát hiện lỗ hổng, smartcheck còn cung cấp giải pháp khắc phục từng lỗ hổng đó.
+\end{itemize}
+
+\textbf{Remix}\footnote{https://remix.ethereum.org} -- là một IDE dựa trên web để phát triển hợp đồng thông minh. Ngoài ra, Remix IDE còn được sử dụng như một công cụ phân tích mã bảo mật để kiểm tra các lỗ hổng có thể xảy ra. Remix IDE chỉ được sử dụng để phân tích mã nguồn Solidity. Remix IDE có khả năng phân tích gần như 100\% các lỗ hổng hiện tại của hợp đồng thông minh \cite{dika2017ethereum}.
+
+\textbf{Slither}\footnote{https://github.com/crytic/slither} -- là framework phân tích tĩnh Solidity được viết bằng Python 3. Slither chạy bộ các trình phát hiện lỗ hổng, in thông tin trực quan về chi tiết hợp đồng và cung cấp API để dễ dàng viết các phân tích tùy chỉnh. Slither cho phép các nhà phát triển tìm ra các lỗ hổng, tăng cường khả năng đọc mã và nhanh chóng phân tích với những sự tùy chỉnh. Các chức năng và ưu điểm của Slither:
+
+\begin{itemize}
+\item Phát hiện các lỗ hổng trong Solidity.
+\item Xác định nơi xảy ra tình trạng lỗi trong mã nguồn.
+\item Dễ dàng tích hợp với bộ công cụ Truffle.
+\item Tích hợp các trình báo cáo để biểu diễn thông tin contract.
+\item Hỗ trợ API để viết các trình phân tích tùy chỉnh bằng Python.
+\item Khả năng phân tích các hợp đồng được viết với phiên bản Solidity > 0.4
+\item Phân tích chính xác 99,9\% tất cả mã Solidity công khai.
+\item Thời gian thực hiện trung bình dưới 1 giây mỗi contract.
+\end{itemize}
+
+Cả ba công cụ được giới thiệu ở trên đều là phần mềm mã nguồn mở.
+\subsubsection{Kết quả phân tích}
+Nhóm tác giả sử dụng các công cụ đã được giới thiệu ở mục \ref{sec:smartcontract-vuln} để thực hiện phân tích trên các smart contract của hệ thống. Cụ thể kết quả với từng công cụ như sau:
+
+Kết quả phân tích với Remix IDE được thể hiện ở hình \ref{fig:result-remix-ide}. Kết quả công cụ phân tích của Remix chỉ đưa ra 5 cảnh báo, cụ thể ở cảnh báo đầu tiên là về việc sử dụng lệnh \texttt{send} để chuyển ether, thì nhóm tác giả đã kiểm tra kĩ lưỡng các giá trị trước và sau lệnh send này nên hạn chế được các lỗ hổng như reentrancy.
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:result-remix-ide}
+\fbox{\includegraphics[scale=0.6]{result-remix-ide}}
+\caption{Kết quả phân tích hợp đồng thông minh với Remix IDE}
+\end{center}
+\end{figure}
+
+Hình \ref{fig:result-slither} là kết quả khi thực hiện phân tích với công cụ Slither. Kết quả phân tích cho thấy số contract thực hiện quét là 6 với 40 bộ nhận diện và có 3 vấn đề được tìm thấy. Các vấn đề quét được là cảnh báo lỗ hổng Reentrancy, tuy nhiên cảnh báo này không ảnh hướng đến bảo mật của contract.
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:result-slither}
+\fbox{\includegraphics[scale=0.8]{result-slither}}
+\caption{Kết quả phân tích hợp đồng thông minh với Slither}
+\end{center}
+\end{figure}
+
+Công cụ Smartcheck được cung cấp dưới dạng giao diện web, do đó kết quả phân tích trên Smartcheck cũng được công khai\footnote{Kết quả phân tích với Smartcheck: https://tool.smartdec.net/scan/e6d6a5d37015403faf92395ec7f543c8}. Hình \ref{fig:result-smartcheck} là ảnh chụp kết quả phân tích các hợp đồng thông minh trong hệ thống trên trang Smartcheck. Trong kết quả ta thấy bên cột bên phải là danh sách các lỗi, đọc qua các lỗi thì đây là những cảnh báo giúp cho lập trình hiệu quả hơn, không ảnh hướng tới bảo mật của hợp đồng thông minh.
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:result-smartcheck}
+\fbox{\includegraphics[scale=0.4]{result-smartcheck}}
+\caption{Kết quả phân tích hợp đồng thông minh với Smartcheck}
+\end{center}
+\end{figure}
+
+Đánh giá chung kết quả phân tích cho thấy, hợp đồng thông minh được hiện thực của hệ thống không gặp phải vấn đề bảo mật nghiêm trọng trên các công cụ đã phân tích.
 
 \subsection{Đánh giá tốc độ tải trang của giao diện người dùng}
 \subsubsection{Môi trường thực hiện}
@@ -712,4 +870,11 @@ Explore campaigns                   & 14 ms                                 & 79
 \caption{Bảng kết quả đo tốc độ truy xuất front-end của hệ thống}
 \label{tab:result-perform-ui}
 \end{table}
+
+Đánh giá kết quả như sau:
+
+\begin{itemize}
+\item Trang danh sách chiến dịch (Explore campaign) có tổng thời gian hoàn thành lâu nhất với 2.77 giây, do trang này tải thông tin của nhiều chiến dịch, mỗi chiến dịch là một lời gọi đến hợp đồng thông minh. Bên cạnh đó, mỗi chiến dịch cũng cần truy xuất thông tin đến cơ sở dữ liệu tập trung. Thật vậy vì tốc độ tải ban đầu (cột ``loading'') tương đối thấp, do đó tổng thời gian hoàn thành trang lâu nhất là do ảnh hưởng các thành phần phụ thuộc kèm theo như đã đề cập.
+\item Trang chủ (Home page) có thời gian hoàn thành nhanh nhất với 0.898 giây, không lạ gì do trang chủ hoàn toàn là một trang tĩnh.
+\end{itemize}
 \end{document}

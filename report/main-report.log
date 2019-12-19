@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2019.10.30)  17 DEC 2019 00:53
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2019.10.30)  20 DEC 2019 03:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1422,8 +1422,14 @@ l.51 ...{\^a}y qu\IeC {\~y}}{16}{subsection.3.2.2}
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.129 ...\'a}c service}{40}{subsubsection.4.1.3.3}
-                                                  % [2])
+l.129 ...\'a}c service}{43}{subsubsection.4.1.3.3}
+                                                  % [2]pdfTeX warning (ext4): d
+estination with the same identifier (name{page.}) has been already used, duplic
+ate ignored
+<to be read again> 
+                   \relax 
+l.191 ...o}ng minh - Disbursement}{86}{appendix.D}
+                                                  % [3])
 \tf@toc=\write6
 \openout6 = `main-report.toc'.
 
@@ -1432,11 +1438,11 @@ een already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.113 \newpage
-               [3] (./main-report.lofpdfTeX warning (ext4): destination with th
+               [4] (./main-report.lofpdfTeX warning (ext4): destination with th
 e same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.71 ...\d i}ch b\IeC {\h a}n 1}}{48}{figure.4.14}
+l.71 ...mflex }n d\IeC {\d i}ch}}{49}{figure.4.13}
                                                   % [1
 
 
@@ -1466,13 +1472,13 @@ Using TeX to sort glossary entries---this may take a while
 ]
 Ch\uhorn \ohorn ng 1.
 (./chapters/chap1_mo_dau.tex
-<figures/chart-problem-charity1.png, id=580, 640.3925pt x 317.185pt>
+<figures/chart-problem-charity1.png, id=612, 640.3925pt x 317.185pt>
 File: figures/chart-problem-charity1.png Graphic file (type png)
 <use figures/chart-problem-charity1.png>
 Package pdftex.def Info: figures/chart-problem-charity1.png  used on input line
  12.
 (pdftex.def)             Requested size: 416.25018pt x 206.16779pt.
-<figures/chart-problem-charity2.png, id=583, 556.0775pt x 345.29pt>
+<figures/chart-problem-charity2.png, id=615, 556.0775pt x 345.29pt>
 File: figures/chart-problem-charity2.png Graphic file (type png)
 <use figures/chart-problem-charity2.png>
 Package pdftex.def Info: figures/chart-problem-charity2.png  used on input line
@@ -1491,7 +1497,7 @@ Ch\uhorn \ohorn ng 2.
 (./chapters/chap2_tong_quan.tex [11
 
 ] [12]
-<figures/crowdfunding-process-old.png, id=651, 523.9575pt x 234.1247pt>
+<figures/crowdfunding-process-old.png, id=683, 523.9575pt x 234.1247pt>
 File: figures/crowdfunding-process-old.png Graphic file (type png)
 <use figures/crowdfunding-process-old.png>
 Package pdftex.def Info: figures/crowdfunding-process-old.png  used on input li
@@ -1502,229 +1508,251 @@ Ch\uhorn \ohorn ng 3.
 (./chapters/chap3_phan_tich_va_thiet_ke.tex [15
 
 ]
-<figures/crowdfunding-process.png, id=675, 562.38104pt x 327.50356pt>
+<figures/crowdfunding-process.png, id=706, 562.38104pt x 327.50356pt>
 File: figures/crowdfunding-process.png Graphic file (type png)
 <use figures/crowdfunding-process.png>
 Package pdftex.def Info: figures/crowdfunding-process.png  used on input line 2
 5.
 (pdftex.def)             Requested size: 421.78474pt x 245.62706pt.
  [16 <./figures/crowdfunding-process.png>]
-<figures/system-architecture.png, id=686, 445.665pt x 302.69086pt>
+<figures/system-architecture.png, id=717, 445.665pt x 302.69086pt>
 File: figures/system-architecture.png Graphic file (type png)
 <use figures/system-architecture.png>
 Package pdftex.def Info: figures/system-architecture.png  used on input line 48
 .
 (pdftex.def)             Requested size: 401.09479pt x 272.41925pt.
  [17 <./figures/system-architecture.png>]
-<figures/usecase-vi.png, id=695, 554.7927pt x 633.92834pt>
+<figures/usecase-vi.png, id=726, 554.7927pt x 633.92834pt>
 File: figures/usecase-vi.png Graphic file (type png)
 <use figures/usecase-vi.png>
 Package pdftex.def Info: figures/usecase-vi.png  used on input line 69.
 (pdftex.def)             Requested size: 332.87817pt x 380.35994pt.
-<figures/function-tree.png, id=697, 514.92375pt x 251.4996pt>
+<figures/function-tree.png, id=728, 536.7252pt x 251.4996pt>
 File: figures/function-tree.png Graphic file (type png)
 <use figures/function-tree.png>
 Package pdftex.def Info: figures/function-tree.png  used on input line 88.
-(pdftex.def)             Requested size: 360.44417pt x 176.04851pt.
-<figures/user-data-flow.png, id=699, 2237.35875pt x 1478.52374pt>
+(pdftex.def)             Requested size: 375.70508pt x 176.04851pt.
+<figures/user-data-flow.png, id=730, 2237.35875pt x 1478.52374pt>
 File: figures/user-data-flow.png Graphic file (type png)
 <use figures/user-data-flow.png>
 Package pdftex.def Info: figures/user-data-flow.png  used on input line 98.
-(pdftex.def)             Requested size: 380.34596pt x 251.3457pt.
-<figures/deposit-activity.png, id=701, 531.54585pt x 460.72125pt>
-File: figures/deposit-activity.png Graphic file (type png)
-<use figures/deposit-activity.png>
-Package pdftex.def Info: figures/deposit-activity.png  used on input line 112.
-(pdftex.def)             Requested size: 425.23726pt x 368.5775pt.
+(pdftex.def)             Requested size: 402.7072pt x 266.12279pt.
  [18]
 
 LaTeX Warning: Text page 19 contains only floats.
 
-[19 <./figures/usecase-vi.png> <./figures/function-tree.png>]
-<figures/withdraw-activity.png, id=712, 531.54585pt x 390.0171pt>
+[19 <./figures/usecase-vi.png> <./figures/function-tree.png>] [20 <./figures/us
+er-data-flow.png>]
+<figures/deposit-activity.png, id=746, 531.54585pt x 460.72125pt>
+File: figures/deposit-activity.png Graphic file (type png)
+<use figures/deposit-activity.png>
+Package pdftex.def Info: figures/deposit-activity.png  used on input line 121.
+(pdftex.def)             Requested size: 425.23726pt x 368.5775pt.
+ [21 <./figures/deposit-activity.png>]
+<figures/withdraw-activity.png, id=758, 531.54585pt x 390.0171pt>
 File: figures/withdraw-activity.png Graphic file (type png)
 <use figures/withdraw-activity.png>
-Package pdftex.def Info: figures/withdraw-activity.png  used on input line 122.
+Package pdftex.def Info: figures/withdraw-activity.png  used on input line 143.
 
 (pdftex.def)             Requested size: 425.23726pt x 312.0141pt.
- [20 <./figures/user-data-flow.png>] [21 <./figures/deposit-activity.png>] [22 
-<./figures/withdraw-activity.png>]
-<figures/identity-process-1.png, id=732, 1026.83624pt x 536.0025pt>
+ [22 <./figures/withdraw-activity.png>] [23]
+<figures/identity-process-1.png, id=778, 1026.83624pt x 536.0025pt>
 File: figures/identity-process-1.png Graphic file (type png)
 <use figures/identity-process-1.png>
-Package pdftex.def Info: figures/identity-process-1.png  used on input line 177
+Package pdftex.def Info: figures/identity-process-1.png  used on input line 207
 .
 (pdftex.def)             Requested size: 410.72722pt x 214.3972pt.
-<figures/identity-process-2.png, id=734, 1231.60126pt x 637.38126pt>
+ [24 <./figures/identity-process-1.png>]
+<figures/identity-process-2.png, id=788, 1231.60126pt x 637.38126pt>
 File: figures/identity-process-2.png Graphic file (type png)
 <use figures/identity-process-2.png>
-Package pdftex.def Info: figures/identity-process-2.png  used on input line 194
+Package pdftex.def Info: figures/identity-process-2.png  used on input line 224
 .
 (pdftex.def)             Requested size: 431.0669pt x 223.08678pt.
- [23 <./figures/identity-process-1.png>] [24 <./figures/identity-process-2.png>
-]
-LaTeX Font Info:    Try loading font information for T5+pcr on input line 230.
+ [25 <./figures/identity-process-2.png>]
+LaTeX Font Info:    Try loading font information for T5+pcr on input line 260.
  (/usr/share/texlive/texmf-dist/tex/latex/vntex/t5pcr.fd
 File: t5ucr.fd 2005/08/24 Fontinst v1.929 font definitions for T5/pcr.
 )
-LaTeX Font Info:    Try loading font information for TS1+pcr on input line 231.
-
+LaTeX Font Info:    Try loading font information for TS1+pcr on input line 261.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1pcr.fd
 File: ts1pcr.fd 2001/06/04 font definitions for TS1/pcr.
-)
-<figures/create-campaign-activity.png, id=748, 645.1302pt x 558.6471pt>
+) [26]
+<figures/create-campaign-activity.png, id=803, 645.1302pt x 558.6471pt>
 File: figures/create-campaign-activity.png Graphic file (type png)
 <use figures/create-campaign-activity.png>
 Package pdftex.def Info: figures/create-campaign-activity.png  used on input li
-ne 244.
+ne 274.
 (pdftex.def)             Requested size: 419.32967pt x 363.1163pt.
- [25] [26 <./figures/create-campaign-activity.png>] [27] [28]
-<figures/smartcontract-structure.png, id=775, 563.10374pt x 775.4571pt>
+ [27 <./figures/create-campaign-activity.png>] [28] [29] [30]
+<figures/smartcontract-structure.png, id=830, 563.10374pt x 775.4571pt>
 File: figures/smartcontract-structure.png Graphic file (type png)
 <use figures/smartcontract-structure.png>
 Package pdftex.def Info: figures/smartcontract-structure.png  used on input lin
-e 325.
+e 388.
 (pdftex.def)             Requested size: 366.01309pt x 504.04115pt.
-) [29 <./figures/smartcontract-structure.png>]
+ [31 <./figures/smartcontract-structure.png>]
+<figures/db-design.png, id=836, 194.28584pt x 173.2071pt>
+File: figures/db-design.png Graphic file (type png)
+<use figures/db-design.png>
+Package pdftex.def Info: figures/db-design.png  used on input line 408.
+(pdftex.def)             Requested size: 194.28535pt x 173.20668pt.
+) [32 <./figures/db-design.png>]
 Ch\uhorn \ohorn ng 4.
 (./chapters/chap4_hien_thuc.tex
-<figures/architecture-implementation.png, id=783, 1367.1075pt x 855.195pt>
+<figures/architecture-implementation.png, id=844, 1367.1075pt x 855.195pt>
 File: figures/architecture-implementation.png Graphic file (type png)
 <use figures/architecture-implementation.png>
 Package pdftex.def Info: figures/architecture-implementation.png  used on input
  line 23.
 (pdftex.def)             Requested size: 410.13542pt x 256.56049pt.
- [30
+ [33
 
-] [31 <./figures/architecture-implementation.png>] [32]
-<figures/material-chart-survey.png, id=816, 484.05844pt x 320.69812pt>
+] [34 <./figures/architecture-implementation.png>] [35]
+<figures/material-chart-survey.png, id=876, 484.05844pt x 320.69812pt>
 File: figures/material-chart-survey.png Graphic file (type png)
 <use figures/material-chart-survey.png>
 Package pdftex.def Info: figures/material-chart-survey.png  used on input line 
 59.
 (pdftex.def)             Requested size: 387.24727pt x 256.55884pt.
- [33 <./figures/material-chart-survey.png>] [34] [35] [36] [37]
-[38] [39]
-<figures/ui-wallet.png, id=994, 1342.01375pt x 581.17125pt>
+ [36 <./figures/material-chart-survey.png>] [37] [38] [39] [40]
+[41] [42]
+<figures/ui-wallet.png, id=1054, 1342.01375pt x 581.17125pt>
 File: figures/ui-wallet.png Graphic file (type png)
 <use figures/ui-wallet.png>
 Package pdftex.def Info: figures/ui-wallet.png  used on input line 311.
 (pdftex.def)             Requested size: 429.45317pt x 185.97859pt.
-<figures/ui-add-verifier.png, id=996, 1283.79625pt x 361.35pt>
+<figures/ui-add-verifier.png, id=1056, 1283.79625pt x 361.35pt>
 File: figures/ui-add-verifier.png Graphic file (type png)
 <use figures/ui-add-verifier.png>
 Package pdftex.def Info: figures/ui-add-verifier.png  used on input line 321.
 (pdftex.def)             Requested size: 436.48495pt x 122.85738pt.
-<figures/ui-register-identity.png, id=998, 1280.785pt x 612.2875pt>
+<figures/ui-register-identity.png, id=1058, 1280.785pt x 612.2875pt>
 File: figures/ui-register-identity.png Graphic file (type png)
 <use figures/ui-register-identity.png>
 Package pdftex.def Info: figures/ui-register-identity.png  used on input line 3
 31.
 (pdftex.def)             Requested size: 422.66035pt x 202.0555pt.
- [40 <./figures/ui-wallet.png>]
-<figures/ui-metamask-confirm-1.png, id=1007, 356.33125pt x 616.3025pt>
+ [43 <./figures/ui-wallet.png>]
+<figures/ui-metamask-confirm-1.png, id=1067, 356.33125pt x 616.3025pt>
 File: figures/ui-metamask-confirm-1.png Graphic file (type png)
 <use figures/ui-metamask-confirm-1.png>
 Package pdftex.def Info: figures/ui-metamask-confirm-1.png  used on input line 
 342.
 (pdftex.def)             Requested size: 178.16518pt x 308.1505pt.
-<figures/ui-transaction-detail.png, id=1010, 841.1425pt x 488.82625pt>
+<figures/ui-transaction-detail.png, id=1070, 841.1425pt x 488.82625pt>
 File: figures/ui-transaction-detail.png Graphic file (type png)
 <use figures/ui-transaction-detail.png>
 Package pdftex.def Info: figures/ui-transaction-detail.png  used on input line 
 352.
 (pdftex.def)             Requested size: 420.57022pt x 244.41252pt.
-<figures/ui-list-user.png, id=1012, 1284.8pt x 320.69812pt>
+<figures/ui-list-user.png, id=1072, 1284.8pt x 320.69812pt>
 File: figures/ui-list-user.png Graphic file (type png)
 <use figures/ui-list-user.png>
 Package pdftex.def Info: figures/ui-list-user.png  used on input line 362.
 (pdftex.def)             Requested size: 436.82622pt x 109.0359pt.
-<figures/ui-identity-view.png, id=1014, 616.3025pt x 357.83687pt>
+<figures/ui-identity-view.png, id=1074, 616.3025pt x 357.83687pt>
 File: figures/ui-identity-view.png Graphic file (type png)
 <use figures/ui-identity-view.png>
 Package pdftex.def Info: figures/ui-identity-view.png  used on input line 372.
 (pdftex.def)             Requested size: 431.40881pt x 250.48409pt.
- [41 <./figures/ui-add-verifier.png> <./figures/ui-register-identity.png>]
+ [44 <./figures/ui-add-verifier.png> <./figures/ui-register-identity.png>]
 
-LaTeX Warning: Text page 42 contains only floats.
+LaTeX Warning: Text page 45 contains only floats.
 
-[42 <./figures/ui-metamask-confirm-1.png> <./figures/ui-transaction-detail.png>
+[45 <./figures/ui-metamask-confirm-1.png> <./figures/ui-transaction-detail.png>
 ]
-<figures/ui-create-campaign.jpg, id=1029, 879.285pt x 1013.7875pt>
+<figures/ui-create-campaign.jpg, id=1090, 879.285pt x 1013.7875pt>
 File: figures/ui-create-campaign.jpg Graphic file (type jpg)
 <use figures/ui-create-campaign.jpg>
 Package pdftex.def Info: figures/ui-create-campaign.jpg  used on input line 382
 .
 (pdftex.def)             Requested size: 439.64143pt x 506.89252pt.
-<figures/ui-campaign-pending.png, id=1031, 1279.78125pt x 615.29875pt>
+<figures/ui-campaign-pending.png, id=1092, 1279.78125pt x 615.29875pt>
 File: figures/ui-campaign-pending.png Graphic file (type png)
 <use figures/ui-campaign-pending.png>
 Package pdftex.def Info: figures/ui-campaign-pending.png  used on input line 39
 2.
 (pdftex.def)             Requested size: 435.11987pt x 209.1988pt.
-<figures/ui-list-campaign.png, id=1033, 1281.78876pt x 619.31375pt>
+<figures/ui-list-campaign.png, id=1094, 1281.78876pt x 619.31375pt>
 File: figures/ui-list-campaign.png Graphic file (type png)
 <use figures/ui-list-campaign.png>
 Package pdftex.def Info: figures/ui-list-campaign.png  used on input line 402.
 (pdftex.def)             Requested size: 435.80241pt x 210.56389pt.
- [43 <./figures/ui-list-user.png> <./figures/ui-identity-view.png>]
-
-! LaTeX Error: File `ui-detail-campaign' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.412 ...egraphics[scale=0.34]{ui-detail-campaign}
-                                                  
-I could not locate the file with any of these extensions:
-.pdf,.png,.jpg,.mps,.jpeg,.jbig2,.jb2,.PDF,.PNG,.JPG,.JPEG,.JBIG2,.JB2,.eps
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-[44 <./figures/ui-create-campaign.jpg>] [45 <./figures/ui-campaign-pending.png>
- <./figures/ui-list-campaign.png>] [46] [47]
-<figures/result-one-stage.png, id=1082, 352.31625pt x 162.6075pt>
+ [46 <./figures/ui-list-user.png> <./figures/ui-identity-view.png>]
+<figures/ui-detail-campaign.png, id=1102, 1274.7625pt x 618.31pt>
+File: figures/ui-detail-campaign.png Graphic file (type png)
+<use figures/ui-detail-campaign.png>
+Package pdftex.def Info: figures/ui-detail-campaign.png  used on input line 412
+.
+(pdftex.def)             Requested size: 433.41351pt x 210.22261pt.
+ [47 <./figures/ui-create-campaign.jpg>] [48 <./figures/ui-campaign-pending.png
+> <./figures/ui-list-campaign.png>] [49 <./figures/ui-detail-campaign.png>] [50
+]
+<figures/result-one-stage.png, id=1140, 352.31625pt x 162.6075pt>
 File: figures/result-one-stage.png Graphic file (type png)
 <use figures/result-one-stage.png>
 Package pdftex.def Info: figures/result-one-stage.png  used on input line 476.
 (pdftex.def)             Requested size: 352.31538pt x 162.6071pt.
-<figures/result-multi-stage-1.png, id=1084, 390.70969pt x 262.73157pt>
+<figures/result-multi-stage-1.png, id=1142, 390.70969pt x 262.73157pt>
 File: figures/result-multi-stage-1.png Graphic file (type png)
 <use figures/result-multi-stage-1.png>
 Package pdftex.def Info: figures/result-multi-stage-1.png  used on input line 4
 87.
 (pdftex.def)             Requested size: 195.35435pt x 131.36545pt.
-<figures/result-multi-stage-2.png, id=1085, 401.24907pt x 305.64188pt>
+<figures/result-multi-stage-2.png, id=1143, 401.24907pt x 305.64188pt>
 File: figures/result-multi-stage-2.png Graphic file (type png)
 <use figures/result-multi-stage-2.png>
 Package pdftex.def Info: figures/result-multi-stage-2.png  used on input line 4
 89.
 (pdftex.def)             Requested size: 200.62404pt x 152.82056pt.
- [48 <./figures/result-one-stage.png (PNG copy)>] [49 <./figures/result-multi-s
-tage-1.png (PNG copy)> <./figures/result-multi-stage-2.png (PNG copy)>]
-<figures/result-time-perform-chart.png, id=1106, 768.471pt x 779.0706pt>
+ [51]
+[52 <./figures/result-one-stage.png (PNG copy)> <./figures/result-multi-stage-1
+.png (PNG copy)> <./figures/result-multi-stage-2.png (PNG copy)>] [53]
+<figures/result-time-perform-chart.png, id=1171, 768.471pt x 779.0706pt>
 File: figures/result-time-perform-chart.png Graphic file (type png)
 <use figures/result-time-perform-chart.png>
 Package pdftex.def Info: figures/result-time-perform-chart.png  used on input l
 ine 561.
 (pdftex.def)             Requested size: 384.23456pt x 389.53435pt.
- [50] [51 <./figures/result-time-perform-chart.png
-
-pdfTeX warning: /usr/bin/pdflatex (file ./figures/result-time-perform-chart.png
-): large interlaced PNG might cause out of memory (use non-interlaced PNG to fi
-x this)
->]
-<figures/result-perform-cost-1.png, id=1120, 403.5075pt x 180.675pt>
+ [54]
+<figures/result-perform-cost-1.png, id=1182, 403.5075pt x 180.675pt>
 File: figures/result-perform-cost-1.png Graphic file (type png)
 <use figures/result-perform-cost-1.png>
 Package pdftex.def Info: figures/result-perform-cost-1.png  used on input line 
 620.
 (pdftex.def)             Requested size: 322.80644pt x 144.54018pt.
- [52 <./figures/result-perform-cost-1.png (PNG copy)>] [53] [54]) [55]
+
+[55 <./figures/result-time-perform-chart.png
+
+pdfTeX warning: /usr/bin/pdflatex (file ./figures/result-time-perform-chart.png
+): large interlaced PNG might cause out of memory (use non-interlaced PNG to fi
+x this)
+>] [56] [57 <./figures/result-perform-cost-1.png (PNG copy)>] [58] [59]
+[60] [61]
+<figures/result-remix-ide.png, id=1262, 697.10437pt x 526.96875pt>
+File: figures/result-remix-ide.png Graphic file (type png)
+<use figures/result-remix-ide.png>
+Package pdftex.def Info: figures/result-remix-ide.png  used on input line 815.
+(pdftex.def)             Requested size: 418.26584pt x 316.18369pt.
+ [62 <./figures/result-remix-ide.png (PNG copy)>]
+<figures/result-slither.png, id=1268, 522.45187pt x 475.7775pt>
+File: figures/result-slither.png Graphic file (type png)
+<use figures/result-slither.png>
+Package pdftex.def Info: figures/result-slither.png  used on input line 825.
+(pdftex.def)             Requested size: 417.96207pt x 380.6225pt.
+<figures/result-smartcheck.png, id=1271, 1023.825pt x 494.59781pt>
+File: figures/result-smartcheck.png Graphic file (type png)
+<use figures/result-smartcheck.png>
+Package pdftex.def Info: figures/result-smartcheck.png  used on input line 835.
+
+(pdftex.def)             Requested size: 409.52274pt x 197.8356pt.
+ [63 <./figures/result-slither.png (PNG copy)>] [64 <./figures/result-smartchec
+k.png (PNG copy)>])
+[65]
 Ch\uhorn \ohorn ng 5.
-(./chapters/chap5_ket_luan.tex) [56
+(./chapters/chap5_ket_luan.tex) [66
 
 ]
 Overfull \hbox (3.10844pt too wide) in paragraph at lines 162--162
@@ -1732,65 +1760,63 @@ Overfull \hbox (3.10844pt too wide) in paragraph at lines 162--162
 n En-gi-neer-ing\T5/ptm/m/n/12 , ACM, 2019,
  []
 
-[57
+[67
 
-] [58] (./pages/Appendix.tex
+] [68] (./pages/Appendix.tex
 Ph\d {u} l\d {u}c A.
-[59
+[69
 
 
-] [60] [61] [62]
+] [70] [71] [72]
 Ph\d {u} l\d {u}c B.
-[63
+[73
 
-] [64] [65] [66] [67] [68] [69] [70]
+] [74] [75] [76] [77] [78] [79] [80]
 Ph\d {u} l\d {u}c C.
-[71
+[81
 
-] [72] [73] [74] [75]
+] [82] [83] [84] [85]
 Ph\d {u} l\d {u}c D.
-[76
+[86
 
-] [77] [78])
+] [87] [88])
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 167.
- [79]
+ [89]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 167.
  (./main-report.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 167.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 167.
 Package rerunfilecheck Info: File `main-report.out' has not changed.
-(rerunfilecheck)             Checksum: 0577ADDF1F8CF610C5D9CE98BB9397FF;17125.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
+(rerunfilecheck)             Checksum: 1F0EED1BB6F4A3BE68B9051432865BB6;18092.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 167.
 Package logreq Info: Writing requests to 'main-report.run.xml'.
 \openout1 = `main-report.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 26138 strings out of 492609
- 413063 string characters out of 6131461
- 1224644 words of memory out of 5000000
- 28236 multiletter control sequences out of 15000+600000
+ 26264 strings out of 492609
+ 415960 string characters out of 6131461
+ 1225726 words of memory out of 5000000
+ 28305 multiletter control sequences out of 15000+600000
  50919 words of font info for 68 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  45i,15n,64p,2009b,1911s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/share/texliv
 e/texmf-dist/fonts/enc/dvips/vntex/t5.enc}</usr/share/texlive/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucr
-r8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/vntex/urwvn/ucrr8v.pfb></usr
-/share/texlive/texmf-dist/fonts/type1/vntex/urwvn/utmb8v.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fo
-nts/type1/vntex/urwvn/utmr8v.pfb></usr/share/texlive/texmf-dist/fonts/type1/vnt
-ex/urwvn/utmri8v.pfb>
-Output written on main-report.pdf (85 pages, 5592518 bytes).
+public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cms
+y10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/vntex/urwvn/ucrr8v.pfb></usr/share/texliv
+e/texmf-dist/fonts/type1/vntex/urwvn/utmb8v.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/vnt
+ex/urwvn/utmr8v.pfb></usr/share/texlive/texmf-dist/fonts/type1/vntex/urwvn/utmr
+i8v.pfb>
+Output written on main-report.pdf (96 pages, 6462098 bytes).
 PDF statistics:
- 2487 PDF objects out of 2487 (max. 8388607)
- 2319 compressed objects within 24 object streams
- 1333 named destinations out of 1440 (max. 500000)
- 868 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2647 PDF objects out of 2984 (max. 8388607)
+ 2459 compressed objects within 25 object streams
+ 1397 named destinations out of 1440 (max. 500000)
+ 917 words of extra memory for PDF output out of 10000 (max. 10000000)
 

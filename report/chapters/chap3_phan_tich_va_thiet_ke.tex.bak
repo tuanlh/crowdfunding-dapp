@@ -85,7 +85,7 @@ Nhóm tác giả cũng thực hiện phân rã các chức năng và được s�
 \begin{figure}[ht!]
 \begin{center}
 \label{fig:function-tree}
-\includegraphics[scale=0.7]{function-tree}
+\fbox{\includegraphics[scale=0.7]{function-tree}}
 \caption{Sơ đồ phân rã các chức năng trong hệ thống}
 \end{center}
 \end{figure}
@@ -95,13 +95,22 @@ Tiếp theo là sơ đồ ở hình \ref{fig:user-data-flow} thể hiện tổng
 \begin{figure}[ht!]
 \begin{center}
 \label{fig:user-data-flow}
-\includegraphics[scale=0.17]{user-data-flow}
+\includegraphics[scale=0.18]{user-data-flow}
 \caption{Sơ đồ tổng quan các đối tượng và luồng tương tác dữ liệu}
 \end{center}
 \end{figure}
 
 \subsection{Chức năng nộp tiền và rút tiền}
 \subsubsection{Mục tiêu}
+Trong mô hình hệ thống mà nhóm tác giả đề xuất, người đóng góp sẽ ủng hộ cho chiến dịch gây quỹ từ thiện thông qua tiền mã hóa. Trong thời gian kêu gọi quỹ, người tạo chiến dịch chưa nhận được bất kì lượng tiền nào, chỉ khi nào chiến dịch kêu gọi đạt được mục tiêu thì người tạo chiến dịch mới thực sự nhận được tiền. Để đạt được yêu cầu như vậy thì trong thời gian kêu gọi quỹ, người đóng góp chỉ thật sự ủng hộ trên danh nghĩa là đồng ý đóng góp khoản tiền nào đó chứ không chuyển trực tiếp cho người tạo chiến dịch. Việc ủng hộ trên danh nghĩa này phải được đảm bảo rằng sau khi chiến dịch kết thúc, người tạo chiến dịch sẽ nhận được đúng số tiền ủng hộ. Do đó, trong trường hợp này sẽ cần xuất hiện một bên thứ ba, làm nhiệm vụ giữ tiền và trao đổi tiền giữa hai bên. Như đã được giới thiệu từ trước, hợp đồng thông minh đảm bảo việc thực thi các luồng xử lí một cách tự động mà không có sự can thiệp từ yếu tố con người làm sai lệch kết quả. Nên sử dụng hợp đồng để lưu giữ tiền cam kết giữa hai bên và xử lí các điều kiện để giải ngân cho chiến dịch là hợp lí. Vì vậy cần có chức năng gửi tiền và rút tiền từ hợp đồng thông minh với mục tiêu sau:
+
+\begin{itemize}
+\item Người đóng góp sẽ gửi tiền mã hóa vào hợp đồng minh và nhận lại một giá trị lưu trữ cho số tiền gửi vào. Giá trị này được gọi là token.
+\item Token được sử dụng cho các hoạt động trong hệ thống, bao gồm đóng góp vào chiến dịch gây quỹ.
+\item Token cũng được quy đổi ngược lại đồng tiền mã hóa theo một tỉ lệ tương ứng nhất định. Đây là chức năng rút tiền trong hệ thống.
+\item Tỉ lệ quy đổi sẽ do người vận hành hệ thống quyết định.
+\item Giá trị token của người dùng đã gửi vào luôn không thay đổi trong suốt quá trình tham gia hệ thống. Ngoại trừ hoạt động rút tiền và đóng góp cho chiến dịch.
+\end{itemize}
 
 \subsubsection{Sơ đồ hoạt động}
 Sơ đồ hoạt động chức năng nộp tiền được thể hiện ở hình \ref{fig:deposit-activity}.
@@ -114,6 +123,18 @@ Sơ đồ hoạt động chức năng nộp tiền được thể hiện ở hì
 \end{center}
 \end{figure}
 
+Tiến trình của hoạt động rút tiền được diễn ra như sau:
+
+\begin{enumerate}[label=(\arabic*)]
+\item Người dùng nhập vào lượng token muốn gửi vào hệ thống.
+\item Trên giao diện DApp thực hiện tính toán giá trị token và quy đổi sang lượng \gls{eth} tương ứng.
+\item DApp tiến hành tạo \gls{transaction} và gửi đến Wallet provider.
+\item Wallet provider tiến hành kiểm tra số dư \gls{eth} của người dùng.
+\item Nếu số dư đủ để tiến hành giao dịch thì Wallet provider bắt đầu kí transaction và gửi tới một nút trong mạng blockchain. Ngược lại, hiển thị thông báo lỗi cho người dùng trên giao diện DApp.
+\item Một nút trong blockchain nhận được transaction từ Wallet provider, lúc này hàm gửi tiền trong hợp đồng thông minh được thực thi. Hợp đồng thông minh tiến hành lưu trữ giá trị token.
+\item Hiển thị thông báo gửi tiền thành công và kết thúc tiến trình.
+\end{enumerate}
+
 Sơ đồ hoạt động chức năng rút tiền được thể hiện ở hình \ref{fig:withdraw-activity}.
 
 \begin{figure}[ht!]
@@ -123,6 +144,15 @@ Sơ đồ hoạt động chức năng rút tiền được thể hiện ở hìn
 \caption{Sơ đồ hoạt động chức năng rút tiền}
 \end{center}
 \end{figure}
+
+Tiến trình của hoạt động rút tiền được diễn ra như sau:
+
+\begin{enumerate}[label=(\arabic*)]
+\item Người dùng nhập vào lượng token muốn rút.
+\item DApp tiến hành tạo \gls{transaction} và gửi đến Wallet provider.
+\item Wallet provider tiến hành kí transaction và gửi tới một nút trong mạng blockchain.
+\item Một nút trong blockchain nhận được transaction từ Wallet provider, lúc này hàm rút tiền trong hợp đồng thông minh được thực thi. Hợp đồng thông minh tiến hành kiểm tra giá trị token của người dùng. Nếu số dư token đủ thì tiến hành giảm trừ số token tương ứng, sau đó gửi lượng tiền mã hóa \gls{eth} tương ứng cho người dùng, sau đó hiển thị thông báo rút tiền thành công và kết thúc tiến trình. Ngược lại, thông báo lỗi cho người dùng trên giao diện DApp.
+\end{enumerate}
 
 \subsection{Chức năng quản lý định danh}
 \subsubsection{Mục tiêu}
@@ -306,7 +336,40 @@ Chức năng này giúp người đóng góp tiền vào chiến dịch có th�
 \item Trường hợp 1: hoàn tiền khi đang trong thời gian gây quỹ. Việc hoàn tiền này được thực hiện theo yêu cầu của người đóng góp.
 \item Trường hợp 2: hoàn tiền sau khi hết thời gian gây quỹ. Điều kiện để hoàn tiền trong trường hợp này là chiến dịch không đạt được mục tiêu gây quỹ trong thời gian đặt ra. Việc hoàn tiền này phải diễn ra một cách tự động. Tức người đóng góp không cần thực hiện bất kì thao tác gì.
 \end{itemize}
+
 \subsubsection{Cách hoạt động}
+Phần này, nhóm tác giả tập trung vào việc hoàn tiền tự động khi chiến dịch kêu gọi quỹ thất bại (không đạt được mục tiêu kêu gọi quỹ).
+
+Có hai giải pháp thiết kế thuật toán đáp ứng yêu cầu đặt ra:
+
+\begin{itemize}
+\item \textbf{Giải pháp 1 -- chủ động:} thực hiện chạy chủ động lặp đi lặp lại một hàm nào đó trong hợp đồng thông minh để kiểm tra chiến dịch đã kết thúc và cập nhật các giá trị sau khi hết thời gian gây quỹ.
+\item \textbf{Giải pháp 2 -- bị động:} không thực hiện bất kì thay đổi nào về giá trị token của người dùng được lưu trữ trong hợp đồng thông minh khi chiến dịch thất bại. Khi người dùng kiểm tra số dư hoặc thực hiện rút tiền sẽ tiến hành kiểm tra số dự thực tế dựa vào trạng thái thành công hay thất bại của các chiến dịch gây quỹ.
+\end{itemize}
+
+Với hai giải pháp được nêu trên, nhóm tác giả chọn giải pháp thứ 2 để thiết kế, với lí do sau:
+
+\begin{itemize}
+\item Chi phí của giải pháp thứ hai thấp hơn đáng kể so với giải pháp thứ nhất. Do việc kiểm tra số dư chỉ đơn thuần là đọc dữ liệu.
+\item Đặc điểm của \gls{blockchain} là để thay đổi các giá trị đã lưu trữ thì cần tạo ra các transaction gọi đến các hàm trong hợp đồng thông minh thì hàm đó mới được khởi chạy và thay đổi dữ liệu. Do đó hiện tại, Ethereum chưa hỗ trợ việc lập lịch cho một giao dịch tự động chạy theo thời gian định trước. Vì vậy để hiện thực giải pháp 1 cần chạy một máy chủ thực hiện việc gửi transaction theo lịch định sẵn. Việc tạo một máy chủ ở đây có thể là một điểm chết. Và với mỗi giao dịch được chạy tự động như vậy về lâu dài sẽ tốn một chi phí không nhỏ cho người vận hành.
+\end{itemize}
+
+Với giải pháp thứ hai được chọn, nhóm tác giả đề xuất công thức tính toán cho số dư token của người dùng trong hệ thống như sau:
+
+%\fbox{$ T = T_0 - T_{donated} $}
+
+\noindent\fbox{\begin{minipage}{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}
+\centering
+$ T = T_0 - T_{donated} $
+\end{minipage}}
+
+Trong đó:
+
+\begin{itemize}
+\item $T$ là số dư thực tế của người dùng.
+\item $T_0$ là số dư ban đầu người dùng gửi vào hợp đồng thông minh.
+\item $T_{donated}$ là số token mà người dùng đã đóng góp vào chiến dịch. Các chiến dịch ở đây bao gồm các chiến dịch đang kêu gọi gây quỹ và chiến dịch đã kêu gọi thành công. Không bao gồm chiến dịch kêu gọi thất bại.
+\end{itemize}
 
 \section{Tổ chức dữ liệu}
 \subsection{Dữ liệu phi tập trung}
@@ -328,5 +391,23 @@ Cấu trúc hợp đồng thông minh được thể hiện ở hình \ref{fig:s
 \end{figure}
 
 \subsection{Dữ liệu tập trung}
+Các dữ liệu được lưu tại cơ sở dữ liệu tập trung bao gồm các thông tin mô tả chiến dịch:
+
+\begin{itemize}
+\item Tên chiến dịch.
+\item Thông tin ngắn gọn về chiến dịch.
+\item Mô tả chi tiết về chiến dịch.
+\item Hình ảnh mô tả về chiến dịch dưới dạng đường dẫn.
+\end{itemize}
+
+Bảng thiết kế cơ sở dữ liệu được mô tả ở hình \ref{fig:db-design}.
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:db-design}
+\includegraphics[scale=1]{db-design}
+\caption{Thiết kế cơ sở dữ liệu tập trung}
+\end{center}
+\end{figure}
 
 \end{document}

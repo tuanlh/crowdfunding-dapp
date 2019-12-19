@@ -170,3 +170,32 @@ keywords={semantic Web;social networking (online);decentralized web blockchain n
 doi={10.1109/CAIS.2018.8441990},
 ISSN={null},
 month={April},}
+
+@article{atzei2016survey,
+  title={A survey of attacks on Ethereum smart contracts.},
+  author={Atzei, Nicola and Bartoletti, Massimo and Cimoli, Tiziana},
+  journal={IACR Cryptology ePrint Archive},
+  volume={2016},
+  pages={1007},
+  year={2016}
+}
+
+@INPROCEEDINGS{8728953,
+author={J. {Ye} and M. {Ma} and T. {Peng} and Y. {Peng} and Y. {Xue}},
+booktitle={2019 IEEE International Conference on Software Testing, Verification and Validation Workshops (ICSTW)},
+title={Towards Automated Generation of Bug Benchmark for Smart Contracts},
+year={2019},
+volume={},
+number={},
+pages={184-187},
+keywords={contracts;cryptocurrencies;distributed databases;program debugging;software tools;security guarantee;financial consequences;bug detection tools;smart contracts;Ethereum transactions;bug benchmark;block-chain;Tools;Computer bugs;Smart contracts;Detectors;Benchmark testing;Software;Ethereum;Smart Contract;Solidity;Vulnerability;Fasle Positive},
+doi={10.1109/ICSTW.2019.00049},
+ISSN={null},
+month={April},}
+
+@mastersthesis{dika2017ethereum,
+  title={Ethereum smart contracts: Security vulnerabilities and security tools},
+  author={Dika, Ardit},
+  year={2017},
+  school={NTNU}
+}
