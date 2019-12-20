@@ -1,8 +1,6 @@
 pragma solidity ^0.5.3;
 import {Campaigns} from './Campaigns.sol';
 
-/// @title This contract store disbursement for each campaigns
-/// @author tuanlh
 contract Disbursement {
     enum Vote {none, Agree, Disagree}
     enum Mode {Flexible, Fixed, TimingFlexible, TimingFixed}

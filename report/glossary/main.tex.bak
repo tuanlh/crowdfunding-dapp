@@ -53,6 +53,10 @@
 	description = {đồng tiền mã hóa trong ethereum}
 }
 
+\newglossaryentry{decentralized}{
+	name = {decentralized}, 
+	description = {phi tập trung}
+}
 %\newglossaryentry{exception}{
 %	name = {exception}, 
 %	description = {ngoại lệ}

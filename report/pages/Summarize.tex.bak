@@ -3,8 +3,25 @@
 \begin{document}
 \part*{TÓM TẮT KHÓA LUẬN}
 \addcontentsline{toc}{chapter}{TÓM TẮT KHÓA LUẬN}
-Khóa luận này tập trung giải quyết các vấn đề sau: (1) vấn đề 1, (2) vấn đề 2,...
+Hoạt động từ thiện lâu nay luôn được mọi người quan tâm, tuy nhiên niềm tin vào các hoạt động từ thiện chưa cao. Các hạn chế của hoạt động từ thiện hiện nay khiến mọi người chưa tin tưởng bao gồm: chưa công khai minh bạch, chưa đúng đối tượng, chưa tuyên truyền tốt, thiếu nguồn lực.
 
-Kết quả đạt được là: (i) kết quả 1, (ii) kết quả 2,..
+Do đó khóa luận này đề xuất ứng dụng gây quỹ từ thiện theo mô hình gây quỹ cộng đồng áp dụng công nghệ \gls{blockchain}. Sử dụng hợp đồng thông minh để lưu trữ và quản lí tài chính của các chiến dịch gây quỹ. Nên có thể loại bỏ sự kiểm soát về mặt tài chính của các tổ chức, các giao dịch được công khai, minh bạch và đảm bảo chiến dịch là đáng tin cậy khi nó được xác minh trước khi công khai cho cộng đồng ủng hộ.
+
+Kết quả đạt được bao gồm:
+
+\begin{itemize}
+\item Đề xuất mô hình ứng dụng gây quỹ cộng đồng từ thiện dựa trên công nghệ \gls{blockchain} cải thiện các vấn đề hiện tại của ứng dụng gây quỹ từ thiện.
+\item Hiện thực mô hình đã đề xuất với các chức năng cơ bản của ứng dụng gây quỹ từ thiện cộng đồng như: tạo chiến dịch, đóng góp vào chiến dịch, giải ngân. Ngoài ra hệ thống còn hiện thực các chức năng nổi bật mà các hệ thống hiện tại chưa hoàn thiện như: lưu trữ và quản lí thông tin định danh, hoàn tiền tự động khi chiến dịch không đạt được mục tiêu, giải ngân và bỏ phiếu giải ngân nhiều giai đoạn.
+\end{itemize}
+ 
+Cấu trúc của bài báo cáo này như sau:
+
+\begin{itemize}
+\item \textbf{Chương 1: Mở đầu} -- nêu ra vấn đề cần giải quyết, tính khoa học và tính mới của đề tài. Đề ra mục tiêu cũng như đối tượng và phạm vi nghiên cứu đề tài.
+\item \textbf{Chương 2: Tổng quan} -- giới thiệu tổng quan về hệ thống, các nghiên cứu liên quan cùng kiến thức nền tảng về công nghệ blockchain.
+\item \textbf{Chương 3: Phân tích và thiết kế hệ thống} -- phần này tập trung trình bày thiết kế mô hình hệ thống và các chức năng trong hệ thống.
+\item \textbf{Chương 4: Hiện thực và đánh giá hệ thống} -- từ mô hình đã thiết kế, sử dụng các công nghệ để hiện thực. Sau đó đánh giá về tốc độ, chi phí và bảo mật của hệ thống.
+\item \textbf{Chương 5: Kết luận} -- trình bày kết quả đạt được, ưu điểm, nhược điểm của hệ thống. Từ đó đề ra hướng phát triển của đề tài.
+\end{itemize}
 
 \end{document}

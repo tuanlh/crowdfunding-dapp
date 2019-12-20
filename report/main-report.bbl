@@ -403,6 +403,162 @@
       \field{pages}{57\bibrangedash 61}
       \range{pages}{5}
     \endentry
+    \entry{8029379}{inproceedings}{}
+      \name{author}{5}{}{%
+        {{hash=ca8aba2266d9d0f6fb5d8f38df25be33}{%
+           family={{Zheng}},
+           familyi={Z\bibinitperiod},
+           given={Z.},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=05914ffc126d0a489a0c1e0de4fa2468}{%
+           family={{Xie}},
+           familyi={X\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=1e215f6025afffcf9bb51aeba049eed7}{%
+           family={{Dai}},
+           familyi={D\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod}}}%
+        {{hash=60aeb23a507616b6ae2488ddaab41f0e}{%
+           family={{Chen}},
+           familyi={C\bibinitperiod},
+           given={X.},
+           giveni={X\bibinitperiod}}}%
+        {{hash=39856f0439f35f79a8eed8b12d26166c}{%
+           family={{Wang}},
+           familyi={W\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{d2fec12fdc0c0918c900fa3a602cd47c}
+      \strng{fullhash}{edd2dedcd41a437067cfb52debf17449}
+      \strng{bibnamehash}{edd2dedcd41a437067cfb52debf17449}
+      \strng{authorbibnamehash}{edd2dedcd41a437067cfb52debf17449}
+      \strng{authornamehash}{d2fec12fdc0c0918c900fa3a602cd47c}
+      \strng{authorfullhash}{edd2dedcd41a437067cfb52debf17449}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2017 IEEE International Congress on Big Data (BigData Congress)}
+      \field{issn}{null}
+      \field{month}{6}
+      \field{title}{An Overview of Blockchain Technology: Architecture, Consensus, and Future Trends}
+      \field{year}{2017}
+      \true{nocite}
+      \field{pages}{557\bibrangedash 564}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.1109/BigDataCongress.2017.85
+      \endverb
+      \keyw{cryptography;electronic money;blockchain technology;Bitcoin;immutable ledger;blockchain-based applications;consensus algorithms;Bitcoin;Peer-to-peer computing;Organizations;Contracts;Blockchain;decentralization;consensus;scalability}
+    \endentry
+    \entry{duyptblockchain2018}{inproceedings}{}
+      \name{author}{4}{}{%
+        {{hash=3385af7ad3772003b9913054178493dc}{%
+           family={Phan},
+           familyi={P\bibinitperiod},
+           given={Duy},
+           giveni={D\bibinitperiod}}}%
+        {{hash=dafc54f3f2c0c5be85e33758eeec526a}{%
+           family={Hien},
+           familyi={H\bibinitperiod},
+           given={Do},
+           giveni={D\bibinitperiod}}}%
+        {{hash=dafc54f3f2c0c5be85e33758eeec526a}{%
+           family={Hien},
+           familyi={H\bibinitperiod},
+           given={Do},
+           giveni={D\bibinitperiod}}}%
+        {{hash=47eb916b65c79df11192a3745466c30b}{%
+           family={Pham},
+           familyi={P\bibinitperiod},
+           given={Van-Hau},
+           giveni={V\bibinithyphendelim H\bibinitperiod}}}%
+      }
+      \strng{namehash}{0653b41cb89742dd12a068fe549ce3dc}
+      \strng{fullhash}{180b178fcb0863ef38ea6c21884e4e3f}
+      \strng{bibnamehash}{180b178fcb0863ef38ea6c21884e4e3f}
+      \strng{authorbibnamehash}{180b178fcb0863ef38ea6c21884e4e3f}
+      \strng{authornamehash}{0653b41cb89742dd12a068fe549ce3dc}
+      \strng{authorfullhash}{180b178fcb0863ef38ea6c21884e4e3f}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{978-1-4503-6539-0}
+      \field{month}{12}
+      \field{title}{A survey on opportunities and challenges of Blockchain technology adoption for revolutionary innovation}
+      \field{year}{2018}
+      \true{nocite}
+      \field{pages}{200\bibrangedash 207}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.1145/3287921.3287978
+      \endverb
+    \endentry
+    \entry{8416225}{inproceedings}{}
+      \name{author}{2}{}{%
+        {{hash=b14eb87ddd36eacc510afe430b80f1f4}{%
+           family={{Bae}},
+           familyi={B\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+        {{hash=cedcd63ee975d99e2236495f734a2221}{%
+           family={{Lim}},
+           familyi={L\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{b7956bdd344b281b1e6c64a58efd9134}
+      \strng{fullhash}{b7956bdd344b281b1e6c64a58efd9134}
+      \strng{bibnamehash}{b7956bdd344b281b1e6c64a58efd9134}
+      \strng{authorbibnamehash}{b7956bdd344b281b1e6c64a58efd9134}
+      \strng{authornamehash}{b7956bdd344b281b1e6c64a58efd9134}
+      \strng{authorfullhash}{b7956bdd344b281b1e6c64a58efd9134}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2018 48th Annual IEEE/IFIP International Conference on Dependable Systems and Networks Workshops (DSN-W)}
+      \field{issn}{2325-6664}
+      \field{month}{6}
+      \field{title}{Random Mining Group Selection to Prevent 51\% Attacks on Bitcoin}
+      \field{year}{2018}
+      \true{nocite}
+      \field{pages}{81\bibrangedash 82}
+      \range{pages}{2}
+      \verb{doi}
+      \verb 10.1109/DSN-W.2018.00040
+      \endverb
+    \endentry
+    \entry{buterin2014ethereum}{article}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{1}{}{%
+        {{hash=850981945102d0f671b6762173c8988a}{%
+           family={Buterin},
+           familyi={B\bibinitperiod},
+           given={Vitalik},
+           giveni={V\bibinitperiod}}}%
+      }
+      \strng{namehash}{fa265b80691610b5092f93ae4a80f9b7}
+      \strng{fullhash}{fa265b80691610b5092f93ae4a80f9b7}
+      \strng{bibnamehash}{fa265b80691610b5092f93ae4a80f9b7}
+      \strng{authorbibnamehash}{fa265b80691610b5092f93ae4a80f9b7}
+      \strng{authornamehash}{fa265b80691610b5092f93ae4a80f9b7}
+      \strng{authorfullhash}{fa265b80691610b5092f93ae4a80f9b7}
+      \field{sortinit}{1}
+      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{URL https://github. com/ethereum/wiki/wiki/\% 5BEnglish\% 5D-White-Paper}
+      \field{title}{Ethereum: A next-generation smart contract and decentralized application platform}
+      \field{volume}{7}
+      \field{year}{2014}
+      \true{nocite}
+    \endentry
     \entry{henry2018blockchain}{article}{}
       \name{author}{3}{}{%
         {{hash=b1522f4f94556adb87af286fbeb17e44}{%
@@ -569,8 +725,8 @@
       \strng{authorbibnamehash}{457ad5d6b2c31aca6caccb96d6adaeb9}
       \strng{authornamehash}{457ad5d6b2c31aca6caccb96d6adaeb9}
       \strng{authorfullhash}{457ad5d6b2c31aca6caccb96d6adaeb9}
-      \field{sortinit}{1}
-      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{2009 Proceedings of 18th International Conference on Computer Communications and Networks}
@@ -600,8 +756,8 @@
       \strng{authorbibnamehash}{829d790ca081e75de4e2a2ba30dc96f3}
       \strng{authornamehash}{829d790ca081e75de4e2a2ba30dc96f3}
       \strng{authorfullhash}{829d790ca081e75de4e2a2ba30dc96f3}
-      \field{sortinit}{1}
-      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{2018 1st International Conference on Computer Applications Information Security (ICCAIS)}
@@ -639,8 +795,8 @@
       \strng{authorbibnamehash}{37aa385cd58c3bc761aafd7029a64298}
       \strng{authornamehash}{37aa385cd58c3bc761aafd7029a64298}
       \strng{authorfullhash}{37aa385cd58c3bc761aafd7029a64298}
-      \field{sortinit}{1}
-      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{2017 8th IEEE International Conference on Software Engineering and Service Science (ICSESS)}
@@ -674,8 +830,8 @@
       \strng{authorbibnamehash}{f700c8ad48789f9500314c4059a84040}
       \strng{authornamehash}{f700c8ad48789f9500314c4059a84040}
       \strng{authorfullhash}{f700c8ad48789f9500314c4059a84040}
-      \field{sortinit}{1}
-      \field{sortinithash}{50c6687d7fc80f50136d75228e3c59ba}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{IACR Cryptology ePrint Archive}
@@ -754,14 +910,70 @@
       \strng{authorbibnamehash}{575ec614b5247727fb1aacc9409dd7bf}
       \strng{authornamehash}{575ec614b5247727fb1aacc9409dd7bf}
       \strng{authorfullhash}{575ec614b5247727fb1aacc9409dd7bf}
-      \field{sortinit}{4}
-      \field{sortinithash}{e071e0bcb44634fab398d68ad04e69f4}
+      \field{sortinit}{2}
+      \field{sortinithash}{ed39bb39cf854d5250e95b1c1f94f4ed}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Ethereum smart contracts: Security vulnerabilities and security tools}
       \field{type}{mathesis}
       \field{year}{2017}
       \true{nocite}
+    \endentry
+    \entry{8500488}{inproceedings}{}
+      \name{author}{6}{}{%
+        {{hash=cd6c1d35aed39fa11fcfba0d353120d6}{%
+           family={{Wang}},
+           familyi={W\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+        {{hash=20359925e02215ab2301f6ee4bde4bfe}{%
+           family={{Yuan}},
+           familyi={Y\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod}}}%
+        {{hash=bbe869383a7d3458b82c516a21e4482c}{%
+           family={{Wang}},
+           familyi={W\bibinitperiod},
+           given={X.},
+           giveni={X\bibinitperiod}}}%
+        {{hash=ef065b28c31984323fd6d3483d29aafd}{%
+           family={{Li}},
+           familyi={L\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+        {{hash=c33919912dd087fcedbb1a49a8f32661}{%
+           family={{Qin}},
+           familyi={Q\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=3768cb3691d9f8be784a4b189ba55772}{%
+           family={{Wang}},
+           familyi={W\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod}}}%
+      }
+      \strng{namehash}{f7844161df879e6a23f66b628415c0b3}
+      \strng{fullhash}{2fffd14ea3114b74b9efcb4d4819cbf6}
+      \strng{bibnamehash}{2fffd14ea3114b74b9efcb4d4819cbf6}
+      \strng{authorbibnamehash}{2fffd14ea3114b74b9efcb4d4819cbf6}
+      \strng{authornamehash}{f7844161df879e6a23f66b628415c0b3}
+      \strng{authorfullhash}{2fffd14ea3114b74b9efcb4d4819cbf6}
+      \field{sortinit}{5}
+      \field{sortinithash}{5dd416adbafacc8226114bc0202d5fdd}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{2018 IEEE Intelligent Vehicles Symposium (IV)}
+      \field{issn}{1931-0587}
+      \field{month}{6}
+      \field{title}{An Overview of Smart Contract: Architecture, Applications, and Future Trends}
+      \field{year}{2018}
+      \true{nocite}
+      \field{pages}{108\bibrangedash 113}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1109/IVS.2018.8500488
+      \endverb
+      \keyw{contracts;data privacy;electronic money;financial data processing;blockchain powered smart contracts;privacy disclosure;security issues;Hyperledger;Ethereum;cryptocurrency;blockchain technologies;Contracts;Bitcoin;Fabrics;Protocols;Computer languages;Market research;contract;Ethereum;ACP approach;parallel blockchain}
     \endentry
   \enddatalist
 \endrefsection

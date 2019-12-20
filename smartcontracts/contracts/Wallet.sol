@@ -2,8 +2,6 @@ pragma solidity ^0.5.3;
 import {SafeMath} from "./SafeMath.sol";
 import {Campaigns} from "./Campaigns.sol";
 
-/// @title This is contract for hold all token of users in system
-/// @author tuanlh
 contract Wallet {
     using SafeMath for uint;
 

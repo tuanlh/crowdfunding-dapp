@@ -4,8 +4,6 @@ import {Wallet} from "./Wallet.sol";
 import {Identity} from "./Identity.sol";
 import {Disbursement} from "./Disbursement.sol";
 
-/// @title This contract store info about campaigns
-/// @author tuanlh
 contract Campaigns {
     Wallet internal token;
     Identity internal id;
