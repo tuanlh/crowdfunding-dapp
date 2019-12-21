@@ -80,7 +80,7 @@ Với các đặc điểm trên, Redis phù hợp cho việc cung cấp hiệu s
 \subsubsection{IPFS}
 \textbf{\acrfull{ipfs}} là một giao thức chia sẻ tệp tin được phân tán ngang hàng \acrfull{p2p}. Giao thức này cho phép người dùng chia sẻ các tệp tin ngang hàng với nhau mà không cần có sự xuất hiện của máy chủ. Các dữ liệu khi người dùng tải lên sẽ được băm ra và đồng thời sinh ra mã băm của dữ liệu ấy. Với các dữ liệu giống nhau thì sẽ tạo ra những hàm băm giống nhau, do đó IPFS sẽ hạn chế được sự trùng lặp.
  
-\acrshort{ipfs} có thể giải quyết vấn đề về lưu trữ dữ liệu lớn cho các ứng dụng \gls{blockchain} bằng cách sử dụng blockchain để lưu trữ địa chỉ của dữ liệu được ra bằng IPFS (chính là mã băm nhận diện cho tập tin) và đặt địa chỉ bất biến này cho một giao dịch trong blockchain. Không những giải quyết vấn đề lưu trữ, \acrshort{ipfs} còn giải quyết vấn đề về bằng thông bằng cách phân tán nội dung đến hệ thống \acrshort{p2p}. Do đó, khi truy cập tập tin nào đó bằng các dùng hàm băm, nút gần nhất với tệp sẽ phản hồi và gửi tệp cho người yêu cầu. Như đã được chứng minh từ trước \cite{5235364}, một hệ thống phân phát \acrshort{p2p} có thể tiết kiệm lên đến 60\% so với hệ thống truyền thống. Đồng thời, IPFS còn tăng tính bảo mật và chống lại các cuộc tấn công từ chối dịch vụ và giới hạn lại kiểm duyệt vì không có địa chỉ IP cụ thể của máy chủ bị chặn \cite{8441990}.
+\acrshort{ipfs} có thể giải quyết vấn đề về lưu trữ dữ liệu lớn cho các ứng dụng \gls{blockchain} bằng cách sử dụng blockchain để lưu trữ địa chỉ của dữ liệu được ra bằng IPFS (chính là mã băm nhận diện cho tập tin) và đặt địa chỉ bất biến này cho một giao dịch trong blockchain. Không những giải quyết vấn đề lưu trữ, \acrshort{ipfs} còn giải quyết vấn đề về băng thông bằng cách phân tán nội dung đến hệ thống \acrshort{p2p}. Do đó, khi truy cập tập tin nào đó bằng cách dùng hàm băm, nút gần nhất với tệp sẽ phản hồi và gửi tệp cho người yêu cầu. Như đã được chứng minh từ trước \cite{5235364}, một hệ thống phân tán \acrshort{p2p} có thể tiết kiệm lên đến 60\% so với hệ thống truyền thống. Đồng thời, IPFS còn tăng tính bảo mật và chống lại các cuộc tấn công từ chối dịch vụ và giới hạn lại kiểm duyệt vì không có địa chỉ IP cụ thể của máy chủ bị chặn \cite{8441990}.
 
 \subsubsection{Bộ công cụ Truffle framework}
 \textbf{Truffle} là một bộ công cụ để phát triển các ứng dụng phi tập trung trên mạng Ethereum. Khi sử dụng truffle, theo tài liệu kĩ thuật\footnote{https://www.trufflesuite.com/docs} của Truffle mô tả framework này có các tính năng sau:
@@ -165,7 +165,7 @@ Chi tiết các bước trên được mô tả ở mục \ref{sec:configure-ser
 Cấu hình service smartcontracts, chỉnh sửa các biến sau trong tệp \textbf{smartcontracts/.env}:
 
 \begin{itemize}
-\item \texttt{MNEMONIC} -- biến chứa giá trị mnemonic của tài khoản nhân viên vận hành hệ thống, mnemonic là một chuổi 12 kí tự gợi nhớ, chuỗi này gắn liền với các tài khoản trên ethereum. Tài khoản mặc định gắn với mnemonic nhập vào sẽ là tài khoản triển khai các hợp đồng thông minh lên mạng blockchain.
+\item \texttt{MNEMONIC} -- biến chứa giá trị mnemonic của tài khoản nhân viên vận hành hệ thống, mnemonic là một chuỗi 12 kí tự gợi nhớ, chuỗi này gắn liền với các tài khoản trên ethereum. Tài khoản mặc định gắn với mnemonic nhập vào sẽ là tài khoản triển khai các hợp đồng thông minh lên mạng blockchain.
 \item \texttt{INFURA\_API\_KEY} -- khóa để sử dụng API của Infura\footnote{https://infura.io} để tương tác với một nút trong mạng blockchain để triển khai các hợp đồng thông minh lên mạng. Để có khóa này, có thể đăng kí sử dụng API của Infura. Giá trị mặc định: 
 
 \begin{lstlisting}
@@ -183,7 +183,7 @@ Cấu hình service client, chỉnh sửa các biến trong tệp \textbf{client
 https://ropsten.infura.io/v3/b56a34eee35e491691629e3412875afa
 \end{lstlisting}
 
-\item \texttt{REACT\_APP\_RECAPTCHA\_ENABLE} -- biến cờ để xác định việc sử dụng captcha trong trang đăng kí chiến dịch. Với giá trị \textbf{``1''} là xác định sử dụng dụng dịch vụ captcha, \textbf{``0''} là tắt captcha. Giá trị mặc định: \textbf{``0''}.
+\item \texttt{REACT\_APP\_RECAPTCHA\_ENABLE} -- biến cờ để xác định việc sử dụng captcha trong trang đăng kí chiến dịch. Với giá trị \textbf{``1''} là xác định sử dụng dịch vụ captcha, \textbf{``0''} là tắt captcha. Giá trị mặc định: \textbf{``0''}.
 \item \texttt{REACT\_APP\_RECAPTCHA\_SITEKEY} -- phần captcha trên trang đăng kí chiến dịch được nhóm tác giả sử dụng là \textbf{reCAPTCHA}\footnote{https://www.google.com/recaptcha/intro/v3.html} của \textit{Google}, nên để sử dụng được thành phần này trong hệ thống, cần đăng kí dịch vụ ReCaptcha của Google. Sau đó thực hiện lấy khóa captcha tương ứng để sử dụng. Nếu captcha không được sử dụng thì có thể bỏ qua biến này.
 \end{itemize}
 
@@ -394,7 +394,7 @@ Sau khi người tạo chiến dịch gửi transaction đi thành công thì ch
 \end{center}
 \end{figure}
 
-Chỉ có những chiến dịch nào được xét duyệt cho đồng ý đóng góp thì mới được xuất hiện trong danh sách chiến dịch cho người đóng góp thấy. Hình \ref{fig:ui-list-campaign} là ảnh chụp giao diện danh sách các chiến đã được xác minh cho người đóng góp có thể nhìn thấy được. Tại danh sách các chiến dịch, người đóng góp có thể thấy được các thông tin tổng quát của chiến dịch như thời gian bắt đầu, thời gian kết thúc chiến dịch, trạng thái của chiến dịch, \ldots.
+Chỉ có những chiến dịch nào được xét duyệt cho đồng ý đóng góp thì mới được xuất hiện trong danh sách chiến dịch cho người đóng góp thấy. Hình \ref{fig:ui-list-campaign} là ảnh chụp giao diện danh sách các chiến dịch đã được xác minh để người đóng góp có thể nhìn thấy được. Tại danh sách các chiến dịch, người đóng góp có thể thấy được các thông tin tổng quát của chiến dịch như thời gian bắt đầu, thời gian kết thúc chiến dịch, trạng thái của chiến dịch, \ldots.
 
 \begin{figure}[ht!]
 \begin{center}
@@ -495,7 +495,7 @@ Hình \ref{fig:result-multi-stage} là kết quả kiểm thử với kịch b�
 \subsection{Đo lường tốc độ thực hiện giao dịch}
 Để tăng tính tin cậy cho phần đánh giá dưới đây của khóa luận, nhóm tác giả đã tham khảo mô hình đánh giá và kết quả đánh giá về hiệu suất của ethereum ở các công trình khác để làm thước đo và thực hiện tương tự với mô hình đánh giá đó.
 
-Cụ thể, công trình của tác giả Sara Rouhani và Ralph Deters \cite{rouhani2017performance} đã đo được thời gian trung bình cho mỗi \gls{transaction} là 104.609ms với Parity client và 198.9125ms với Geth. Tổng số \gls{transaction} được gửi là 2000. Hai Ethereum private \gls{blockchain} khác nhau với cùng cấu hình được thực thi bởi Parity client và Geth client được sử dụng để đo lường. Cấu hình hệ thống bao gồm 24GiB RAM và Core i7-6700 CPU. Việc gửi các \gls{transaction} được thực hiện bằng ngôn ngữ NodeJS và sau đó thu thập thời gian xử lí cho việc xác nhận các \gls{transaction}.
+Cụ thể, công trình của tác giả Sara Rouhani và Ralph Deters \cite{rouhani2017performance} đã đo được thời gian trung bình cho mỗi \gls{transaction} là 104.609ms với Parity client và 198.9125ms với Geth. Tổng số \gls{transaction} được gửi là 2000. Hai Ethereum private \gls{blockchain} khác nhau với cùng cấu hình được thực thi bởi Parity client và Geth client được sử dụng để đo lường. Cấu hình hệ thống bao gồm 24GB RAM và Core i7-6700 CPU. Việc gửi các \gls{transaction} được thực hiện bằng ngôn ngữ NodeJS và sau đó thu thập thời gian xử lí cho việc xác nhận các \gls{transaction}.
 
 \subsubsection{Môi trường thực hiện đánh giá}
 Nhóm tác giả thực hiện việc đánh giá này trên cấu hình máy như sau:
@@ -611,8 +611,8 @@ Disbursement                            & vote                              & \b
 \label{tab:input-cost-perform}
 \end{table}
 
-\subsubsection{Kết quả chi phí cho các giao dịch trong hệ thống}
-Bảng tổng hợp chi phí cho các giao dịch được liệt kê ở bảng \ref{tab:result-cost-perform}. Kết quả màn hình khi chạy chạy công cụ đo lường chi phí được thể hiện ở hình \ref{fig:result-perform-cost-1}.
+\subsubsection{Kết quả đo lường chi phí các giao dịch trong hệ thống}
+Bảng tổng hợp chi phí cho các giao dịch được liệt kê ở bảng \ref{tab:result-cost-perform}. Kết quả màn hình khi chạy công cụ đo lường chi phí được thể hiện ở hình \ref{fig:result-perform-cost-1}.
 
 \begin{figure}[ht!]
 \begin{center}
@@ -676,7 +676,7 @@ Wallet                                  & 1163284                               
 
 \begin{itemize}
 \item Hàm \textit{verify} trong contract Identity có mức chi phí thực hiện thấp nhất với 20778 gas (tương đương 0.000041556 ETH). Phần mã xử lí của hàm này tương đối ngắn nên chi phí thấp hơn.
-\item Hàm có chi phí cao nhất là hàm \textit{createCampaign} (tạo chiến dịch với nhiều giai đoạn) với chi phí 497048 gas (tương đương 0.000994096 ETH). Do hàm này có tham số đầu vào tương đối nhiều và phần mã lí phức tạp hơn nên chi phí cao hơn những hàm khác.
+\item Hàm có chi phí cao nhất là hàm \textit{createCampaign} (tạo chiến dịch với nhiều giai đoạn) với chi phí 497048 gas (tương đương 0.000994096 ETH). Do hàm này có tham số đầu vào tương đối nhiều và phần mã xử lí phức tạp hơn nên chi phí cao hơn những hàm khác.
 \item Contract \textit{Campaigns} có chi phí triển khai cao nhất (3447461 gas), contract có chi phí triển khai thấp nhất là \textit{Identity} với 1163284 gas.
 \end{itemize}
 \subsection{Phân tích bảo mật của hợp đồng thông minh trong hệ thống}
@@ -713,7 +713,7 @@ Phần này chỉ tập trung vào giới thiệu các lỗi phổ biến với 
 
 \textbf{Gasless send} -- khi sử dụng hàm \texttt{send} để chuyển \gls{eth} sang contract, có thể xảy ra lỗi out-of-gas (hết gas / không đủ gas) do việc thực thi hàm \texttt{send} đến contract sẽ dẫn đến gọi fallback của contract, mà số gas giới hạn trong trường hợp này là 2300 gas. Mà 2300 gas chỉ cho phép thực hiện một tập bytecode giới hạn, ví dụ: những lệnh / hàm không làm thay đổi trạng thái của contract. Nếu fallback có những tập lệnh phức tạp sẽ dẫn đến lỗi, khi đó người dùng sẽ bị mất toàn bộ phí thực hiện transaction.
 
-\textbf{Exception disorder} -- có thể tạm dịch lổ hổng này là làm rối exception. Trong smart contract có một điều đặc biệt là với một exception được ném ra thì sẽ có hai cách xử lí khác nhau phụ thuộc vào cách các contract gọi nhau. Cụ thể:
+\textbf{Exception disorder} -- có thể tạm dịch lỗ hổng này là làm rối exception. Trong smart contract có một điều đặc biệt là với một exception được ném ra thì sẽ có hai cách xử lí khác nhau phụ thuộc vào cách các contract gọi nhau. Cụ thể:
 
 \begin{itemize}
 \item Nếu tất cả lời gọi hàm trong chuỗi đều là lời gọi trực tiếp, thì việc thực thi dừng lại và mọi giá trị trong lúc thực thi được hoàn nguyên.
@@ -782,7 +782,7 @@ Danh sách các công cụ phân tích, đánh giá smart contract giới thiệ
 \textbf{Smartcheck}\footnote{https://tool.smartdec.net} -- là một công cụ phân tích tĩnh giúp phát hiện ra những lỗi hoặc cảnh báo trong smart contract được viết bằng Solidity. Công cụ này có các ưu điểm sau:
 
 \begin{itemize}
-\item Giao diện dễ sử dụng, kiểm tra được nhiều contract,hiện.
+\item Giao diện dễ sử dụng, kiểm tra được nhiều contract.
 \item Các lỗ hổng có thể phát hiện: \textit{Non-strict comparison with zero}, \textit{Hardcoded address},  \textit{DoS by external contract}, \textit{Reentrancy}, \textit{Overflow and Underflow in Solidity}, \textit{Redundant fallback function}, \ldots.
 \item Ở mỗi lỗi được phát hiện, smartcheck cung cấp cụ thể số dòng bị lỗi và đánh dấu chúng.
 \item Bên cạnh việc phát hiện lỗ hổng, smartcheck còn cung cấp giải pháp khắc phục từng lỗ hổng đó.

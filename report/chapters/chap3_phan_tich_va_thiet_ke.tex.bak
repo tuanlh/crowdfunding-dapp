@@ -344,7 +344,7 @@ Có hai giải pháp thiết kế thuật toán đáp ứng yêu cầu đặt ra
 
 \begin{itemize}
 \item \textbf{Giải pháp 1 -- chủ động:} thực hiện chạy chủ động lặp đi lặp lại một hàm nào đó trong hợp đồng thông minh để kiểm tra chiến dịch đã kết thúc và cập nhật các giá trị sau khi hết thời gian gây quỹ.
-\item \textbf{Giải pháp 2 -- bị động:} không thực hiện bất kì thay đổi nào về giá trị token của người dùng được lưu trữ trong hợp đồng thông minh khi chiến dịch thất bại. Khi người dùng kiểm tra số dư hoặc thực hiện rút tiền sẽ tiến hành kiểm tra số dự thực tế dựa vào trạng thái thành công hay thất bại của các chiến dịch gây quỹ.
+\item \textbf{Giải pháp 2 -- bị động:} không thực hiện bất kì thay đổi nào về giá trị token của người dùng được lưu trữ trong hợp đồng thông minh khi chiến dịch thất bại. Khi người dùng kiểm tra số dư hoặc thực hiện rút tiền sẽ tiến hành kiểm tra số dư thực tế dựa vào trạng thái thành công hay thất bại của các chiến dịch gây quỹ.
 \end{itemize}
 
 Với hai giải pháp được nêu trên, nhóm tác giả chọn giải pháp thứ 2 để thiết kế, với lí do sau:
@@ -379,7 +379,7 @@ Cấu trúc hợp đồng thông minh được thể hiện ở hình \ref{fig:s
 \item \textbf{Wallet} -- đây là hợp đồng chứa mã lưu trữ và xử lí các tác vụ liên quan đến tài chính trong hệ thống, bao gồm các tác vụ như nộp tiền và rút tiền trong hệ thống.
 \item \textbf{Campaigns} -- là một contract chứa nhiều mã xử lí nhất trong hệ thống, bao gồm việc lưu trữ thông tin liên quan đến chiến dịch, các tác vụ như tạo chiến dịch, đóng góp tiền vào một chiến dịch, giải ngân.
 \item \textbf{Identity} -- chứa mã lưu trữ và xử lí các tác vụ liên quan đến thông tin định danh. Các tác vụ trên contract này như: đăng kí hồ sơ định danh, duyệt hồ sơ định danh.
-\item \textbf{Disbursement} -- chứa mã lưu trữ thông tin giải ngân của chiến, tác vụ bỏ phiếu giải ngân được contract này xử lí. 
+\item \textbf{Disbursement} -- chứa mã lưu trữ thông tin giải ngân của chiến dịch, tác vụ bỏ phiếu giải ngân được contract này xử lí. 
 \end{itemize}
 
 \begin{figure}[ht!]

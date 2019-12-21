@@ -154,7 +154,7 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {4.2.3.2}Ph\IeC {\uhorn }\IeC {\ohorn }ng ph\IeC {\'a}p th\IeC {\d \uhorn }c hi\IeC {\d \ecircumflex }n \IeC {\dj }\IeC {\'a}nh gi\IeC {\'a}}{57}{subsubsection.4.2.3.2}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.3.3}K\IeC {\'\ecircumflex }t qu\IeC {\h a} chi ph\IeC {\'\i } cho c\IeC {\'a}c giao d\IeC {\d i}ch trong h\IeC {\d \ecircumflex } th\IeC {\'\ocircumflex }ng}{57}{subsubsection.4.2.3.3}% 
+\contentsline {subsubsection}{\numberline {4.2.3.3}K\IeC {\'\ecircumflex }t qu\IeC {\h a} \IeC {\dj }o l\IeC {\uhorn }\IeC {\`\ohorn }ng chi ph\IeC {\'\i } c\IeC {\'a}c giao d\IeC {\d i}ch trong h\IeC {\d \ecircumflex } th\IeC {\'\ocircumflex }ng}{57}{subsubsection.4.2.3.3}% 
 \defcounter {refsection}{0}\relax 
 \contentsline {subsection}{\numberline {4.2.4}Ph\IeC {\^a}n t\IeC {\'\i }ch b\IeC {\h a}o m\IeC {\d \acircumflex }t c\IeC {\h u}a h\IeC {\d \ohorn }p \IeC {\dj }\IeC {\`\ocircumflex }ng th\IeC {\^o}ng minh trong h\IeC {\d \ecircumflex } th\IeC {\'\ocircumflex }ng}{60}{subsection.4.2.4}% 
 \defcounter {refsection}{0}\relax 
@@ -164,11 +164,11 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {subsubsection}{\numberline {4.2.4.3}K\IeC {\'\ecircumflex }t qu\IeC {\h a} ph\IeC {\^a}n t\IeC {\'\i }ch}{64}{subsubsection.4.2.4.3}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsection}{\numberline {4.2.5}\IeC {\DJ }\IeC {\'a}nh gi\IeC {\'a} t\IeC {\'\ocircumflex }c \IeC {\dj }\IeC {\d \ocircumflex } t\IeC {\h a}i trang c\IeC {\h u}a giao di\IeC {\d \ecircumflex }n ng\IeC {\uhorn }\IeC {\`\ohorn }i d\IeC {\`u}ng}{66}{subsection.4.2.5}% 
+\contentsline {subsection}{\numberline {4.2.5}\IeC {\DJ }\IeC {\'a}nh gi\IeC {\'a} t\IeC {\'\ocircumflex }c \IeC {\dj }\IeC {\d \ocircumflex } t\IeC {\h a}i trang c\IeC {\h u}a giao di\IeC {\d \ecircumflex }n ng\IeC {\uhorn }\IeC {\`\ohorn }i d\IeC {\`u}ng}{64}{subsection.4.2.5}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.5.1}M\IeC {\^o}i tr\IeC {\uhorn }\IeC {\`\ohorn }ng th\IeC {\d \uhorn }c hi\IeC {\d \ecircumflex }n}{66}{subsubsection.4.2.5.1}% 
+\contentsline {subsubsection}{\numberline {4.2.5.1}M\IeC {\^o}i tr\IeC {\uhorn }\IeC {\`\ohorn }ng th\IeC {\d \uhorn }c hi\IeC {\d \ecircumflex }n}{64}{subsubsection.4.2.5.1}% 
 \defcounter {refsection}{0}\relax 
-\contentsline {subsubsection}{\numberline {4.2.5.2}K\IeC {\'\ecircumflex }t qu\IeC {\h a} \IeC {\dj }\IeC {\'a}nh gi\IeC {\'a}}{66}{subsubsection.4.2.5.2}% 
+\contentsline {subsubsection}{\numberline {4.2.5.2}K\IeC {\'\ecircumflex }t qu\IeC {\h a} \IeC {\dj }\IeC {\'a}nh gi\IeC {\'a}}{65}{subsubsection.4.2.5.2}% 
 \defcounter {refsection}{0}\relax 
 \contentsline {chapter}{\numberline {5}K\IeC {\'\ECIRCUMFLEX }T LU\IeC {\d \ACIRCUMFLEX }N}{68}{chapter.5}% 
 \defcounter {refsection}{0}\relax 
