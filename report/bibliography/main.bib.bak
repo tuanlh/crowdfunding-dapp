@@ -170,3 +170,88 @@ keywords={semantic Web;social networking (online);decentralized web blockchain n
 doi={10.1109/CAIS.2018.8441990},
 ISSN={null},
 month={April},}
+
+@article{atzei2016survey,
+  title={A survey of attacks on Ethereum smart contracts.},
+  author={Atzei, Nicola and Bartoletti, Massimo and Cimoli, Tiziana},
+  journal={IACR Cryptology ePrint Archive},
+  volume={2016},
+  pages={1007},
+  year={2016}
+}
+
+@INPROCEEDINGS{8728953,
+author={J. {Ye} and M. {Ma} and T. {Peng} and Y. {Peng} and Y. {Xue}},
+booktitle={2019 IEEE International Conference on Software Testing, Verification and Validation Workshops (ICSTW)},
+title={Towards Automated Generation of Bug Benchmark for Smart Contracts},
+year={2019},
+volume={},
+number={},
+pages={184-187},
+keywords={contracts;cryptocurrencies;distributed databases;program debugging;software tools;security guarantee;financial consequences;bug detection tools;smart contracts;Ethereum transactions;bug benchmark;block-chain;Tools;Computer bugs;Smart contracts;Detectors;Benchmark testing;Software;Ethereum;Smart Contract;Solidity;Vulnerability;Fasle Positive},
+doi={10.1109/ICSTW.2019.00049},
+ISSN={null},
+month={April},}
+
+@mastersthesis{dika2017ethereum,
+  title={Ethereum smart contracts: Security vulnerabilities and security tools},
+  author={Dika, Ardit},
+  year={2017},
+  school={NTNU}
+}
+
+@INPROCEEDINGS{8029379,
+author={Z. {Zheng} and S. {Xie} and H. {Dai} and X. {Chen} and H. {Wang}},
+booktitle={2017 IEEE International Congress on Big Data (BigData Congress)},
+title={An Overview of Blockchain Technology: Architecture, Consensus, and Future Trends},
+year={2017},
+volume={},
+number={},
+pages={557-564},
+keywords={cryptography;electronic money;blockchain technology;Bitcoin;immutable ledger;blockchain-based applications;consensus algorithms;Bitcoin;Peer-to-peer computing;Organizations;Contracts;Blockchain;decentralization;consensus;scalability},
+doi={10.1109/BigDataCongress.2017.85},
+ISSN={null},
+month={June}, }
+
+@inproceedings{duyptblockchain2018,
+author = {Phan, Duy and Hien, Do and Hien, Do and Pham, Van-Hau},
+year = {2018},
+month = {12},
+pages = {200-207},
+title = {A survey on opportunities and challenges of Blockchain technology adoption for revolutionary innovation},
+isbn = {978-1-4503-6539-0},
+doi = {10.1145/3287921.3287978}
+}
+
+@INPROCEEDINGS{8416225,
+author={J. {Bae} and H. {Lim}},
+booktitle={2018 48th Annual IEEE/IFIP International Conference on Dependable Systems and Networks Workshops (DSN-W)},
+title={Random Mining Group Selection to Prevent 51\% Attacks on Bitcoin},
+year={2018},
+volume={},
+number={},
+pages={81-82},
+doi={10.1109/DSN-W.2018.00040},
+ISSN={2325-6664},
+month={June},}
+
+@article{buterin2014ethereum,
+  title={Ethereum: A next-generation smart contract and decentralized application platform},
+  author={Buterin, Vitalik and others},
+  journal={URL https://github. com/ethereum/wiki/wiki/\% 5BEnglish\% 5D-White-Paper},
+  volume={7},
+  year={2014}
+}
+
+@INPROCEEDINGS{8500488,
+author={S. {Wang} and Y. {Yuan} and X. {Wang} and J. {Li} and R. {Qin} and F. {Wang}},
+booktitle={2018 IEEE Intelligent Vehicles Symposium (IV)},
+title={An Overview of Smart Contract: Architecture, Applications, and Future Trends},
+year={2018},
+volume={},
+number={},
+pages={108-113},
+keywords={contracts;data privacy;electronic money;financial data processing;blockchain powered smart contracts;privacy disclosure;security issues;Hyperledger;Ethereum;cryptocurrency;blockchain technologies;Contracts;Bitcoin;Fabrics;Protocols;Computer languages;Market research;contract;Ethereum;ACP approach;parallel blockchain},
+doi={10.1109/IVS.2018.8500488},
+ISSN={1931-0587},
+month={June},}

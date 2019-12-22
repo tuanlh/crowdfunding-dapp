@@ -1,9 +1,7 @@
-pragma solidity ^0.5;
+pragma solidity ^0.5.3;
 import {SafeMath} from "./SafeMath.sol";
 import {Campaigns} from "./Campaigns.sol";
 
-/// @title This is contract for hold all token of users in system
-/// @author tuanlh
 contract Wallet {
     using SafeMath for uint;
 
@@ -20,13 +18,9 @@ contract Wallet {
     //
     /// @notice Constructor to create a Wallet
     /// @dev This contract is deployed by system and only once deploy
-    /// set Granularity is the minimum transferable chunk
-    /// Or it is the minimum value of wei corresponds to a token
-    /// Or it is price of token
-    /// 1 token = mGranularity (wei)
-    /// Set deployer = msg.sender (runner contract)
-    constructor(Campaigns _camp) public {
-        camp = _camp;
+    /// @param addrCampaign is address of Campaign contract
+    constructor(Campaigns addrCampaign) public {
+        camp = addrCampaign;
         deployer = msg.sender;
         mGranularity = 10**15; // 1 ETH = 1000 tokens
     }
@@ -36,22 +30,22 @@ contract Wallet {
     function granularity() external view returns (uint) { return mGranularity; }
 
     /// @dev Get token of user without campaigns
-    /// @param _addr is address of user that you want check token
+    /// @param user is address of user that you want check token
     /// @return Number of token
-    function balances(address _addr) external view returns(uint) {
-        return mBalances[_addr] / mGranularity;
+    function balances(address user) external view returns(uint) {
+        return mBalances[user] / mGranularity;
     }
 
     /// @notice get my balance (form as Token) of msg.sender with campaign
-    /// @param _addr is address of user
+    /// @param user is address of user
     /// @return Result is number of token
-    function getBalance(address _addr) public view returns (uint) {
+    function getBalance(address user) public view returns (uint) {
         if (mBalances[msg.sender] == 0) {
             return 0;
         }
         uint balance;
         balance = mBalances[msg.sender] / mGranularity;
-        balance = balance.sub(camp.getAllDonation(_addr));
+        balance = balance.sub(camp.getAllDonation(user));
         return balance;
     }
 
@@ -76,42 +70,38 @@ contract Wallet {
 
     /// @notice This function allow user withdraw balances in contract to ETH
     /// @dev Withdraw token in system to ETH. (Wei = token * mGranularity)
-    /// @param _amountToken number of token that you want withdraw
-    /// amount of token MUST be multiple with mGranularity before send
+    /// @param amount number of token that you want withdraw
     /// @return `true` if withdraw process successful
-    function withdraw(uint _amountToken) external returns (bool) {
+    function withdraw(uint amount) external returns (bool) {
         require(
-            _amountToken > 0,
+            amount > 0,
             "Amount to deposit MUST be greater zero"
         );
         require(
-            _amountToken <= getBalance(msg.sender),
+            amount <= getBalance(msg.sender),
             "You don't have enough token"
         );
-        uint amount = _amountToken.mul(mGranularity);
-        // It is important to subtract amount before real transfer
-        // because the recipient can call this function again as part of the receiving call
-        // before `send` returns.
-        mBalances[msg.sender] -= amount;
-        mTotalBalances = mTotalBalances.sub(amount);
-        if (!msg.sender.send(amount)) {
-            mBalances[msg.sender] = mBalances[msg.sender].add(amount);
-            mTotalBalances = mTotalBalances.add(amount);
+        uint weiValue = amount.mul(mGranularity); // exchange from token to Wei
+        
+        mBalances[msg.sender] -= weiValue;
+        mTotalBalances = mTotalBalances.sub(weiValue);
+        emit Withdraw(msg.sender, weiValue);
+        if (!msg.sender.send(weiValue)) {
+            mBalances[msg.sender] = mBalances[msg.sender].add(weiValue);
+            mTotalBalances = mTotalBalances.add(weiValue);
             return false;
         } else {
             assert(address(this).balance >= mTotalBalances);
+            return true;
         }
-        emit Withdraw(msg.sender, amount);
-        return true;
     }
 
     /// @notice Allow campaign owner (startups) can withdraw token from a succeed campaign
-    /// @dev This function MUST be run by a contract
-    /// @param _i is index of campaign
-    /// @param _owner is owner of campaign
-    /// @param _tokenCollected total token was sold in campaign
+    /// @dev This function MUST be run by Campaign contract
+    /// @param to is owner of campaign
+    /// @param amount total token was sold in campaign
     /// @return `true` if withdraw process successful
-    function withdrawFromCampaign(uint _i, address _owner, uint _tokenCollected) external
+    function addToken(address to, uint amount) external
     returns(bool)
     {
         require(
@@ -119,31 +109,22 @@ contract Wallet {
             "Sender address is invalid"
         );
         require(
-            _tokenCollected > 0,
+            amount > 0,
             "Amount MUST be greater zero"
         );
-        require(
-            camp.getFinStatus(_i) >= Campaigns.FinStatus.accepted,
-            "Campaign MUST be accepted"
-        );
-        require(
-            camp.getStatus(_i) >= Campaigns.Status.succeed,
-            "Campaign MUST be succeed"
-        );
 
-        uint _amount = _tokenCollected * mGranularity;
-        mBalances[_owner] = mBalances[_owner] + _amount;
+        mBalances[to] = mBalances[to] + (amount * mGranularity);
         return true;
     }
 
     /// @notice This function for contract owner to change granularity
-    /// @param _newGranularity is new value of granularity
-    function changeGranularity(uint _newGranularity) external {
+    /// @param newGranularity is new value of granularity
+    function changeGranularity(uint newGranularity) external {
         require(
             msg.sender == deployer,
             "This function must be run by deployer"
         );
-        mGranularity = _newGranularity;
+        mGranularity = newGranularity;
     }
 
     function () external payable {deposit();}

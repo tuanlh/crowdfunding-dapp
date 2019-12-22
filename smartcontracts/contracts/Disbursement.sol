@@ -1,8 +1,6 @@
-pragma solidity ^0.5;
+pragma solidity ^0.5.3;
 import {Campaigns} from './Campaigns.sol';
 
-/// @title This contract store disbursement for each campaigns
-/// @author tuanlh
 contract Disbursement {
     enum Vote {none, Agree, Disagree}
     enum Mode {Flexible, Fixed, TimingFlexible, TimingFixed}
@@ -23,9 +21,9 @@ contract Disbursement {
     //
     /// @notice Constructor run only one time
     /// @dev This contract MUST be run after TokenSystem
-    /// @param _camp is address of Campaigns contract
-    constructor(Campaigns _camp) public {
-        camp = _camp;
+    /// @param addrCampaign is address of Campaigns contract
+    constructor(Campaigns addrCampaign) public {
+        camp = addrCampaign;
     }
 
     /// @notice only some contracts MUST be run
@@ -39,119 +37,128 @@ contract Disbursement {
 
     /// @notice Create disbursement for campaign
     /// @dev This function must be run by Campaigns contract
-    /// @param _campID is campaign's id
-    /// @param _numStage is number of stage
-    /// @param _amount is array amount for each stages (unit: tokens, sum all must be equal with campaign's goal)
-    /// @param _mode is MODE for disbursement (type and requirement for withdraw)
-    /// @param _time is array of time for each stages (unit: seconds, start from campaign's end date). Notice: first element is default with zero
+    /// @param campID is campaign's id
+    /// @param numStage is number of stage
+    /// @param amount is array amount for each stages (unit: tokens, sum all must be equal with campaign's goal)
+    /// @param mode is MODE for disbursement (type and requirement for withdraw)
+    /// @param time is array of time for each stages (unit: seconds, start from campaign's end date). Notice: first element is default with zero
     function create(
-        uint _campID,
-        uint _numStage,
-        uint[] calldata _amount,
-        Mode _mode,
-        uint[] calldata _time
+        uint campID,
+        uint numStage,
+        uint[] calldata amount,
+        Mode mode,
+        uint[] calldata time
         )
     external onlyAllowedContract() {
-        Data memory temp;
-        temp.numStage = _numStage;
-        temp.amount = _amount;
-        temp.mode = _mode;
-        temp.time = _time;
-        stages[_campID] = temp;
-        stages[_campID].agreed = new uint[](_numStage);
-        stages[_campID].amountAgreed = new uint[](_numStage);
+        stages[campID] = Data(
+            numStage,
+            amount,
+            time,
+            new uint[](numStage),
+            new uint[](numStage),
+            mode
+        );
+        // Data memory temp;
+        // temp.numStage = numStage;
+        // temp.amount = amount;
+        // temp.mode = mode;
+        // temp.time = time;
+        // stages[campID] = temp;
+        // stages[campID].agreed = new uint[](numStage);
+        // stages[campID].amountAgreed = new uint[](numStage);
     }
 
     /// @notice Return disbursement info of a campaign
-    /// @param _campID is campaign's id
+    /// @param campID is campaign's id
     /// @return Some info as number of stage, array of amount, mode, array of time, array of number agree voted
-    function getInfo(uint _campID) external view
+    function getInfo(uint campID) external view
     returns (
         uint numStage,
         uint[] memory amount,
         Mode mode,
         uint[] memory time,
         uint[] memory agreed) {
-        numStage = stages[_campID].numStage;
-        amount = stages[_campID].amount;
-        mode = stages[_campID].mode;
-        time = stages[_campID].time;
-        agreed = stages[_campID].agreed;
+        numStage = stages[campID].numStage;
+        amount = stages[campID].amount;
+        mode = stages[campID].mode;
+        time = stages[campID].time;
+        agreed = stages[campID].agreed;
     }
 
     /// @notice This function for backer to vote for a stage of campaign disbursement
-    /// @param _campID is campaign's id
-    /// @param _stage is stage number (start with 1. Stage 0 default withdraw without voting)
-    /// @param _decision is decision for vote (Two options: `true` for agree withdraw, otherwise for disagree)
-    function vote(uint _campID, uint _stage, bool _decision) external {
+    /// @param campID is campaign's id
+    /// @param stage is stage number (start with 1. Stage 0 default withdraw without voting)
+    /// @param isAgree is decision for vote (Two options: `true` for agree withdraw, otherwise for disagree)
+    function vote(uint campID, uint stage, bool isAgree) external {
         require(
-            _stage > 0,
+            stage > 0,
             "Stage 0 is default full withdraw without voting"
         );
         require(
-            _stage < stages[_campID].numStage,
+            stage < stages[campID].numStage,
             "Stage value is invalid"
         );
         require(
-            stages[_campID].voting[msg.sender][_stage] == Vote.none,
+            stages[campID].voting[msg.sender][stage] == Vote.none,
             "You already voted for this stage"
         );
         require(
-            camp.getDonation(_campID, msg.sender) > 0,
+            camp.getDonation(campID, msg.sender) > 0,
             "You don't have right for this action"
         );
 
         require(
-            !(stages[_campID].mode >= Mode.TimingFlexible &&
-            now < stages[_campID].time[_stage]),
+            !(stages[campID].mode >= Mode.TimingFlexible &&
+            now < stages[campID].time[stage]),
             "Don't have enough time to do this action"
         );
 
-        if (_decision == true) {
-            stages[_campID].voting[msg.sender][_stage] = Vote.Agree;
-            stages[_campID].agreed[_stage] += 1;
-            stages[_campID].amountAgreed[_stage] += camp.getDonation(_campID, msg.sender);
+        if (isAgree == true) {
+            stages[campID].voting[msg.sender][stage] = Vote.Agree;
+            stages[campID].agreed[stage] += 1;
+            stages[campID].amountAgreed[stage] += camp.getDonation(campID, msg.sender);
         } else {
-            stages[_campID].voting[msg.sender][_stage] = Vote.Disagree;
+            stages[campID].voting[msg.sender][stage] = Vote.Disagree;
         }
     }
 
     /// @notice This function return info about withdraw campaign related with multi-stage disbursement
     /// @dev This function was run by Campaigns contract
-    /// @param _campID is campaign's id
-    /// @param _stage is stage number (start with 0)
-    /// @param _numUser is number of backers (person that backed to campaign)
+    /// @param campID is campaign's id
+    /// @param stage is stage number (start with 0)
+    /// @param numberOfDonors is number of backers (person that backed to campaign)
+    /// @param campCollected is total token that campaign was collected
     /// @return Two values: (1) number of stage; (2) amount for withdraw, if don't meet condition, amount will have value is zero
-    function getWithdrawInfo(uint _campID, uint _stage, uint _numUser, uint _collected)
+    function getWithdrawInfo(uint campID, uint stage, uint numberOfDonors, uint campCollected)
     external view returns (
         uint numStage,
         uint amount
     ) {
-        if (stages[_campID].numStage > 0) {
-            numStage = stages[_campID].numStage;
-            if (_stage > 0) {
-                uint agreed = stages[_campID].agreed[_stage];
-                uint amountAgreed = stages[_campID].amountAgreed[_stage];
-                uint minAgree = _numUser / 2;
-                uint minAmount = _collected / 2;
-                amount = agreed > minAgree && amountAgreed > minAmount ? stages[_campID].amount[_stage] : 0;
+        if (stages[campID].numStage > 0) {
+            numStage = stages[campID].numStage;
+            if (stage > 0) {
+                uint agreed = stages[campID].agreed[stage];
+                uint amountAgreed = stages[campID].amountAgreed[stage];
+                uint minAgree = numberOfDonors / 2;
+                uint minAmount = campCollected / 2;
+                amount = agreed > minAgree && amountAgreed > minAmount ? stages[campID].amount[stage] : 0;
                 if (
-                    (stages[_campID].mode == Mode.Fixed ||
-                    stages[_campID].mode == Mode.TimingFixed) &&
-                    _stage > 1 &&
-                    stages[_campID].agreed[_stage-1] <= minAgree &&
-                    stages[_campID].amountAgreed[_stage-1] <= minAmount
+                    (stages[campID].mode == Mode.Fixed ||
+                    stages[campID].mode == Mode.TimingFixed) &&
+                    stage > 1 &&
+                    stages[campID].agreed[stage-1] <= minAgree &&
+                    stages[campID].amountAgreed[stage-1] <= minAmount
                 ) {
                     amount = 0;
                 }
                 if (
-                    stages[_campID].mode >= Mode.TimingFlexible &&
-                    now < stages[_campID].time[_stage]
+                    stages[campID].mode >= Mode.TimingFlexible &&
+                    now < stages[campID].time[stage]
                 ) {
                     amount = 0;
                 }
             } else { // stage 0 is default full withdraw without voting
-                amount = stages[_campID].amount[0];
+                amount = stages[campID].amount[0];
             }
         } else {
             numStage = 1;

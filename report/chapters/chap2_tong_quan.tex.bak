@@ -38,9 +38,34 @@ Một ứng dụng gây quỹ cộng đồng cho mục đích từ thiện khác
 
 \section{Kiến thức nền tảng}
 \subsection{Công nghệ blockchain}
+Ngày nay, đồng tiền mã hoá đã trở nên quen thuộc với lĩnh vực công nghệ thông tin và giới học học. Bitcoin đã đạt được thành công lớn, đồng tiền Bitcoin có giá trị cao, thị trường vốn đạt 10 tỷ đô-la trong năm 2016. Với thiết kế cấu trúc dữ liệu lưu trữ đặc biệt, các giao dịch trong mạng Bitcoin có thể hoạt động mà không cần bên thứ ba nào. Đứng sau sự thành công của Bitcoin, đó chính là công nghệ \gls{blockchain} \cite{8029379}. Công nghệ này còn được biết đến như là mô hình ``\gls{decentralized}'' (phi tập trung) và được xem như là mô hình có chức năng chống giả mạo, có tính bất biến, lưu trữ các hồ sơ theo thời gian. Blockchain sử dụng mạng ngang hàng (P2P) mà không có sự tham gia bởi bất kỳ máy chủ nào điều khiển. Tuy nhiên, nhắm tới mục đích giải quyết các vấn đề đồng bộ hoá từ cơ sở dữ liệu phân tán, blockchain coi các thuật toán đồng thuận như là ``xương sống'' trong cách hoạt động.
+
+Blockchain không có gì ngoài lưu trữ các transactions hay còn được gọi là cuốn sổ cái. Cuốn sổ này không được giữ bởi bất kỳ một tổ chức hay thực thể đáng tin cậy nào, mà nó được phân tán cho toàn thể các nút trong mạng. Bất kỳ ai tham gia vào mạng đều có thể đọc được nhưng không ai có thể chỉnh sửa transaction một khi transaction đã được ghi vào cuốn sổ cái. Nếu người dùng muốn thực hiện giao dịch, giao dịch đó được gửi đến toàn bộ các nút trong mạng P2P, sau đó các nút hoặc người dùng sẽ xác thực dữ liệu bằng cách sử dụng các thuật toán đồng thuận như là \textit{Proof-of-Work (PoW)}, \textit{Proof-of-Stake (PoS)}, \textit{Practical Byzantine fault tolerance (PBFT)}, \ldots.
+
+Dữ liệu được xác nhận sẽ được lưu trữ vào block mới. Sau đó, thuật toán đồng thuận sẽ chịu trách nhiệm thêm mới vào mạng blockchain với tất cả sự thừa nhận của các nút trong mạng P2P \cite{duyptblockchain2018}. Do đó, kẻ tấn công nếu muốn tấn công vào hệ thống blockchain để nhằm thay đổi thông tin thì sẽ cần phải có được hơn 51\% sự đồng thuận từ các nút trong mạng \cite{8416225}.
+
+Cấu trúc của một block được lưu trên blockchain bao gồm hash (mã băm), chữ ký số, các thông tin khác đóng vai trò quan trọng để đảm bảo tính toàn vẹn và độ tin cậy của transaction mà không cần các dịch vụ từ bên thứ ba. Hình \ref{fig:struct-block} là cấu trúc liên kết các block được lưu trữ trên blockchain.
+
+\begin{figure}[ht!]
+\begin{center}
+\label{fig:struct-block}
+\includegraphics[scale=0.8]{struct-block}
+\caption{Kiến trúc danh sách liên kết giữa các blocks trong blockchain}
+\end{center}
+\end{figure}
 
 \subsection{Nền tảng Ethereum}
+\textbf{Ethereum} là một nền tảng điện toán có tính chất phân tán, công cộng, mã nguồn mở dựa trên công nghệ blockchain và hỗ trợ hợp đồng thông minh. Theo như bài báo của Vitalik Buterin (tác giả của Ethereum) \cite{buterin2014ethereum}, Ethereum được giới thiệu là đã giải quyết một số hạn chế của ngôn ngữ kịch bản Bitcoin. Với việc hỗ trợ lập trình Turing-complete, có nghĩa là Ethereum hỗ trợ tất cả các loại tính toán, bao gồm cả các vòng lặp. Các mã chương trình trong Ethereum sẽ được chạy trong một máy ảo được gọi là \textit{Ethereum Virtual Machine (EVM)}. Bên cạnh đó, Ethereum hỗ trợ thêm trạng thái của giao dịch, cũng như một số cải tiến khác đối với cấu trúc của blockchain.
 
+Sự đồng thuận trong mạng Ethereum dựa trên giao thức \textit{GHOST (Greedy Heaviest Observed Subtree)} đã được sửa đổi. Nó được tạo ra để giải quyết các vấn đề của xảy ra trên block cũ khi các một nhóm các thợ đào liên kết cùng nhau trong mỏ đào tạo nên sức mạnh lớn hơn các thợ đào khác, điều này có thể làm mất đi tính phi tập trung trong blockchain.
+
+Ethereum hỗ trợ hai loại tài khoản: tài khoản người dùng thông thường (được điều khiển bởi khóa riêng tư của người dùng) và tài khoản hợp đồng (được điều khiển bởi mã hợp đồng).
+
+Ethereum cũng có các thành phần cơ bản của một mạng lưới blockchain bao gồm: mạng đồng đẳng (P2P), một thuật toán đồng thuận để đồng bộ dữ liệu giữa các peer (PoW), một đồng tiền mã hóa (ether) và sổ cái công khai. Hiện tại thuật toán đồng thuận của Ethereum đó chính là \textit{Proof-of-work} cho việc tạo một block mới. Giải thuật này hạn chế ở chỗ đó chính là không thể chống lại cuộc tấn công 51\% và hiện tại chưa có cuộc tấn công nào đủ khả năng thực hiện cuộc tấn công 51\%.
 \subsection{Hợp đồng thông minh - Smart contract}
+Hợp đồng thông minh là một tập hợp các quy tắc và logic thủ tục theo dạng Kịch bản-Phản hồi. Nói cách khác, hợp đồng thông minh là các mã chia sẻ phi tập trung, đáng tin cậy được triển khai trên blockchain. Các bên ký kết hợp đồng nên thống nhất các chi tiết hợp đồng, các điều kiện vi phạm hợp đồng, trách nhiệm đối với vi phạm hợp đồng và các nguồn dữ liệu xác minh bên ngoài. Sau đó triển khai nó trên blockchain dưới dạng hợp đồng thông minh để tự động hóa việc thực hiện hợp đồng thay mặt cho các bên ký kết. Toàn bộ quá trình là độc lập với bất kỳ bên nào.
 
+Thông thường, sau khi các hợp đồng thông minh được ký kết bởi tất cả các bên, chúng được gắn vào blockchain dưới dạng mã chương trình và được ghi lại trong blockchain sau khi được mạng P2P lan truyền và xác minh bởi các nút. Hợp đồng thông minh đóng gói một số trạng thái và quy tắc được xác định trước, các tình huống kích hoạt thực hiện hợp đồng (như tại một thời điểm nhất định hoặc một sự kiện cụ thể xảy ra), phản hồi trong một kịch bản cụ thể, \ldots. Blockchain theo dõi trạng thái thời gian thực của hợp đồng thông minh và thực hiện hợp đồng sau khi đã đáp ứng một số điều kiện kích hoạt.
+
+Hợp đồng thông minh có ba đặc điểm, đó là tự chủ, tự túc và phân cấp. Tự chủ có nghĩa là sau khi hợp đồng được đưa ra và thực hiện, các hợp đồng và các tác nhân khởi xướng không cần phải tiếp xúc thêm nữa. Thứ hai, hợp đồng thông minh có thể tự cung cấp khả năng thống trị các nguồn lực. Thứ ba, hợp đồng thông minh được phân cấp vì chúng không tồn tại trên một máy chủ tập trung duy nhất, mà được phân phối và tự thực hiện trên các nút mạng \cite{8500488}.
 \end{document}

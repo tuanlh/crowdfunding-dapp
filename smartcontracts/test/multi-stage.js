@@ -36,7 +36,7 @@ contract('Campaign - multi stage disbursement', accounts => {
         );
     });
 
-    it('Deposit wallet: 5 accounts with 1500 tokens / account', async () => {
+    it('Deposit: 5 accounts with 1500 tokens / account', async () => {
         const price = 10 ** 15; // 0.01 ETH
         const amount = 1500; // 1200 tokens
         for(let i = 0; i < backers.length; i++) {
@@ -134,7 +134,7 @@ contract('Campaign - multi stage disbursement', accounts => {
         assert.isTrue(result.endDate >= expectedExpire, 'End data is incorrect');
     });
 
-    it('Accept campaign after create', async() => {
+    it('Accept first campaign', async() => {
         await camp.verifyCampaign(
             campID,
             true,
@@ -145,29 +145,6 @@ contract('Campaign - multi stage disbursement', accounts => {
             { from: deployer }
         );
         assert.equal(result.finStatus, 1, 'Fin Status must be set to Accepted');
-    });
-
-    it('Checking disbursement: should throw error on sum amount stage not equal with goal', async () => {
-        try {
-            await camp.createCampaign.sendTransaction(
-                3, // deadline (seconds)
-                10000, // goal (tokens)
-                3, // num stage
-                [1000, 5000, 3000], // amount for each stage (tokens)
-                0, // is timing stage
-                [], // deadline for each stage
-                'data',
-                'hash',
-                { from: creator }
-            );
-            assert.fail(true, false, 'The function should throw error');
-        } catch(err) {
-            assert.include( 
-                String(err),
-                'Sum of amount must be equal goal',
-                'throw different error'
-            )
-        }
     });
 
     it('Donate to first campaign', async () => {
@@ -192,7 +169,6 @@ contract('Campaign - multi stage disbursement', accounts => {
     });
 
     it('1st campaign: Withdraw stage 0', async() => {
-        console.log('Waiting for reach deadline...');
         const deadline = (await camp.getInfo.call(
             campID,
             { from: deployer }
@@ -344,7 +320,7 @@ contract('Campaign - multi stage disbursement', accounts => {
         assert.isTrue(result.endDate >= expectedExpire, 'End data is incorrect');
     });
 
-    it('Accept campaign after create', async() => {
+    it('Accept second campaign', async() => {
         await camp.verifyCampaign(
             campID,
             true,
@@ -379,7 +355,6 @@ contract('Campaign - multi stage disbursement', accounts => {
     });
 
     it('2nd campaign: Withdraw stage 0', async() => {
-        console.log('Waiting for reach deadline...');
         const deadline = (await camp.getInfo.call(
             campID,
             { from: deployer }
@@ -528,7 +503,7 @@ contract('Campaign - multi stage disbursement', accounts => {
         assert.isTrue(result.endDate >= expectedExpire, 'End data is incorrect');
     });
 
-    it('Accept campaign after create', async() => {
+    it('Accept third campaign', async() => {
         await camp.verifyCampaign(
             campID,
             true,
@@ -564,7 +539,6 @@ contract('Campaign - multi stage disbursement', accounts => {
     });
 
     it('3rd campaign: Withdraw stage 0', async() => {
-        console.log('Waiting for reach deadline...');
         const deadline = (await camp.getInfo.call(
             campID,
             { from: deployer }
@@ -757,7 +731,7 @@ contract('Campaign - multi stage disbursement', accounts => {
         assert.isTrue(result.endDate >= expectedExpire, 'End data is incorrect');
     });
 
-    it('Accept campaign after create', async() => {
+    it('Accept fourth campaign', async() => {
         await camp.verifyCampaign(
             campID,
             true,
@@ -794,7 +768,6 @@ contract('Campaign - multi stage disbursement', accounts => {
     });
 
     it('4th campaign: Withdraw stage 0', async() => {
-        console.log('Waiting for reach deadline...');
         const deadline = (await camp.getInfo.call(
             campID,
             { from: deployer }
@@ -1029,7 +1002,7 @@ contract('Campaign - multi stage disbursement', accounts => {
         assert.isTrue(result.endDate >= expectedExpire, 'End data is incorrect');
     });
 
-    it('Accept campaign after create', async() => {
+    it('Accept fiveth campaign', async() => {
         await camp.verifyCampaign(
             campID,
             true,
@@ -1066,7 +1039,6 @@ contract('Campaign - multi stage disbursement', accounts => {
     });
 
     it('5th campaign: Withdraw stage 0', async() => {
-        console.log('Waiting for reach deadline...');
         const deadline = (await camp.getInfo.call(
             campID,
             { from: deployer }

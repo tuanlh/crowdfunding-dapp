@@ -5,15 +5,43 @@ Khóa luận này đạt được một số kết quả sau:
 
 \begin{itemize}
 \item Đề xuất mô hình ứng dụng gây quỹ cộng đồng từ thiện dựa trên công nghệ \gls{blockchain} cải thiện các vấn đề hiện tại của ứng dụng gây quỹ từ thiện.
-\item Hiện thực mô hình đã đề xuất với các chức năng cơ bản của ứng dụng gây quỹ từ thiện cộng đồng như: tạo chiến dịch, đóng góp vào chiến dịch, giải ngân. Ngoài ra hệ thống còn hiện thực các chức năng nổi bật mà các hệ thống hiện tại chưa hoàn thiện như: lưu trữ định danh, hoàn tiền tự động chiến dịch khi chiến dịch thất bại, bỏ phiếu giải ngân nhiều giai đoạn.  
+\item Hiện thực mô hình đã đề xuất với các chức năng cơ bản của ứng dụng gây quỹ từ thiện cộng đồng như: tạo chiến dịch, đóng góp vào chiến dịch, giải ngân. Ngoài ra hệ thống còn hiện thực các chức năng nổi bật mà các hệ thống hiện tại chưa hoàn thiện như: lưu trữ và quản lí thông tin định danh, hoàn tiền tự động khi chiến dịch không đạt được mục tiêu, giải ngân và bỏ phiếu giải ngân nhiều giai đoạn.
 \end{itemize}
 
 \section{Ưu điểm và nhược điểm của hệ thống}
-Với mô hình được đề xuất trong khóa luận, có một số ưu và khuyết điểm sau:
+\subsection{Ưu điểm}
+Mô hình hệ thống đã hiện thực có các ưu điểm sau:
+
+\begin{itemize}
+\item Mô hình gây quỹ cộng đồng thông qua internet: tận dụng sức mạnh của cộng đồng để các chiến dịch gây quỹ từ thiện có thể lan tỏa tốt hơn đến nhiều người. Cũng chính cộng đồng sẽ là người giám sát các chiến dịch gây quỹ.
+\item Ứng dụng công nghệ blockchain và mô hình phi tập trung: các giao dịch được công khai và minh bạch. Do đó tăng cường sự giám sát của cộng đồng với các chiến dịch. Mô hình phi tập trung loại bỏ sự can thiệp của bất cứ bên thứ ba nào làm thay đổi dữ liệu hệ thống.
+\item Cơ chế xác minh thông tin định danh và thông tin chiến dịch trước khi công khai đến cộng đồng: tuy yếu tố này sẽ giảm tính ``phi tập trung'' của ứng dụng nhưng mọi hành động về xét duyệt các thông tin đều được công khai, minh bạch cho cộng đồng.
+\item Tối ưu chi phí khi kết hợp lưu trữ thông tin trên cơ sở dữ liệu tập trung. Các giá trị liên quan đến tiền tệ tài chính được lưu trữ trên blockchain. Các thông tin về mô tả chiến dịch được lưu trữ trên cơ sở dữ liệu tập trung. Để đảm bảo tính toàn vẹn của dữ liệu, hệ thống đã kết hợp lưu trữ mã băm của dữ liệu lên blockchain.
+\end{itemize}
+\subsection{Nhược điểm}
+Một số nhược điểm của hệ thống hiện tại được nhóm tác giả chỉ ra như sau:
+
+\begin{itemize}
+\item Chi phí và tốc độ thực hiện các giao dịch còn tương đối cao so với ứng dụng tập trung theo mô hình truyền thống. Đây là hạn chế của nền tảng blockchain công khai hiện tại. Với các giao dịch gọi tới các hàm có thay đổi dữ liệu trong hợp đồng thông minh đều tốn một chi phí nhất định. Xét về mặt kinh tế, thì đây là một nhược điểm so với hệ thống theo mô hình tập trung. Còn xét về phương diện bảo mật thì đây là một ưu điểm có thể hạn chế các cuộc tấn công như spam, từ chối dịch vụ.
+\item Trong chức năng tự động hoàn tiền chiến dịch khi không đạt được mục tiêu gây quỹ, hàm kiểm tra số dư có sử dụng dấu thời gian hiện tại để xác định trạng thái của chiến dịch là kêu gọi thành công hay thất bại. Mà dấu thời gian này được xác định là thời gian của block mới nhất trong blockchain. Do đó, khi không có bất kì block nào được đóng vào thì trạng thái chiến dịch không được cập nhật và số dư cũng không được cập nhật thực tế. Việc cập nhật số dư có thể diễn ra chậm. Tuy nhiên sự sai lệch này là không đáng kể.
+\item Đối với chức năng giải ngân theo nhiều giai đoạn, khi một giai đoạn giải ngân không đạt đủ điều kiện về số phiếu đồng ý thì chưa có cơ chế hoàn tiền ở giai đoạn đó cho người đóng góp.
+\end{itemize}
 
 \section{Khó khăn}
-........ 
+Trong quá trình thực hiện khóa luận, nhóm tác giả gặp phải những khó khăn sau:
+
+\begin{itemize}
+\item Việc kiểm thử hệ thống chưa thể thực hiện chạy đồng thời nhiều giao dịch cùng lúc mà chỉ thực thi tuần tự các giao dịch.
+\item Công nghệ blockchain hiện tại đang được nghiên cứu phát triển nên các tài liệu về kiểm thử hiệu suất và bảo mật của ứng dụng chưa nhiều. Nhóm tác giả cũng chưa thể làm tốt nhất phần kiểm thử ứng dụng.
+\item Phần hiện thực hệ thống hiện tại chỉ có thể thực hiện trên mạng testnet, chưa thực hiện trên mạng công khai thực tế do vấn đề kinh phí triển khai.
+\end{itemize}
 \section{Hướng phát triển}
-........
+Với những nhược điểm và khó khăn đã đề ra, mục tiêu tiếp theo của khóa luận này như sau:
+
+\begin{itemize}
+\item Hoàn thiện chức năng hoàn tiền trong giải ngân nhiều giai đoạn.
+\item Hoàn thiện việc kiểm thử hệ thống với quy trình đánh giá chuẩn hơn.
+\item Hiện thực trên nhiều nền tảng và mạng blockchain khác nhau.
+\end{itemize}
 
 \end{document}

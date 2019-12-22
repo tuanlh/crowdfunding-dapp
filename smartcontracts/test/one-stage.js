@@ -265,7 +265,7 @@ contract('Campaign - one stage disbursement', accounts => {
     });
 
     it('Checking auto refund', async () => {
-        console.log('Waiting for reach deadline...');
+        
         let prevBalances = [];
         let amounts = [];
         for (let i = 0; i < backers.length; i++) {
