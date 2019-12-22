@@ -7,6 +7,9 @@ const customStyle = theme => ({
   titleText: {
     fontWeight: "bold",
     fontSize: '18px'
+  },
+  blurText: {
+    fontWeight: '100'
   }
 })
 class Helper extends Component {
@@ -23,29 +26,27 @@ class Helper extends Component {
             }}
           />
           <CardContent>
-            <Typography>
+            <Typography className={classes.blurText}>
               <b>Notes 1:</b> A newly created campaign will need to wait for
               accept. The status of the campaign will be PENDING. During this
               time the campaign will not be able to perform any transactions.
               <br />
-              <b>
                 In current, for testing, we set default for new campaign is
                 Accepted.
-              </b>
             </Typography>
             <br />
-            <Typography>
+            <Typography className={classes.blurText}>
               <b>Notes 2:</b> After the campaign was accepted, investors can
               donate for campaign. You (creator campaign) only can withdraw
               amount of campaign if campaign successful
             </Typography>
             <br />
-            <Typography>
+            <Typography className={classes.blurText}>
               <b>Notes 3:</b> A succeed campaign is reach goal and meet
               deadline.
             </Typography>
             <br />
-            <Typography>
+            <Typography className={classes.blurText}>
               <b>Notes 4:</b> Any investors also can claim refund during
               campaign and when campaign failed. But NOT in succeed campaign
             </Typography>

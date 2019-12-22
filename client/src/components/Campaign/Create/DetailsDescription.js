@@ -41,7 +41,7 @@ export default class DetailsDescription extends Component {
       <Fragment>
         <label
           className={clsx("MuiFormLabel-root", error && "error")}
-          style={{ fontSize: "13px" }}
+          style={{ fontSize: "13px", fontWeight: 'bold' }}
         >
           Description
         </label>
