@@ -106,7 +106,7 @@ class FormCreate extends Component {
       case 'time':
         value = parseInt(value);
         if (value >= 1 && value <= 180) inputIsError = false;
-        value = value * 60; // in test, convert second to minutes
+        // value = value * 60; // in test, convert second to minutes
         break;
       case 'numStage':
         value = _.toInteger(value)
@@ -120,7 +120,7 @@ class FormCreate extends Component {
       case 'timing':
         value = parseInt(value)
         if (value >= 1) inputIsError = false;
-        value = value * 60
+        // value = value * 60 // in test, convert second to minutes
         break
       default:
         break;
@@ -377,7 +377,7 @@ class FormCreate extends Component {
                         onChange={this.handleInput}
                         onKeyDown={e => this.handleCreateTags(e, 'amountStage', 'amountStageArr')}
                         className={classes.textField}
-                        helperText='This is number stage of project'
+                        helperText='This is number stage of project. Press ENTER to insert amount'
                         InputLabelProps={{
                           shrink: true
                         }}
@@ -416,7 +416,7 @@ class FormCreate extends Component {
                         onChange={this.handleInput}
                         onKeyDown={e => this.handleCreateTags(e, 'timing', 'timingArr')}
                         className={classes.textField}
-                        helperText='This is time stage of each period'
+                        helperText='This is time stage of each period. Press ENTER to insert amount'
                         InputLabelProps={{
                           shrink: true
                         }}
