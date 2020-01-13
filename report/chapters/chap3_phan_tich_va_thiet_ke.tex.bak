@@ -123,7 +123,7 @@ Sơ đồ hoạt động chức năng nộp tiền được thể hiện ở hì
 \end{center}
 \end{figure}
 
-Tiến trình của hoạt động rút tiền được diễn ra như sau:
+Tiến trình của hoạt động nộp tiền được diễn ra như sau:
 
 \begin{enumerate}[label=(\arabic*)]
 \item Người dùng nhập vào lượng token muốn gửi vào hệ thống.
@@ -183,9 +183,9 @@ Nhóm tác giả chia làm 2 tiến trình hoạt động cho chức năng này:
 Các đối tượng trong chức năng định danh bao gồm:
 
 \begin{itemize}
-\item \textbf{Người tạo lập hồ sơ (người dùng - user):} là người tạo hồ sơ định danh, hay người tạo chiến dịch gây quỹ.
-\item \textbf{Người xác minh hồ sơ (verifier)}: người xác minh cho một hồ sơ định danh. Có thể là nhân viên trong hệ thống, tình nguyện viên.
-\item \textbf{Người vận hành hệ thống (deployer):} người quản lí danh sách các verifier. Hay người sẽ triển khai hợp đồng thông minh lên \gls{blockchain}.
+\item \textbf{Người tạo lập hồ sơ:} là người tạo hồ sơ định danh, hay người tạo chiến dịch gây quỹ.
+\item \textbf{Nhân viên xác minh}: người xác minh cho một hồ sơ định danh. Có thể là nhân viên trong hệ thống, tình nguyện viên, cơ quan chuyên trách có nghiệp vụ về xác minh.
+\item \textbf{Nhân viên vận hành:} người quản lí danh sách các nhân viên xác minh. Nhân viên vận hành còn là người sẽ triển khai hợp đồng thông minh lên \gls{blockchain}.
 \end{itemize}
 
 Cách thức tạo lập và lưu trữ hồ sơ định danh được thể hiện ở hình \ref{fig:identity-process-1}. Cụ thể:
@@ -195,9 +195,9 @@ Cách thức tạo lập và lưu trữ hồ sơ định danh được thể hi�
 \item Người tạo lập hồ sơ nhập một chìa khóa bảo vệ hồ sơ định danh, được gọi là \textbf{SecretKey}. SecretKey được dùng cho 2 mục đích:
 \begin{enumerate}[label=(\roman*)]
 \item Làm khóa (key) cho thuật toán AES dùng để mã hóa các thông tin nhạy cảm của người dùng trước khi lưu trữ.
-\item SecretKey sẽ được mã hóa bằng thuật toán RSA bởi khóa công khai của verifier, sau đó chuỗi mã hóa sẽ được lưu trữ trên \gls{blockchain}.
+\item SecretKey sẽ được mã hóa bằng thuật toán RSA bởi khóa công khai của nhân viên xác minh, sau đó chuỗi mã hóa sẽ được lưu trữ trên \gls{blockchain}.
 \end{enumerate}
-\item Người tạo lập chọn khóa công khai của verifier (chọn một verifier trong danh sách các verifier), khóa này được dùng để mã hóa SecretKey của người tạo lập hồ sơ.
+\item Người tạo lập chọn khóa công khai của nhân viên xác minh (chọn một nhân viên xác minh trong danh sách các nhân viên xác minh), khóa này được dùng để mã hóa SecretKey của người tạo lập hồ sơ.
 \item Thông tin công khai và khóa bí mật đã mã hóa sẽ được lưu trữ trên hợp đồng thông minh trong blockchain. Thông tin bí mật đã mã hóa sẽ được lưu trữ trên một mạng lưu trữ phi tập trung (ở đây nhóm tác giả đề xuất \acrshort{ipfs}).
 \end{itemize}
 
@@ -209,13 +209,13 @@ Cách thức tạo lập và lưu trữ hồ sơ định danh được thể hi�
 \end{center}
 \end{figure}
 
-Việc chia sẻ hồ sơ định danh là quá trình chia sẻ các thông tin bí mật giữa verifier và người tạo lập hồ sơ phục vụ cho qui trình xác minh hồ sơ. Cách thức chia sẻ hồ sơ định danh được thể hiện trong hình \ref{fig:identity-process-2}:
+Việc chia sẻ hồ sơ định danh là quá trình chia sẻ các thông tin bí mật giữa nhân viên xác minh và người tạo lập hồ sơ phục vụ cho quy trình xác minh hồ sơ. Cách thức chia sẻ hồ sơ định danh được thể hiện trong hình \ref{fig:identity-process-2}:
 
 \begin{itemize}
-\item Verifier chọn một hồ sơ định danh của người dùng. Danh sách hồ sơ mà verifier duyệt là các hồ sơ mà người tạo hồ sơ đã chọn khóa công khai tương ứng với verifier đó.
-\item Verifier sẽ nhập khóa bí mật (\textit{private key}) để giải mã \textit{SecretKey} của người dùng đã được mã hoá bởi khóa công khai của verifier trước đó.
-\item Sau khi có được \textit{SecretKey} của người dùng, verifier sẽ tiến hành giải mã thông tin hồ sơ của người dùng.
-\item Verifier dựa vào thông tin bí mật đã giải mã và tiến hành xác minh.
+\item Nhân viên xác minh chọn một hồ sơ định danh. Danh sách hồ sơ mà nhân viên xác minh chọn để duyệt là các hồ sơ mà người tạo hồ sơ đã chọn khóa công khai tương ứng với nhân viên xác minh đó.
+\item Nhân viên xác minh sẽ nhập khóa bí mật (\textit{private key}) để giải mã \textit{SecretKey} của người tạo lập hồ sơ đã được mã hoá bởi khóa công khai của nhân viên xác minh trước đó.
+\item Sau khi có được \textit{SecretKey} của người dùng, nhân viên xác minh sẽ tiến hành giải mã thông tin hồ sơ bí mật.
+\item Nhân viên xác minh dựa vào thông tin bí mật đã giải mã và tiến hành xác minh.
 \end{itemize}
 
 \begin{figure}[ht!]

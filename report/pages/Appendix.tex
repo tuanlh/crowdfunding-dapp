@@ -262,25 +262,20 @@ contract Campaigns {
         )
     external {
         // To testing, you can comment following lines
-        // require(
-        //     _goal >= 100000 && _goal <= 1000000000,
-        //     "The goal of campaign must be include range is from 100.000 to 1.000.000.000 tokens"
-        // );
         require(
-            goal >= 1000 && goal <= 1e9,
-            "Campaign's goal must be include range is from 1000 to 1.000.000.000 tokens"
+            goal >= 1e5 && goal <= 1e9,
+            "The goal of campaign must be include range is from 100.000 to 1.000.000.000 tokens"
         );
-
         require(
             id.isVerified(msg.sender),
             "You must be register identity and be accepted"
         );
 
         // To testing, you can comment following lines
-        //require(
-        //    _days >= 15,
-        //    "The minimum fundraising time for the campaign is 15 days."
-        //);
+        require(
+           deadline >= 15 days,
+           "The minimum fundraising time for the campaign is 15 days."
+        );
         
         campaigns.push(CampaignInfo(
             msg.sender,
@@ -295,16 +290,6 @@ contract Campaigns {
             new address[](0)
         ));
 
-        // CampaignInfo memory temp;
-        // temp.ref = ref;
-        // temp.hashIntegrity = hashData;
-        // temp.owner = msg.sender;
-        // temp.startDate = now;
-        // temp.endDate = now + deadline;
-        // temp.goal = goal;
-        // temp.collected = 0;
-        // temp.finstt = FinStatus.pending; //In current Testing, default set Finacial Status is Accepted
-        // campaigns.push(temp);
         if (numStage > 1) {
             if (amountStages.length != numStage) {
                 revert('number element amount stage is invalid');
@@ -398,7 +383,6 @@ contract Campaigns {
     }
 
     /// @notice Allow donor can claim refund when campaign during
-    /// when campaign failed, you don't need claim refund, because it is automatic proccess
     /// @param i is index of campaigns array
     /// @param amount Amount donor want withdraw
     function claimRefund(uint i, uint amount) external {
@@ -455,7 +439,6 @@ contract Campaigns {
                 revert("Missing condition for withdraw");
             }
         } else {
-            // Important: set status PAID before call external function to withdraw
             isCompleted = true;
             amount = campaigns[i].collected;
         }
@@ -486,7 +469,6 @@ contract Campaigns {
 
     /// @notice Get all amount of donor that invest to campaigns
     /// @dev Get all amount of donor that donated and have checked campaign failed or succeed
-    /// If campaign is failed, NOT count that token
     /// @param donor is address that you want check to amount of invest
     /// @return Number of token that donated all campaigns
     function getAllDonation(address donor) public view returns(uint) {
@@ -645,14 +627,7 @@ contract Identity {
             dob,
             VerifyStatus.pending
         );
-        // PersonalData memory temp;
-        // temp.name = name;
-        // temp.located = located;
-        // temp.dob = dob;
-        // temp.privData = data;
-        // temp.shareKey = shareKey;
-        // temp.status = VerifyStatus.pending;
-        // userInfo[msg.sender] = temp;
+        
         verifier2users[verifier].push(msg.sender);
         verifierInfo[verifier].task += 1;
     }
@@ -838,14 +813,6 @@ contract Disbursement {
             new uint[](numStage),
             mode
         );
-        // Data memory temp;
-        // temp.numStage = numStage;
-        // temp.amount = amount;
-        // temp.mode = mode;
-        // temp.time = time;
-        // stages[campID] = temp;
-        // stages[campID].agreed = new uint[](numStage);
-        // stages[campID].amountAgreed = new uint[](numStage);
     }
 
     /// @notice Return disbursement info of a campaign

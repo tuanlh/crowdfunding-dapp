@@ -301,7 +301,7 @@ Sau khi chạy lệnh trên, các service có mở cổng để lắng kết n�
 \end{itemize}
 
 \subsection{Kết quả hiện thực}
-Kết quả sau khi hiện thực được trình bày theo qui trình từ đăng kí hồ sơ định danh đến khi một chiến dịch gây quỹ được tạo thành công.
+Kết quả sau khi hiện thực được trình bày theo quy trình từ đăng kí hồ sơ định danh đến khi một chiến dịch gây quỹ được tạo thành công.
 
 Kết quả màn hình của trang nộp tiền / rút tiền trong hệ thống được thể hiện ở hình \ref{fig:ui-wallet}, người đóng góp sẽ thực hiện nộp tiền vào hệ thống để đóng góp cho các chiến dịch gây quỹ.
 
@@ -703,7 +703,7 @@ Các lỗ hổng phổ biến được nhóm tác giả tham khảo từ công t
  & Generating randomness \\ \cline{2-2} 
  & Time constraints \\ \hline
 \end{tabular}
-\caption{Bảng tổng hợp các lỗ hổng trong hợp đồng thông minh trên Ethereum \cite{atzei2016survey}.}
+\caption[Bảng tổng hợp các lỗ hổng trong hợp đồng thông minh trên Ethereum]{Bảng tổng hợp các lỗ hổng trong hợp đồng thông minh trên Ethereum \cite{atzei2016survey}.}
 \label{tab:smartcontract-vuln}
 \end{table}
 

@@ -1996,33 +1996,33 @@
     <bcf:datasource type="file" datatype="bibtex">bibliography/main.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="2">vuhongphong_tuthien</bcf:citekey>
-    <bcf:citekey order="3">asiafoundation_thuthien</bcf:citekey>
-    <bcf:citekey order="4">bekkers2011literature</bcf:citekey>
-    <bcf:citekey order="5">alice</bcf:citekey>
-    <bcf:citekey order="6">yli2016current</bcf:citekey>
-    <bcf:citekey order="7">belleflamme2010crowdfunding</bcf:citekey>
-    <bcf:citekey order="8">hornuf2018economics</bcf:citekey>
-    <bcf:citekey order="9">mollick2014dynamics</bcf:citekey>
-    <bcf:citekey order="10">goranovic2017blockchain</bcf:citekey>
-    <bcf:citekey order="11">saadat2019blockchain</bcf:citekey>
-    <bcf:citekey order="12">8029379</bcf:citekey>
-    <bcf:citekey order="13">duyptblockchain2018</bcf:citekey>
-    <bcf:citekey order="14">8416225</bcf:citekey>
-    <bcf:citekey order="15">buterin2014ethereum</bcf:citekey>
-    <bcf:citekey order="16">8500488</bcf:citekey>
-    <bcf:citekey order="17">henry2018blockchain</bcf:citekey>
-    <bcf:citekey order="18">nodejs-performance</bcf:citekey>
-    <bcf:citekey order="19">mccune2011node</bcf:citekey>
-    <bcf:citekey order="20">6106531</bcf:citekey>
-    <bcf:citekey order="21">5235364</bcf:citekey>
-    <bcf:citekey order="22">8441990</bcf:citekey>
-    <bcf:citekey order="23">rouhani2017performance</bcf:citekey>
+    <bcf:citekey order="1">vuhongphong_tuthien</bcf:citekey>
+    <bcf:citekey order="2">asiafoundation_thuthien</bcf:citekey>
+    <bcf:citekey order="3">bekkers2011literature</bcf:citekey>
+    <bcf:citekey order="4">alice</bcf:citekey>
+    <bcf:citekey order="5">yli2016current</bcf:citekey>
+    <bcf:citekey order="6">belleflamme2010crowdfunding</bcf:citekey>
+    <bcf:citekey order="7">hornuf2018economics</bcf:citekey>
+    <bcf:citekey order="8">mollick2014dynamics</bcf:citekey>
+    <bcf:citekey order="9">goranovic2017blockchain</bcf:citekey>
+    <bcf:citekey order="10">saadat2019blockchain</bcf:citekey>
+    <bcf:citekey order="11">8029379</bcf:citekey>
+    <bcf:citekey order="12">duyptblockchain2018</bcf:citekey>
+    <bcf:citekey order="13">8416225</bcf:citekey>
+    <bcf:citekey order="14">buterin2014ethereum</bcf:citekey>
+    <bcf:citekey order="15">8500488</bcf:citekey>
+    <bcf:citekey order="16">henry2018blockchain</bcf:citekey>
+    <bcf:citekey order="17">nodejs-performance</bcf:citekey>
+    <bcf:citekey order="18">mccune2011node</bcf:citekey>
+    <bcf:citekey order="19">6106531</bcf:citekey>
+    <bcf:citekey order="20">5235364</bcf:citekey>
+    <bcf:citekey order="21">8441990</bcf:citekey>
+    <bcf:citekey order="22">rouhani2017performance</bcf:citekey>
+    <bcf:citekey order="23">atzei2016survey</bcf:citekey>
     <bcf:citekey order="24">atzei2016survey</bcf:citekey>
-    <bcf:citekey order="25">atzei2016survey</bcf:citekey>
-    <bcf:citekey order="26">8728953</bcf:citekey>
+    <bcf:citekey order="25">8728953</bcf:citekey>
+    <bcf:citekey order="26">dika2017ethereum</bcf:citekey>
     <bcf:citekey order="27">dika2017ethereum</bcf:citekey>
-    <bcf:citekey order="28">dika2017ethereum</bcf:citekey>
     <bcf:citekey order="0" nocite="1">*</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
