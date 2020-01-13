@@ -31,7 +31,7 @@ export default class ConfirmPassword extends React.PureComponent {
           </DialogContent>
           <DialogActions>
             <Button color="primary" onClick={this.handleDataConfirm}>
-              Do Something
+              I Agree
             </Button>{" "}
             <Button color="secondary" onClick={handleShowConfirm}>
               Cancel
